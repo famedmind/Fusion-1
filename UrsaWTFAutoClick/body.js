@@ -1,0 +1,63 @@
+﻿var duration = 0.5
+var castTime = 0
+var interval = duration - castTime
+
+function UrsaWTFAutoClickOnInterval() {
+	if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_ursa'){
+		UrsaWTFAutoClick.checked = false
+		Game.ScriptLogMsg('UrsaWTFAutoClick: Not Ursa', '#cccccc')
+		return
+	}
+	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
+	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
+		return
+	var HEnts = Game.PlayersHeroEnts()
+	
+	AutoClick(MyEnt, HEnts)
+}
+
+function AutoClick(MyEnt, HEnts) {
+	AutoOverPower(MyEnt)
+	AutoEnrage(MyEnt)
+}
+
+function AutoOverPower(MyEnt) {
+	var Abil = Game.GetAbilityByName(MyEnt, 'ursa_overpower')
+	var AbilLvl = parseInt(Abilities.GetLevel(Abil))
+	if(AbilLvl === 0)
+		return
+	
+	//Game.EntStop(MyEnt)
+	Game.CastNoTarget(MyEnt, Abil, false)
+}
+
+function AutoEnrage(MyEnt) {
+	var Abil = Game.GetAbilityByName(MyEnt, 'ursa_enrage')
+	var AbilLvl = parseInt(Abilities.GetLevel(Abil))
+	if(AbilLvl === 0)
+		return
+	
+	//Game.EntStop(MyEnt)
+	Game.CastNoTarget(MyEnt, Abil, false)
+}
+
+function UrsaWTFAutoClickOnToggle() {
+	if (!UrsaWTFAutoClick.checked) {
+		Game.ScriptLogMsg('Script disabled: UrsaWTFAutoClick', '#ff0000')
+	} else {
+		function intervalFunc(){
+			$.Schedule(
+				interval,
+				function() {
+					UrsaWTFAutoClickOnInterval()
+					if(UrsaWTFAutoClick.checked)
+						intervalFunc()
+				}
+			)
+		}
+		intervalFunc()
+		Game.ScriptLogMsg('Script enabled: UrsaWTFAutoClick', '#00ff00')
+	}
+}
+
+var UrsaWTFAutoClick = Game.AddScript('UrsaWTFAutoClick', UrsaWTFAutoClickOnToggle)
