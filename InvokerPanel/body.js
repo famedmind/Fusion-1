@@ -18,8 +18,6 @@ function RefreshIPS(){
 	Game.Subscribes.InvokerPanel = []
 }
 
-
-
 InvokerPanelF = function(){
 	var MyID = Game.GetLocalPlayerID()
 	if ( MyID==-1 ){
@@ -40,16 +38,10 @@ InvokerPanelF = function(){
 		return
 	}
 	if (InvokerPanel.checked){
-		Game.GetXML('invokerpanel/invokerpanel', function(a) {
+		Game.GetXML('InvokerPanel/InvokerPanel', function(a) {
 			Game.Panels.InvokerPanel = $.CreatePanel( 'Panel', Game.GetMainHUD(), 'InvokerPanelMain' )
 			Game.Panels.InvokerPanel.BLoadLayoutFromString( a, false, false )
-			GameUI.MovePanel(Game.Panels.InvokerPanel,function(p){
-				var position = p.style.position.split(' ')
-				Config.MainPanel.x = position[0]
-				Config.MainPanel.y = position[1]
-				Game.SaveConfig('invokerpanel', Config)
-			})
-			Game.GetConfig('invokerpanel',function(a){
+			Game.GetConfig('InvokerPanel',function(a){
 				Config = a[0]
 				Game.Panels.InvokerPanel.Children()[0].style.position = Config.MainPanel.x + ' ' + Config.MainPanel.y + ' 0'
 				Game.Panels.InvokerPanel.Children()[0].style.flowChildren = Config.MainPanel.flow
@@ -60,7 +52,7 @@ InvokerPanelF = function(){
 				else
 					Game.Panels.InvokerPanel.Children()[0].style.flowChildren = 'right'
 				Config.MainPanel.flow = Game.Panels.InvokerPanel.Children()[0].style.flowChildren
-				Game.SaveConfig('invokerpanel', Config)
+				Game.SaveConfig('InvokerPanel', Config)
 			}, '',0 )
 		})
 		Game.ScriptLogMsg('Script enabled: InvokerPanel', '#00ff00')
@@ -72,6 +64,6 @@ InvokerPanelF = function(){
 	}
 }
 		
-var InvokerPanel = Game.AddScript('invokerpanel', InvokerPanelF)
+var InvokerPanel = Game.AddScript('InvokerPanel', InvokerPanelF)
 
 RefreshIPS()
