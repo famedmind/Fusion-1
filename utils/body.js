@@ -401,6 +401,12 @@ Game.AddScript = function(scriptName, onCheckBoxClick) {
 	var Temp = $.CreatePanel("Panel", $('#trics'), scriptName)
 	Temp.SetPanelEvent('onactivate', onCheckBoxClick)
 	Temp.BLoadLayoutFromString('<root><styles><include src="s2r://panorama/styles/dotastyles.vcss_c" /><include src="s2r://panorama/styles/magadan.vcss_c" /></styles><Panel><ToggleButton class="CheckBox" id="' + scriptName + '" text="' + scriptName + '"/></Panel></root>', false, false)  
+	
+	$("#trics").Children().sort(function(a,b){
+		if (a.text > b.text) return 1;
+		if (a.text < b.text) return -1;
+	})
+	
 	return $.GetContextPanel().FindChildTraverse(scriptName).Children()[0]
 }
 
