@@ -1,69 +1,68 @@
 ﻿<root>
 	<styles>		
-		<include src="s2r://panorama/styles/invokerpanel2.css"/>
+		<include src="s2r://panorama/styles/invokerpanel.css"/>
 	</styles>
 	<script>
-	Game.Subscribes.MoneyChanged.push(invokerpanelr)
-	var Abilityes = $('#Abilityes').Children()
-	var MyEnt = Players.GetPlayerHeroEntityIndex( Game.GetLocalPlayerID() )
-	function invokerpanelr(){
-		var InvokeKD = Abilities.GetCooldownTimeRemaining( Entities.GetAbilityByName( MyEnt, 'invoker_invoke' ) )
-		for (i = 0; i<=9; i++){
-			var Ab = Entities.GetAbilityByName( MyEnt, Abilityes[i].Children()[0].Children()[0].abilityname )
-			var ManaCost = Abilities.GetManaCost( Ab )
-			var Cooldown = Abilities.GetCooldownTimeRemaining( Ab )
-			Abilityes[i].Children()[1].text = ManaCost
-			if ( Cooldown == 0 ){
-				Abilityes[i].Children()[0].Children()[0].RemoveClass('OnCD')
-				Abilityes[i].Children()[0].Children()[1].text = ''
-			}else{
-				Abilityes[i].Children()[0].Children()[0].AddClass('OnCD')
-				Abilityes[i].Children()[0].Children()[1].text = Math.round(Cooldown)
+		Game.Subscribes.MoneyChanged.push(invokerpanelr)
+		var Abilities = $('#Abilities').Children()
+		var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
+		function invokerpanelr(){
+			var InvokeCD = Abilities.GetCooldownTimeRemaining(Entities.GetAbilityByName(MyEnt, 'invoker_invoke'))
+			for (i = 0; i <= 9; i++) {
+				var Ab = Entities.GetAbilityByName(MyEnt, Abilities[i].Children()[0].Children()[0].abilityname)
+				var ManaCost = Abilities.GetManaCost(Ab)
+				var Cooldown = Abilities.GetCooldownTimeRemaining(Ab)
+				Abilities[i].Children()[1].text = ManaCost
+				if (Cooldown == 0){
+					Abilities[i].Children()[0].Children()[0].RemoveClass('OnCD')
+					Abilities[i].Children()[0].Children()[1].text = ''
+				} else {
+					Abilities[i].Children()[0].Children()[0].AddClass('OnCD')
+					Abilities[i].Children()[0].Children()[1].text = Math.round(Cooldown)
+				}
 			}
 		}
-	}
 
-	function Cast( a, b, c ){
-		Abilities.ExecuteAbility( Entities.GetAbility( MyEnt, a ), MyEnt, false )
-		Abilities.ExecuteAbility( Entities.GetAbility( MyEnt, b ), MyEnt, false )
-		Abilities.ExecuteAbility( Entities.GetAbility( MyEnt, c ), MyEnt, false )
-		Abilities.ExecuteAbility( Entities.GetAbility( MyEnt, 5 ), MyEnt, false ) 
-	}
-	
-	function invoker_cold_snap(){
-		Cast(0,0,0)
-	}
-	function invoker_ghost_walk(){
-		Cast(0,0,1)
-	}
-	function invoker_ice_wall(){
-		Cast(0,0,2)
-	}
-	function invoker_emp(){
-		Cast(1,1,1)
-	}
-	function invoker_tornado(){
-		Cast(1,1,0)
-	}
-	function invoker_alacrity(){
-		Cast(1,1,2)
-	}
-	function invoker_sun_strike(){
-		Cast(2,2,2)
-	}
-	function invoker_forge_spirit(){
-		Cast(2,2,0)
-	}
-	function invoker_chaos_meteor(){
-		Cast(2,2,1)
-	}
-	function invoker_deafening_blast(){
-		Cast(0,1,2) 
-	}
-	
+		function Cast( a, b, c ){
+			Abilities.ExecuteAbility( Entities.GetAbility( MyEnt, a ), MyEnt, false )
+			Abilities.ExecuteAbility( Entities.GetAbility( MyEnt, b ), MyEnt, false )
+			Abilities.ExecuteAbility( Entities.GetAbility( MyEnt, c ), MyEnt, false )
+			Abilities.ExecuteAbility( Entities.GetAbility( MyEnt, 5 ), MyEnt, false ) 
+		}
+		
+		function invoker_cold_snap(){
+			Cast(0,0,0)
+		}
+		function invoker_ghost_walk(){
+			Cast(0,0,1)
+		}
+		function invoker_ice_wall(){
+			Cast(0,0,2)
+		}
+		function invoker_emp(){
+			Cast(1,1,1)
+		}
+		function invoker_tornado(){
+			Cast(1,1,0)
+		}
+		function invoker_alacrity(){
+			Cast(1,1,2)
+		}
+		function invoker_sun_strike(){
+			Cast(2,2,2)
+		}
+		function invoker_forge_spirit(){
+			Cast(2,2,0)
+		}
+		function invoker_chaos_meteor(){
+			Cast(2,2,1)
+		}
+		function invoker_deafening_blast(){
+			Cast(0,1,2) 
+		}
 	</script>
-	<Panel class="InvokerPanelMain" style="background-color: gradient( linear, 0% 0%, 0% 100%, from( #000000cc ), color-stop( 0.5, #000000ee ), to( #000000cc ) );border-radius: 10px;padding: 0 3px;">
-		<Panel id="Abilityes">
+	<Panel class="InvokerPanelMain" style="background-color: gradient(linear, 0% 0%, 0% 100%, from(#000000cc), color-stop(0.5, #000000ee), to(#000000cc)); border-radius: 10px;padding: 0 3px;">
+		<Panel id="Abilites">
 			<Panel><Button><DOTAAbilityImage class="invoker" abilityname='invoker_deafening_blast' onactivate='Cast(0,1,2)'/><Label class="Cooldown"/></Button><Label class="ManaCost"/></Panel>
 			<Panel><Button><DOTAAbilityImage class="invoker" abilityname='invoker_ghost_walk' onactivate='Cast(0,0,1)'/><Label class="Cooldown"/></Button><Label class="ManaCost"/></Panel>
 			<Panel><Button><DOTAAbilityImage class="invoker" abilityname='invoker_tornado' onactivate='Cast(1,1,0)'/><Label class="Cooldown"/></Button><Label class="ManaCost"/></Panel>
@@ -75,6 +74,6 @@
 			<Panel><Button><DOTAAbilityImage class="invoker" abilityname='invoker_forge_spirit' onactivate='Cast(2,2,0)'/><Label class="Cooldown"/></Button><Label class="ManaCost"/></Panel>
 			<Panel><Button><DOTAAbilityImage class="invoker" abilityname='invoker_alacrity' onactivate='Cast(1,1,2)'/><Label class="Cooldown"/></Button><Label class="ManaCost"/></Panel>
 		</Panel>
-		<Panel id="OnInvokeKD"></Panel> 
+		<Panel id="OnInvokeCD"></Panel> 
     </Panel> 
 </root>
