@@ -1,6 +1,4 @@
-﻿var interval = Game.Tick
-//-------------------
-var ShadowGraveRanges = [0, 550, 700, 850, 1000]
+﻿var ShadowGraveRanges = [0, 550, 700, 850, 1000]
 var ShadowGraveMinHPPercent = 20
 
 function DazzleWTFGraveOnInterval() {
@@ -42,7 +40,7 @@ function DazzleWTFGraveOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				interval,
+				Game.MyTick,
 				function() {
 					DazzleWTFGraveOnInterval()
 					if(DazzleWTFGrave.checked)

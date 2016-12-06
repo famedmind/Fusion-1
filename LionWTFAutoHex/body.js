@@ -1,6 +1,4 @@
-﻿var interval = Game.Tick
-//-------------------
-var IgnoreBuffs = [
+﻿var IgnoreBuffs = [
 	"modifier_lion_voodoo",
 	"modifier_life_stealer_rage"
 ]
@@ -46,7 +44,7 @@ function LionWTFAutoHexOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				interval,
+				Game.MyTick,
 				function() {
 					LionWTFAutoHexOnInterval()
 					if(LionWTFAutoHex.checked)

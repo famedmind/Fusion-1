@@ -1,7 +1,4 @@
-﻿var interval = Game.Tick
-//-------------------
-
-function WTFMotherFuckerOnInterval() {
+﻿function WTFMotherFuckerOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return
@@ -29,7 +26,7 @@ function WTFMotherFuckerOnToggle() {
 	else {
 		function intervalFunc(){
 			$.Schedule(
-				interval,
+				Game.MyTick,
 				function() {
 					WTFMotherFuckerOnInterval()
 					if(WTFMotherFucker.checked)

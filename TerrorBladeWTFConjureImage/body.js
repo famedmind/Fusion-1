@@ -1,10 +1,4 @@
-﻿var interval = Game.Tick
-//-------------------
-var ConcussiveShotDamage = [60, 120, 180, 240]
-var ConcussiveShotRange = 1600
-//-------------------
-
-function TerrorBladeWTFConjureImageOnInterval() {
+﻿function TerrorBladeWTFConjureImageOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return
@@ -31,7 +25,7 @@ function TerrorBladeWTFConjureImageOnToggle() {
 	else {
 		function intervalFunc(){
 			$.Schedule(
-				interval,
+				Game.MyTick,
 				function() {
 					TerrorBladeWTFConjureImageOnInterval()
 					if(TerrorBladeWTFConjureImage.checked)

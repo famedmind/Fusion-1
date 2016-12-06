@@ -1,8 +1,5 @@
-﻿var interval = Game.Tick
-//-------------------
-var ConcussiveShotDamage = [60, 120, 180, 240]
+﻿var ConcussiveShotDamage = [60, 120, 180, 240]
 var ConcussiveShotRange = 1600
-//-------------------
 
 function SkywrathMageWTFConcussiveShotOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
@@ -40,7 +37,7 @@ function SkywrathMageWTFConcussiveShotOnToggle() {
 	else {
 		function intervalFunc(){
 			$.Schedule(
-				interval,
+				Game.MyTick,
 				function() {
 					SkywrathMageWTFConcussiveShotOnInterval()
 					if(SkywrathMageWTFConcussiveShot.checked)

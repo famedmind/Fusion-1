@@ -1,6 +1,4 @@
-﻿var interval = Game.Tick
-//-------------------
-var QuillSprayRange = 625
+﻿var QuillSprayRange = 625
 var QuillSprayDamage = [20, 40, 60, 80]
 
 function BristleBackWTFQuillSprayOnInterval() {
@@ -28,7 +26,7 @@ function BristleBackWTFQuillSprayOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				interval,
+				Game.MyTick,
 				function() {
 					BristleBackWTFQuillSprayOnInterval()
 					if(BristleBackWTFQuillSpray.checked)

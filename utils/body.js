@@ -1,4 +1,4 @@
-﻿Game.Tick = 0.3
+﻿Game.MyTick = 0.03
 
 Game.GetFile = function(file, callback){
 	$.AsyncWebRequest(

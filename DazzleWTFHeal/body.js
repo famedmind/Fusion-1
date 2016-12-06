@@ -1,9 +1,6 @@
-﻿var interval = Game.Tick
-//-------------------
-var ShadowWaveHeal = [80, 100, 120, 140]
+﻿var ShadowWaveHeal = [80, 100, 120, 140]
 var ShadowWaveRanges = [185, 475]
 var ShadowWaveMinHealPercent = 95
-//-------------------
 
 function DazzleWTFHealOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
@@ -44,7 +41,7 @@ function DazzleWTFHealOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				interval,
+				Game.MyTick,
 				function() {
 					DazzleWTFHealOnInterval()
 					if(DazzleWTFHeal.checked)

@@ -1,6 +1,4 @@
-﻿var interval = Game.Tick
-//-------------------
-var IgnoreBuffs = [
+﻿var IgnoreBuffs = [
 	"modifier_bounty_hunter_wind_walk",
 	"modifier_item_shadow_amulet",
 	"modifier_item_shadow_amulet_fade"
@@ -38,7 +36,7 @@ function BountyHunterWTFAutoClickOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				interval,
+				Game.MyTick,
 				function() {
 					BountyHunterWTFAutoClickOnInterval()
 					if(BountyHunterWTFAutoClick.checked)

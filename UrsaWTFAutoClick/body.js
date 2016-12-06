@@ -1,6 +1,4 @@
-﻿var interval = Game.Tick
-
-function UrsaWTFAutoClickOnInterval() {
+﻿function UrsaWTFAutoClickOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return
@@ -40,7 +38,7 @@ function UrsaWTFAutoClickOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				interval,
+				Game.MyTick,
 				function() {
 					UrsaWTFAutoClickOnInterval()
 					if(UrsaWTFAutoClick.checked)
