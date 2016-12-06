@@ -1,5 +1,5 @@
 ﻿var interval = Game.Tick
-//--------------------------------------
+//-------------------
 var QuillSprayRange = 625
 var QuillSprayDamage = [20, 40, 60, 80]
 
@@ -18,7 +18,8 @@ function QuillSpray(MyEnt, HEnts) {
 	if(AbilLvl === 0)
 		return
 	
-		Game.CastNoTarget(MyEnt, Abil, false)
+	//Game.EntStop(MyEnt)
+	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
 function BristleBackWTFQuillSprayOnToggle() {

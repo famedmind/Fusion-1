@@ -1,5 +1,5 @@
 ﻿var interval = Game.Tick
-//--------------------------------------
+//-------------------
 var ShadowGraveRanges = [0, 550, 700, 850, 1000]
 var ShadowGraveMinHPPercent = 20
 
@@ -19,7 +19,8 @@ function ShadowGrave(MyEnt, HEnts) {
 		return
 	var AbilRange = ShadowGraveRanges[AbilLvl]
 	
-		for (i in HEnts) {
+	//Game.EntStop(MyEnt)
+	for (i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		if(Entities.IsEnemy(ent) || !Entities.IsAlive(ent))
 			continue

@@ -1,4 +1,5 @@
-﻿Game.Particles.SpawnBoxes = []
+﻿//ѕоказывает границы лагерей нейтральных крипов
+Game.Particles.SpawnBoxes = []
 
 function MapLoaded(){
 	GameEvents.Unsubscribe( Game.Subscribes.SpawnBoxesOnmaploaded )
@@ -7,7 +8,8 @@ function MapLoaded(){
 }
 
 function DrawLineInGameWorld( a, b, Grb ){
-			temp = Particles.CreateParticle("particles/ui_mouseactions/bounding_area_view_a.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN, 0)
+	//a = [0,0,0], b = [100,200,150]
+		temp = Particles.CreateParticle("particles/ui_mouseactions/bounding_area_view_a.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN, 0)
 		Grb.push(temp)
 		Particles.SetParticleControl(temp, 0, a)
 		Particles.SetParticleControl(temp, 1, b)
@@ -23,14 +25,16 @@ var SpawnBoxesOnCheckBox = function(){
 		return
 	}
 	spots = [
-				[2690, -4409, 3529, -5248, 400], 
+		//Radiant Spawns
+		[2690, -4409, 3529, -5248, 400], 
 		[3936, -3277, 5007, -4431, 400], 
 		[1088, -3200, 2303, -4543, 400], 
 		[-3307, 383, -2564, -413, 400],
 		[-1023, -2728, 63, -3455, 300], 
 		[-2227, -3968, -1463, -4648, 300],
 		[-4383, 1295, -3136, 400, 400], 
-				[3344, 942, 4719, 7, 400],
+		//Dire Spawns
+		[3344, 942, 4719, 7, 400],
 		[-3455, 4927, -2688, 3968, 400], 
 		[-4955, 4071, -3712, 3264, 400], 
 		[3456, -384, 4543, -1151, 300],

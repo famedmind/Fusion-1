@@ -1,4 +1,5 @@
-﻿
+﻿//Показывает радиус скиллов направленных на точку или юнитов
+
 try{ Game.Panels.AbilityRange.DeleteAsync(0) }catch(e){}
 for (i in Game.Subscribes.AbilityRange)
 	try{ GameEvents.Unsubscribe( Game.Subscribes.AbilityRange[i] ) }catch(e){}
@@ -78,7 +79,8 @@ function SkillLearned(data){
 			return
 	}
 	var CheckB = $.CreatePanel( "ToggleButton", AbilityRangePanel, "AbilityRangeSkill" )
-	CheckB.BLoadLayoutFromString( "<root><styles><include src='s2r:	CheckB.Children()[1].abilityname = Abilities.GetAbilityName(LearnedAbil)
+	CheckB.BLoadLayoutFromString( "<root><styles><include src='s2r://panorama/styles/magadan.css' /><include src='s2r://panorama/styles/dotastyles.vcss_c' /></styles><Panel><ToggleButton class='CheckBox'  style='vertical-align:center;'></ToggleButton><DOTAAbilityImage style='width:30px;margin:30px;border-radius:15px;'/></Panel></root>", false, false)  
+	CheckB.Children()[1].abilityname = Abilities.GetAbilityName(LearnedAbil)
 	CheckB.SetAttributeInt('Skill', LearnedAbil)
 	CheckB.SetPanelEvent( 'onactivate', chkboxpressed )
 }
@@ -161,7 +163,8 @@ AbilityRangeF = function(){
 			continue
 		Behavior = Abilities.GetBehavior( Abil )
 		CheckB = $.CreatePanel( "ToggleButton", AbilityRangePanel, "AbilityRangeSkill" )
-		CheckB.BLoadLayoutFromString( "<root><styles><include src='s2r:		CheckB.Children()[1].abilityname = Abilities.GetAbilityName(Abil)
+		CheckB.BLoadLayoutFromString( "<root><styles><include src='s2r://panorama/styles/magadan.css' /><include src='s2r://panorama/styles/dotastyles.vcss_c' /></styles><Panel><ToggleButton class='CheckBox'  style='vertical-align:center;'></ToggleButton><DOTAAbilityImage style='width:30px;margin:3px;border-radius:15px;'/></Panel></root>", false, false)  
+		CheckB.Children()[1].abilityname = Abilities.GetAbilityName(Abil)
 		CheckB.SetAttributeInt('Skill', Abil)
 		CheckB.SetPanelEvent( 'onactivate', chkboxpressed )
 	}

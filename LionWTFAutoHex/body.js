@@ -1,5 +1,5 @@
 ﻿var interval = Game.Tick
-//--------------------------------------
+//-------------------
 var IgnoreBuffs = [
 	"modifier_lion_voodoo",
 	"modifier_life_stealer_rage"
@@ -10,7 +10,8 @@ function LionWTFAutoHexOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt))
 		return
-	var HEnts = Entities.GetAllHeroEntities() 	
+	var HEnts = Entities.GetAllHeroEntities() //Getting heroes WITH illusions
+	
 	Hex(MyEnt, HEnts)
 }
 
@@ -23,7 +24,8 @@ function Hex(MyEnt, HEnts) {
 	if(Entities.HasItemInInventory( MyEnt, 'item_aether_lens'))
 		AbilRange+=LenseBonusRange
 	
-		for (i in HEnts) {
+	//Game.EntStop(MyEnt)
+	for (i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		if(!Entities.IsEnemy(ent) || !Entities.IsAlive(ent))
 			continue

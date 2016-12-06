@@ -20,7 +20,8 @@ function AutoOverPower(MyEnt) {
 	if(AbilLvl === 0)
 		return
 	
-		Game.CastNoTarget(MyEnt, Abil, false)
+	//Game.EntStop(MyEnt)
+	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
 function AutoEnrage(MyEnt) {
@@ -29,7 +30,8 @@ function AutoEnrage(MyEnt) {
 	if(AbilLvl === 0)
 		return
 	
-		Game.CastNoTarget(MyEnt, Abil, false)
+	//Game.EntStop(MyEnt)
+	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
 function UrsaWTFAutoClickOnToggle() {

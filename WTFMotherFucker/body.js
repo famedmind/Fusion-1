@@ -1,4 +1,5 @@
 ﻿var interval = Game.Tick
+//-------------------
 
 function WTFMotherFuckerOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
@@ -18,7 +19,8 @@ function ExecNoTarget(MyEnt, AbilName) {
 	if(AbilLvl === 0)
 		return
 	
-		Game.CastNoTarget(MyEnt, Abil, false)
+	//Game.EntStop(MyEnt)
+	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
 function WTFMotherFuckerOnToggle() {

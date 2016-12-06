@@ -19,6 +19,7 @@ function MapLoaded(data){
 function Toggle(){
 	$.GetContextPanel().ToggleClass('PopupOpened')
 }
+//обработчик слайдера для изменения высоты камеры
 var slider = $.GetContextPanel().FindChildInLayoutFile( "CameraDistance" )
 var lastValue = 0
 function OnValueChanged(slider){

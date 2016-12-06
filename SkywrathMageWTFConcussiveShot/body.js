@@ -1,7 +1,8 @@
 ﻿var interval = Game.Tick
-//--------------------------------------
+//-------------------
 var ConcussiveShotDamage = [60, 120, 180, 240]
 var ConcussiveShotRange = 1600
+//-------------------
 
 function SkywrathMageWTFConcussiveShotOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
@@ -18,7 +19,8 @@ function ConcussiveShot(MyEnt, HEnts) {
 	if(AbilLvl === 0)
 		return
 	
-		for (i in HEnts) {
+	//Game.EntStop(MyEnt)
+	for (i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		
 		if(!Entities.IsEnemy(ent))

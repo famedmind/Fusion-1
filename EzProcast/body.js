@@ -119,4 +119,18 @@ function EzProcast01OnOff(){
 
 var EzProcast01 = Game.AddScript('EzProcast01', EzProcast01OnOff)
 
+/*
+MyID = Game.GetLocalPlayerID()
+MyEnt = Players.GetPlayerHeroEntityIndex(MyID)
+Ent = Entities.GetAllEntitiesByName( "npc_dota_hero_pudge" )[0]
 
+$.Schedule(0,function(){ Game.CastNoTarget(MyEnt, Entities.GetItemInSlot( MyEnt, 2 )) })
+$.Schedule(0.1,function(){ Game.CastNoTarget(MyEnt, Entities.GetItemInSlot( MyEnt, 3 )) })
+$.Schedule(0.2,function(){ Game.CastTarget(MyEnt, Entities.GetItemInSlot( MyEnt, 1 ), Ent) })
+$.Schedule(0.3,function(){ Game.CastTarget(MyEnt, Entities.GetItemInSlot( MyEnt, 5 ), Ent) })
+
+$.Schedule(0.4,function(){ Game.CastNoTarget(MyEnt, Entities.GetAbility( MyEnt, 1 )) })
+$.Schedule(0.5,function(){ Game.CastTarget(MyEnt, Entities.GetAbility( MyEnt, 0 ), Ent) })
+$.Schedule(0.6,function(){ Game.CastNoTarget(MyEnt, Entities.GetAbility( MyEnt, 3 ) ) })
+*/
+//Game.CastTarget(MyEnt, Entities.GetItemInSlot( MyEnt, 1 ), Ent)

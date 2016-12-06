@@ -1,8 +1,9 @@
 ﻿var interval = Game.Tick
-//--------------------------------------
+//-------------------
 var ShadowWaveHeal = [80, 100, 120, 140]
 var ShadowWaveRanges = [185, 475]
 var ShadowWaveMinHealPercent = 95
+//-------------------
 
 function DazzleWTFHealOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
@@ -18,7 +19,8 @@ function ShadowWave(MyEnt, HEnts) {
 	var AbilLvl = parseInt(Abilities.GetLevel(Abil))
 	var AbilRange = 0
 	
-		for (i in HEnts) {
+	//Game.EntStop(MyEnt)
+	for (i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		
 		if(!Entities.IsAlive(ent))
