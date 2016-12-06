@@ -23,11 +23,6 @@ function PoofAllMeeposTo(playerID, To) {
 function MeepoAutoPoof(flag) {
 	var playerID = Game.GetLocalPlayerID()
 	
-	if (Players.GetPlayerSelectedHero(playerID) != meepoName){
-		Game.ScriptLogMsg('MeepoAutoPoof: Not Meepo', '#cccccc')
-		return
-	}
-	
 	var MyEnt = Players.GetPlayerHeroEntityIndex(playerID)
 	if(flag === 0) {
 		var SelectedEnt = Players.GetLocalPlayerPortraitUnit()

@@ -8,8 +8,7 @@ function NewItem(oldinv, newinv, ent){
 		if ( oldinv.indexOf(n)==-1 && Config.Items.indexOf(Abilities.GetAbilityName(n))!= -1 ){
 			if(Config.Notify=="true"){
 				A = $.CreatePanel( 'Panel', Game.Panels.ItemsPanel, 'Alert'+ent+n )
-				A.BLoadLayoutFromString( '<root><Panel style="width:100%;height:37px;background-color:#111;"><DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:160px;"/><Image src="s2r://panorama/images/hud/button_courier_greenarrow_png.vtex" style="horizontal-align:center;vertical-align:center;" /><DOTAItemImage itemname="" style="vertical-align:center;width:60px;height:35px;position:20px;"/></Panel></root>', false, false )
-				A.Children()[0].heroname = Entities.GetUnitName(ent)
+				A.BLoadLayoutFromString( '<root><Panel style="width:100%;height:37px;background-color:#111;"><DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:160px;"/><Image src="s2r:				A.Children()[0].heroname = Entities.GetUnitName(ent)
 				A.Children()[2].itemname = Abilities.GetAbilityName(n)
 				A.DeleteAsync( parseInt( Config.NotifyTime ) )
 			}

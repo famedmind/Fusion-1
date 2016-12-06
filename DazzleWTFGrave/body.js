@@ -1,10 +1,7 @@
-﻿var duration = 0
-var castTime = 0.0
-var interval = duration - castTime
-//-------------------
+﻿var interval = Game.Tick
+//--------------------------------------
 var ShadowGraveRanges = [0, 550, 700, 850, 1000]
 var ShadowGraveMinHPPercent = 20
-//-------------------
 
 function DazzleWTFGraveOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
@@ -22,8 +19,7 @@ function ShadowGrave(MyEnt, HEnts) {
 		return
 	var AbilRange = ShadowGraveRanges[AbilLvl]
 	
-	//Game.EntStop(MyEnt)
-	for (i in HEnts) {
+		for (i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		if(Entities.IsEnemy(ent) || !Entities.IsAlive(ent))
 			continue

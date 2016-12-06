@@ -89,9 +89,7 @@ function create(){
 	Game.Panels.AncientCreepStack.BLoadLayoutFromString( '\
 	<root>\
 		<styles>\
-			<include src="s2r://panorama/styles/dotastyles.vcss_c" />\
-			<include src="s2r://panorama/styles/magadan.vcss_c" />\
-		</styles>\
+			<include src="s2r:			<include src="s2r:		</styles>\
 		<Panel style="padding:3px;border-radius:5px;flow-children:down;background-color:#000000EE;border: 1px solid white;">\
 			<Label style="color:white;font-size:16px;"/>\
 			<Label style="color:white;font-size:16px;"/>\
@@ -168,8 +166,7 @@ function AncientCreepStackF(){
 	Game.Panels.AncientCreepStack.style.position = (xy[0]/uiw*100)+'% '+(xy[1]/uih*100)+'% 0'
 	var time = (parseInt((Game.GetDOTATime(false,false)%60)*10))/10
 	var entnow = Players.GetLocalPlayerPortraitUnit()
-	//$.Msg([Math.floor(Entities.GetAbsOrigin(entnow)[0]),Math.floor(Entities.GetAbsOrigin(entnow)[1]),Math.floor(Entities.GetAbsOrigin(entnow)[2])])
-	if(Entities.GetHealth(ent)<=400&&!hpn){
+		if(Entities.GetHealth(ent)<=400&&!hpn){
 		hpn = true
 		GameEvents.SendEventClientSide( 'antiaddiction_toast', {"message":"У вашего крипа мало HP!","duration":"2"})
 	}else if(Entities.GetHealth(ent)>400)
@@ -184,8 +181,7 @@ function AncientCreepStackF(){
 	}
 	else
 		interval = 0
-	//if(Math.abs(time+(GetNeutral(ent,1000)[1]/Entities.GetIdealSpeed(ent))-(camp[1]-(GetNeutral(ent,1000)[2]*camp[2])))<=0.2&&!Entities.IsMoving(ent)&&status==0) ну и хуйня ебаная.
-	if(time==52.5){
+		if(time==52.5){
 		z=0
 		b=false
 		status=1

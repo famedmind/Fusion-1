@@ -1,6 +1,4 @@
-﻿var duration = 0.5
-var castTime = 0
-var interval = duration - castTime
+﻿var interval = Game.Tick
 
 function UrsaWTFAutoClickOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
@@ -22,8 +20,7 @@ function AutoOverPower(MyEnt) {
 	if(AbilLvl === 0)
 		return
 	
-	//Game.EntStop(MyEnt)
-	Game.CastNoTarget(MyEnt, Abil, false)
+		Game.CastNoTarget(MyEnt, Abil, false)
 }
 
 function AutoEnrage(MyEnt) {
@@ -32,8 +29,7 @@ function AutoEnrage(MyEnt) {
 	if(AbilLvl === 0)
 		return
 	
-	//Game.EntStop(MyEnt)
-	Game.CastNoTarget(MyEnt, Abil, false)
+		Game.CastNoTarget(MyEnt, Abil, false)
 }
 
 function UrsaWTFAutoClickOnToggle() {

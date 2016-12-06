@@ -1,10 +1,7 @@
-﻿var duration = 0.05
-var castTime = 0.0
-var interval = duration - castTime
-//-------------------
+﻿var interval = Game.Tick
+//--------------------------------------
 var QuillSprayRange = 625
 var QuillSprayDamage = [20, 40, 60, 80]
-//-------------------
 
 function BristleBackWTFQuillSprayOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
@@ -21,8 +18,7 @@ function QuillSpray(MyEnt, HEnts) {
 	if(AbilLvl === 0)
 		return
 	
-	//Game.EntStop(MyEnt)
-	Game.CastNoTarget(MyEnt, Abil, false)
+		Game.CastNoTarget(MyEnt, Abil, false)
 }
 
 function BristleBackWTFQuillSprayOnToggle() {

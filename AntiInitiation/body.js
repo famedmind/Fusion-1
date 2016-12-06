@@ -1,13 +1,10 @@
-﻿//Автодизейбл инициаторов.
-//айтемы с помощью которых будем дизейблить
-var DisableItems = [
+﻿var DisableItems = [
 	"item_orchid",
 	"item_bloodthorn",
 	"item_sheepstick",
 	"item_cyclone"
 ]
 
-//абилки с помощью которых будем дизейблить
 var DisableAbils = [
 	"pudge_dismember",
 	"lion_voodoo",
@@ -17,7 +14,6 @@ var DisableAbils = [
 	"rubick_telekinesis"
 ]
 
-//спелы врагов на которые будет реагировать скрипт
 var InitSpells = [
 	"tidehunter_ravage",
 	"axe_berserkers_call",
@@ -36,15 +32,13 @@ var InitSpells = [
 var LenseBonusRange = 200
 var interval = 0
 var flag = false
-var threads = 3 //threads :D
-
+var threads = 3 
 function AntiInitiationF(){
 	if ( !AntiInitiation.checked || flag )
 		return
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var item=-1
-	c: // C:
-	for(i in DisableItems)
+	c: 	for(i in DisableItems)
 		for(m = 0; m<6; m++){
 			var it = Entities.GetItemInSlot( MyEnt, m )
 			if(DisableItems[i]==Abilities.GetAbilityName(it) && Abilities.GetCooldownTimeRemaining(it)==0){
@@ -107,8 +101,7 @@ var AutoCritFOnCheckBoxClick = function(){
 		Game.ScriptLogMsg('Script disabled: AntiInitiation', '#ff0000')
 		return
 	}
-	//циклически замкнутый таймер с проверкой условия с интервалом 'interval'
-	function f(){ $.Schedule( interval,function(){
+		function f(){ $.Schedule( interval,function(){
 		AntiInitiationF()
 		if(AntiInitiation.checked)
 			f()

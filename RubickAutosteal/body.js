@@ -1,5 +1,4 @@
-﻿//Автостилл спелов
-try{
+﻿try{
 	Game.Panels.RubickAutoSteal.DeleteAsync(0)
 }catch(e){}
 
@@ -94,8 +93,7 @@ function RubickAutoStealCreatePanel(){
 				continue
 			var name = Abilities.GetAbilityName( ab )
 			var Item = $.CreatePanel( 'Panel', Game.Panels.RubickAutoSteal, 'RubickAutoStealAbilities' )
-			//Item.BLoadLayoutFromString( '<root><Panel><DOTAAbilityImage style="width:35px;"/></Panel></root>', false, false )
-			Item.BLoadLayoutFromString( '<root><script>function Add(){$.GetContextPanel().style.opacity="0.1";$.GetContextPanel().SetPanelEvent("onactivate", Rem)}function Rem(){$.GetContextPanel().style.opacity="1.0";$.GetContextPanel().SetPanelEvent("onactivate", Add)}</script><Panel style="border: 1px solid #000; border-radius: 10px;" onactivate="Add()"><DOTAAbilityImage style="width:35px;"/></Panel></root>', false, false )
+						Item.BLoadLayoutFromString( '<root><script>function Add(){$.GetContextPanel().style.opacity="0.1";$.GetContextPanel().SetPanelEvent("onactivate", Rem)}function Rem(){$.GetContextPanel().style.opacity="1.0";$.GetContextPanel().SetPanelEvent("onactivate", Add)}</script><Panel style="border: 1px solid #000; border-radius: 10px;" onactivate="Add()"><DOTAAbilityImage style="width:35px;"/></Panel></root>', false, false )
 			Item.Children()[0].abilityname=name
 		}
 	}
@@ -114,8 +112,7 @@ var RubickAutoStealOnCheckBoxClick = function(){
 		Game.ScriptLogMsg('RubickAutoSteal: Not Rubick', '#ff0000')
 		return
 	}
-	//циклически замкнутый таймер с проверкой условия с интервалом 'interval'
-	function f(){ $.Schedule( interval,function(){
+		function f(){ $.Schedule( interval,function(){
 		RubickAutoStealF()
 		if(RubickAutoSteal.checked)
 			f()

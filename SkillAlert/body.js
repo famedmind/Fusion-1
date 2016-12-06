@@ -1,6 +1,4 @@
-﻿//Показывает начало каста скилов
-//Пока что 100% показывает следующие скилы: стан лины, санстрайк, стан лешрака, торрент кунки
-
+﻿
 for ( var i in Game.Particles.skillalert_garbage )
 	try{ Particles.DestroyParticleEffect(Game.Particles.skillalert_garbage[i],Game.Particles.skillalert_garbage[i]) }catch(e){}
 try{ GameEvents.Unsubscribe( parseInt( Game.Subscribes.SkillAlert ) )  }catch(e){}

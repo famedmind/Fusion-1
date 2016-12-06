@@ -1,7 +1,6 @@
-﻿var duration = 0.01
-var castTime = 0
-var interval = duration - castTime
-var IgnreBuffs = [
+﻿var interval = Game.Tick
+//--------------------------------------
+var IgnoreBuffs = [
 	"modifier_bounty_hunter_wind_walk",
 	"modifier_item_shadow_amulet",
 	"modifier_item_shadow_amulet_fade"
@@ -26,11 +25,10 @@ function AutoShadowWalk(MyEnt) {
 	if(AbilLvl === 0)
 		return
 	var buffsNames = Game.GetBuffsNames(MyEnt)
-	if(Game.IntersecArrays(buffsNames, IgnreBuffs))
+	if(Game.IntersecArrays(buffsNames, IgnoreBuffs))
 		return
 	
-	//Game.EntStop(MyEnt)
-	Game.CastNoTarget(MyEnt, Abil, false)
+		Game.CastNoTarget(MyEnt, Abil, false)
 }
 
 function BountyHunterWTFAutoClickOnToggle() {

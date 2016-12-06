@@ -1,10 +1,4 @@
-﻿var duration = 0.2
-var castTime = 0.0
-var interval = duration - castTime
-//-------------------
-var ConcussiveShotDamage = [60, 120, 180, 240]
-var ConcussiveShotRange = 1600
-//-------------------
+﻿var interval = Game.Tick
 
 function TerrorBladeWTFConjureImageOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
@@ -21,8 +15,7 @@ function ConjureImage(MyEnt, HEnts) {
 	if(AbilLvl === 0)
 		return
 	
-	//Game.EntStop(MyEnt)
-	if(Abilities.GetToggleState(Abil) === false) {
+		if(Abilities.GetToggleState(Abil) === false) {
 		Game.CastNoTarget(MyEnt, Abil, false)
 	}
 }

@@ -1,12 +1,9 @@
-﻿var duration = 0.05
-var castTime = 0.0
-var interval = duration - castTime
-//-------------------
+﻿var interval = Game.Tick
+//--------------------------------------
 var DeathPulseHeal = [70, 90, 110, 130]
 var DeathPulseDamage = [125, 175, 225, 275]
 var DeathPulseMinHealPercent = 95
 var DeathPulseAbilRange = 475
-//-------------------
 
 function NecrophosWTFDeathPulseOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
@@ -24,8 +21,7 @@ function DeathPulse(MyEnt, HEnts) {
 		return
 	var ToHeal = false
 	
-	//Game.EntStop(MyEnt)
-	for (i in HEnts) {
+		for (i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		
 		if(!Entities.IsAlive(ent))
