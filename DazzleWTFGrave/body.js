@@ -1,16 +1,12 @@
-﻿var duration = 5
-var castTime = 0.5
+﻿var duration = 0
+var castTime = 0.0
 var interval = duration - castTime
 //-------------------
 var ShadowGraveRanges = [0, 550, 700, 850, 1000]
+var ShadowGraveMinHPPercent = 20
 //-------------------
 
 function DazzleWTFGraveOnInterval() {
-	if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_dazzle'){
-		DazzleWTFGrave.checked = false
-		Game.ScriptLogMsg('DazzleWTFGrave: Not Dazzle', '#cccccc')
-		return
-	}
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt))
 		return
@@ -36,6 +32,8 @@ function ShadowGrave(MyEnt, HEnts) {
 		var buffsNames = Game.GetBuffsNames(ent)
 		if(Game.IntersecArrays(buffsNames, ["modifier_dazzle_shallow_grave"]))
 			continue
+		if(!Entities.IsEnemy(ent) && Entities.GetHealthPercent(ent) > ShadowGraveMinHPPercent)
+			continue;
 		
 		Game.CastTarget(MyEnt, Abil, ent, false)
 	}

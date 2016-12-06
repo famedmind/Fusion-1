@@ -7,11 +7,6 @@ var ConcussiveShotRange = 1600
 //-------------------
 
 function SkywrathMageWTFConcussiveShotOnInterval() {
-	if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_skywrath_mage'){
-		SkywrathMageWTFConcussiveShot.checked = false
-		Game.ScriptLogMsg('SkywrathMageWTFConcussiveShot: Not Skywrath Mage', '#cccccc')
-		return
-	}
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return

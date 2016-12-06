@@ -8,11 +8,6 @@ var IgnoreBuffs = [
 var LenseBonusRange = 200
 
 function LionWTFAutoHexOnInterval() {
-	if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_lion'){
-		LionWTFAutoHex.checked = false
-		Game.ScriptLogMsg('LionWTFAutoHex: Not Lion', '#cccccc')
-		return
-	}
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt))
 		return

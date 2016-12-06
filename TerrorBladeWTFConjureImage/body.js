@@ -7,11 +7,6 @@ var ConcussiveShotRange = 1600
 //-------------------
 
 function TerrorBladeWTFConjureImageOnInterval() {
-	if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_terrorblade'){
-		TerrorBladeWTFConjureImage.checked = false
-		Game.ScriptLogMsg('TerrorBladeWTFConjureImage: Not TerrorBlade', '#cccccc')
-		return
-	}
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return

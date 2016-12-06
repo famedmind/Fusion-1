@@ -8,11 +8,6 @@ var ShadowWaveMinHealPercent = 95
 //-------------------
 
 function DazzleWTFHealOnInterval() {
-	if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_dazzle'){
-		DazzleWTFHeal.checked = false
-		Game.ScriptLogMsg('DazzleWTFHeal: Not Dazzle', '#cccccc')
-		return
-	}
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return

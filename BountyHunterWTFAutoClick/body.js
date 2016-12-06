@@ -8,11 +8,6 @@ var IgnreBuffs = [
 ]
 
 function BountyHunterWTFAutoClickOnInterval() {
-	if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_bounty_hunter'){
-		BountyHunterWTFAutoClick.checked = false
-		Game.ScriptLogMsg('BountyHunterWTFAutoClick: Not Bounty Hunter', '#cccccc')
-		return
-	}
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return

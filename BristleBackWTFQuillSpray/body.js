@@ -7,11 +7,6 @@ var QuillSprayDamage = [20, 40, 60, 80]
 //-------------------
 
 function BristleBackWTFQuillSprayOnInterval() {
-	if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_bristleback'){
-		BristleBackWTFQuillSpray.checked = false
-		Game.ScriptLogMsg('BristleBackWTFQuillSpray: Not BristleBack', '#cccccc')
-		return
-	}
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return

@@ -3,11 +3,6 @@ var castTime = 0
 var interval = duration - castTime
 
 function UrsaWTFAutoClickOnInterval() {
-	if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_ursa'){
-		UrsaWTFAutoClick.checked = false
-		Game.ScriptLogMsg('UrsaWTFAutoClick: Not Ursa', '#cccccc')
-		return
-	}
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return
