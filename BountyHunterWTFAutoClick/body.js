@@ -36,7 +36,7 @@ function BountyHunterWTFAutoClickOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				Game.MyTick,
+				0.26,
 				function() {
 					BountyHunterWTFAutoClickOnInterval()
 					if(BountyHunterWTFAutoClick.checked)

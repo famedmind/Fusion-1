@@ -13,7 +13,7 @@ function RefreshToggles(){
 
 function MapLoaded(data){
 	Game.AddCommand( '__ToggleSPanel', Toggle, '',0 )
-	GameUI.SetCameraDistance( slider.value )
+	GameUI.SetCameraDistance(1415)
 	RefreshToggles()
 }
 function Toggle(){

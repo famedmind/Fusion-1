@@ -29,12 +29,21 @@ function DeathPulse(MyEnt, HEnts) {
 			continue
 		if(!Entities.IsEnemy(ent) && Entities.GetHealthPercent(ent) > DeathPulseMinHealPercent)
 			continue;
+		if(Entities.IsEmeny(ent) && Entities.IsMagicImmune(ent)) {
+			ReaperScythe(MyEnt, ent)
+			continue;
+		}
 		
 		ToHeal = true
 		break
 	}
 	if(ToHeal === true)
 		Game.CastNoTarget(MyEnt, Abil, false)
+}
+
+function ReaperScythe(MyEnt, ent) {
+	var Abil = Game.GetAbilityByName(MyEnt, 'necrolyte_reapers_scythe')
+	Game.CastTarget(MyEnt, Abil, ent, false)
 }
 
 function NecrophosWTFDeathPulseOnToggle() {
