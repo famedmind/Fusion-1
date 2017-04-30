@@ -26,7 +26,6 @@ function AutoShadowWalk(MyEnt) {
 	if(Game.IntersecArrays(buffsNames, IgnoreBuffs))
 		return
 	
-	//Game.EntStop(MyEnt)
 	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
