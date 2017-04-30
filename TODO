@@ -1,21 +1,25 @@
+X = can't be realised
+R = realized
+D = in development
+
 ToDo:
-X DagonStealer
-RuneSnatcher
-AegisSnatcher
+[R] DagonStealer
+[D] RuneSnatcher
+[D] AegisSnatcher
 ColoredHPBar
-X Transform AutoBloodStone => AutoDeny, add other deny types, ex. Pudge's Rot
+[D] Transform AutoBloodStone => AutoDeny, add other deny types, ex. Pudge's Rot
 AutoArmlet - press armlet to make many more HP
 AntiAFK - walk with ally at distance
 Rework rubick autosteal
 CreepAutoLH
-Make WTFMapHack based on courier burst
+X Make WTFMapHack based on courier burst
 AutoBottle @ fountain
 AutoDeward
 Combos for some heroes
 Add WTF combos
-AnnoyingPinger
+[X] AnnoyingPinger
+[R] Fix autobloodstone with aegis
 
 FixMe:
-Fiz all panels
+[R] Fix all panels
 Good GUI
-Fix autobloodstone with aegis
