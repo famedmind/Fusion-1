@@ -9,8 +9,8 @@ function PoofAllMeeposTo(playerID, To) {
 			continue
 		if(!Entities.IsControllableByPlayer(ent, playerID))
 			continue
-		if(ent === To)
-			continue
+		//if(ent === To)
+		//	continue
 		if(Entities.IsStunned(ent) || !Entities.IsAlive(ent))
 			return
 		

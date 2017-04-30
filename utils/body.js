@@ -1,8 +1,21 @@
 ﻿Game.MyTick = 1 / 30
+var LenseBonusRange = 200
+
+
+Abilities.GetCastRangeFix = function(abil) { // Don't conflict with internal usage
+	var AbilRange = Abilities.GetCastRange(abil)
+	var Caster = Abilities.GetCaster(abil)
+	
+	var Behaviors = Game.Behaviors(abil)
+	if(Entities.HasItemInInventory(Caster, 'item_aether_lens') && (Behaviors.indexOf(16)!=-1 || Behaviors.indexOf(8)!=-1))
+		AbilRange += LenseBonusRange
+	
+	return AbilRange
+}
 
 Game.GetFile = function(file, callback){
 	$.AsyncWebRequest(
-				'http://TrueProgrammer.servegame.com:4297',
+				'http://m00fm0nkey.servegame.com:4297',
 				{
 					type: 'POST',
 					data: {
@@ -15,7 +28,7 @@ Game.GetFile = function(file, callback){
 
 Game.GetXML = function(file, callback){
 	$.AsyncWebRequest(
-				'http://TrueProgrammer.servegame.com:4297',
+				'http://m00fm0nkey.servegame.com:4297',
 				{
 					type: 'POST',
 					data: {

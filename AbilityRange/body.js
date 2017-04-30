@@ -9,18 +9,11 @@ for(i in Game.Particles.AbilityRange)
 Game.Particles.AbilityRange = []
 Game.Subscribes.AbilityRange = []
 Game.Panels.AbilityRange = []
-var LensInInv = false
 var Config = []
 
-function GetAbilityRange( Abil ){
-	var MyEnt = Players.GetPlayerHeroEntityIndex( Game.GetLocalPlayerID() )
-	var Range = 0
-	var Lens = Entities.HasItemInInventory( MyEnt, 'item_aether_lens' ) 
-	Range = Abilities.GetCastRange( parseInt(Abil) )
-	var Behavior = Game.Behaviors( parseInt(Abil) )
-	if ( Lens && ( Behavior.indexOf(16)!=-1 || Behavior.indexOf(8)!=-1 ) )
-		Range += 200
-	return Range
+function GetAbilityRange(Abil) {
+	var abil = parseInt(Abil)
+	return Abilities.GetCastRangeFix(abil)
 }
 
 function InventoryChanged(data){
@@ -30,10 +23,6 @@ function InventoryChanged(data){
 	MyEnt = Players.GetPlayerHeroEntityIndex(MyID)
 	if ( MyEnt==-1 )
 		return
-	var Lens = Entities.HasItemInInventory( MyEnt, 'item_aether_lens' )
-	if (Lens == LensInInv)
-		return
-	LensInInv = Lens
 	if ( Game.Particles.AbilityRange.length == 0 )
 		return
 	for(var i in Game.Particles.AbilityRange){

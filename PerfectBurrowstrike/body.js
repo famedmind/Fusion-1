@@ -6,9 +6,8 @@
 			var AbilLvl = parseInt(Abilities.GetLevel(Abil))
 			if(AbilLvl === 0)
 				return
-			var AbilCast = Abilities.GetCastRange(Abil)
-			$.Msg(Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()))
-			if ( GameUI.GetClickBehaviors()!==3 || Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_sand_king')
+			var AbilCast = Abilities.GetCastRangeFix(Abil)
+			if (/*GameUI.GetClickBehaviors()!==3 ||*/ Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_sand_king')
 				return false
 			if ( eventName == "pressed" ) {
 				if (arg === 0) {

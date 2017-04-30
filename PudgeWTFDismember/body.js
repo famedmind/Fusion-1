@@ -14,9 +14,7 @@ function Hex(MyEnt, HEnts) {
 	var AbilLvl = parseInt(Abilities.GetLevel(Abil))
 	if(AbilLvl === 0)
 		return
-	var AbilRange = Abilities.GetCastRange(Abil)
-	if(Entities.HasItemInInventory( MyEnt, 'item_aether_lens'))
-		AbilRange+=LenseBonusRange
+	var AbilRange = Abilities.GetCastRangeFix(Abil)
 	
 	//Game.EntStop(MyEnt)
 	for (i in HEnts) {

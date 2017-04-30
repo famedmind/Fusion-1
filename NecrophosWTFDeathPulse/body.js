@@ -28,10 +28,12 @@ function DeathPulse(MyEnt, HEnts) {
 		if(Entities.GetRangeToUnit(MyEnt, ent) > DeathPulseAbilRange)
 			continue
 		if(!Entities.IsEnemy(ent) && Entities.GetHealthPercent(ent) > DeathPulseMinHealPercent)
-			continue;
-		if(Entities.IsEmeny(ent) && Entities.IsMagicImmune(ent)) {
+			continue
+		if(Entities.IsTower(ent) || Entities.IsInvulnerable(ent))
+			continue
+		if(Entities.IsEnemy(ent) && Entities.IsMagicImmune(ent)) {
 			ReaperScythe(MyEnt, ent)
-			continue;
+			continue
 		}
 		
 		ToHeal = true

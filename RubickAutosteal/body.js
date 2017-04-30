@@ -24,9 +24,7 @@ function RubickAutoStealF(){
 	}
 	var MyEnt = parseInt( Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID()) )
 	var Ulti = Entities.GetAbilityByName(MyEnt, 'rubick_spell_steal' )
-	var UltiRange = Abilities.GetCastRange( Ulti )
-	if(Entities.HasItemInInventory( MyEnt, 'item_aether_lens'))
-		UltiRange+=LenseBonusRange
+	var UltiRange = Abilities.GetCastRangeFix( Ulti )
 	var UltiLvl = Abilities.GetLevel(Ulti)
 	var UltiCd = Abilities.GetCooldownTimeRemaining( Ulti )
 	if(flag){

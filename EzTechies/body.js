@@ -258,11 +258,11 @@ var EzTechiesCheckBoxClick = function(){
 		Game.ScriptLogMsg('Script disabled: EzTechies', '#ff0000')
 		return
 	}
-	if ( Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_techies' ){
+	/*if ( Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_techies' ){
 		EzTechies.checked = false
 		Game.ScriptLogMsg('EzTechies: Not Techies', '#ff0000')
 		return
-	}
+	}*/
 	RefreshR()
 	//циклически замкнутый таймер с проверкой условия с интервалом 'interval'
 	Game.Panels.EzTechies = $.CreatePanel( "Panel", Game.GetMainHUD(), "EzTechiesSlider" )

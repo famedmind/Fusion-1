@@ -72,9 +72,7 @@ function AntiInitiationF(){
 		var ent = parseInt(HEnts[i])
 		if (!Entities.IsEnemy(ent) || !Entities.IsAlive(ent))
 			continue
-		var itemrange = Abilities.GetCastRange(item)
-		if(Entities.HasItemInInventory( MyEnt, 'item_aether_lens'))
-			itemrange+=LenseBonusRange
+		var itemrange = Abilities.GetCastRangeFix(item)
 		var Range = Entities.GetRangeToUnit(MyEnt, ent)
 		if(Range>itemrange && itemrange!=0)
 			continue
