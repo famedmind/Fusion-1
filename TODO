@@ -1,21 +1,22 @@
 X = can't be realised
 R = realized
 D = in development
+S = soon
 XG1 = X Group 1 = can't debug what this uses
 
 ToDo:
 [R] DagonStealer
 [XG1] RuneSnatcher
 [XG1] AegisSnatcher
-ColoredHPBar
+[D] ColoredHPBar
 [D] Transform AutoBloodStone => AutoDeny, add other deny types, ex. Pudge's Rot
-AutoArmlet - press armlet to make many more HP
-AntiAFK - walk with ally at distance
-Rework rubick autosteal
-CreepAutoLH
+[D] AutoArmlet - press armlet to make many more HP
+[D] AntiAFK - walk with ally at distance
+[D] Rework rubick autosteal
+[D] CreepAutoLH
 [X] Make WTFMapHack based on courier burst
-AutoBottle @ fountain
-AutoDeward
+[D] AutoBottle @ fountain
+[D] AutoDeward
 Combos for some heroes
 Add WTF combos
 [XG1] AnnoyingPinger
@@ -23,4 +24,4 @@ Add WTF combos
 
 FixMe:
 [R] Fix all panels
-Good GUI
+[S] Good GUI
