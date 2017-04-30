@@ -20,8 +20,9 @@ ToDo:
 Combos for some heroes
 Add WTF combos
 [XG1] AnnoyingPinger
-[R] Fix autobloodstone with aegis
+[R] Make autobloodstone don't work with aegis
 
 FixMe:
 [R] Fix all panels
 [S] Good GUI
+[S] Fix ItemsPanel
