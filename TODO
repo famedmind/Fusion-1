@@ -8,14 +8,13 @@ ToDo:
 [R] DagonStealer
 [XG1] RuneSnatcher
 [XG1] AegisSnatcher
-[D] ColoredHPBar
+[S] ColoredHPBar
 [D] Transform AutoBloodStone => AutoDeny, add other deny types, ex. Pudge's Rot
 [D] AutoArmlet - press armlet to make many more HP
 [D] AntiAFK - walk with ally at distance
-[D] Rework rubick autosteal
+[S] Rework rubick autosteal
 [D] CreepAutoLH
 [X] Make WTFMapHack based on courier burst
-[D] AutoBottle @ fountain
 [D] AutoDeward
 Combos for some heroes
 Add WTF combos
