@@ -57,12 +57,9 @@ function RubickAutoStealF(){
 			/*if(me!=-1 && !StealIfThere)
 				continue*/
 			
-			Game.ScriptLogMsg('1')
 			if(UltiCd == 0/* && !WTFMode || (Math.ceil(cd) == cda && cda != 0)*/){
 				flag = true
-				Game.ScriptLogMsg('2')
 				Game.CastTarget(MyEnt, Ulti, ent, false)
-				Game.ScriptLogMsg('3')
 			}
 		}
 	}
