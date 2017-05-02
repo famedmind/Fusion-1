@@ -1,13 +1,12 @@
 ﻿var DeathPulseHeal = [70, 90, 110, 130]
 var DeathPulseDamage = [125, 175, 225, 275]
 var DeathPulseMinHealPercent = 95
-var DeathPulseAbilRange = 475
 
 function NecrophosWTFDeathPulseOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return
-	var HEnts = Entities.GetAllHeroEntities()
+	var HEnts = Entities.GetAllEntities()
 	
 	DeathPulse(MyEnt, HEnts)
 }
@@ -15,26 +14,27 @@ function NecrophosWTFDeathPulseOnInterval() {
 function DeathPulse(MyEnt, HEnts) {
 	var Abil = Game.GetAbilityByName(MyEnt, 'necrolyte_death_pulse')
 	var AbilLvl = parseInt(Abilities.GetLevel(Abil))
+	var AbilRange = Abilities.GetCastRangeFix(Abil)
 	if(AbilLvl === 0)
 		return
 	var ToHeal = false
 	
-	//Game.EntStop(MyEnt)
+	
 	for (i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		
 		if(!Entities.IsAlive(ent))
 			continue
-		if(Entities.GetRangeToUnit(MyEnt, ent) > DeathPulseAbilRange)
-			continue
-		if(!Entities.IsEnemy(ent) && Entities.GetHealthPercent(ent) > DeathPulseMinHealPercent)
-			continue
-		if(Entities.IsTower(ent) || Entities.IsInvulnerable(ent))
-			continue
 		if(Entities.IsEnemy(ent) && Entities.IsMagicImmune(ent)) {
 			ReaperScythe(MyEnt, ent)
 			continue
 		}
+		if(Entities.GetRangeToUnit(MyEnt, ent) > AbilRange)
+			continue
+		if(!Entities.IsEnemy(ent) && Entities.GetHealthPercent(ent) > DeathPulseMinHealPercent)
+			continue
+		if(Entities.IsTower(ent) || Entities.IsBarracks(ent) || Entities.IsInvulnerable(ent))
+			continue
 		
 		ToHeal = true
 		break
@@ -45,6 +45,10 @@ function DeathPulse(MyEnt, HEnts) {
 
 function ReaperScythe(MyEnt, ent) {
 	var Abil = Game.GetAbilityByName(MyEnt, 'necrolyte_reapers_scythe')
+	var AbilRange = Abilities.GetCastRangeFix(Abil)
+	
+	if(Entities.GetRangeToUnit(MyEnt, ent) > AbilRange)
+		continue
 	Game.CastTarget(MyEnt, Abil, ent, false)
 }
 

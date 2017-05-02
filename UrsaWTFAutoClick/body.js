@@ -18,7 +18,7 @@ function AutoOverPower(MyEnt) {
 	if(AbilLvl === 0)
 		return
 	
-	//Game.EntStop(MyEnt)
+	
 	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
@@ -28,7 +28,7 @@ function AutoEnrage(MyEnt) {
 	if(AbilLvl === 0)
 		return
 	
-	//Game.EntStop(MyEnt)
+	
 	Game.CastNoTarget(MyEnt, Abil, false)
 }
 

@@ -1,6 +1,4 @@
 ﻿var ConcussiveShotDamage = [60, 120, 180, 240]
-var ConcussiveShotRange = 1600
-var AncientSealRange = 700
 var IgnoreBuffs = [
 	"modifier_skywrath_mage_ancient_seal"
 ]
@@ -12,52 +10,41 @@ function SkywrathMageWTFAutoOnInterval() {
 		return
 	var HEnts = Entities.GetAllHeroEntities()
 	
-	AncientSeal(MyEnt, HEnts)
-	ConcussiveShot(MyEnt, HEnts)
+	Unit(MyEnt, HEnts)
 }
 
-function ConcussiveShot(MyEnt, HEnts) {
-	var Abil = Game.GetAbilityByName(MyEnt, 'skywrath_mage_concussive_shot')
-	var AbilLvl = parseInt(Abilities.GetLevel(Abil))
-	if(AbilLvl === 0)
-		return
+function Unit(MyEnt, HEnts) {
+	var AncientSeal = Game.GetAbilityByName(MyEnt, 'skywrath_mage_ancient_seal')
+	var MysticFlare = Game.GetAbilityByName(MyEnt, 'skywrath_mage_mystic_flare')
+	var ConcussiveShot = Game.GetAbilityByName(MyEnt, 'skywrath_mage_concussive_shot')
 	
-	//Game.EntStop(MyEnt)
+	var AncientSealLvl = parseInt(Abilities.GetLevel(AncientSeal))
+	var MysticFlareLvl = parseInt(Abilities.GetLevel(MysticFlare))
+	var ConcussiveShotLvl = parseInt(Abilities.GetLevel(ConcussiveShot))
+	
+	var AncientSealRange = Abilities.GetCastRangeFix(AncientSeal)
+	var MysticFlareRange = Abilities.GetCastRangeFix(MysticFlare)
+	var ConcussiveShotRange = Abilities.GetCastRangeFix(ConcussiveShot)
+	
+	
 	for (i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		
 		if(!Entities.IsEnemy(ent))
-			continue;
+			continue
 		if(!Entities.IsAlive(ent))
 			continue
-		if(Entities.GetRangeToUnit(MyEnt, ent) > ConcussiveShotRange)
+		if(Entities.IsMagicImmune(ent))
 			continue
 		
-		Game.CastNoTarget(MyEnt, Abil, false)
-	}
-}
-
-function AncientSeal(MyEnt, HEnts) {
-	var Abil = Game.GetAbilityByName(MyEnt, 'skywrath_mage_ancient_seal')
-	var AbilLvl = parseInt(Abilities.GetLevel(Abil))
-	if(AbilLvl === 0)
-		return
-	
-	//Game.EntStop(MyEnt)
-	for (i in HEnts) {
-		var ent = parseInt(HEnts[i])
-		
-		if(!Entities.IsEnemy(ent))
-			continue;
-		if(!Entities.IsAlive(ent))
-			continue
-		if(Entities.GetRangeToUnit(MyEnt, ent) > ConcussiveShotRange)
-			continue
 		var buffsNames = Game.GetBuffsNames(ent)
-		if(Game.IntersecArrays(buffsNames, IgnoreBuffs))
-			return
-		
-		Game.CastTarget(MyEnt, Abil, ent, false)
+		if(!Game.IntersecArrays(buffsNames, IgnoreBuffs) && Entities.GetRangeToUnit(MyEnt, ent) <= AncientSealRange && AncientSealLvl > 0)
+			Game.CastTarget(MyEnt, AncientSeal, ent, false)
+		if(Entities.GetRangeToUnit(MyEnt, ent) <= MysticFlareRange && MysticFlareLvl > 0)
+			Game.CastPosition(MyEnt, MysticFlare, Entities.GetAbsOrigin(ent), false)
+		else
+			if(Entities.GetRangeToUnit(MyEnt, ent) <= ConcussiveShotRange && ConcussiveShotLvl > 0)
+				Game.CastNoTarget(MyEnt, ConcussiveShot, false)
 	}
 }
 

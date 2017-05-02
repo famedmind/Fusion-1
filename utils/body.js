@@ -1,7 +1,6 @@
 ﻿Game.MyTick = 1 / 30
+
 var LenseBonusRange = 200
-
-
 Abilities.GetCastRangeFix = function(abil) { // Don't conflict with internal usage
 	var AbilRange = Abilities.GetCastRange(abil)
 	var Caster = Abilities.GetCaster(abil)
@@ -11,6 +10,16 @@ Abilities.GetCastRangeFix = function(abil) { // Don't conflict with internal usa
 		AbilRange += LenseBonusRange
 	
 	return AbilRange
+}
+
+Entities.GetFirstItem = function(ent, ItemName) {
+	for(i = 0; i < 6; i++) {
+		var item = Entities.GetItemInSlot(ent, i)
+		if(Abilities.GetAbilityName(item) === ItemName)
+			return item
+	}
+	
+	return -1
 }
 
 Game.GetFile = function(file, callback){

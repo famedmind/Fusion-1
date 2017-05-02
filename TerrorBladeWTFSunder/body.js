@@ -12,7 +12,7 @@ function Sunder(MyEnt, HEnts) {
 	var AbilLvl = parseInt(Abilities.GetLevel(Abil))
 	var AbilRange = 0
 	
-	//Game.EntStop(MyEnt)
+	
 	for (i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		

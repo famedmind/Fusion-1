@@ -13,7 +13,7 @@ function RefreshToggles(){
 
 function MapLoaded(data){
 	Game.AddCommand( '__ToggleSPanel', Toggle, '',0 )
-	GameUI.SetCameraDistance(1415)
+	GameUI.SetCameraDistance(slider.value)
 	RefreshToggles()
 }
 function Toggle(){
@@ -24,13 +24,13 @@ var slider = $.GetContextPanel().FindChildInLayoutFile( "CameraDistance" )
 var lastValue = 0
 function OnValueChanged(slider){
 	GameUI.SetCameraDistance( slider.value )
-	$('#CamDist').text = 'Дальность камеры: ' + Math.floor(slider.value)
+	$('#CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
 }
 slider.min = 1000
 slider.max = 1800
-slider.value = 1134
+slider.value = 1415
 lastValue = slider.value
-$('#CamDist').text = 'Дальность камеры: ' + Math.floor(slider.value)
+$('#CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
 Game.Every(-1, -1, 0, function(){ 
 	if (slider.value != lastValue)
 		OnValueChanged(slider);

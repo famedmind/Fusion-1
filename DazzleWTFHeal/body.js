@@ -16,7 +16,7 @@ function ShadowWave(MyEnt, HEnts) {
 	var AbilLvl = parseInt(Abilities.GetLevel(Abil))
 	var AbilRange = 0
 	
-	//Game.EntStop(MyEnt)
+	
 	for (i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		
@@ -29,7 +29,7 @@ function ShadowWave(MyEnt, HEnts) {
 		if(Entities.GetRangeToUnit(MyEnt, ent) > AbilRange)
 			continue
 		if(!Entities.IsEnemy(ent) && Entities.GetHealthPercent(ent) > ShadowWaveMinHealPercent)
-			continue;
+			continue
 		
 		Game.CastTarget(MyEnt, Abil, ent, false)
 	}

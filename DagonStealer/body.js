@@ -26,29 +26,24 @@ function AutoDagon(MyEnt, HEnts) {
 		if(Entities.GetRangeToUnit(MyEnt, ent) > DagonRange)
 			continue
 		if(!Entities.IsEnemy(ent))
-			continue;
+			continue
 		
 		var MagicResist = Entities.GetBaseMagicalResistanceValue(ent)
 		var DagonDamage2 = DagonDamage - (DagonDamage / 100 * MagicResist)
 		
-		if(Entities.GetHealth(MyEnt))
+		if(Entities.GetHealth(ent) <= DagonDamage2)
 			Game.CastTarget(MyEnt, Dagon, ent, false)
 	}
 }
 
 function GetDagon(MyEnt) {
-	var item = -1;
-	for(i = 0; i < 6; i++)
-		for(n = 0; n < 6; n++) {
-			var item2 = Entities.GetItemInSlot(MyEnt, i)
-			var item2Name = Abilities.GetAbilityName(item2)
-			if(item2Name === DagonNames[n]) {
-				var item = item2;
-				break;
-			}
-		}
+	for(i = 0; i < 6; i++) {
+		var item = Entities.GetFirstItem(MyEnt, DagonNames[n])
+		if(item !== -1)
+			return item
+	}
 	
-	return item
+	return -1
 }
 
 function GetDagonDamage(dagon) {

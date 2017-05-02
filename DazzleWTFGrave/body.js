@@ -17,7 +17,7 @@ function ShadowGrave(MyEnt, HEnts) {
 		return
 	var AbilRange = ShadowGraveRanges[AbilLvl]
 	
-	//Game.EntStop(MyEnt)
+	
 	for (i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		if(Entities.IsEnemy(ent) || !Entities.IsAlive(ent))
@@ -28,7 +28,7 @@ function ShadowGrave(MyEnt, HEnts) {
 		if(Game.IntersecArrays(buffsNames, ["modifier_dazzle_shallow_grave"]))
 			continue
 		if(!Entities.IsEnemy(ent) && Entities.GetHealthPercent(ent) > ShadowGraveMinHPPercent)
-			continue;
+			continue
 		
 		Game.CastTarget(MyEnt, Abil, ent, false)
 	}

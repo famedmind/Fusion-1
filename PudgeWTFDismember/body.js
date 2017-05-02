@@ -16,12 +16,14 @@ function Hex(MyEnt, HEnts) {
 		return
 	var AbilRange = Abilities.GetCastRangeFix(Abil)
 	
-	//Game.EntStop(MyEnt)
+	
 	for (i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		if(!Entities.IsEnemy(ent) || !Entities.IsAlive(ent))
 			continue
 		if(Entities.GetRangeToUnit(MyEnt, ent) > AbilRange)
+			continue
+		if(Entities.IsTower(ent) || Entities.IsBarracks(ent) || Entities.IsInvulnerable(ent))
 			continue
 		if(Entities.IsInvulnerable(ent))
 			continue
@@ -37,7 +39,7 @@ function PudgeWTFDismemberOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				Game.MyTick,
+				Game.MyTick * 2,
 				function() {
 					PudgeWTFDismemberOnInterval()
 					if(PudgeWTFDismember.checked)

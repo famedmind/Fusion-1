@@ -17,7 +17,7 @@ function WhirlingAxes(MyEnt, HEnts) {
 	if(AbilLvl === 0)
 		return
 	
-	//Game.EntStop(MyEnt)
+	
 	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
@@ -27,7 +27,7 @@ function BattleTrance(MyEnt, HEnts) {
 	if(AbilLvl === 0)
 		return
 	
-	//Game.EntStop(MyEnt)
+	
 	Game.CastNoTarget(MyEnt, Abil, false)
 }
 

@@ -13,7 +13,7 @@ function ConjureImage(MyEnt, HEnts) {
 	if(AbilLvl === 0)
 		return
 	
-	//Game.EntStop(MyEnt)
+	
 	if(Abilities.GetToggleState(Abil) === false) {
 		Game.CastNoTarget(MyEnt, Abil, false)
 	}

@@ -16,7 +16,7 @@ function ExecNoTarget(MyEnt, AbilName) {
 	if(AbilLvl === 0)
 		return
 	
-	//Game.EntStop(MyEnt)
+	
 	Game.CastNoTarget(MyEnt, Abil, false)
 }
 

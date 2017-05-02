@@ -20,7 +20,7 @@ function Hex(MyEnt, HEnts) {
 		return
 	var AbilRange = Abilities.GetCastRangeFix(Abil)
 	
-	//Game.EntStop(MyEnt)
+	
 	for (i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		if(!Entities.IsEnemy(ent) || !Entities.IsAlive(ent))

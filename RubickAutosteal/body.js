@@ -41,9 +41,8 @@ function RubickAutoStealF(){
 		if( !Entities.IsEnemy(ent) || Entities.IsMagicImmune(ent) || !Entities.IsAlive(ent))
 			continue
 		var Range = Entities.GetRangeToUnit(MyEnt, ent)
-		if(!WTFMode)
-			if(Range>UltiRange)
-				continue
+		if(!WTFMode && Range > UltiRange)
+			continue
 		var Count = Entities.GetAbilityCount( ent )
 		for(i=0;i<Count;i++){
 			var ab = Entities.GetAbility( ent, i )
@@ -55,14 +54,15 @@ function RubickAutoStealF(){
 				continue
 			var cd = Abilities.GetCooldownTimeRemaining( ab )
 			var cda = Abilities.GetCooldown( ab )
-			var me = Entities.GetAbilityByName(MyEnt, name)
-			if(me!=-1 && !StealIfThere)
-				continue
-			if(Math.ceil(cd)==cda && UltiCd==0 && cda!=0){
+			/*if(me!=-1 && !StealIfThere)
+				continue*/
+			
+			Game.ScriptLogMsg('1')
+			if(UltiCd == 0/* && !WTFMode || (Math.ceil(cd) == cda && cda != 0)*/){
 				flag = true
-				GameUI.SelectUnit(MyEnt,false)
-				Game.EntStop(MyEnt, false)
+				Game.ScriptLogMsg('2')
 				Game.CastTarget(MyEnt, Ulti, ent, false)
+				Game.ScriptLogMsg('3')
 			}
 		}
 	}
