@@ -5,11 +5,12 @@ S = soon
 XG1 = X Group 1 = can't debug what this uses
 
 ToDo:
+[R] AutoBottle
 [R] DagonStealer
 [XG1] RuneSnatcher
 [XG1] AegisSnatcher
 [S] ColoredHPBar
-[D] Transform AutoBloodStone => AutoDeny, add other deny types, ex. Pudge's Rot
+[R] Transform AutoBloodStone => AutoDeny, add other deny types, ex. Pudge's Rot
 [D] AutoArmlet - press armlet to make many more HP
 [D] AntiAFK - walk with ally at distance
 [S] Rework rubick autosteal
