@@ -5,7 +5,7 @@ function DagonStealerOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return
-	var HEnts = Game.PlayersHeroEnts()
+	var HEnts = Entities.GetAllHeroEntities()
 	
 	AutoDagon(MyEnt, HEnts)
 }
@@ -15,15 +15,17 @@ function AutoDagon(MyEnt, HEnts) {
 	var DagonRange = Abilities.GetCastRangeFix(Dagon)
 	var DagonDamage = GetDagonDamage(Dagon)
 	
-	if(Abilities.GetCooldownTimeRemaining(Dagon) != 0)
+	if(Abilities.GetCooldownTimeRemaining(Dagon) !== 0)
 		return
 	
 	for (i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		
-		if(!Entities.IsAlive(ent))
+		if(!Entities.IsAlive(ent) || Entities.IsMagicImmune(ent))
 			continue
 		if(Entities.GetRangeToUnit(MyEnt, ent) > DagonRange)
+			continue
+		if(Entities.IsTower(ent) || Entities.IsBarracks(ent) || Entities.IsInvulnerable(ent))
 			continue
 		if(!Entities.IsEnemy(ent))
 			continue
@@ -37,8 +39,9 @@ function AutoDagon(MyEnt, HEnts) {
 }
 
 function GetDagon(MyEnt) {
-	for(i = 0; i < 6; i++) {
-		var item = Entities.GetFirstItem(MyEnt, DagonNames[n])
+	for(var i in DagonNames) {
+		var DewardItemName = DagonNames[i]
+		var item = Entities.GetFirstItem(MyEnt, DagonNames[i])
 		if(item !== -1)
 			return item
 	}

@@ -47,8 +47,8 @@ function IsMine(ent) {
 
 var DewardItemNames = ["item_quelling_blade", "item_bfury", "item_iron_talon"]
 function GetDewardItem(MyEnt) {
-	for(var DewardItemNameI in DewardItemNames) {
-		var DewardItemName = DewardItemNames[DewardItemNameI]
+	for(var i in DewardItemNames) {
+		var DewardItemName = DewardItemNames[i]
 		
 		var item = Entities.GetFirstItem(MyEnt, DewardItemName)
 		$.Msg(DewardItemName)
