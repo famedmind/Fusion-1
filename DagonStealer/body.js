@@ -55,6 +55,11 @@ function GetDagonDamage(dagon) {
 function DagonStealerOnToggle() {
 	if (!DagonStealer.checked) {
 		Game.ScriptLogMsg('Script disabled: DagonStealer', '#ff0000')
+		for(i = 0; i < 6; i++) {
+			var item2 = Entities.GetItemInSlot(MyEnt, i)
+			var item2Name = Abilities.GetAbilityName(item2)
+			Game.ScriptLogMsg(item2Name, '#0000ff')
+		}
 	} else {
 		function intervalFunc(){
 			$.Schedule(

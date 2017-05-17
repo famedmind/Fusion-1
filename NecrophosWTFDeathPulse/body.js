@@ -31,9 +31,9 @@ function DeathPulse(MyEnt, HEnts) {
 		}
 		if(Entities.GetRangeToUnit(MyEnt, ent) > AbilRange)
 			continue
-		if(!Entities.IsEnemy(ent) && Entities.GetHealthPercent(ent) > DeathPulseMinHealPercent)
-			continue
 		if(Entities.IsTower(ent) || Entities.IsBarracks(ent) || Entities.IsInvulnerable(ent))
+			continue
+		if(!Entities.IsEnemy(ent) && Entities.GetHealthPercent(ent) > DeathPulseMinHealPercent)
 			continue
 		
 		ToHeal = true
@@ -48,7 +48,7 @@ function ReaperScythe(MyEnt, ent) {
 	var AbilRange = Abilities.GetCastRangeFix(Abil)
 	
 	if(Entities.GetRangeToUnit(MyEnt, ent) > AbilRange)
-		continue
+		return
 	Game.CastTarget(MyEnt, Abil, ent, false)
 }
 

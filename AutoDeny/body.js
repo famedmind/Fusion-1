@@ -19,17 +19,9 @@ function AutoDenyOnInterval() {
 		return
 	}
 	
-	var item = -1;
-	for(i = 0; i < 6; i++) {
-		var item2 = Entities.GetItemInSlot(MyEnt, i)
-		var item2Name = Abilities.GetAbilityName(item2)
-		if(item2Name === BSName) {
-			var item = item2;
-			break;
-		}
-	}
+	var item = Entities.GetFirstItem(MyEnt, BSName)
 	if(item == -1)
-		return;
+		return
 	Game.CastPosition(MyEnt, item, Entities.GetAbsOrigin(MyEnt), false)
 }
 
