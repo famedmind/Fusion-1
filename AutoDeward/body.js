@@ -1,6 +1,4 @@
-﻿var DewardItemNames = ["item_quelling_blade", "item_bfury", "item_iron_talon"]
-
-function AutoDewardOnInterval() {
+﻿function AutoDewardOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return
@@ -40,17 +38,22 @@ function AreDeward(ent) {
 
 var MineNames = [/*Can't de dewarded "npc_dota_techies_land_mine",*/"npc_dota_techies_remote_mine", "npc_dota_techies_stasis_trap"]
 function IsMine(ent) {
-	for(i = 0; i < 6; i++)
+	for(i = 0; i < MineNames.length; i++)
 		if(Entities.GetUnitName(ent) === MineNames[i])
 			return true
 	
 	return false
 }
 
+var DewardItemNames = ["item_quelling_blade", "item_bfury", "item_iron_talon"]
 function GetDewardItem(MyEnt) {
-	for(i = 0; i < 3; i++) {
-		var item = Entities.GetFirstItem(MyEnt, DewardItemNames[i])
-		if(item !== -1)
+	for(var DewardItemNameI in DewardItemNames) {
+		var DewardItemName = DewardItemNames[DewardItemNameI]
+		
+		var item = Entities.GetFirstItem(MyEnt, DewardItemName)
+		$.Msg(DewardItemName)
+		$.Msg(item)
+		if(item != -1)
 			return item
 	}
 	
