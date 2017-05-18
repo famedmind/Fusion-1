@@ -31,7 +31,7 @@ function DeathPulse(MyEnt, HEnts) {
 		}
 		if(Entities.GetRangeToUnit(MyEnt, ent) > AbilRange)
 			continue
-		if(Entities.IsTower(ent) || Entities.IsBarracks(ent) || Entities.IsInvulnerable(ent))
+		if(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent))
 			continue
 		if(!Entities.IsEnemy(ent) && Entities.GetHealthPercent(ent) > DeathPulseMinHealPercent)
 			continue

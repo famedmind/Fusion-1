@@ -230,7 +230,7 @@ function AncientCreepStackU(){
 }
 function move(ent,entnow,xyz){
 	GameUI.SelectUnit(ent,false)
-	Game.MoveTo(ent,xyz,false)
+	Game.MoveToPos(ent,xyz,false)
 	GameUI.SelectUnit(entnow,false)
 }
 var AncientCreepStackOnCheckBoxClick = function(){

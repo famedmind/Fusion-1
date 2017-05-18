@@ -74,7 +74,7 @@ var ItemsPanelLoad = function(){
 			Config = a[0]
 			Game.Panels.ItemsPanel.style.position = Config.MainPanel.x + ' ' + Config.MainPanel.y + ' 0'
 		});
-		Game.Subscribes.MoneyChanged.push(ItemsPanelEvery)
+		//Game.Subscribes.MoneyChanged.push(ItemsPanelEvery)
 	});
 }
 

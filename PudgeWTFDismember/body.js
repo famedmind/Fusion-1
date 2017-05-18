@@ -23,7 +23,7 @@ function Hex(MyEnt, HEnts) {
 			continue
 		if(Entities.GetRangeToUnit(MyEnt, ent) > AbilRange)
 			continue
-		if(Entities.IsTower(ent) || Entities.IsBarracks(ent) || Entities.IsInvulnerable(ent))
+		if(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent))
 			continue
 		if(Entities.IsInvulnerable(ent))
 			continue

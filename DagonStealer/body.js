@@ -25,7 +25,7 @@ function AutoDagon(MyEnt, HEnts) {
 			continue
 		if(Entities.GetRangeToUnit(MyEnt, ent) > DagonRange)
 			continue
-		if(Entities.IsTower(ent) || Entities.IsBarracks(ent) || Entities.IsInvulnerable(ent))
+		if(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent))
 			continue
 		if(!Entities.IsEnemy(ent))
 			continue
@@ -40,8 +40,8 @@ function AutoDagon(MyEnt, HEnts) {
 
 function GetDagon(MyEnt) {
 	for(var i in DagonNames) {
-		var DewardItemName = DagonNames[i]
-		var item = Entities.GetFirstItem(MyEnt, DagonNames[i])
+		var DagonName = DagonNames[i]
+		var item = Entities.GetFirstItem(MyEnt, DagonName)
 		if(item !== -1)
 			return item
 	}

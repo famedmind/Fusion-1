@@ -208,9 +208,39 @@ Game.GetHealthBarOffset = function(heroname){
 }
 
 //приказ герою переместится в точку с координатами [x,y,z]
-Game.MoveTo = function(ent, xyz, queue){
+Game.MoveToPos = function(ent, xyz, queue){
 	var order = {};
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_MOVE_TO_POSITION
+	order.UnitIndex = ent
+	order.Position = xyz;   
+	order.Queue = queue
+	order.ShowEffects = Game.debugAnimations
+	Game.PrepareUnitOrders( order );
+}
+
+Game.MoveToTarget = function(ent, ent, queue){
+	var order = {};
+	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_MOVE_TO_TARGET
+	order.UnitIndex = ent
+	order.Position = xyz;   
+	order.Queue = queue
+	order.ShowEffects = Game.debugAnimations
+	Game.PrepareUnitOrders( order );
+}
+
+Game.MoveToAttackPos = function(ent, xyz, queue){
+	var order = {};
+	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_ATTACK_MOVE
+	order.UnitIndex = ent
+	order.Position = xyz;   
+	order.Queue = queue
+	order.ShowEffects = Game.debugAnimations
+	Game.PrepareUnitOrders( order );
+}
+
+Game.MoveToAttackTarget = function(ent, ent, queue){
+	var order = {};
+	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_ATTACK_TARGET
 	order.UnitIndex = ent
 	order.Position = xyz;   
 	order.Queue = queue
