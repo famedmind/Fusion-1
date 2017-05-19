@@ -1,8 +1,7 @@
 function BindCommands() {
 	Game.AddCommand('__Test', function(){
-		LogFuncsOf(Math)
-		LogFuncsOf($)
-		LogFuncsOf(this)
+		var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
+		Game.Ping(MyEnt, Entities.GetAbsOrigin(MyEnt), false)
 	}, '', 0)
 }
 

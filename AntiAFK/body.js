@@ -1,4 +1,6 @@
-﻿function AntiAFKOnInterval() {
+﻿var feeder = false
+
+function AntiAFKOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return
@@ -31,7 +33,10 @@ function AFK(MyEnt, HEnts) {
 		}
 	}
 	
-	Game.MoveToAttackPos(MyEnt, Entities.GetAbsOrigin(lastMin), false)
+	if(feeder)
+		Game.MoveToAttackPos(MyEnt, Entities.GetAbsOrigin(lastMin), false)
+	else
+		Game.MoveToPos(MyEnt, Entities.GetAbsOrigin(lastMin), false)
 }
 
 function AntiAFKOnToggle() {
