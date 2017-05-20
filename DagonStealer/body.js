@@ -33,8 +33,10 @@ function AutoDagon(MyEnt, HEnts) {
 		var MagicResist = Entities.GetBaseMagicalResistanceValue(ent)
 		var DagonDamage2 = DagonDamage - (DagonDamage / 100 * MagicResist)
 		
-		if(Entities.GetHealth(ent) <= DagonDamage2)
+		if(Entities.GetHealth(ent) <= DagonDamage2) {
+			GameUI.SelectUnit(MyEnt, false)
 			Game.CastTarget(MyEnt, Dagon, ent, false)
+		}
 	}
 }
 

@@ -207,16 +207,6 @@ Game.GetHealthBarOffset = function(heroname){
 	return healthbaroffset
 }
 
-Game.Ping = function(ent, xyz, queue) {
-	var order = {};
-	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_PING_ABILITY
-	order.UnitIndex = ent
-	order.Position = xyz
-	order.Queue = queue
-	order.ShowEffects = Game.debugAnimations
-	Game.PrepareUnitOrders(order)
-}
-
 //приказ герою переместится в точку с координатами [x,y,z]
 Game.MoveToPos = function(ent, xyz, queue){
 	var order = {};
