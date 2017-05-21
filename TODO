@@ -11,7 +11,7 @@ ToDo:
 [S] AegisSnatcher
 [S] ColoredHPBar
 [R] Transform AutoBloodStone => AutoDeny, add other deny types, ex. Pudge's Rot
-[D] AutoArmlet - press armlet to make many more HP
+[S] AutoArmlet - press armlet to make many more HP
 [R] AntiAFK - walk with ally at distance
 [S] Rework rubick autosteal
 [D] CreepAutoLH
@@ -25,7 +25,7 @@ Add WTF combos
 
 FixMe:
 [R] Fix all panels
-[S] Good GUI
-[S] Fix ItemsPanel
+[D] Good GUI
+[D] Fix ItemsPanel
 [D] EzTechies: update values, debug code
 Move WTF scripts into another group, make loading by button under reload. Same function but places into another array and takes scripts frkm another request
