@@ -21,11 +21,11 @@ Combos for some heroes
 Add WTF combos
 [XG1] AnnoyingPinger
 [R] Make autobloodstone don't work with aegis
-Make Game.GetMagicMultiplier(Entity from, Entity to)
+[D] Make Game.GetMagicMultiplier(Entity from, Entity to)
 
 FixMe:
 [R] Fix all panels
 [S] Good GUI
 [S] Fix ItemsPanel
-EzTechies: update values, debug code
+[D] EzTechies: update values, debug code
 Move WTF scripts into another group, make loading by button under reload. Same function but places into another array and takes scripts frkm another request
