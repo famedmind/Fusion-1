@@ -21,7 +21,9 @@ Combos for some heroes
 Add WTF combos
 [XG1] AnnoyingPinger
 [R] Make autobloodstone don't work with aegis
-[D] Make Game.GetMagicMultiplier(Entity from, Entity to)
+[R] Make Game.GetMagicMultiplier(Entity from, Entity to)
+  [R] DagonStealer full magics
+[R] Pudge combo
 
 FixMe:
 [R] Fix all panels

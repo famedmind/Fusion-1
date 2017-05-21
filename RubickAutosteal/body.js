@@ -54,10 +54,10 @@ function RubickAutoStealF(){
 				continue
 			var cd = Abilities.GetCooldownTimeRemaining( ab )
 			var cda = Abilities.GetCooldown( ab )
-			/*if(me!=-1 && !StealIfThere)
+			/*if(me !== -1 && !StealIfThere)
 				continue*/
 			
-			if(UltiCd == 0/* && !WTFMode || (Math.ceil(cd) == cda && cda != 0)*/){
+			if(UltiCd == 0 && (!WTFMode || (Math.ceil(cd) == cda && cda != 0))){
 				flag = true
 				Game.CastTarget(MyEnt, Ulti, ent, false)
 			}

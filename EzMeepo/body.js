@@ -128,27 +128,27 @@ function GetMeepoWithAvailableEarthBind() {
 }
 
 function BindCommands() {
-	Game.AddCommand('__MeepoAutoPoof_ToSelected', function(){
+	Game.AddCommand('__MeepoAutoPoof_ToSelected', function() {
 		MeepoAutoPoof(0, true)
 	}, '', 0)
 	
-	Game.AddCommand('__MeepoAutoPoof_ToCursor', function(){
+	Game.AddCommand('__MeepoAutoPoof_ToCursor', function() {
 		MeepoAutoPoof(1, true)
 	}, '', 0)
 
-	Game.AddCommand('__MeepoAutoPoof_ToMain', function(){
+	Game.AddCommand('__MeepoAutoPoof_ToMain', function() {
 		MeepoAutoPoof(2, true)
 	}, '', 0)
 	
-	Game.AddCommand('__MeepoAutoPoof_ToSelected_All', function(){
+	Game.AddCommand('__MeepoAutoPoof_ToSelected_All', function() {
 		MeepoAutoPoof(0, false)
 	}, '', 0)
 	
-	Game.AddCommand('__MeepoAutoPoof_ToCursor_All', function(){
+	Game.AddCommand('__MeepoAutoPoof_ToCursor_All', function() {
 		MeepoAutoPoof(1, false)
 	}, '', 0)
 
-	Game.AddCommand('__MeepoAutoPoof_ToMain_All', function(){
+	Game.AddCommand('__MeepoAutoPoof_ToMain_All', function() {
 		MeepoAutoPoof(2, false)
 	}, '', 0)
 	

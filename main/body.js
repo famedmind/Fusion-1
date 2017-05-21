@@ -28,7 +28,7 @@ function OnValueChanged(slider){
 }
 slider.min = 1000
 slider.max = 1800
-slider.value = 1460
+slider.value = 1500
 lastValue = slider.value
 $('#CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
 Game.Every(-1, -1, 0, function(){ 

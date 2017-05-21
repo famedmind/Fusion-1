@@ -19,6 +19,8 @@ function AutoDagon(MyEnt, HEnts) {
 		return
 	
 	for (i in HEnts) {
+		if(Abilities.GetCooldownTimeRemaining(Dagon) !== 0)
+			return
 		var ent = parseInt(HEnts[i])
 		
 		if(!Entities.IsAlive(ent) || Entities.IsMagicImmune(ent))
@@ -30,10 +32,10 @@ function AutoDagon(MyEnt, HEnts) {
 		if(!Entities.IsEnemy(ent))
 			continue
 		
-		var MagicResist = Entities.GetBaseMagicalResistanceValue(ent)
-		var DagonDamage2 = DagonDamage - (DagonDamage / 100 * MagicResist)
+		if(Game.GetMagicMultiplier(MyEnt, ent) === 0)
+			continue
 		
-		if(Entities.GetHealth(ent) <= DagonDamage2) {
+		if(Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent)) <= DagonDamage) {
 			GameUI.SelectUnit(MyEnt, false)
 			Game.CastTarget(MyEnt, Dagon, ent, false)
 		}

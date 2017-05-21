@@ -14,6 +14,127 @@ Abilities.GetCastRangeFix = function(abil) { // Don't conflict with internal usa
 	return AbilRange
 }
 
+Game.IgnoreBuffs = [
+	"modifier_abaddon_borrowed_time",
+	"modifier_skeleton_king_reincarnation_scepter_active",
+	"modifier_brewmaster_primal_split",
+	"modifier_omniknight_repel",
+	"modifier_phoenix_supernova_hiding",
+	"modifier_tusk_snowball_movemEnemyEntity",
+	"modifier_tusk_snowball_movemEnemyEntity_friendly",
+	"modifier_juggernaut_blade_fury",
+	"modifier_medusa_stone_gaze",
+	"modifier_nyx_assassin_spiked_carapace",
+	"modifier_templar_assassin_refraction_absorb",
+	"modifier_oracle_false_promise",
+	"modifier_dazzle_shallow_grave",
+	"modifier_treant_living_armor",
+	"modifier_life_stealer_rage",
+	"modifier_item_aegis",
+	"modifier_tusk_snowball_movement",
+	"modifier_tusk_snowball_movement_friendly"
+]
+
+Game.BuffsAbsorbMagicDmg = [
+	["modifier_item_pipe_barrier", 400],
+	["modifier_item_hood_of_defiance_barrier", 400],
+	["modifier_item_infused_raindrop", 120],
+	["modifier_abaddon_aphotic_shield", [110,140,170,200]],
+	["modifier_ember_spirit_flame_guard", [50,200,350,500]]
+]
+
+Game.BuffsAddMagicDmgForMe = [
+	["item_aether_lens", 1.05],
+	["modifier_bloodseeker_bloodrage", [1.25,1.3,1.35,1.4]]
+]
+
+Game.DebuffsAddMagicDmg = [
+	//в большую сторону
+	["modifier_item_veil_of_discord_debuff", 1.25],
+	["modifier_bloodthorn_debuff", 1.3],
+	["modifier_orchid_malevolence_debuff", 1.3],
+	["modifier_item_ethereal_blade_ethereal", 1.4],
+	["modifier_item_mask_of_madness_berserk", 1.25],
+	["modifier_ghost_state", 1.4],
+	["modifier_ice_vortex", [1.15,1.2,1.25,1.3]],
+	["modifier_skywrath_mage_ancient_seal", [1.3,1.35,1.4,1.45]],
+	["modifier_bloodseeker_bloodrage", [1.25,1.3,1.35,1.4]],
+	["modifier_shadow_demon_soul_catcher", [1.2,1.3,1.4,1.5]],
+	["modifier_pugna_decrepify", [1.3,1.4,1.5,1.6]],
+	
+	//в меньшую сторону
+	["modifier_item_pipe", 0.7],
+	["modifier_ursa_enrage", 0.2],
+	["modifier_item_pipe_aura", 0.9],
+	["modifier_oracle_fates_edict", 0],
+	["modifier_item_hood_of_defiance", 0.7],
+	["modifier_item_planeswalkers_cloak", 0.85],
+	["modifier_item_glimmer_cape", 0.85],
+	["item_glimmer_cape_fade", 0.55],
+	["modifier_wisp_overcharge", [0.95,0.9,0.85,0.8]],
+	["modifier_pudge_flesh_heap", [0.94,0.92,0.9,0.88]],
+	["modifier_rubick_null_field_effect", [0.9,0.86,0.82,0.78]],
+	["modifier_antimage_spell_shield", [0.74,0.66,0.58,0.5]]
+]
+
+Game.GetMagicMultiplier = function(entFrom, entTo) {
+	var multiplier = 1.0
+	var buffsnames = Game.GetBuffsNames(entTo)
+	
+	if (Game.IntersecArrays(buffsnames, Game.IgnoreBuffs) || Entities.IsMagicImmune(ent))
+		return 0.0
+	
+	var enemyBuffs = Game.GetBuffs(entTo)
+	var myBuffs = Game.GetBuffs(entFrom)
+	for(var i in enemyBuffs)
+		for(var k in Game.DebuffsAddMagicDmg)
+			if(Buffs.GetName(entTo, enemyBuffs[i]) === Game.DebuffsAddMagicDmg[k][0])
+				if(Array.isArray(Game.DebuffsAddMagicDmg[k][1]))
+					multiplier *= Game.DebuffsAddMagicDmg[k][1][Abilities.GetLevel(Buffs.GetAbility(entTo, enemyBuffs[i])) - 1]
+				else
+					multiplier *= Game.DebuffsAddMagicDmg[k][1]
+	
+	for(var i in myBuffs)
+		for(var k in Game.BuffsAddMagicDmgForMe)
+			if(Buffs.GetName(entFrom, myBuffs[i]) === Game.BuffsAddMagicDmgForMe[k][0])
+				if(Array.isArray(Game.BuffsAddMagicDmgForMe[k][1]))
+					multiplier *= Game.BuffsAddMagicDmgForMe[k][1][Abilities.GetLevel(Buffs.GetAbility(entFrom, myBuffs[i])) - 1]
+				else
+					multiplier *= Game.BuffsAddMagicDmgForMe[k][1]
+	
+	multiplier += Entities.GetArmorReductionForDamageType(entTo, DAMAGE_TYPES.DAMAGE_TYPE_MAGICAL)
+	
+	return multiplier
+}
+
+Game.GetNeededMagicDmg = function(entFrom, entTo, dmg) {
+	var enemyBuffs = Game.GetBuffs(entTo)
+	for(var i in enemyBuffs)
+		for(var k in Game.BuffsAbsorbMagicDmg)
+			if(Buffs.GetName(entTo, enemyBuffs[i]) === Game.BuffsAbsorbMagicDmg[k][0])
+				if(Array.isArray(Game.BuffsAbsorbMagicDmg[k][1]))
+					dmg += Game.BuffsAbsorbMagicDmg[k][1][Abilities.GetLevel(Buffs.GetAbility(entTo, enemyBuffs[i])) - 1]
+				else
+					dmg += Game.BuffsAbsorbMagicDmg[k][1]
+	
+	return dmg * Game.GetMagicMultiplier(entFrom, entTo)
+}
+
+Game.AngleBetweenVectors = function(a_pos, a_facing, b_pos) {
+    var distancevector = [b_pos[0] - a_pos[0], b_pos[1] - a_pos[1]];
+    var normalize = [ distancevector[0] / Math.sqrt(Math.pow(distancevector[0],2) + Math.pow(distancevector[1],2)), distancevector[1] / Math.sqrt(Math.pow(distancevector[0],2) + Math.pow(distancevector[1],2))];
+    var anglerad = Math.acos((a_facing[0] * normalize[0]) + (a_facing[1] * normalize[1]));
+    return anglerad
+}
+ 
+Game.AngleBetweenTwoFaces = function(a_facing, b_facing) {
+    return Math.acos((a_facing[0] * b_facing[0]) + (a_facing[1] * b_facing[1]));
+}
+ 
+Game.RotationTime = function(angle,rotspeed) {
+    return (0.03 * angle / rotspeed);
+}
+
 Entities.GetFirstItem = function(ent, ItemName) {
 	for(i = 0; i < 6; i++) {
 		var item = Entities.GetItemInSlot(ent, i)
@@ -22,6 +143,24 @@ Entities.GetFirstItem = function(ent, ItemName) {
 	}
 	
 	return -1
+}
+
+Game.GetSpeed = function(ent) {
+    if(Entities.IsMoving(ent)) {
+        var a = Entities.GetBaseMoveSpeed(ent);
+        var b = Entities.GetMoveSpeedModifier(ent,a);
+        return b;
+    } else {
+        return 1;
+    }
+}
+ 
+Game.VelocityWaypoint = function(ent, time){
+    var zxc = Entities.GetAbsOrigin(ent)
+    var forward = Entities.GetForward(ent)
+    var movespeed = Game.GetSpeed(ent);
+ 
+    return [zxc[0] + (forward[0] * movespeed * time),zxc[1] + (forward[1] * movespeed * time),zxc[2]]
 }
 
 Game.GetFile = function(file, callback){
