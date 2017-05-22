@@ -6,10 +6,12 @@ for ( var i in Game.Particles.skillalert_garbage )
 try{ GameEvents.Unsubscribe( parseInt( Game.Subscribes.SkillAlert ) )  }catch(e){}
 Game.Particles.skillalert_garbage=[]
 
-function MapLoaded(){
-	try{ GameEvents.Unsubscribe( Game.Subscribes.SkillAlert ) }catch(e){}
+//function MapLoaded(){
+	try {
+		GameEvents.Unsubscribe(Game.Subscribes.SkillAlert)
+	} catch(e) {  }
 	Game.Particles.skillalert_garbage = []
-}
+//}
 	
 function find(array, value){
 	for (var i = 0; i < array.length; i++) {
@@ -54,7 +56,7 @@ function OnOff(){
 	}else{
 		Game.Tick(SAllertEvery)
 		Game.ScriptLogMsg('Script enabled: SkillAlert', '#00ff00')
-		Game.Subscribes.SkillAlert = GameEvents.Subscribe('game_newmap', MapLoaded)
+		//Game.Subscribes.SkillAlert = GameEvents.Subscribe('game_newmap', MapLoaded)
 	}
 }
 

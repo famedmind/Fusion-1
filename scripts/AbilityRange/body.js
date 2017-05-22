@@ -74,11 +74,6 @@ function SkillLearned(data){
 	CheckB.SetPanelEvent( 'onactivate', chkboxpressed )
 }
 
-function MapLoaded(data){
-	Destroy()
-	AbilityRange.checked = false
-}
-
 function chkboxpressed(){
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var CheckBs = AbilityRangePanel.Children()
@@ -157,10 +152,11 @@ AbilityRangeF = function(){
 		CheckB.SetAttributeInt('Skill', Abil)
 		CheckB.SetPanelEvent( 'onactivate', chkboxpressed )
 	}
-	Game.Subscribes.AbilityRange.push( GameEvents.Subscribe('game_newmap', MapLoaded) )
 	Game.Subscribes.AbilityRange.push( GameEvents.Subscribe('dota_player_learned_ability', SkillLearned) )
 	Game.Subscribes.AbilityRange.push( GameEvents.Subscribe('dota_inventory_changed', InventoryChanged) )
 	Game.ScriptLogMsg('Script enabled: AbilityRange', '#00ff00')
 }
-		
+
 var AbilityRange = Game.AddScript('AbilityRange', AbilityRangeF)
+Destroy()
+AbilityRange.checked = false

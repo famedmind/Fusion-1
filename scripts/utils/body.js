@@ -135,6 +135,37 @@ Game.RotationTime = function(angle,rotspeed) {
     return (0.03 * angle / rotspeed);
 }
 
+Game.ClosetToMouse = function(range, enemy) {
+	var mousePos = Game.ScreenXYToWorld(GameUI.GetCursorPosition()[0],GameUI.GetCursorPosition()[1])
+	var enemies = []
+	var enemyTeam = Game.PlayersHeroEnts()
+	if(enemy)
+		enemyTeam = enemyTeam.filter(function(ent) {
+			return ent > 0 && Entities.IsEnemy(ent)
+		})
+ 
+	if(enemyTeam.length > 0) {
+		for(var enemy of enemyTeam) {
+			var enemyXY = Entities.GetAbsOrigin(enemy)
+			var distance = Game.PointDistance(mousePos, enemyXY)
+			if(distance < range) {
+				enemies.push([enemy, distance])
+			}
+		}
+		
+		return enemies.sort(function(a, b) {
+			if(a[1] > b[1])
+				return 1
+			else if(a[1] < b[1])
+				return -1
+			else
+				return 0
+		})[0][0]
+	} else {
+		return -1
+	}
+}
+
 Entities.GetFirstItem = function(ent, ItemName) {
 	for(i = 0; i < 6; i++) {
 		var item = Entities.GetItemInSlot(ent, i)
@@ -254,11 +285,10 @@ if(Array.isArray(Game.Subscribes)){
 Game.Subscribes = []
 Game.Subscribes.OnMapLoad = []
 Game.Subscribes.MoneyChanged = []
-Game.Subscribes.OnMapLoadCB = GameEvents.Subscribe('game_newmap', function(){
-	Game.EzTechies.Remotemines = []
+//Game.Subscribes.OnMapLoadCB = GameEvents.Subscribe('game_newmap', function() {
 	for(i in Game.Subscribes.OnMapLoad)
 		Game.Subscribes.OnMapLoad[i]()
-})
+//})
 Game.Subscribes.MoneyChangedCB = GameEvents.Subscribe('dota_money_changed', function(){
 	for(i in Game.Subscribes.MoneyChanged)
 		Game.Subscribes.MoneyChanged[i]()

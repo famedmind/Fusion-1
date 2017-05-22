@@ -21,8 +21,8 @@ function Set1TimeoutForHost() { //Host-antitroll
 	Game.SetRemainingSetupTime(1) 
 }
 
-function MapLoaded(data) {
+//function MapLoaded(data) {
 	BindCommands()
-}
+//}
 
-GameEvents.Subscribe('game_newmap', MapLoaded)
+//GameEvents.Subscribe('game_newmap', MapLoaded)

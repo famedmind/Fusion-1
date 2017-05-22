@@ -1,5 +1,4 @@
-﻿GameEvents.Subscribe('game_newmap', MapLoaded)
-GameEvents.Subscribe('player_team', RefreshToggles)
+﻿GameEvents.Subscribe('player_team', RefreshToggles)
 function RefreshToggles(){
 	MyID = Game.GetLocalPlayerID()
 	Toggles = $('#trics').Children()
@@ -11,13 +10,8 @@ function RefreshToggles(){
 			Toggles[i].enabled = true
 }
 
-function MapLoaded(data){
-	Game.AddCommand( '__ToggleSPanel', Toggle, '',0 )
-	GameUI.SetCameraDistance(slider.value)
-	RefreshToggles()
-}
-function Toggle(){
-	$.GetContextPanel().ToggleClass('PopupOpened')
+function Toggle() {
+	$.GetContextPanel().ToggleClass('Popup')
 }
 //обработчик слайдера для изменения высоты камеры
 var slider = $.GetContextPanel().FindChildInLayoutFile( "CameraDistance" )
@@ -37,4 +31,7 @@ Game.Every(-1, -1, 0, function(){
 	lastValue = slider.value;
 });
 
+Game.AddCommand( '__TogglePanel', Toggle, '',0 )
+GameUI.SetCameraDistance(slider.value)
+RefreshToggles()
 Game.ScriptLogMsg('MainScript sucessfull loaded', '#00ff00')

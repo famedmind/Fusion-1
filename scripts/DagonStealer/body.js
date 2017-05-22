@@ -11,7 +11,7 @@ function DagonStealerOnInterval() {
 }
 
 function AutoDagon(MyEnt, HEnts) {
-	var Dagon = GetDagon(MyEnt)
+	var Dagon = D2JS.GetDagon(MyEnt)
 	var DagonRange = Abilities.GetCastRangeFix(Dagon)
 	var DagonDamage = GetDagonDamage(Dagon)
 	
@@ -42,7 +42,7 @@ function AutoDagon(MyEnt, HEnts) {
 	}
 }
 
-function GetDagon(MyEnt) {
+D2JS.GetDagon = function(MyEnt) {
 	for(var i in DagonNames) {
 		var DagonName = DagonNames[i]
 		var item = Entities.GetFirstItem(MyEnt, DagonName)

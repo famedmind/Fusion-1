@@ -1,32 +1,3 @@
-function ClosetToMouse(range) {
-	var mousePos = Game.ScreenXYToWorld(GameUI.GetCursorPosition()[0],GameUI.GetCursorPosition()[1])
-	var enemies = []
-	var enemyTeam = Game.PlayersHeroEnts().filter(function(ent) {
-		return ent > 0 && Entities.IsEnemy(ent)
-	})
- 
-	if(enemyTeam.length > 0) {
-		for(var enemy of enemyTeam) {
-			var enemyXY = Entities.GetAbsOrigin(enemy)
-			var distance = Game.PointDistance(mousePos, enemyXY)
-			if(distance < range) {
-				enemies.push([enemy, distance])
-			}
-		}
-		
-		return enemies.sort(function(a, b) {
-			if(a[1] > b[1])
-				return 1
-			else if(a[1] < b[1])
-				return -1
-			else
-				return 0
-		})[0][0]
-	} else {
-		return -1
-	}
-}
-
 var PING = (50 / 1000)
 var GLOBALTIME
 var ENEMYFORWARD
@@ -108,7 +79,7 @@ function Dismember(MyEnt, ent) {
  
 function PudgeCombo() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
-	var ent = ClosetToMouse(500)
+	var ent = Game.ClosetToMouse(500, true)
 	if(ent === -1)
 		return
  
@@ -126,8 +97,8 @@ function BindCommands() {
 	Game.AddCommand("__PudgeCombo", PudgeCombo, "", 0)
 }
 
-function MapLoaded(data) {
+//function MapLoaded(data) {
 	BindCommands()
-}
+//}
 
-GameEvents.Subscribe('game_newmap', MapLoaded)
+//GameEvents.Subscribe('game_newmap', MapLoaded)
