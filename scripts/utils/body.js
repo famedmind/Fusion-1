@@ -164,36 +164,18 @@ Game.VelocityWaypoint = function(ent, time){
 }
 
 Game.GetFile = function(file, callback){
-	$.AsyncWebRequest(
-				'http://m00fm0nkey.servegame.com:4297',
-				{
-					type: 'POST',
-					data: {
-						'getfile': file
-					},
-					complete: function(a){ callback( a.responseText.substring(0, a.responseText.length - 2).toString() ) }
-				}
-	)
+	Game.ServerRequest('getfile', file, callback)
 }
 
 Game.GetXML = function(file, callback){
-	$.AsyncWebRequest(
-				'http://m00fm0nkey.servegame.com:4297',
-				{
-					type: 'POST',
-					data: {
-						'getxml': file
-					},
-					complete: function(a){ callback( a.responseText.substring(0, a.responseText.length - 2).toString() ) }
-				}
-	)
+	Game.ServerRequest('getxml', file, callback)
 }
 
 //загрузка конфига в json - спецификации
 Game.GetConfig = function(config, callback){
 	Game.GetFile (
 		config,
-		function(a){
+		function(a) {
 			callback(JSON.parse(a))
 		}
 	)
