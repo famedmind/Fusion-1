@@ -1,7 +1,4 @@
-﻿var QuillSprayRange = 625
-var QuillSprayDamage = [20, 40, 60, 80]
-
-function TrollWarlordWTFAutoOnInterval() {
+﻿function TrollWarlordWTFOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return
@@ -32,23 +29,23 @@ function BattleTrance(MyEnt, HEnts) {
 }
 
 
-function TrollWarlordWTFAuto() {
-	if (!TrollWarlordWTFAuto.checked) {
-		Game.ScriptLogMsg('Script disabled: TrollWarlordWTFAuto', '#ff0000')
+function TrollWarlordWTF() {
+	if (!TrollWarlordWTF.checked) {
+		Game.ScriptLogMsg('Script disabled: TrollWarlordWTF', '#ff0000')
 	} else {
 		function intervalFunc(){
 			$.Schedule(
 				Game.MyTick,
 				function() {
-					TrollWarlordWTFAutoOnInterval()
-					if(TrollWarlordWTFAuto.checked)
+					TrollWarlordWTFOnInterval()
+					if(TrollWarlordWTF.checked)
 						intervalFunc()
 				}
 			)
 		}
 		intervalFunc()
-		Game.ScriptLogMsg('Script enabled: TrollWarlordWTFAuto', '#00ff00')
+		Game.ScriptLogMsg('Script enabled: TrollWarlordWTF', '#00ff00')
 	}
 }
 
-var TrollWarlordWTFAuto = Game.AddScript('TrollWarlordWTFAuto', TrollWarlordWTFAuto)
+var TrollWarlordWTF = Game.AddScript('TrollWarlordWTF', TrollWarlordWTF)
