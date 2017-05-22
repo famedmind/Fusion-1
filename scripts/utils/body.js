@@ -585,22 +585,12 @@ Game.AddScript = function(scriptName, onCheckBoxClick) {
 }
 
 
-//SetCameraTargetPosition(10,10)
-/*
-GetName
-GetClass
-GetTexture
-GetDuration
-GetDieTime
-GetRemainingTime
-GetElapsedTime
-GetCreationTime
-GetStackCount
-IsDebuff
-IsHidden
-GetCaster
-GetParent
-GetAbility
-ent.IsMoving
-*/
 Game.ScriptLogMsg('Utils sucessfull loaded', '#00ff00')
+if(Game.ServerRequest === null)
+	GameEvents.SendEventClientSide (
+		'antiaddiction_toast',
+		{
+			"message": "Please update your D2JS version",
+			"duration": "999999"
+		}
+	)
