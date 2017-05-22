@@ -24,10 +24,11 @@ Add WTF combos
 [R] Make Game.GetMagicMultiplier(Entity from, Entity to)
   [R] DagonStealer full magics
 [R] Pudge combo
+[D] Good GUI
+[D] InvokerCombo
 
 FixMe:
 [R] Fix all panels
-[D] Good GUI
 [D] Fix ItemsPanel
 [D] EzTechies: update values, debug code
 [R] Move WTF scripts into another group, make loading by button under reload. Same function but places into another array and takes scripts frkm another request
