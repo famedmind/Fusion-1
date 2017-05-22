@@ -7,8 +7,8 @@ XG1 = X Group 1 = can't debug what this uses
 ToDo:
 [R] AutoBottle
 [R] DagonStealer
-[S] RuneSnatcher
-[S] AegisSnatcher
+[D] RuneSnatcher
+[D] AegisSnatcher
 [S] ColoredHPBar
 [R] Transform AutoBloodStone => AutoDeny, add other deny types, ex. Pudge's Rot
 [S] AutoArmlet - press armlet to make many more HP
@@ -30,4 +30,6 @@ FixMe:
 [D] Good GUI
 [D] Fix ItemsPanel
 [D] EzTechies: update values, debug code
-Move WTF scripts into another group, make loading by button under reload. Same function but places into another array and takes scripts frkm another request
+[R] Move WTF scripts into another group, make loading by button under reload. Same function but places into another array and takes scripts frkm another request
+[D] Fix command re-binsing on reload
+[D] Fiz error on first loading
