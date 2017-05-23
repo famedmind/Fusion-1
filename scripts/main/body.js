@@ -10,9 +10,6 @@ function RefreshToggles(){
 			Toggles[i].enabled = true
 }
 
-function Toggle() {
-	$.GetContextPanel().ToggleClass('Popup')
-}
 //обработчик слайдера для изменения высоты камеры
 var slider = $.GetContextPanel().FindChildInLayoutFile( "CameraDistance" )
 var lastValue = 0
@@ -31,7 +28,6 @@ Game.Every(-1, -1, 0, function(){
 	lastValue = slider.value;
 });
 
-Game.AddCommand( '__TogglePanel', Toggle, '',0 )
 GameUI.SetCameraDistance(slider.value)
 RefreshToggles()
 Game.ScriptLogMsg('MainScript sucessfull loaded', '#00ff00')

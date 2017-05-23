@@ -194,22 +194,15 @@ Game.VelocityWaypoint = function(ent, time){
     return [zxc[0] + (forward[0] * movespeed * time),zxc[1] + (forward[1] * movespeed * time),zxc[2]]
 }
 
-Game.GetFile = function(file, callback){
-	Game.ServerRequest('getfile', file, callback)
-}
-
 Game.GetXML = function(file, callback){
 	Game.ServerRequest('getxml', file, callback)
 }
 
 //загрузка конфига в json - спецификации
-Game.GetConfig = function(config, callback){
-	Game.GetFile (
-		config,
-		function(a) {
-			callback(JSON.parse(a))
-		}
-	)
+Game.GetConfig = function(config, callback) {
+	Game.ServerRequest('getconfig', config, function(response) {
+		callback(JSON.parse(response))
+	})
 }
 
 //сохранение конфига в json - спецификации
@@ -219,7 +212,7 @@ Game.SaveConfig = function(config, json){
 			{
 				type: 'POST',
 				data: { 
-					'writefile': JSON.stringify({ "filepath": config, "json": JSON.stringify(json) })
+					'writeconfig': JSON.stringify({ "filepath": config, "json": JSON.stringify(json) })
 				}
 			}
 	)
