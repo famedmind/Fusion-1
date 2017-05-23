@@ -59,7 +59,7 @@ function ItemsPanelEvery(){
 }
 
 var ItemsPanelLoad = function(){
-	Game.GetXML('ItemsPanel/panel', function(a){
+	D2JS.GetXML('ItemsPanel/panel', function(a){
 		Game.Panels.ItemsPanel = $.CreatePanel( 'Panel', Game.GetMainHUD(), 'ItemsPanel1' )
 		Game.Panels.ItemsPanel.BLoadLayoutFromString( a, false, false )
 		for(i=0;i<5;i++){ Game.Panels.ItemsPanel.Children()[i].style.height = '0' }
@@ -67,10 +67,10 @@ var ItemsPanelLoad = function(){
 			var position = p.style.position.split(' ')
 			Config.MainPanel.x = position[0]
 			Config.MainPanel.y = position[1]
-			Game.SaveConfig('ItemsPanel', Config)
+			D2JS.SaveConfig('ItemsPanel', Config)
 		})
 		
-		Game.GetConfig('ItemsPanel',function(a){
+		D2JS.GetConfig('ItemsPanel',function(a){
 			Config = a[0]
 			Game.Panels.ItemsPanel.style.position = Config.MainPanel.x + ' ' + Config.MainPanel.y + ' 0'
 		});

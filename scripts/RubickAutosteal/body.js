@@ -71,9 +71,9 @@ function RubickAutoStealCreatePanel(){
 		var position = p.style.position.split(' ')
 		Config.MainPanel.x = position[0]
 		Config.MainPanel.y = position[1]
-		Game.SaveConfig('rubickautosteal', Config)
+		D2JS.SaveConfig('rubickautosteal', Config)
 	})
-	Game.GetConfig('rubickautosteal',function(a){
+	D2JS.GetConfig('rubickautosteal',function(a){
 		Config = a[0]
 		Game.Panels.RubickAutoSteal.style.position = Config.MainPanel.x + ' ' + Config.MainPanel.y + ' 0'
 	});

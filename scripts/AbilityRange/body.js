@@ -117,9 +117,9 @@ AbilityRangeF = function(){
 			var position = Game.Panels.AbilityRange.style.position.split(' ')
 			Config.MainPanel.x = position[0]
 			Config.MainPanel.y = position[1]
-			Game.SaveConfig('AbilityRange', Config)
+			D2JS.SaveConfig('AbilityRange', Config)
 		})
-		Game.GetConfig('AbilityRange',function(a){
+		D2JS.GetConfig('AbilityRange',function(a){
 			Config = a[0]
 			Game.Panels.AbilityRange.style.position = Config.MainPanel.x + ' ' + Config.MainPanel.y + ' 0'
 			Game.Panels.AbilityRange.style.flowChildren = Config.MainPanel.flow
@@ -130,7 +130,7 @@ AbilityRangeF = function(){
 			else
 				Game.Panels.AbilityRange.style.flowChildren = 'right'
 			Config.MainPanel.flow = Game.Panels.AbilityRange.style.flowChildren
-			Game.SaveConfig('AbilityRange', Config)
+			D2JS.SaveConfig('AbilityRange', Config)
 		}, '',0 )
 	}else{
 		Game.ScriptLogMsg('Script disabled: AbilityRange', '#ff0000')

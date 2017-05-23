@@ -16,7 +16,7 @@ function PoofAllMeeposToMeepo(playerID, To, WithCheck, Queue) {
 		
 		var Abil = Game.GetAbilityByName(ent, 'meepo_poof')
 		GameUI.SelectUnit(ent, false)
-		Game.EntStop(ent)
+		Game.EntStop(ent, false)
 		Game.CastTarget(ent, Abil, To, Queue)
 	}
 }

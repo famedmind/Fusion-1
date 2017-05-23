@@ -38,6 +38,7 @@ function AutoDagon(MyEnt, HEnts) {
 		if(Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent)) <= DagonDamage) {
 			GameUI.SelectUnit(MyEnt, false)
 			Game.CastTarget(MyEnt, Dagon, ent, false)
+			Game.EntStop(MyEnt, false)
 		}
 	}
 }

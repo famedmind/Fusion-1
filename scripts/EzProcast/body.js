@@ -66,16 +66,16 @@ Game.EzProcastF = function(){
 }
 
 EzProcast01OnOffLoad = function(){
-	Game.GetXML('EzProcast/panel', function(a){
+	D2JS.GetXML('EzProcast/panel', function(a){
 		Game.Panels.EzProcast = $.CreatePanel( 'Panel', Game.GetMainHUD(), 'EzProcast1' )
 		Game.Panels.EzProcast.BLoadLayoutFromString( a, false, false )
 		GameUI.MovePanel(Game.Panels.EzProcast,function(p){
 			var position = p.style.position.split(' ')
 			Config.MainPanel.x = position[0]
 			Config.MainPanel.y = position[1]
-			Game.SaveConfig('ezprocast', Config)
+			D2JS.SaveConfig('ezprocast', Config)
 		})
-		Game.GetConfig('ezprocast',function(a){
+		D2JS.GetConfig('ezprocast',function(a){
 			Config = a[0]
 			Game.Panels.EzProcast.style.position = Config.MainPanel.x + ' ' + Config.MainPanel.y + ' 0'
 		});

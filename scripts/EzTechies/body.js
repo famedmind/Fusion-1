@@ -264,7 +264,7 @@ var EzTechiesCheckBoxClick = function(){
 		var position = p.style.position.split(' ')
 		Config.MainPanel.x = position[0]
 		Config.MainPanel.y = position[1]
-		//Game.SaveConfig('eztechies/config.conf', Config)
+		//D2JS.SaveConfig('eztechies/config.conf', Config)
 	})
 	
 	var ConfigMainPanelx = '91%';

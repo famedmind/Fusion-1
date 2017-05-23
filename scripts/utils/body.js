@@ -81,7 +81,7 @@ Game.GetMagicMultiplier = function(entFrom, entTo) {
 	var multiplier = 1.0
 	var buffsnames = Game.GetBuffsNames(entTo)
 	
-	if (Game.IntersecArrays(buffsnames, Game.IgnoreBuffs) || Entities.IsMagicImmune(ent))
+	if (Game.IntersecArrays(buffsnames, Game.IgnoreBuffs) || Entities.IsMagicImmune(entTo))
 		return 0.0
 	
 	var enemyBuffs = Game.GetBuffs(entTo)
@@ -192,30 +192,6 @@ Game.VelocityWaypoint = function(ent, time){
     var movespeed = Game.GetSpeed(ent);
  
     return [zxc[0] + (forward[0] * movespeed * time),zxc[1] + (forward[1] * movespeed * time),zxc[2]]
-}
-
-Game.GetXML = function(file, callback){
-	Game.ServerRequest('getxml', file, callback)
-}
-
-//загрузка конфига в json - спецификации
-Game.GetConfig = function(config, callback) {
-	Game.ServerRequest('getconfig', config, function(response) {
-		callback(JSON.parse(response))
-	})
-}
-
-//сохранение конфига в json - спецификации
-Game.SaveConfig = function(config, json){
-	$.AsyncWebRequest(
-				'http://TrueProgrammer.servegame.com:4297',
-			{
-				type: 'POST',
-				data: { 
-					'writeconfig': JSON.stringify({ "filepath": config, "json": JSON.stringify(json) })
-				}
-			}
-	)
 }
 
 
