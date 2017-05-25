@@ -30,6 +30,8 @@ ToDo:
 [S] Finiah school & make site
 [S] Make aome really cheaty acripta
 [D] Make "friendly maphack" for custom games & custom games replays
+[D] Remove all comments from code, make server gives client "min" version.
+[S] JavaScript obfuscation in server
 
 FixMe:
 [R] Fix all panels
