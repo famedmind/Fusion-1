@@ -1,6 +1,9 @@
-﻿function InvokerCombo() {
+﻿var EulDuration = 2.5
+var SunStrikeDelay = 1.7
+var TornadoDelay = [ 0.8, 1.1, 1.4, 1.7, 2.0, 2.3, 2.6, 2.9 ]
+function InvokerCombo() {
 	var playerID = Game.GetLocalPlayerID()
-	var MyEnt = Players.GetPlayerHeroEntityIndex(playerID)
+	MyEnt = Players.GetPlayerHeroEntityIndex(playerID)
 	
 	var enemy = Game.ClosetToMouse(500, true)
 	var pos = Entities.GetAbsOrigin(enemy)
@@ -20,34 +23,62 @@
 	var Blast = Game.GetAbilityByName(MyEnt, 'invoker_deafening_blast')
 	
 	GameUI.SelectUnit(MyEnt, false)
+	Game.EntStop(MyEnt, false)
+	
+	if(Abilities.IsHidden(SunStrike)) {
+		Exort(); Exort(); Exort(); Invoke();
+	}
+	if(Abilities.IsHidden(Tornado)) {
+		Wex(); Quas(); Wex(); Invoke();
+	}
 	
 	Game.CastTarget(MyEnt, Eul, enemy, false)
-	Game.CastPosition(MyEnt, SunStrike, pos, false)
-	
+	$.Schedule(EulDuration - SunStrikeDelay + Game.MyTick * 9, function() {
+		Game.CastPosition(MyEnt, SunStrike, pos, false)
+		Exort(); Wex(); Exort(); Invoke(); // Chaos Meteor
+		
+		Game.CastPosition(MyEnt, Veil, pos, false)
+		Game.CastTarget(MyEnt, Etherial, enemy, false)
+		Game.CastTarget(MyEnt, Dagon, enemy, false)
+		if(Abilities.GetCurrentCharges(Urn) > 0)
+			Game.CastTarget(MyEnt, Urn, enemy, false)
+		
+		Game.CastPosition(MyEnt, Tornado, pos, false)
+		
+		$.Schedule(TornadoDelay[Abilities.GetLevel("invoker_quas") - 2 + (Entities.HasScepter(MyEnt) ? 1 : 0)] + Game.MyTick * 2, function() {
+			Game.CastPosition(MyEnt, Meteor, pos, false)
+			
+			Quas(); Quas(); Quas(); Invoke(); // Cold snap
+			Quas(); Wex(); Exort(); Invoke(); // Defeanding blast
+			
+			Game.CastTarget(MyEnt, Orchid, enemy, false)
+			Game.CastPosition(MyEnt, Blast, pos, false)
+		})
+	})
 }
 
-function Quas(MyEnt) {
+function Quas() {
 	var Abil = Game.GetAbilityByName(MyEnt, 'invoker_quas')
 	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
-function Wex(MyEnt) {
+function Wex() {
 	var Abil = Game.GetAbilityByName(MyEnt, 'invoker_wex')
 	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
-function Exort(MyEnt) {
+function Exort() {
 	var Abil = Game.GetAbilityByName(MyEnt, 'invoker_exort')
 	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
-function Invoke(MyEnt) {
+function Invoke() {
 	var Abil = Game.GetAbilityByName(MyEnt, 'invoker_invoke')
 	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
 function BindCommands() {
-	Game.AddCommand('__InvokerCombo', function(){
+	Game.AddCommand('__InvokerCombo', function() {
 		InvokerCombo()
 	}, '', 0)
 }

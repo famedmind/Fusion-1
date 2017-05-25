@@ -8,12 +8,15 @@ var RuneRadius = 150
 var CircleRadius = 600
 var MyEnt,XYZ,xyz,Runes,Rune,SnatcherSt,abs,item,SnatcherCircleParticle
 
-Game.SnatcherConfig = D2JS.GetConfig('RuneSnatcher')
-if(SnatcherCircleParticle!=-1&&typeof SnatcherCircleParticle!='undefined')
+D2JS.GetConfig('RuneSnatcher', function(config) {
+	D2JS.Configs.SnatcherConfig = config
+})
+
+if(SnatcherCircleParticle!=-1 && typeof SnatcherCircleParticle!='undefined')
 	try{Particles.DestroyParticleEffect(SnatcherCircleParticle,SnatcherCircleParticle)}catch(e){}
 
 var SnatcherF = function(){
-	if(Game.IsGamePaused())
+	if(Game.IsGamePaused() || typeof D2JS.Configs.SnatcherConfig === 'undefined')
 		return
 	MyEnt = parseInt(Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID()))
 	XYZ = Entities.GetAbsOrigin(MyEnt)
@@ -25,7 +28,7 @@ var SnatcherF = function(){
 		Runes=Runes.concat(GameUI.FindScreenEntities([Game.WorldToScreenX(RunesPos[cr][0] - 0,RunesPos[cr][1],RunesPos[cr][2] - 100),Game.WorldToScreenY(RunesPos[cr][0] + 0,RunesPos[cr][1],RunesPos[cr][2] + 100)]))
 	}
 	
-	if(Game.SnatcherConfig.Indicator) {
+	if(D2JS.Configs.SnatcherConfig.Indicator) {
 		for(var cr in RunesPos) {
 			if(Game.PointDistance(XYZ,RunesPos[cr]) < CircleRadius && Game.PointDistance(XYZ,RunesPos[cr]) > RuneRadius) {
 				if(SnatcherSt!=1){
@@ -74,7 +77,7 @@ function SnatcherOnOff() {
 			try{Particles.DestroyParticleEffect(SnatcherCircleParticle,SnatcherCircleParticle)}catch(e){}
 		}
 		SnatcherSt=0
-		Game.ScriptLogMsg('Деактивирован: Rune Snatcher', '#ff0000')
+		Game.ScriptLogMsg('Script disabled: Rune Snatcher', '#ff0000')
 		return
 	}
 	
@@ -86,6 +89,6 @@ function SnatcherOnOff() {
 	})}
 	L()
 	
-	Game.ScriptLogMsg('Активирован: Rune Snatcher', '#00ff00')
+	Game.ScriptLogMsg('Script enabled: Rune Snatcher', '#00ff00')
 }
 var Snatcher = Game.AddScript("RuneSnatcher", SnatcherOnOff)

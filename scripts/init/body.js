@@ -1,5 +1,6 @@
 	Game.D2JSInit = true
 	D2JS = {}
+	D2JS.Configs = {}
 	D2JS.ScriptVersion = "1.2"
 	D2JS.D2JSServer = "http://m00fm0nkey.servegame.com:4297"
 
@@ -88,7 +89,7 @@
 				D2JS.ReloadD2JSCustomGames()
 			}, '', 0)
 			Game.AddCommand('__TogglePanel', function() {
-				D2JS.Panel.ToggleClass('Popup')
+				$.GetContextPanel().ToggleClass('Popup')
 			}, '',0)
 			$.GetContextPanel().ToggleClass('Popup')
 		}

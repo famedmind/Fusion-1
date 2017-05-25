@@ -6,7 +6,7 @@ try{
 	
 var Config = []
 
-Game.EzProcastF = function(){
+D2JS.EzProcastF = function(){
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var EntOnCursor = GameUI.FindScreenEntities( GameUI.GetCursorPosition() )
 	var CursorXYZ = Game.ScreenXYToWorld( GameUI.GetCursorPosition()[0],GameUI.GetCursorPosition()[1] )
@@ -107,16 +107,16 @@ function EzProcast01OnOff(){
 		try{
 			Game.Panels.EzProcast.DeleteAsync(0)
 		}catch(e){}
-		GameEvents.Unsubscribe( Game.Subscribes.EzProcastonchatmsg )
 		Game.ScriptLogMsg('Script disabled: EzProcast-V0.1', '#ff0000')
 		
 	}else{
 		EzProcast01OnOffLoad()
-		Game.Subscribes.EzProcastonchatmsg = GameEvents.Subscribe( 'player_chat', function(a){if(a.text=='-ez'){Game.EzProcastF()}} )
 		Game.ScriptLogMsg('Script enabled: EzProcast-V0.1', '#00ff00')
 	}
 }
-
+Game.AddCommand('__EzProcast', function() {
+	D2JS.EzProcastF()
+}, '',0)
 var EzProcast01 = Game.AddScript('EzProcast01', EzProcast01OnOff)
 
 /*

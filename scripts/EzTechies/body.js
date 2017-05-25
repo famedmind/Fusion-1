@@ -248,23 +248,23 @@ var EzTechiesCheckBoxClick = function(){
 			Particles.DestroyParticleEffect(parseInt(Game.Particles.EzTechies[i]),parseInt(Game.Particles.EzTechies[i]))
 			}
 		Game.Particles.EzTechies = []
-		Game.ScriptLogMsg('Деактивирован: EzTechies', '#ff0000')
+		Game.ScriptLogMsg('Script disabled: EzTechies', '#ff0000')
 		return
 	}
 	if ( Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_techies' ){
 		EzTechies.checked = false
-		Game.ScriptLogMsg('Ошибка: Ваш герой не является Techies', '#ff0000')
+		Game.ScriptLogMsg('Error: Your hero must be Techies to run this script', '#ff0000')
 		return
 	}
 	RefreshR()
 	//циклически замкнутый таймер с проверкой условия с интервалом 'interval'
 	Game.Panels.EzTechies = $.CreatePanel( "Panel", Game.GetMainHUD(), "EzTechiesSlider" )
 	Game.Panels.EzTechies.BLoadLayoutFromString( '<root><styles><include src="s2r://panorama/styles/dotastyles.vcss_c" /><include src="s2r://panorama/styles/magadan.vcss_c" /></styles><Panel style="padding:3px;border-radius:5px;width:150px;height:50px;flow-children:down;background-color:#00000099;"><Slider class="HorizontalSlider" style="width:600px;" direction="horizontal" text="zxc"/><Panel style="flow-children:right;horizontal-align:center;"><Label text="Радиус триггера:" style="font-size:14px;"/><Label text="300" style="color:green;font-size:16px;"/></Panel></Panel></root>', false, false)
-	GameUI.MovePanel(Game.Panels.EzTechies,function(p){
+	GameUI.MovePanel(Game.Panels.EzTechies, function(p){
 		var position = p.style.position.split(' ')
 		Config.MainPanel.x = position[0]
 		Config.MainPanel.y = position[1]
-		//D2JS.SaveConfig('eztechies/config.conf', Config)
+		D2JS.SaveConfig('eztechies', Config)
 	})
 	
 	var ConfigMainPanelx = '91%';
@@ -295,7 +295,7 @@ var EzTechiesCheckBoxClick = function(){
 		}
 	)}
 	f()
-	Game.ScriptLogMsg('Активирован: EzTechies', '#00ff00')
+	Game.ScriptLogMsg('Script enabled: EzTechies', '#00ff00')
 }
 
 var EzTechies = Game.AddScript('EzTechies', EzTechiesCheckBoxClick)

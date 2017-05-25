@@ -18,7 +18,7 @@ function OnValueChanged(slider){
 	$('#CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
 }
 slider.min = 1000
-slider.max = 1800
+slider.max = 2500
 slider.value = 1500
 lastValue = slider.value
 $('#CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
