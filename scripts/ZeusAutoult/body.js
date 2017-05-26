@@ -1,22 +1,13 @@
 ﻿var damage = [225,325,425]
-var scepterdamage = [440,540,640]
-var manacost = [225,325,450]
-
 
 function ZeusAutoultF() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var Ulti = Entities.GetAbility(MyEnt, 3)
 	var UltiLvl = Abilities.GetLevel(Ulti)
+	var UltiDmg = damage[UltiLvl-1]
 	
-	if(UltiLvl === 0)
+	if(UltiLvl === 0 || Abilities.GetCooldownTimeRemaining(Ulti) !== 0 ||  || Entities.GetMana(MyEnt) < Abilities.GetManaCost(Ulti))
 		return
-	if (Abilities.GetCooldownTimeRemaining(Ulti) != 0 || Entities.GetMana(MyEnt)<manacost[UltiLvl-1])
-		return
-	
-	if (!Entities.HasScepter(MyEnt))
-		var UltiDmg = damage[UltiLvl-1]
-	else
-		var UltiDmg = scepterdamage[UltiLvl-1]
 	
 	var HEnts = Game.PlayersHeroEnts()
 	for (i in HEnts) {
@@ -27,7 +18,7 @@ function ZeusAutoultF() {
 			continue
 		
 		if(Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent)) <= UltiDmg) {
-			Game.CastNoTarget(MyEnt, Ulti)
+			Game.CastNoTarget(MyEnt, Ulti, false)
 			return
 		}
 	}
