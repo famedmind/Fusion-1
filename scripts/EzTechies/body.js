@@ -1,4 +1,5 @@
-﻿var triggerradius = 300
+﻿var triggerradius = 425
+var dforce        = 600
 var damageland    = [150, 350, 550, 750]
 var damage        = [300, 450, 600]
 var scepterdamage = [450, 600, 750]
@@ -45,10 +46,10 @@ Game.Subscribes.EzTechiesRemoteMinesSpawn = GameEvents.Subscribe('npc_spawned', 
 	}
 })
 
-function EzTechiesF(){
+function EzTechiesF() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var force = Game.GetAbilityByName(MyEnt,'item_force_staff')
-	if ( !EzTechies.checked || Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_techies' )
+	if (!EzTechies.checked || Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_techies')
 		return
 	var Ulti = Entities.GetAbility(MyEnt, 5)
 	var UltiLvl = Abilities.GetLevel(Ulti)
@@ -58,7 +59,7 @@ function EzTechiesF(){
 	for (var i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		var buffsnames = Game.GetBuffsNames(ent)
-		if ( !Entities.IsEnemy(ent) || Entities.IsMagicImmune(ent) || !Entities.IsAlive(ent) || Game.IntersecArrays(buffsnames, IgnoreBuffs))
+		if ( !Entities.IsEnemy(ent) || Entities.IsMagicImmune(ent) || !Entities.IsAlive(ent))
 			continue
 		if(Game.GetMagicMultiplier(MyEnt, ent) === 0)
 			continue
@@ -66,10 +67,13 @@ function EzTechiesF(){
 		var rminessummdmg = 0
 		var NeedMagicDmg = Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent))
 		var mines = Entities.GetAllEntitiesByClassname('npc_dota_techies_mines')
+		mines.filter(function(ent) {
+			return Entities.IsAlive(rmine)
+		})
 		c:
-		for(m in mines){
+		for(m in mines) {
 			var rmine = mines[m]
-			if(Entities.GetUnitName(rmine)!='npc_dota_techies_remote_mine')
+			if(Entities.GetUnitName(rmine) !== 'npc_dota_techies_remote_mine')
 				continue
 			var buffs = Game.GetBuffs(rmine)
 			if(buffs.length==0)
@@ -81,18 +85,18 @@ function EzTechiesF(){
 				if(Buffs.GetName(rmine,buffs[k])=='modifier_techies_remote_mine')
 					var time = Buffs.GetCreationTime(rmine, buffs[k])
 			for(z=0;z<=3;z++){
-				if(time>Game.EzTechiesLVLUp[z]){
+				if(time > Game.EzTechiesLVLUp[z]){
 					if(Entities.HasScepter(MyEnt))
-						var dmg = scepterdamage[z]-scepterdamage[z]/100*MagicResist
+						var dmg = scepterdamage[z]
 					else
-						var dmg = damage[z]-damage[z]/100*MagicResist
+						var dmg = damage[z]
 					if(Abilities.GetLevel(Entities.GetAbility(MyEnt, 5)) - 1 == z)
 						break
 				}
 			}
-			if(Entities.GetRangeToUnit(rmine,ent)>triggerradius || !Entities.IsValidEntity(rmine))
+			if(Entities.GetRangeToUnit(rmine,ent) > triggerradius || !Entities.IsValidEntity(rmine))
 				continue
-			else{
+			else {
 				rmines.push(rmine)
 				rminessummdmg += dmg
 				if(rminessummdmg >= NeedMagicDmg)
@@ -109,7 +113,11 @@ function EzTechiesF(){
 				}
 			}
 		} else {
-			if(force!=-1 && Entities.GetRangeToUnit(MyEnt, ent) <= 800){
+			if (
+				force !== -1
+				&& Abilities.GetCooldownTimeRemaining(force) === 0
+				&& Entities.GetRangeToUnit(MyEnt, ent) <= dforce + Entities.GetMoveSpeedModifier(ent, Entities.GetBaseMoveSpeed(ent)) / 2
+			) {
 				var rmines = []
 				var rminessummdmg = 0
 				C:
@@ -127,25 +135,24 @@ function EzTechiesF(){
 					for(z=0;z<=3;z++){
 						if(time>Game.EzTechiesLVLUp[z]){
 							if(Entities.HasScepter(MyEnt))
-								var dmg = scepterdamage[z]-scepterdamage[z]/100*MagicResist
+								var dmg = scepterdamage[z]
 							else
-								var dmg = damage[z]-damage[z]/100*MagicResist
+								var dmg = damage[z]
 							if(Abilities.GetLevel(Entities.GetAbility(MyEnt, 5))==z+1)
 								break
 						}
 					}
 					var zxc = Entities.GetAbsOrigin(ent)
 					var zxcm = Entities.GetAbsOrigin(rmine)
-					var dforce = 600
 					var forward = Entities.GetForward(ent)
 					var newzxc = [forward[0]*dforce+zxc[0],forward[1]*dforce+zxc[1],forward[2]*dforce+zxc[2]]
-					if(Game.PointDistance(newzxc,zxcm)>triggerradius)
+					if(Game.PointDistance(newzxc,zxcm) > triggerradius)
 						continue
 					else
 					{
 						rmines.push(rmine)
 						rminessummdmg += dmg
-						if(rminessummdmg >= HP){
+						if(rminessummdmg >= NeedMagicDmg){
 							GameUI.SelectUnit(MyEnt,false)
 							Game.CastTarget(MyEnt, force, ent, false)
 							break
@@ -191,42 +198,40 @@ var EzTechiesCheckBoxClick = function(){
 	Game.Panels.EzTechies = $.CreatePanel( "Panel", Game.GetMainHUD(), "EzTechiesSlider" )
 	D2JS.GetXML('EzTechies/slider', function(xml) {
 		Game.Panels.EzTechies.BLoadLayoutFromString(xml, false, false)
-	})
-	GameUI.MovePanel (
-		Game.Panels.EzTechies,
-		function(p) {
-			var position = p.style.position.split(' ')
-			D2JS.Configs.EzTechies.MainPanel.x = position[0]
-			D2JS.Configs.EzTechies.MainPanel.y = position[1]
-			D2JS.SaveConfig('EzTechies', Config)
-		}
-	)
-	
-	var ConfigMainPanelx = '91%';
-	var ConfigMainPanely = '74%';
-	
-	Game.Panels.EzTechies.style.position = D2JS.Configs.EzTechies.MainPanel.x + ' ' + D2JS.Configs.EzTechies.MainPanel.y + ' 0'
-	var slider = []
-	Game.Panels.EzTechies.Children()[0].min = 0
-	Game.Panels.EzTechies.Children()[0].max = 500
-	Game.Panels.EzTechies.Children()[0].value = triggerradius
-	Game.Panels.EzTechies.Children()[0].lastval = Game.Panels.EzTechies.Children()[0].value
-	function x(){
-		$.Schedule (
-			Game.MyTick,
-			function(){
-				if(Game.Panels.EzTechies.Children()[0].value!=Game.Panels.EzTechies.Children()[0].lastval){
-					triggerradius=Game.Panels.EzTechies.Children()[0].value
-					Game.Panels.EzTechies.Children()[1].Children()[1].text = Math.floor(triggerradius)
-					RefreshR()
-				}
-				Game.Panels.EzTechies.Children()[0].lastval=Game.Panels.EzTechies.Children()[0].value
-				if(EzTechies.checked)
-					x() 
+		GameUI.MovePanel (
+			Game.Panels.EzTechies,
+			function(p) {
+				var position = p.style.position.split(' ')
+				D2JS.Configs.EzTechies.MainPanel.x = position[0]
+				D2JS.Configs.EzTechies.MainPanel.y = position[1]
+				D2JS.SaveConfig('EzTechies', D2JS.Configs.EzTechies)
 			}
 		)
-	}
-	x()
+		
+		Game.Panels.EzTechies.style.position = D2JS.Configs.EzTechies.MainPanel.x + ' ' + D2JS.Configs.EzTechies.MainPanel.y + ' 0'
+		var slider = []
+		Game.Panels.EzTechies.Children()[0].min = 0
+		Game.Panels.EzTechies.Children()[0].max = 500
+		Game.Panels.EzTechies.Children()[0].value = triggerradius
+		Game.Panels.EzTechies.Children()[0].lastval = Game.Panels.EzTechies.Children()[0].value
+		function x(){
+			$.Schedule (
+				Game.MyTick,
+				function() {
+					if(Game.Panels.EzTechies.Children()[0].value!=Game.Panels.EzTechies.Children()[0].lastval){
+						triggerradius = Game.Panels.EzTechies.Children()[0].value
+						Game.Panels.EzTechies.Children()[1].Children()[1].text = Math.floor(triggerradius)
+						RefreshR()
+					}
+					Game.Panels.EzTechies.Children()[0].lastval=Game.Panels.EzTechies.Children()[0].value
+					if(EzTechies.checked)
+						x() 
+				}
+			)
+		}
+		x()
+	})
+	
 	function f() {
 		$.Schedule (
 			Game.MyTick,
