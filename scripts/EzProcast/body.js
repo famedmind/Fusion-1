@@ -78,7 +78,7 @@ EzProcast01OnOffLoad = function(){
 		D2JS.GetConfig('ezprocast',function(a){
 			Config = a[0]
 			Game.Panels.EzProcast.style.position = Config.MainPanel.x + ' ' + Config.MainPanel.y + ' 0'
-		});
+		})
 		
 		var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 		var AbC = Entities.GetAbilityCount( MyEnt )

@@ -168,7 +168,6 @@ function AncientCreepStackF(){
 	Game.Panels.AncientCreepStack.style.position = (xy[0]/uiw*100)+'% '+(xy[1]/uih*100)+'% 0'
 	var time = (parseInt((Game.GetDOTATime(false,false)%60)*10))/10
 	var entnow = Players.GetLocalPlayerPortraitUnit()
-	//$.Msg([Math.floor(Entities.GetAbsOrigin(entnow)[0]),Math.floor(Entities.GetAbsOrigin(entnow)[1]),Math.floor(Entities.GetAbsOrigin(entnow)[2])])
 	if(Entities.GetHealth(ent)<=400&&!hpn){
 		hpn = true
 		GameEvents.SendEventClientSide( 'antiaddiction_toast', {"message":"У вашего крипа мало HP!","duration":"2"})

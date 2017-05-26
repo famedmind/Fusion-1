@@ -1,13 +1,10 @@
-﻿//Автодизейбл инициаторов.
-//айтемы с помощью которых будем дизейблить
-var DisableItems = [
+﻿var DisableItems = [
 	"item_orchid",
 	"item_bloodthorn",
 	"item_sheepstick",
 	"item_cyclone"
 ]
 
-//абилки с помощью которых будем дизейблить
 var DisableAbils = [
 	"pudge_dismember",
 	"lion_voodoo",
@@ -17,7 +14,6 @@ var DisableAbils = [
 	"rubick_telekinesis"
 ]
 
-//спелы врагов на которые будет реагировать скрипт
 var InitSpells = [
 	"tidehunter_ravage",
 	"axe_berserkers_call",
@@ -33,11 +29,7 @@ var InitSpells = [
 	"queenofpain_sonic_wave"
 ]
 
-var LenseBonusRange = 200
-var interval = 0
 var flag = false
-var threads = 3 //threads :D
-
 function AntiInitiationF(){
 	if ( !AntiInitiation.checked || flag )
 		return
@@ -80,7 +72,7 @@ function AntiInitiationF(){
 			var Abil = Entities.GetAbility(ent, m)
 			var AbilName = Abilities.GetAbilityName(Abil)
 			var Cast = Abilities.IsInAbilityPhase(Abil)
-			if( Abil==-1  || Abilities.GetCooldownTimeRemaining(Abil)!=0 || Abilities.GetLevel(Abil)==0 || !Cast || InitSpells.indexOf(AbilName)==-1 )
+			if( Abil==-1  || Abilities.GetCooldownTimeRemaining(Abil) != 0 || Abilities.GetLevel(Abil)==0 || !Cast || InitSpells.indexOf(AbilName)==-1 )
 				continue
 			if(Cast){
 				GameUI.SelectUnit(MyEnt,false)
@@ -92,7 +84,9 @@ function AntiInitiationF(){
 				else if(Behavior.indexOf(8)!=-1 )
 					Game.CastTarget(MyEnt,item,ent,false)
 				flag = true
-				$.Schedule(0.5,function(){ flag=false })
+				$.Schedule(0.5, function() {
+					flag=false
+				})
 				return
 			}
 		}
@@ -101,19 +95,23 @@ function AntiInitiationF(){
 
 
 var AutoCritFOnCheckBoxClick = function(){
-	if ( !AntiInitiation.checked ){
+	if (!AntiInitiation.checked){
 		Game.ScriptLogMsg('Script disabled: AntiInitiation', '#ff0000')
 		return
-	}
-	//циклически замкнутый таймер с проверкой условия с интервалом 'interval'
-	function f(){ $.Schedule( interval,function(){
-		AntiInitiationF()
-		if(AntiInitiation.checked)
-			f()
-	})}
-	for(i=0;i<threads;i++)
+	} else {
+		function f() {
+			$.Schedule (
+				Game.MyTick,
+				function() {
+					AntiInitiationF()
+					if(AntiInitiation.checked)
+						f()
+				}
+			)
+		}
 		f()
-	Game.ScriptLogMsg('Script enabled: AntiInitiation', '#00ff00')
+		Game.ScriptLogMsg('Script enabled: AntiInitiation', '#00ff00')
+	}
 }
 
 var AntiInitiation = Game.AddScript('AntiInitiation', AutoCritFOnCheckBoxClick)

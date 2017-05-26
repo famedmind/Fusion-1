@@ -1,56 +1,11 @@
-﻿//радиус срабатывания дистанционных мин
-var triggerradius = 300
-//интервал(в секундах) через который будет делаться проверка
-var interval = 0.1
-//урон мин
-var damageland = [150,190,225,260]
-//урон бочек без аганима
-var damage = [300,450,600]
-//с аганимом
-var scepterdamage = [450,600,750]
+﻿var triggerradius = 300
+var damageland    = [150, 350, 550, 750]
+var damage        = [300, 450, 600]
+var scepterdamage = [450, 600, 750]
 
-//бафы, при наличии которых у вражеских героев, мины не будут срабатывать
-var IgnoreBuffs = [
-	"modifier_abaddon_borrowed_time",
-	"modifier_brewmaster_primal_split",
-	"modifier_omniknight_repel",
-	"modifier_phoenix_supernova_hiding",
-	"modifier_tusk_snowball_movement",
-	"modifier_tusk_snowball_movement_friendly",
-	"modifier_juggernaut_blade_fury",
-	"modifier_medusa_stone_gaze",
-	"modifier_nyx_assassin_spiked_carapace",
-	"modifier_templar_assassin_refraction_absorb",
-	"modifier_oracle_false_promise",
-	"modifier_dazzle_shallow_grave",
-	"modifier_treant_living_armor",
-	"modifier_life_stealer_rage",
-	"modifier_item_aegis"
-]
-
-//де\\бафы на вражеских героях, умножающие маг. урон
-var DebuffsAddMagicDmg = [
-	["modifier_bloodthorn_debuff", 1.3],
-	["modifier_orchid_malevolence_debuff", 1.3],
-	["modifier_item_mask_of_madness_berserk", 1.25],
-	["modifier_bloodseeker_bloodrage", [1.25,1.3,1.35,1.4]],
-	["modifier_ursa_enrage", 0.2],
-]
-
-//бафы на вражеских героях, абсорбирующие определенное количество маг урона(не %)
-var BuffsAbsorbMagicDmg = [
-	["modifier_item_pipe_barrier", 400],
-	["modifier_item_hood_of_defiance_barrier", 400],
-	["modifier_item_infused_raindrop", 120],
-	["modifier_abaddon_aphotic_shield", [110,140,170,200]],
-	["modifier_ember_spirit_flame_guard", [50,200,350,500]]
-]
-
-//бафы на минере умножающие урон
-var BuffsAddMagicDmgForMe = [
-	["item_aether_lens", 1.05],
-	["modifier_bloodseeker_bloodrage", [1.25,1.3,1.35,1.4]]
-]
+D2JS.GetConfig('EzTechies', function(config) {
+	D2JS.Configs.EzTechies = config
+})
 
 //Game.EzTechies.Remotemines = []
 if(!Array.isArray(Game.EzTechies)){
@@ -70,21 +25,22 @@ try{ Game.Panels.EzTechies.DeleteAsync(0) }catch(e){}
 try{ GameEvents.Unsubscribe(parseInt(Game.Subscribes.EzTechiesRemoteMinesSpawn)) }catch(e){}
 try{ GameEvents.Unsubscribe(parseInt(Game.Subscribes.UltiUp)) }catch(e){}
 
-Game.Subscribes.UltiUp = GameEvents.Subscribe("dota_player_learned_ability", function(a){
-	if(a.PlayerID!=Game.GetLocalPlayerID()||a.abilityname!='techies_remote_mines')
+Game.Subscribes.UltiUp = GameEvents.Subscribe("dota_player_learned_ability", function(event) {
+	if(event.PlayerID != Game.GetLocalPlayerID() || event.abilityname!='techies_remote_mines')
 		return
+	
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
-	var lvl = Abilities.GetLevel(Entities.GetAbility(MyEnt, 5))
-	Game.EzTechiesLVLUp[lvl-1] = Game.GetGameTime()
+	var lvl = Abilities.GetLevel(Entities.GetAbilityByName(MyEnt, 'techies_remote_mines')) - 1
+	Game.EzTechiesLVLUp[lvl] = Game.GetGameTime()
 })
 
-Game.Subscribes.EzTechiesRemoteMinesSpawn = GameEvents.Subscribe('npc_spawned', function(a){
-	var ent = parseInt(a.entindex)
-	if( Entities.IsEnemy(ent) )
+Game.Subscribes.EzTechiesRemoteMinesSpawn = GameEvents.Subscribe('npc_spawned', function(event) {
+	var ent = parseInt(event.entindex)
+	if(Entities.IsEnemy(ent))
 		return
-	if(Entities.GetUnitName(ent)=='npc_dota_techies_remote_mine'){
+	if(Entities.GetUnitName(ent) === 'npc_dota_techies_remote_mine'){
 		radius = Particles.CreateParticle("particles/ui_mouseactions/range_display.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW , ent)
-		Particles.SetParticleControl(radius, 1, [triggerradius,0,0])
+		Particles.SetParticleControl(radius, 1, [triggerradius, 0, 0])
 		Game.Particles.EzTechies.push(radius)
 	}
 })
@@ -104,36 +60,11 @@ function EzTechiesF(){
 		var buffsnames = Game.GetBuffsNames(ent)
 		if ( !Entities.IsEnemy(ent) || Entities.IsMagicImmune(ent) || !Entities.IsAlive(ent) || Game.IntersecArrays(buffsnames, IgnoreBuffs))
 			continue
-		var MagicResist = Entities.GetArmorReductionForDamageType( ent, 2 )*100
-		var MagicDamagePercent = 100+MagicResist //%
-		var buffs = Game.GetBuffs(ent)
-		for(m in buffs)
-			for(k in DebuffsAddMagicDmg)
-				if(Buffs.GetName(ent,buffs[m]) === DebuffsAddMagicDmg[k][0])
-					if(Array.isArray(DebuffsAddMagicDmg[k][1]))
-						MagicDamagePercent *= DebuffsAddMagicDmg[k][1][Abilities.GetLevel(Buffs.GetAbility(ent,buffs[i]))-1]
-					else
-						MagicDamagePercent *= DebuffsAddMagicDmg[k][1]
-		var buffsme = Game.GetBuffs(MyEnt)
-		for(m in buffsme)
-			for(k in BuffsAddMagicDmgForMe)
-				if(Buffs.GetName(ent,buffsme[m]) === BuffsAddMagicDmgForMe[k][0])
-					if(Array.isArray(BuffsAddMagicDmgForMe[k][1]))
-						MagicDamagePercent *= BuffsAddMagicDmgForMe[k][1][Abilities.GetLevel(buffsme.GetAbility(ent,buffsme[i]))-1]
-					else
-						MagicDamagePercent *= BuffsAddMagicDmgForMe[k][1]
-		if(MagicDamagePercent==0)
+		if(Game.GetMagicMultiplier(MyEnt, ent) === 0)
 			continue
-		for(m in buffs)
-			for(k in BuffsAbsorbMagicDmg)
-				if(Buffs.GetName(ent,buffs[m]) === BuffsAbsorbMagicDmg[k][0])
-					if(Array.isArray(BuffsAbsorbMagicDmg[k][1]))
-						MagicDamagePercent -= BuffsAbsorbMagicDmg[k][1][Abilities.GetLevel(buffs.GetAbility(ent,buffs[i]))-1]
-					else
-						MagicDamagePercent -= BuffsAddMagicDmgForMe[k][1]
 		var rmines = []
 		var rminessummdmg = 0
-		var HP = Entities.GetHealth(ent)
+		var NeedMagicDmg = Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent))
 		var mines = Entities.GetAllEntitiesByClassname('npc_dota_techies_mines')
 		c:
 		for(m in mines){
@@ -155,30 +86,30 @@ function EzTechiesF(){
 						var dmg = scepterdamage[z]-scepterdamage[z]/100*MagicResist
 					else
 						var dmg = damage[z]-damage[z]/100*MagicResist
-					if(Abilities.GetLevel(Entities.GetAbility(MyEnt, 5))==z+1)
+					if(Abilities.GetLevel(Entities.GetAbility(MyEnt, 5)) - 1 == z)
 						break
 				}
 			}
-			if( Entities.GetRangeToUnit(rmine,ent)>triggerradius || !Entities.IsValidEntity(rmine))
+			if(Entities.GetRangeToUnit(rmine,ent)>triggerradius || !Entities.IsValidEntity(rmine))
 				continue
 			else{
 				rmines.push(rmine)
 				rminessummdmg += dmg
-				if(rminessummdmg >= HP)
+				if(rminessummdmg >= NeedMagicDmg)
 					break
 			}
 		}
-		//rminessummdmg = rminessummdmg - rminessummdmg/100*MagicResist
-		if(rmines.length!=0 || rminessummdmg!=0){
-			if ( rminessummdmg >= HP ){
-				for(n in rmines){
+		
+		if(rmines.length!=0 || rminessummdmg!=0) {
+			if (rminessummdmg >= NeedMagicDmg){
+				for(n in rmines) {
 					var rminesn = parseInt(rmines[n])
 					GameUI.SelectUnit(rminesn,false)
 					Game.CastNoTarget(rminesn, Entities.GetAbilityByName(rminesn, 'techies_remote_mines_self_detonate'), false)
 				}
 			}
-		}else{
-			if(force!=-1 && Entities.GetRangeToUnit(MyEnt,ent)<=800){
+		} else {
+			if(force!=-1 && Entities.GetRangeToUnit(MyEnt, ent) <= 800){
 				var rmines = []
 				var rminessummdmg = 0
 				C:
@@ -257,43 +188,55 @@ var EzTechiesCheckBoxClick = function(){
 		return
 	}
 	RefreshR()
-	//циклически замкнутый таймер с проверкой условия с интервалом 'interval'
 	Game.Panels.EzTechies = $.CreatePanel( "Panel", Game.GetMainHUD(), "EzTechiesSlider" )
-	Game.Panels.EzTechies.BLoadLayoutFromString( '<root><styles><include src="s2r://panorama/styles/dotastyles.vcss_c" /><include src="s2r://panorama/styles/magadan.vcss_c" /></styles><Panel style="padding:3px;border-radius:5px;width:150px;height:50px;flow-children:down;background-color:#00000099;"><Slider class="HorizontalSlider" style="width:600px;" direction="horizontal" text="zxc"/><Panel style="flow-children:right;horizontal-align:center;"><Label text="Радиус триггера:" style="font-size:14px;"/><Label text="300" style="color:green;font-size:16px;"/></Panel></Panel></root>', false, false)
-	GameUI.MovePanel(Game.Panels.EzTechies, function(p){
-		var position = p.style.position.split(' ')
-		Config.MainPanel.x = position[0]
-		Config.MainPanel.y = position[1]
-		D2JS.SaveConfig('eztechies', Config)
+	D2JS.GetXML('EzTechies/slider', function(xml) {
+		Game.Panels.EzTechies.BLoadLayoutFromString(xml, false, false)
 	})
+	GameUI.MovePanel (
+		Game.Panels.EzTechies,
+		function(p) {
+			var position = p.style.position.split(' ')
+			D2JS.Configs.EzTechies.MainPanel.x = position[0]
+			D2JS.Configs.EzTechies.MainPanel.y = position[1]
+			D2JS.SaveConfig('EzTechies', Config)
+		}
+	)
 	
 	var ConfigMainPanelx = '91%';
 	var ConfigMainPanely = '74%';
 	
-	Game.Panels.EzTechies.style.position = ConfigMainPanelx + ' ' + ConfigMainPanely + ' 0'
+	Game.Panels.EzTechies.style.position = D2JS.Configs.EzTechies.MainPanel.x + ' ' + D2JS.Configs.EzTechies.MainPanel.y + ' 0'
 	var slider = []
 	Game.Panels.EzTechies.Children()[0].min = 0
 	Game.Panels.EzTechies.Children()[0].max = 500
 	Game.Panels.EzTechies.Children()[0].value = triggerradius
 	Game.Panels.EzTechies.Children()[0].lastval = Game.Panels.EzTechies.Children()[0].value
-	function x(){ $.Schedule( 0.1,function(){
-		if(Game.Panels.EzTechies.Children()[0].value!=Game.Panels.EzTechies.Children()[0].lastval){
-			triggerradius=Game.Panels.EzTechies.Children()[0].value
-			Game.Panels.EzTechies.Children()[1].Children()[1].text = Math.floor(triggerradius)
-			RefreshR()
-		}
-		Game.Panels.EzTechies.Children()[0].lastval=Game.Panels.EzTechies.Children()[0].value
-		if(EzTechies.checked)
-			x() 
-		}
-	)}
+	function x(){
+		$.Schedule (
+			Game.MyTick,
+			function(){
+				if(Game.Panels.EzTechies.Children()[0].value!=Game.Panels.EzTechies.Children()[0].lastval){
+					triggerradius=Game.Panels.EzTechies.Children()[0].value
+					Game.Panels.EzTechies.Children()[1].Children()[1].text = Math.floor(triggerradius)
+					RefreshR()
+				}
+				Game.Panels.EzTechies.Children()[0].lastval=Game.Panels.EzTechies.Children()[0].value
+				if(EzTechies.checked)
+					x() 
+			}
+		)
+	}
 	x()
-	function f(){ $.Schedule( interval,function(){
-		EzTechiesF()
-		if(EzTechies.checked)
-			f()
-		}
-	)}
+	function f() {
+		$.Schedule (
+			Game.MyTick,
+			function(){
+				EzTechiesF()
+				if(EzTechies.checked)
+					f()
+				}
+		)
+	}
 	f()
 	Game.ScriptLogMsg('Script enabled: EzTechies', '#00ff00')
 }

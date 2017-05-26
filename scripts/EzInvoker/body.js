@@ -35,7 +35,7 @@ function InvokerCombo() {
 	Game.CastTarget(MyEnt, Eul, enemy, false)
 	$.Schedule(EulDuration - SunStrikeDelay + Game.MyTick * 9, function() {
 		Game.CastPosition(MyEnt, SunStrike, pos, false)
-		Exort(); Wex(); Exort(); Invoke(); // Chaos Meteor
+		Exort(); Wex(); Exort(); Invoke();
 		
 		Game.CastPosition(MyEnt, Veil, pos, false)
 		Game.CastTarget(MyEnt, Etherial, enemy, false)
@@ -48,8 +48,8 @@ function InvokerCombo() {
 		$.Schedule(TornadoDelay[Abilities.GetLevel("invoker_quas") - 2 + (Entities.HasScepter(MyEnt) ? 1 : 0)] + Game.MyTick * 2, function() {
 			Game.CastPosition(MyEnt, Meteor, pos, false)
 			
-			Quas(); Quas(); Quas(); Invoke(); // Cold snap
-			Quas(); Wex(); Exort(); Invoke(); // Defeanding blast
+			Quas(); Quas(); Quas(); Invoke();
+			Quas(); Wex(); Exort(); Invoke();
 			
 			Game.CastTarget(MyEnt, Orchid, enemy, false)
 			Game.CastPosition(MyEnt, Blast, pos, false)
@@ -77,14 +77,6 @@ function Invoke() {
 	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
-function BindCommands() {
-	Game.AddCommand('__InvokerCombo', function() {
-		InvokerCombo()
-	}, '', 0)
-}
-
-//function MapLoaded(data) {
-	BindCommands()
-//}
-
-//GameEvents.Subscribe('game_newmap', MapLoaded)
+Game.AddCommand('__InvokerCombo', function() {
+	InvokerCombo()
+}, '', 0)

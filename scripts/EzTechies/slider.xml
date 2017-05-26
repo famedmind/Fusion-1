@@ -1,0 +1,13 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c"/>
+		<include src="s2r://panorama/styles/magadan.vcss_c"/>
+	</styles>
+	<Panel style="padding:3px;border-radius:5px;width:150px;height:50px;flow-children:down;background-color:#00000099;">
+		<Slider class="HorizontalSlider" style="width:600px;" direction="horizontal" text="zxc"/>
+		<Panel style="flow-children:right;horizontal-align:center;">
+			<Label text="Радиус триггера:" style="font-size:14px;"/>
+			<Label text="300" style="color:green;font-size:16px;"/>
+		</Panel>
+	</Panel>
+</root>

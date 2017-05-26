@@ -1,6 +1,4 @@
-﻿//Показывает радиус скиллов направленных на точку или юнитов
-
-try{ Game.Panels.AbilityRange.DeleteAsync(0) }catch(e){}
+﻿try{ Game.Panels.AbilityRange.DeleteAsync(0) }catch(e){}
 for (i in Game.Subscribes.AbilityRange)
 	try{ GameEvents.Unsubscribe( Game.Subscribes.AbilityRange[i] ) }catch(e){}
 for(i in Game.Particles.AbilityRange)
