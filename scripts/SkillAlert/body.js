@@ -1,63 +1,78 @@
-﻿//Показывает начало каста скилов
-//Пока что 100% показывает следующие скилы: стан лины, санстрайк, стан лешрака, торрент кунки
+﻿var modifiers = [
+	["modifier_invoker_sun_strike", 1.7],
+	["modifier_kunkka_torrent_thinker", 1.6],
+	["modifier_lina_light_strike_array", 0.5],
+	["modifier_leshrac_split_earth_thinker", 0.35],
+	["modifier_spirit_breaker_charge_of_darkness_vision", 1.5],
+	["modifier_tusk_snowball_visible", 1.5]
+]
 
-for ( var i in Game.Particles.skillalert_garbage )
-	try{ Particles.DestroyParticleEffect(Game.Particles.skillalert_garbage[i],Game.Particles.skillalert_garbage[i]) }catch(e){}
-try{ GameEvents.Unsubscribe( parseInt( Game.Subscribes.SkillAlert ) )  }catch(e){}
-Game.Particles.skillalert_garbage=[]
+var z = []
 
-//function MapLoaded(){
-	try {
-		GameEvents.Unsubscribe(Game.Subscribes.SkillAlert)
-	} catch(e) {  }
-	Game.Particles.skillalert_garbage = []
-//}
-	
-function find(array, value){
-	for (var i = 0; i < array.length; i++) {
-	  if (array[i] == value) return i;
-	}
-	return -1;
-}
-
-SAllertEvery = function(){
+function SAllertEvery(){
+	try{if (!SkillAlert.checked){return}}catch(e){}
 	thinkers = Entities.GetAllEntitiesByName('npc_dota_thinker')
-	for ( var m in thinkers){
-		EntityIndex = thinkers[m]
-		Abs = Entities.GetAbsOrigin( EntityIndex )
-		if ( !Abs ){
-			if ( Game.Particles.skillalert_garbage[ EntityIndex ] ){
-				try{ Particles.DestroyParticleEffect( Game.Particles.skillalert_garbage[ EntityIndex ], Game.Particles.skillalert_garbage[ EntityIndex ] ) }catch(e){}
-				delete Game.Particles.skillalert_garbage[ EntityIndex ]
-			}
+	
+	var User = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
+
+	for (var m in thinkers){
+		var ent = thinkers[m]
+		var xyz = Entities.GetAbsOrigin(ent)
+		var buffsnames = Game.GetBuffsNames(ent)
+		if(buffsnames.length!=1)
 			continue
-		}
-		if ( !Game.Particles.skillalert_garbage[ EntityIndex ] ){
-			Game.Particles.skillalert_garbage[ EntityIndex  ] = Particles.CreateParticle("particles/neutral_fx/roshan_spawn.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN, 0)
-		}
-		Particles.SetParticleControl(Game.Particles.skillalert_garbage[ EntityIndex ], 0, Abs) 
+		Game.ScriptLogMsg( buffsnames[0], '#00ff00')
+		CreateTimerParticle(xyz,modifiers[i][1])	
 	}
-	for ( var i in Game.Particles.skillalert_garbage ){
-		if ( find(thinkers,i) == -1 ){
-			try{ Particles.DestroyParticleEffect(Game.Particles.skillalert_garbage[i],Game.Particles.skillalert_garbage[i]) }catch(e){}
-			delete Game.Particles.skillalert_garbage[i]
+	
+	var UserBuffs = Game.GetBuffsNames(User)
+	var xyz = Entities.GetAbsOrigin(User)
+	
+	for (ibuff in UserBuffs)
+		for(imod in modifiers)
+		{
+			//Game.ScriptLogMsg( 'My buffs: ' + UserBuffs[ibuff], '#00ff00')
+			if (modifiers[imod][0]==UserBuffs[ibuff])
+			{
+				if ((modifiers[imod][0]=="modifier_spirit_breaker_charge_of_darkness_vision")||(modifiers[imod][0]=="modifier_tusk_snowball_visible"))
+					CreateFollowParticle(modifiers[imod][1],"particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_target_mark.vpcf",User)
+				else
+					CreateTimerParticle(xyz,modifiers[imod][1])
+			}
 		}
-	}
 }
 
-function OnOff(){
+function CreateFollowParticle(time,particlepath,someobj,ent){
+	if(z.indexOf(ent)!=-1)
+		return
+	var p = Particles.CreateParticle(particlepath, ParticleAttachment_t.PATTACH_OVERHEAD_FOLLOW, someobj)
+	Particles.SetParticleControl(p, 0,  0)
+	z.push(ent)
+	$.Schedule(time+0.1,function(){ Particles.DestroyParticleEffect(p,p); z.splice(z.indexOf(ent),1); })
+}
+
+function CreateTimerParticle(xyz,time,ent){
+	if(z.indexOf(ent)!=-1)
+		return
+	var p = Particles.CreateParticle("particles/neutral_fx/roshan_spawn.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN, 0)
+	Particles.SetParticleControl(p, 0, xyz)
+	z.push(ent)
+	$.Schedule(time+0.1,function(){ Particles.DestroyParticleEffect(p,p); z.splice(z.indexOf(ent),1); })
+}
+
+function SkillAlertChkBox(){
 	if ( !SkillAlert.checked ){
-		Game.DTick(SAllertEvery)
-		Game.ScriptLogMsg('Script disabled: SkillAlert', '#ff0000')
-		for ( var i in Game.Particles.skillalert_garbage )
-			try{ Particles.DestroyParticleEffect(Game.Particles.skillalert_garbage[i],Game.Particles.skillalert_garbage[i]) }catch(e){}
-		try{ GameEvents.Unsubscribe( Game.Subscribes.SkillAlert ) }catch(e){}
-		Game.Particles.skillalert_garbage = []
+		Game.ScriptLogMsg('Деактивирован: SkillAlert', '#ff0000')
 	}else{
-		Game.Tick(SAllertEvery)
-		Game.ScriptLogMsg('Script enabled: SkillAlert', '#00ff00')
-		//Game.Subscribes.SkillAlert = GameEvents.Subscribe('game_newmap', MapLoaded)
+		function f(){ $.Schedule( 0.1,function(){
+			try{if (SkillAlert.checked){
+				SAllertEvery()
+				f()
+			}}catch(e){}
+		})}
+		f()
+		Game.ScriptLogMsg('Активирован: SkillAlert', '#00ff00')
 	}
 }
 
-var SkillAlert = Game.AddScript('SkillAlert', OnOff)
+var SkillAlert = Game.AddScript("SkillAlert",SkillAlertChkBox)
