@@ -78,6 +78,17 @@
 		})
 	}
 
+	D2JS.GetHUD_REBORN = function() {
+		var panel = $.GetContextPanel()
+		while(panel = panel.GetParent())
+			if(panel.id == "Hud")
+				break
+			
+		return panel
+	}
+	
+	D2JS.StatsEnabled = true
+	D2JS.MinimapActsEnabled = true
 	GameEvents.Subscribe('game_newmap', function(data) {
 		D2JS.LoadD2JS = function() {
 			D2JS.CheckVersion()
@@ -90,6 +101,27 @@
 			}, '', 0)
 			Game.AddCommand('__TogglePanel', function() {
 				$.GetContextPanel().ToggleClass('Popup')
+			}, '',0)
+			Game.AddCommand('__ToggleMinimapActs', function() {
+				var panel = D2JS.GetHUD_REBORN()
+
+				if(panel && (panel = panel.FindChild("HUDElements")))
+					if(panel = panel.FindChild("minimap_container"))
+						if(panel = panel.FindChild("GlyphScanContainer"))
+							if(D2JS.MinimapActsEnabled = !D2JS.MinimapActsEnabled)
+								panel.style.visibility = null
+							else
+								panel.style.visibility = "collapse"
+			}, '',0)
+			Game.AddCommand('__ToggleStats', function() {
+				var panel = D2JS.GetHUD_REBORN()
+
+				if(panel && (panel = panel.FindChild("HUDElements")))
+					if(panel = panel.FindChild("quickstats"))
+						if(D2JS.StatsEnabled = !D2JS.StatsEnabled)
+							panel.style.visibility = null
+						else
+							panel.style.visibility = "collapse"
 			}, '',0)
 			$.GetContextPanel().ToggleClass('Popup')
 		}

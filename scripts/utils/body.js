@@ -463,11 +463,12 @@ Game.IntersecArrays = function(a,b){
 }
 
 //получение массива с инвентарем юнита
-Game.GetInventory = function(entity){
-	inv = []
-	for(i = 0; i<6; i++){
-		if(Entities.GetItemInSlot( entity, i )!=-1)
-			inv.push(Entities.GetItemInSlot( entity, i ))
+Game.GetInventory = function(ent) {
+	var inv = []
+	for(i = 0; i < 6; i++) {
+		var item = Entities.GetItemInSlot(ent, i)
+		if(item !== -1)
+			inv.push(item)
 	}
 	return inv
 }

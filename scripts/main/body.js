@@ -10,8 +10,7 @@ function RefreshToggles(){
 			Toggles[i].enabled = true
 }
 
-//обработчик слайдера для изменения высоты камеры
-var slider = $.GetContextPanel().FindChildInLayoutFile( "CameraDistance" )
+var slider = $.GetContextPanel().FindChildInLayoutFile("CameraDistance")
 var lastValue = 0
 function OnValueChanged(slider){
 	GameUI.SetCameraDistance( slider.value )
@@ -19,7 +18,7 @@ function OnValueChanged(slider){
 }
 slider.min = 1000
 slider.max = 2500
-slider.value = 1530
+slider.value = 1500
 lastValue = slider.value
 $('#CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
 Game.Every(-1, -1, 0, function() { 
