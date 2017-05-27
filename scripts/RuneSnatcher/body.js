@@ -28,7 +28,6 @@ var SnatcherF = function(){
 		Runes=Runes.concat(GameUI.FindScreenEntities([Game.WorldToScreenX(RunesPos[cr][0] - 0,RunesPos[cr][1],RunesPos[cr][2] - 100),Game.WorldToScreenY(RunesPos[cr][0] + 0,RunesPos[cr][1],RunesPos[cr][2] + 100)]))
 	}
 	
-	$.Msg(D2JS.Configs.SnatcherConfig.Indicator)
 	if(D2JS.Configs.SnatcherConfig.Indicator) {
 		for(var cr in RunesPos) {
 			if(Game.PointDistance(XYZ,RunesPos[cr]) < CircleRadius && Game.PointDistance(XYZ,RunesPos[cr]) > RuneRadius) {
