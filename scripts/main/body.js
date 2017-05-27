@@ -22,7 +22,7 @@ slider.max = 2500
 slider.value = 1530
 lastValue = slider.value
 $('#CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
-Game.Every(-1, -1, 0, function(){ 
+Game.Every(-1, -1, 0, function() { 
 	if (slider.value != lastValue)
 		OnValueChanged(slider);
 	lastValue = slider.value;
@@ -30,4 +30,3 @@ Game.Every(-1, -1, 0, function(){
 
 GameUI.SetCameraDistance(slider.value)
 RefreshToggles()
-Game.ScriptLogMsg('MainScript sucessfull loaded', '#00ff00')

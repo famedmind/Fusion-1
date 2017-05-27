@@ -1,6 +1,6 @@
 ﻿var triggerradius = 425
-var dforce        = 600
-var damage        = [300, 450, 600]
+var dforce		= 600
+var damage		= [300, 450, 600]
 var scepterdamage = [450, 600, 750]
 
 D2JS.GetConfig('EzTechies', function(config) {
@@ -136,9 +136,9 @@ function EzTechiesF() {
 					var mineVec = Entities.GetAbsOrigin(rmine)
 					var entForward = Entities.GetForward(ent)
 					var forceVec = [
-						entForward[0] * dforce + entVec[0],
-						entForward[1] * dforce + entVec[1],
-						entForward[2] * dforce + entVec[2]
+						entVec[0] + entForward[0] * dforce,
+						entVec[1] + entForward[1] * dforce,
+						entVec[2] + entForward[2] * dforce
 					]
 					if(Game.PointDistance(forceVec, mineVec) > triggerradius)
 						continue
@@ -228,7 +228,7 @@ var EzTechiesCheckBoxClick = function(){
 	function f() {
 		$.Schedule (
 			Game.MyTick,
-			function(){
+			function() {
 				EzTechiesF()
 				if(EzTechies.checked)
 					f()
