@@ -196,44 +196,6 @@ Game.VelocityWaypoint = function(ent, time){
 
 Game.Every = function(start, time, tick, func){var startTime = Game.Time();var tickRate = tick;if(tick < 1){if(start < 0) tick--;tickRate = time / -tick;}var tickCount =  time/ tickRate;if(time < 0){tickCount = 9999999;}var numRan = 0;$.Schedule(start, (function(start,numRan,tickRate,tickCount){return function(){if(start < 0){start = 0;if(func()){return;}; }  var tickNew = function(){numRan++;delay = (startTime+tickRate*numRan)-Game.Time();if((startTime+tickRate*numRan)-Game.Time() < 0){delay = 0;}$.Schedule(delay, function(){if(func()){return;};tickCount--;if(tickCount > 0) tickNew();});};tickNew();}})(start,numRan,tickRate,tickCount));};
 
-//глобальный массив функций
-Game.GameTick = []
-Game.GameSTick = []
-Game.Tick = function(a){
-	t = Game.GameTick.indexOf(a)
-	if (t!=-1)
-		return;
-	Game.GameTick.push(a)
-}
-Game.DTick = function(a){
-	t = Game.GameTick.indexOf(a)
-	if (t==-1)
-		return;
-	delete Game.GameTick[t]
-}
-Game.STick = function(a){
-	t = Game.GameSTick.indexOf(a)
-	if (t!=-1)
-		return;
-	Game.GameSTick.push(a)
-}
-Game.DSTick = function(a){
-	t = Game.GameSTick.indexOf(a)
-	if (t==-1)
-		return;
-	delete Game.GameSTick[t]
-}
-if(Game.TicksRegistered == true){}else{
-	Game.Every(-1, -1, 0, function(){
-		for(a in Game.GameTick)
-			Game.GameTick[a]()
-	});
-	Game.Every(-1, -1, 1, function(){
-		for(a in Game.GameSTick)
-			Game.GameSTick[a]()
-	});
-	Game.TicksRegistered = true
-}
 //глобальный массив для хранения партиклов
 if(!Array.isArray(Game.Particles))
 	Game.Particles = []
