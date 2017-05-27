@@ -5,38 +5,41 @@ S = soon
 XG1 = X Group 1 = can't debug what this uses
 
 ToDo:
+[S] JavaScript obfuscation in server
+[S] Finiah school & make D2JS site
+[S] Make aome really cheaty acripta
+[S] Good GUI with config changing
+[S] ColoredHPBar
+[S] Make "friendly maphack" for custom games & custom games replays
+[S] AutoArmlet - press armlet to make many more HP
+[S] Rework rubick autosteal
+[S] Add WTF combos
+
+[D] Make EnemyManaBars layout loading from D2JS.GetXML
+[D] Remove all comments from code, make server gives client "min" version.
+[D] AegisSnatcher
+[D] Combos for some heroes
+
+[R] InvokerCombo
+[R] RuneSnatcher
 [R] AutoBottle
 [R] DagonStealer
-[D] RuneSnatcher
-[D] AegisSnatcher
-[S] ColoredHPBar
 [R] Transform AutoBloodStone => AutoDeny, add other deny types, ex. Pudge's Rot
-[S] AutoArmlet - press armlet to make many more HP
 [R] AntiAFK - walk with ally at distance
-[S] Rework rubick autosteal
-[D] CreepAutoLH
-[X] Make WTFMapHack based on courier burst
 [R] AutoDeward
-[D] Combos for some heroes
-[S] Add WTF combos
-[XG1] AnnoyingPinger
 [R] Make autobloodstone don't work with aegis
 [R] Make Game.GetMagicMultiplier(Entity from, Entity to)
   [R] DagonStealer full magics
 [R] Pudge combo
-[S] Good GUI with config changing & saving
-[D] InvokerCombo
-[D] Make EnemyManaBars layout loading from D2JS.GetXML
-[S] Finiah school & make site
-[S] Make aome really cheaty acripta
-[D] Make "friendly maphack" for custom games & custom games replays
-[D] Remove all comments from code, make server gives client "min" version.
-[S] JavaScript obfuscation in server
+
+[X] Make WTFMapHack based on courier burst
+[XG1] AnnoyingPinger
 
 FixMe:
-[R] Fix all panels
-[D] Fix ItemsPanel
-[D] EzTechies: update values, debug code
-[R] Move WTF scripts into another group, make loading by button under reload. Same function but places into another array and takes scripts frkm another request
+[D] Fix ItemsPanel, EnemyManaBars, RuneSnatcher
 [D] Fix command re-binding on reload
-[D] Fiz error on first loading
+
+[R] EzTechies: update values, refactor code
+[R] Fix error on first loading
+[R] Move WTF scripts into another group, make loading by button under reload
+[R] Fix all panels

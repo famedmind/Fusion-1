@@ -1,6 +1,5 @@
 ﻿var triggerradius = 425
 var dforce        = 600
-var damageland    = [150, 350, 550, 750]
 var damage        = [300, 450, 600]
 var scepterdamage = [450, 600, 750]
 
@@ -49,7 +48,7 @@ Game.Subscribes.EzTechiesRemoteMinesSpawn = GameEvents.Subscribe('npc_spawned', 
 function EzTechiesF() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var force = Game.GetAbilityByName(MyEnt,'item_force_staff')
-	if (!EzTechies.checked || Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_techies')
+	if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_techies')
 		return
 	var Ulti = Entities.GetAbility(MyEnt, 5)
 	var UltiLvl = Abilities.GetLevel(Ulti)
@@ -59,58 +58,52 @@ function EzTechiesF() {
 	for (var i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		var buffsnames = Game.GetBuffsNames(ent)
-		if ( !Entities.IsEnemy(ent) || Entities.IsMagicImmune(ent) || !Entities.IsAlive(ent))
+		if (!Entities.IsEnemy(ent) || !Entities.IsAlive(ent))
 			continue
 		if(Game.GetMagicMultiplier(MyEnt, ent) === 0)
 			continue
+		
 		var rmines = []
 		var rminessummdmg = 0
 		var NeedMagicDmg = Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent))
-		var mines = Entities.GetAllEntitiesByClassname('npc_dota_techies_mines')
-		mines.filter(function(ent) {
-			return Entities.IsAlive(rmine)
+		var mines = Entities.GetAllEntitiesByClassname('npc_dota_techies_mines').filter(function(ent) {
+			return Entities.IsAlive(ent) && Entities.GetUnitName(ent) === 'npc_dota_techies_remote_mine' && Entities.IsValidEntity(ent)
 		})
-		c:
-		for(m in mines) {
+		for(var m in mines) {
 			var rmine = mines[m]
-			if(Entities.GetUnitName(rmine) !== 'npc_dota_techies_remote_mine')
-				continue
 			var buffs = Game.GetBuffs(rmine)
 			if(buffs.length==0)
 				continue
 			for(k in buffs)
-				if(Buffs.GetName(rmine,buffs[k])=='modifier_techies_deploy_trap')
-					continue c;
-			for(k in buffs)
 				if(Buffs.GetName(rmine,buffs[k])=='modifier_techies_remote_mine')
 					var time = Buffs.GetCreationTime(rmine, buffs[k])
-			for(z=0;z<=3;z++){
+			for(z=0; z <= Game.EzTechiesLVLUp.length ;z++) {
 				if(time > Game.EzTechiesLVLUp[z]){
 					if(Entities.HasScepter(MyEnt))
 						var dmg = scepterdamage[z]
 					else
 						var dmg = damage[z]
-					if(Abilities.GetLevel(Entities.GetAbility(MyEnt, 5)) - 1 == z)
+					if(Abilities.GetLevel(Entities.GetAbilityByName(MyEnt, "techies_remote_mines")) - 1 === z)
 						break
 				}
 			}
-			if(Entities.GetRangeToUnit(rmine,ent) > triggerradius || !Entities.IsValidEntity(rmine))
-				continue
-			else {
+			if(Entities.GetRangeToUnit(rmine, ent) <= triggerradius) {
 				rmines.push(rmine)
 				rminessummdmg += dmg
 				if(rminessummdmg >= NeedMagicDmg)
 					break
-			}
+			} else
+				continue
 		}
 		
-		if(rmines.length!=0 || rminessummdmg!=0) {
+		if(rmines.length !== 0 && rminessummdmg !== 0) {
 			if (rminessummdmg >= NeedMagicDmg){
 				for(n in rmines) {
 					var rminesn = parseInt(rmines[n])
-					GameUI.SelectUnit(rminesn,false)
+					GameUI.SelectUnit(rminesn, false)
 					Game.CastNoTarget(rminesn, Entities.GetAbilityByName(rminesn, 'techies_remote_mines_self_detonate'), false)
 				}
+				GameUI.SelectUnit(MyEnt, false)
 			}
 		} else {
 			if (
@@ -121,14 +114,11 @@ function EzTechiesF() {
 				var rmines = []
 				var rminessummdmg = 0
 				C:
-				for(m in mines){
+				for(var m in mines){
 					var rmine = mines[m]
 					var buffs = Game.GetBuffs(rmine)
 					if(buffs.length==0)
 						continue
-					for(k in buffs)
-						if(Buffs.GetName(rmine,buffs[k])=='modifier_techies_deploy_trap')
-							continue C;
 					for(k in buffs)
 						if(Buffs.GetName(rmine,buffs[k])=='modifier_techies_remote_mine')
 							var time = Buffs.GetCreationTime(rmine, buffs[k])
@@ -148,8 +138,7 @@ function EzTechiesF() {
 					var newzxc = [forward[0]*dforce+zxc[0],forward[1]*dforce+zxc[1],forward[2]*dforce+zxc[2]]
 					if(Game.PointDistance(newzxc,zxcm) > triggerradius)
 						continue
-					else
-					{
+					else {
 						rmines.push(rmine)
 						rminessummdmg += dmg
 						if(rminessummdmg >= NeedMagicDmg){
@@ -239,7 +228,7 @@ var EzTechiesCheckBoxClick = function(){
 				EzTechiesF()
 				if(EzTechies.checked)
 					f()
-				}
+			}
 		)
 	}
 	f()
