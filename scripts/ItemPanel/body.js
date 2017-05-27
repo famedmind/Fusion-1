@@ -1,4 +1,8 @@
-﻿try{ Game.Panels.ItemPanel.DeleteAsync(0) }catch(e){}
+﻿try {
+	Game.Panels.ItemPanel.DeleteAsync(0)
+} catch(e) {
+
+}
 D2JS.ItemPanel = []
 
 function NewItem(oldinv, newinv, ent) {
@@ -6,7 +10,7 @@ function NewItem(oldinv, newinv, ent) {
 		n = newinv[i]
 		if(oldinv.indexOf(n) === -1 && D2JS.Configs.ItemPanel.Items.indexOf(Abilities.GetAbilityName(n))!= -1){
 			if(D2JS.Configs.ItemPanel.Notify === "true") {
-				A = $.CreatePanel( 'Panel', Game.Panels.ItemPanel, 'Alert'+ent+n )
+				A = $.CreatePanel('Panel', Game.Panels.ItemPanel, 'Alert' + ent + n)
 				A.BLoadLayoutFromString( '<root><Panel style="width:100%;height:37px;background-color:#111;"><DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:160px;"/><Image src="s2r://panorama/images/hud/button_courier_greenarrow_png.vtex" style="horizontal-align:center;vertical-align:center;" /><DOTAItemImage itemname="" style="vertical-align:center;width:60px;height:35px;position:20px;"/></Panel></root>', false, false )
 				A.Children()[0].heroname = Entities.GetUnitName(ent)
 				A.Children()[2].itemname = Abilities.GetAbilityName(n)
@@ -59,8 +63,10 @@ function ItemPanelEvery() {
 			}
 		NewItem(D2JS.ItemPanel[Ent], Inv, Ent)
 		D2JS.ItemPanel[Ent] = Inv
+		for(var i = 1; i < P.Children().length; i++)
+			P.Children()[i].itemname = ""
 		for(var n in Inv)
-			P.Children()[parseInt(n)+1].itemname = Abilities.GetAbilityName(Inv[n])
+			P.Children()[parseInt(n) + 1].itemname = Abilities.GetAbilityName(Inv[n])
 		k++
 	}
 	$.Schedule(Game.MyTick, ItemPanelEvery)
@@ -80,6 +86,7 @@ var ItemPanelLoad = function() {
 		})
 		
 		D2JS.GetConfig('ItemPanel', function(response) {
+			response = response[0]
 			Game.Panels.ItemPanel.style.position = response.MainPanel.x + ' ' + response.MainPanel.y + ' 0'
 			D2JS.Configs.ItemPanel = response
 			ItemPanelEvery()

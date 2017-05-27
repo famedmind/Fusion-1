@@ -283,6 +283,7 @@ Game.ScriptLogMsg = function(msg, color){
 //Функция делает панельку перемещаемой кликом мыши по ней. callback нужен например для того, чтобы сохранить координаты панели в файл
 GameUI.MovePanel = function(a, callback){
 	var e = function(){
+		var m = true
 		if (!GameUI.IsControlDown())
 			return
 		var color = a.style.backgroundColor
@@ -290,17 +291,28 @@ GameUI.MovePanel = function(a, callback){
 		var uiw = Game.GetMainHUD().actuallayoutwidth
 		var uih = Game.GetMainHUD().actuallayoutheight
 		linkpanel = function(){
-			a.style.position = (GameUI.GetCursorPosition()[0]/uiw*100) + '% ' + (GameUI.GetCursorPosition()[1]/uih*100) + '% ' + '0'
-			if (GameUI.IsMouseDown( 0 )){
-				Game.DTick(linkpanel)
+			a.style.position = (GameUI.GetCursorPosition()[0] / uiw * 100) + '% ' + (GameUI.GetCursorPosition()[1] / uih * 100) + '% ' + '0'
+			if (GameUI.IsMouseDown(0)) {
+				m = false
 				a.SetPanelEvent('onactivate', e)
 				a.style.backgroundColor = color
 				callback(a)
 			}
 		}
-		Game.Tick(linkpanel)
+		function L() {
+			$.Schedule (
+				0,
+				function() {
+					L()
+					if(m) 
+						linkpanel()
+					
+				}
+			)
+		}
+		L()
 	}
-	a.SetPanelEvent( 'onactivate', e)
+	a.SetPanelEvent('onactivate', e)
 }
 
 //нахождение главного родительского HUD`a
