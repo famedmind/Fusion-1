@@ -36,9 +36,10 @@ ToDo:
 [XG1] AnnoyingPinger
 
 FixMe:
-[D] Fix ItemsPanel, EnemyManaBars, RuneSnatcher
+[D] Fix RuneSnatcher
 [D] Fix command re-binding on reload
 
+[R] Fix ItemsPanel, EnemyManaBars
 [R] EzTechies: update values, refactor code
 [R] Fix error on first loading
 [R] Move WTF scripts into another group, make loading by button under reload

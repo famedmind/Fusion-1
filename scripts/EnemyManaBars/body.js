@@ -55,11 +55,12 @@ function EMBEvery(){
 			Game.Panels.EnemyManaBars[Ents[i]].Children()[0].style.width = ManaPercent + '%'
 			Game.Panels.EnemyManaBars[Ents[i]].Children()[1].text = ManaPercent + '%'
 		}
+		if(EnemyManaBars.checked)
+			$.Schedule(Game.MyTick, EMBEvery)
 }
 
 EnemyManaBarsF = function() {
 	if (!EnemyManaBars.checked) {
-		Game.DTick(EMBEvery)
 		for(var i in Game.Panels.EnemyManaBars)
 			try {
 				Game.Panels.EnemyManaBars[i].DeleteAsync(0)
@@ -69,7 +70,7 @@ EnemyManaBarsF = function() {
 		Game.Panels.EnemyManaBars=[]
 		Game.ScriptLogMsg('Script disabled: EnemyManaBars', '#ff0000')
 	} else {
-		Game.Tick(EMBEvery)
+		EMBEvery()
 		uiw = Game.GetMainHUD().actuallayoutwidth
 		uih = Game.GetMainHUD().actuallayoutheight
 		Game.ScriptLogMsg('Script enabled: EnemyManaBars', '#00ff00')
