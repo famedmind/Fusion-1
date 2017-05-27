@@ -9,7 +9,7 @@ Game.Panels.EnemyManaBars=[]
 function EMBEvery(){
 	var Ents = Entities.GetAllHeroEntities()
 	for(var i in Game.Panels.EnemyManaBars)
-		if (Ents.indexOf(i) == -1)
+		if (Ents.indexOf(i) === -1)
 			Game.Panels.EnemyManaBars[i].visible = false
 		for (var i in Ents) {
 			if (!Entities.IsEnemy(Ents[i]) || !Entities.IsAlive(Ents[i]) || Game.IsIllusion(Ents[i])) {

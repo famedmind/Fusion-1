@@ -74,10 +74,10 @@ function EzTechiesF() {
 			var buffs = Game.GetBuffs(rmine)
 			if(buffs.length==0)
 				continue
-			for(k in buffs)
-				if(Buffs.GetName(rmine,buffs[k])=='modifier_techies_remote_mine')
+			for(var k in buffs)
+				if(Buffs.GetName(rmine,buffs[k]) === 'modifier_techies_remote_mine')
 					var time = Buffs.GetCreationTime(rmine, buffs[k])
-			for(z=0; z <= Game.EzTechiesLVLUp.length ;z++) {
+			for(var z = 0; z <= Game.EzTechiesLVLUp.length; z++) {
 				if(time > Game.EzTechiesLVLUp[z]){
 					if(Entities.HasScepter(MyEnt))
 						var dmg = scepterdamage[z]
@@ -109,7 +109,7 @@ function EzTechiesF() {
 			if (
 				force !== -1
 				&& Abilities.GetCooldownTimeRemaining(force) === 0
-				&& Entities.GetRangeToUnit(MyEnt, ent) <= dforce + Entities.GetMoveSpeedModifier(ent, Entities.GetBaseMoveSpeed(ent)) / 2
+				&& Entities.GetRangeToUnit(MyEnt, ent) <= Abilities.GetCastRangeFix(force)
 			) {
 				var rmines = []
 				var rminessummdmg = 0
@@ -119,24 +119,28 @@ function EzTechiesF() {
 					var buffs = Game.GetBuffs(rmine)
 					if(buffs.length==0)
 						continue
-					for(k in buffs)
+					for(var k in buffs)
 						if(Buffs.GetName(rmine,buffs[k])=='modifier_techies_remote_mine')
 							var time = Buffs.GetCreationTime(rmine, buffs[k])
-					for(z=0;z<=3;z++){
-						if(time>Game.EzTechiesLVLUp[z]){
+					for(var z = 0; z <= Game.EzTechiesLVLUp.length; z++) {
+						if(time > Game.EzTechiesLVLUp[z]) {
 							if(Entities.HasScepter(MyEnt))
 								var dmg = scepterdamage[z]
 							else
 								var dmg = damage[z]
-							if(Abilities.GetLevel(Entities.GetAbility(MyEnt, 5))==z+1)
+							if(Abilities.GetLevel(Entities.GetAbilityByName(MyEnt, "techies_remote_mines")) - 1 === z)
 								break
 						}
 					}
-					var zxc = Entities.GetAbsOrigin(ent)
-					var zxcm = Entities.GetAbsOrigin(rmine)
-					var forward = Entities.GetForward(ent)
-					var newzxc = [forward[0]*dforce+zxc[0],forward[1]*dforce+zxc[1],forward[2]*dforce+zxc[2]]
-					if(Game.PointDistance(newzxc,zxcm) > triggerradius)
+					var entVec = Entities.GetAbsOrigin(ent)
+					var mineVec = Entities.GetAbsOrigin(rmine)
+					var entForward = Entities.GetForward(ent)
+					var forceVec = [
+						entForward[0] * dforce + entVec[0],
+						entForward[1] * dforce + entVec[1],
+						entForward[2] * dforce + entVec[2]
+					]
+					if(Game.PointDistance(forceVec, mineVec) > triggerradius)
 						continue
 					else {
 						rmines.push(rmine)
@@ -152,13 +156,13 @@ function EzTechiesF() {
 		}
 	}
 }
-function RefreshR(){
+function RefreshR() {
 	var mines = Entities.GetAllEntitiesByClassname('npc_dota_techies_mines')
 	for(i in Game.Particles.EzTechies){
 		Particles.DestroyParticleEffect(parseInt(Game.Particles.EzTechies[i]),parseInt(Game.Particles.EzTechies[i]))
 	}
 	Game.Particles.EzTechies = []
-	for(m in mines){
+	for(m in mines) {
 		var rmine = mines[m]
 		if(Entities.GetUnitName(rmine)!='npc_dota_techies_remote_mine')
 			continue
@@ -169,7 +173,7 @@ function RefreshR(){
 }
 
 var EzTechiesCheckBoxClick = function(){
-	if ( !EzTechies.checked ){
+	if (!EzTechies.checked) {
 		try{Game.Panels.EzTechies.DeleteAsync(0)}catch(e){}
 		for(i in Game.Particles.EzTechies){
 			Particles.DestroyParticleEffect(parseInt(Game.Particles.EzTechies[i]),parseInt(Game.Particles.EzTechies[i]))
