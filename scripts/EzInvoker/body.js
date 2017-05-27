@@ -15,12 +15,12 @@ function InvokerCombo() {
 	var Urn = Entities.GetFirstItem(MyEnt, "item_urn_of_shadows")
 	var Dagon = D2JS.GetDagon(MyEnt)
 	
-	var SunStrike = Game.GetAbilityByName(MyEnt, 'invoker_sun_strike')
-	var Emp = Game.GetAbilityByName(MyEnt, 'invoker_emp')
-	var Meteor = Game.GetAbilityByName(MyEnt, 'invoker_chaos_meteor')
-	var Tornado = Game.GetAbilityByName(MyEnt, 'invoker_tornado')
-	var Cold = Game.GetAbilityByName(MyEnt, 'invoker_cold_snap')
-	var Blast = Game.GetAbilityByName(MyEnt, 'invoker_deafening_blast')
+	var SunStrike = Game.GetAbilityByName(MyEnt, "invoker_sun_strike")
+	var Emp = Game.GetAbilityByName(MyEnt, "invoker_emp")
+	var Meteor = Game.GetAbilityByName(MyEnt, "invoker_chaos_meteor")
+	var Tornado = Game.GetAbilityByName(MyEnt, "invoker_tornado")
+	var Cold = Game.GetAbilityByName(MyEnt, "invoker_cold_snap")
+	var Blast = Game.GetAbilityByName(MyEnt, "invoker_deafening_blast")
 	
 	GameUI.SelectUnit(MyEnt, false)
 	Game.EntStop(MyEnt, false)
@@ -58,25 +58,25 @@ function InvokerCombo() {
 }
 
 function Quas() {
-	var Abil = Game.GetAbilityByName(MyEnt, 'invoker_quas')
+	var Abil = Game.GetAbilityByName(MyEnt, "invoker_quas")
 	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
 function Wex() {
-	var Abil = Game.GetAbilityByName(MyEnt, 'invoker_wex')
+	var Abil = Game.GetAbilityByName(MyEnt, "invoker_wex")
 	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
 function Exort() {
-	var Abil = Game.GetAbilityByName(MyEnt, 'invoker_exort')
+	var Abil = Game.GetAbilityByName(MyEnt, "invoker_exort")
 	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
 function Invoke() {
-	var Abil = Game.GetAbilityByName(MyEnt, 'invoker_invoke')
+	var Abil = Game.GetAbilityByName(MyEnt, "invoker_invoke")
 	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
-Game.AddCommand('__InvokerCombo', function() {
+Game.AddCommand("__InvokerCombo", function() {
 	InvokerCombo()
-}, '', 0)
+}, "", 0)

@@ -1,5 +1,5 @@
 ﻿GameEvents.Subscribe('player_team', RefreshToggles)
-function RefreshToggles(){
+function RefreshToggles() {
 	MyID = Game.GetLocalPlayerID()
 	Toggles = $('#trics').Children()
 	if ( MyID == -1 )
