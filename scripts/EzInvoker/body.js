@@ -45,7 +45,7 @@ function InvokerCombo() {
 		
 		Game.CastPosition(MyEnt, Tornado, pos, false)
 		
-		$.Schedule(TornadoDelay[Abilities.GetLevel("invoker_quas") - 2 + (Entities.HasScepter(MyEnt) ? 1 : 0)] + Game.MyTick * 2, function() {
+		$.Schedule(TornadoDelay[Abilities.GetLevel(Game.GetAbilityByName(MyEnt, "invoker_quas")) - 2 + (Entities.HasScepter(MyEnt) ? 1 : 0)] + Game.MyTick * 2, function() {
 			Game.CastPosition(MyEnt, Meteor, pos, false)
 			
 			Quas(); Quas(); Quas(); Invoke();

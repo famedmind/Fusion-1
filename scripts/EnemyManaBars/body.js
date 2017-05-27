@@ -12,7 +12,7 @@ function EMBEvery(){
 		if (Ents.indexOf(i) === -1)
 			Game.Panels.EnemyManaBars[i].visible = false
 		for (var i in Ents) {
-			if (!Entities.IsEnemy(Ents[i]) || !Entities.IsAlive(Ents[i]) || Entities.IsIllusion(Ents[i])) {
+			if (!Entities.IsEnemy(Ents[i]) || !Entities.IsAlive(Ents[i]) || Game.IsIllusion(Ents[i])) {
 				if (Game.Panels.EnemyManaBars[Ents[i]])
 					Game.Panels.EnemyManaBars[Ents[i]].visible = false
 				continue

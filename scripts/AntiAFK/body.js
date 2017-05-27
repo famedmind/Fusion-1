@@ -13,26 +13,25 @@ function AntiAFKOnInterval() {
 }
 
 function AFK(MyEnt, HEnts) {
-	var minDistance = 66666
-	var lastMin
-	
-	for (i in HEnts) {
-		var ent = parseInt(HEnts[i])
+	HEnts = HEnts.filter(function(ent) {
+		ent = parseInt(ent)
+		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && !Entities.IsEnemy(ent) && ent !== MyEnt
+	})
+	HEnts = HEnts.sort(function(ent1, ent2) {
+		ent1 = parseInt(ent1)
+		ent2 = parseInt(ent2)
+		var rng1 = Entities.GetRangeToUnit(MyEnt, ent1)
+		var rng2 = Entities.GetRangeToUnit(MyEnt, ent2)
 		
-		if(!Entities.IsAlive(ent))
-			continue
-		if(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent))
-			continue
-		if(Entities.IsEnemy(ent))
-			continue
-		if(ent === MyEnt)
-			continue
-		if(Entities.GetRangeToUnit(MyEnt, ent) < minDistance) {
-			var minDistance = Entities.GetRangeToUnit(MyEnt, ent)
-			var lastMin = ent
-		}
-	}
+		if(rng1 === rng2)
+			return 0
+		if(rng1 > rng2)
+			return 1
+		else
+			return -1
+	})
 	
+	var lastMin = parseInt(HEnts[0])
 	if(feeder)
 		Game.MoveToAttackPos(MyEnt, Entities.GetAbsOrigin(lastMin), false)
 	else

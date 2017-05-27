@@ -25,7 +25,6 @@ function Hook(MyEnt, ent) {
 }
 
 function CancelHook(MyEnt, ent) {
-	$.Schedule(Game.MyTick - 0.01 /* ~0.02 */, function() {
 		var b = Entities.GetAbsOrigin(ent),
 			distance = Game.PointDistance(b, POS),
 			enforward = Entities.GetForward(ent),
@@ -37,7 +36,7 @@ function CancelHook(MyEnt, ent) {
 			Game.EntStop(MyEnt, false)
 			Cast()
 		}
-	})
+	$.Schedule(Game.MyTick, CancelHook)
 }
 
 function Rot(MyEnt, ent) {
