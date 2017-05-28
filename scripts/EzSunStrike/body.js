@@ -7,15 +7,16 @@ function EzSunstrikeOnInterval() {
 	var SunStrikeDamageCur = SunStrikeDamage[Abilities.GetLevel(Game.GetAbilityByName(MyEnt, "invoker_exort")) - 2 + (Entities.HasScepter(MyEnt) ? 1 : 0)]
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt) || Abilities.GetCooldownTimeRemaining(SunStrike) !== 0)
 		return
-	var HEnts = Game.PlayersHeroEnts()
 	
+	var _HEnts = Game.PlayersHeroEnts()
+	var HEnts = []
+	_HEnts.forEach(function(ent) {
+		HEnts.push(parseInt(ent))
+	})
 	HEnts = HEnts.filter(function(ent) {
-		ent = parseInt(ent)
 		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent)/* && (Entities.IsStunned(ent) || Entities.IsRooted(ent) || Entities.IsHexed(ent))*/
 	})
 	HEnts = HEnts.sort(function(ent1, ent2) {
-		ent1 = parseInt(ent1)
-		ent2 = parseInt(ent2)
 		var rng1 = Entities.GetHealth(ent1)
 		var rng2 = Entities.GetHealth(ent2)
 		

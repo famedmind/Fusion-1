@@ -1,6 +1,4 @@
 ﻿Game.MyTick = 1 / 30
-Game.debug = false
-Game.debugAnimations = true
 
 var LenseBonusRange = 200
 Abilities.GetCastRangeFix = function(abil) { // Don't conflict with internal usage
@@ -306,7 +304,7 @@ Game.MoveToPos = function(ent, xyz, queue){
 	order.UnitIndex = ent
 	order.Position = xyz
 	order.Queue = queue
-	order.ShowEffects = Game.debugAnimations
+	order.ShowEffects = D2JS.debugAnimations
 	Game.PrepareUnitOrders(order)
 }
 
@@ -316,7 +314,7 @@ Game.MoveToTarget = function(ent, ent, queue){
 	order.UnitIndex = ent
 	order.Position = xyz
 	order.Queue = queue
-	order.ShowEffects = Game.debugAnimations
+	order.ShowEffects = D2JS.debugAnimations
 	Game.PrepareUnitOrders(order)
 }
 
@@ -326,7 +324,7 @@ Game.MoveToAttackPos = function(ent, xyz, queue){
 	order.UnitIndex = ent
 	order.Position = xyz
 	order.Queue = queue
-	order.ShowEffects = Game.debugAnimations
+	order.ShowEffects = D2JS.debugAnimations
 	Game.PrepareUnitOrders(order)
 }
 
@@ -336,7 +334,7 @@ Game.MoveToAttackTarget = function(ent, ent, queue){
 	order.UnitIndex = ent
 	order.Position = xyz
 	order.Queue = queue
-	order.ShowEffects = Game.debugAnimations
+	order.ShowEffects = D2JS.debugAnimations
 	Game.PrepareUnitOrders(order)
 }
 
@@ -348,7 +346,7 @@ Game.CastTarget = function(ent, abil, target, queue){
 	order.TargetIndex  = target
 	order.AbilityIndex = abil
 	order.Queue = queue
-	order.ShowEffects = Game.debugAnimations
+	order.ShowEffects = D2JS.debugAnimations
 	Game.PrepareUnitOrders(order)
 }
 
@@ -360,7 +358,7 @@ Game.CastPosition = function(ent, abil, xyz, queue){
 	order.Position = xyz
 	order.AbilityIndex = abil
 	order.Queue = queue
-	order.ShowEffects = Game.debugAnimations
+	order.ShowEffects = D2JS.debugAnimations
 	Game.PrepareUnitOrders( order )
 }
 
@@ -371,7 +369,7 @@ Game.CastNoTarget = function(ent, abil, queue){
 	order.UnitIndex = ent
 	order.AbilityIndex = abil
 	order.Queue = queue
-	order.ShowEffects = Game.debugAnimations
+	order.ShowEffects = D2JS.debugAnimations
 	Game.PrepareUnitOrders( order )
 }
 
@@ -382,7 +380,7 @@ Game.ToggleAbil = function(ent, abil, queue){
 	order.UnitIndex = ent
 	order.AbilityIndex = abil
 	order.Queue = queue
-	order.ShowEffects = Game.debugAnimations
+	order.ShowEffects = D2JS.debugAnimations
 	Game.PrepareUnitOrders( order )
 }
 
@@ -392,7 +390,7 @@ Game.EntStop = function(ent, queue){
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_STOP 
 	order.UnitIndex = ent
 	order.Queue = queue
-	order.ShowEffects = Game.debugAnimations
+	order.ShowEffects = D2JS.debugAnimations
 	Game.PrepareUnitOrders( order )
 }
 
