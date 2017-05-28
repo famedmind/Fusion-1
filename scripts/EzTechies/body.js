@@ -54,14 +54,11 @@ Game.Subscribes.EzTechiesMinesSpawn = GameEvents.Subscribe('npc_spawned', functi
 
 function EzTechiesF() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
-	var _HEnts = Game.PlayersHeroEnts()
-	var HEnts = _HEnts.map(function(ent) {
+	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
 		return parseInt(ent)
-	})
-	var HEnts = HEnts.filter(function(ent) {
+	}).filter(function(ent) {
 		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent)
-	})
-	HEnts = HEnts.sort(function(ent1, ent2) {
+	}).sort(function(ent1, ent2) {
 		var rng1 = Entities.GetHealth(ent1)
 		var rng2 = Entities.GetHealth(ent2)
 		

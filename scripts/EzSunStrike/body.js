@@ -8,15 +8,11 @@ function EzSunstrikeOnInterval() {
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt) || Abilities.GetCooldownTimeRemaining(SunStrike) !== 0)
 		return
 	
-	var _HEnts = Game.PlayersHeroEnts()
-	var HEnts = []
-	_HEnts.forEach(function(ent) {
-		HEnts.push(parseInt(ent))
-	})
-	HEnts = HEnts.filter(function(ent) {
-		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent)/* && (Entities.IsStunned(ent) || Entities.IsRooted(ent) || Entities.IsHexed(ent))*/
-	})
-	HEnts = HEnts.sort(function(ent1, ent2) {
+	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
+		return parseInt(ent)
+	}).filter(function(ent) {
+		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent)
+	}).sort(function(ent1, ent2) {
 		var rng1 = Entities.GetHealth(ent1)
 		var rng2 = Entities.GetHealth(ent2)
 		
