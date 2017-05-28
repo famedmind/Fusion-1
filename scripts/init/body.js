@@ -31,19 +31,6 @@ D2JS.LoadScript = function(script) {
 	})
 }
 
-D2JS.CheckVersion = function() {
-	D2JS.ServerRequest('version', '', function(response) {
-		if(response !== D2JS.ScriptVersion)
-			D2JSEvents.SendEventClientSide (
-				'antiaddiction_toast',
-				{
-					"message": "Please update your D2JS version",
-					"duration": "999999"
-				}
-			)
-	})
-}
-
 D2JS.ServerRequest = function(name, val, callback) {
 	var args = {
 		type: 'POST',
@@ -93,7 +80,6 @@ D2JS.StatsEnabled = true
 D2JS.MinimapActsEnabled = true
 GameEvents.Subscribe('game_newmap', function(data) {
 	D2JS.LoadD2JS = function() {
-		D2JS.CheckVersion()
 		D2JS.ReloadD2JSVanilla()
 		Game.AddCommand( '__ReloadD2JSVanilla', function() {
 			D2JS.ReloadD2JSVanilla()
