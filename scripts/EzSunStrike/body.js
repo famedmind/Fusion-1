@@ -34,6 +34,7 @@ function EzSunstrikeOnInterval() {
 			SunStrikeTime = Game.GetGameTime() + SunStrikeDelay
 			SunStrikePos = Game.VelocityWaypoint(ent, SunStrikeDelay)
 			Game.CastPosition(MyEnt, SunStrike, SunStrikePos, false)
+			GameUI.PingMinimapAtLocation(SunStrikePos)
 			CancelSunstrike(MyEnt, ent)
 		}
 	}

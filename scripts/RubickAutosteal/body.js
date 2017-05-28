@@ -7,7 +7,7 @@ var interval = 0.1
 var LenseBonusRange = 200
 var flag = false
 var StealIfThere = true
-var WTFMode = true
+var WTFMode = false
 
 function RubickAutoStealF(){
 	if ( !RubickAutoSteal.checked ){
@@ -57,7 +57,7 @@ function RubickAutoStealF(){
 			/*if(me !== -1 && !StealIfThere)
 				continue*/
 			
-			if(UltiCd == 0 && (!WTFMode || (Math.ceil(cd) == cda && cda != 0))){
+			if(UltiCd == 0 && (WTFMode || (Math.ceil(cd) == cda && cda != 0))){
 				flag = true
 				Game.CastTarget(MyEnt, Ulti, ent, false)
 			}
