@@ -286,18 +286,8 @@ Game.GetMainHUD = function(){
 	return globalContext
 }
 
-//функция получения высоты полоски hp у героев
-Game.GetHealthBarOffset = function(heroname){
-	healthbaroffsets=[[["lone_druid"], 145],[["huskar"], 170],[["drow_ranger"], 130],[["pugna"], 140],[["naga_siren"], 180],[["wisp"], 160],[["vengefulspirit"], 170],[["ogre_magi"], 180],[["sand_king"], 130],[["slardar"], 140],[["jakiro"], 280],[["windrunner"], 160],[["tiny"], 165],[["morphling"], 140],[["lycan"], 220],[["medusa"], 200],[["enigma"], 220],[["oracle"], 240],[["razor"], 230],[["shredder"], 250],[["clinkz"], 144],[["templar_assassin"], 180],[["riki"], 115],[["magnataur"], 220],[["skeleton_king"], 190],[["slark"], 140],[["weaver"], 110],[["abaddon"], 175],[["puck"], 165],[["antimage"], 140],[["legion_commander"], 200],[["bane"], 235],[["kunkka"], 150],[["pudge"], 180],[["arc_warden"], 160],[["abyssal_underlord"], 200],[["winter_wyvern"], 200],[["ancient_apparition"], 190],[["techies"], 150],[["phoenix"], 240],[["life_stealer"], 130],[["faceless_void"], 150],[["venomancer"], 150],[["earthshaker"], 155],[["enchantress"], 180],[["undying"], 250],[["earth_spirit"], 200],[["mirana"], 155],[["keeper_of_the_light"], 230],[["lina"], 170],[["tusk"], 190],[["bristleback"], 200],[["centaur"], 220],[["troll_warlord"], 200],[["visage"], 180],[["phantom_lancer"], 190],[["spirit_breaker"], 160],[["elder_titan"], 200],[["rattletrap"], 130],[["nevermore"], 250],[["dazzle"], 160],[["tidehunter"], 190],[["disruptor"], 200],[["rubick"], 170],[["terrorblade"], 280],[["batrider"], 240],[["treant"], 260],[["phantom_assassin"], 180],[["meepo"], 125],[["brewmaster"], 140],[["night_stalker"], 165],[["luna"], 185],[["lion"], 170],[["beastmaster"], 180],[["axe"], 160],[["juggernaut"], 170],[["shadow_demon"], 175],[["obsidian_destroyer"], 350],[["spectre"], 180],[["silencer"], 130],[["bounty_hunter"], 120],[["zuus"], 130],[["invoker"], 170],[["omniknight"], 145],[["alchemist"], 200],[["furion"], 180],[["crystal_maiden"], 135],[["gyrocopter"], 240],[["broodmother"], 120],[["doom_bringer"], 240],[["ursa"], 150],[["chen"], 190],[["death_prophet"], 200],[["bloodseeker"], 130],[["shadow_shaman"], 130],[["storm_spirit"], 170],[["dark_seer"], 130],[["queenofpain"], 145],[["sniper"], 110],[["lich"], 225],[["skywrath_mage"], 300],[["necrolyte"], 160],[["warlock"], 195],[["nyx_assassin"], 200],[["sven"], 150],[["dragon_knight"], 170],[["tinker"], 150],[["leshrac"], 170],[["ember_spirit"], 200],[["witch_doctor"], 150],[["chaos_knight"], 220],[["viper"], 210]]
-	var healthbaroffset
-	for ( i=0; i<healthbaroffsets.length; i++){
-		if ( heroname == "npc_dota_hero_" + healthbaroffsets[i][0] )
-			healthbaroffset = healthbaroffsets[i][1]
-	}
-	return healthbaroffset
-}
+Game.HPBarOffsets={"npc_dota_hero_abaddon":175,"npc_dota_hero_abyssal_underlord":200,"npc_dota_hero_alchemist":200,"npc_dota_hero_ancient_apparition":190,"npc_dota_hero_antimage":140,"npc_dota_hero_arc_warden":160,"npc_dota_hero_axe":160,"npc_dota_hero_bane":235,"npc_dota_hero_batrider":240,"npc_dota_hero_beastmaster":180,"npc_dota_hero_bloodseeker":130,"npc_dota_hero_bounty_hunter":120,"npc_dota_hero_brewmaster":140,"npc_dota_hero_bristleback":200,"npc_dota_hero_broodmother":120,"npc_dota_hero_centaur":220,"npc_dota_hero_chaos_knight":220,"npc_dota_hero_chen":190,"npc_dota_hero_clinkz":144,"npc_dota_hero_crystal_maiden":135,"npc_dota_hero_dark_seer":130,"npc_dota_hero_dazzle":160,"npc_dota_hero_death_prophet":200,"npc_dota_hero_disruptor":200,"npc_dota_hero_doom_bringer":240,"npc_dota_hero_dragon_knight":170,"npc_dota_hero_drow_ranger":130,"npc_dota_hero_earth_spirit":200,"npc_dota_hero_earthshaker":155,"npc_dota_hero_elder_titan":200,"npc_dota_hero_ember_spirit":200,"npc_dota_hero_enchantress":180,"npc_dota_hero_enigma":220,"npc_dota_hero_faceless_void":150,"npc_dota_hero_furion":180,"npc_dota_hero_gyrocopter":240,"npc_dota_hero_huskar":170,"npc_dota_hero_invoker":170,"npc_dota_hero_jakiro":280,"npc_dota_hero_juggernaut":170,"npc_dota_hero_keeper_of_the_light":230,"npc_dota_hero_kunkka":150,"npc_dota_hero_legion_commander":200,"npc_dota_hero_leshrac":170,"npc_dota_hero_lich":225,"npc_dota_hero_life_stealer":130,"npc_dota_hero_lina":170,"npc_dota_hero_lion":170,"npc_dota_hero_lone_druid":145,"npc_dota_hero_luna":185,"npc_dota_hero_lycan":220,"npc_dota_hero_magnataur":220,"npc_dota_hero_medusa":200,"npc_dota_hero_meepo":125,"npc_dota_hero_mirana":155,"npc_dota_hero_monkey_king":165,"npc_dota_hero_morphling":140,"npc_dota_hero_naga_siren":180,"npc_dota_hero_necrolyte":160,"npc_dota_hero_nevermore":250,"npc_dota_hero_night_stalker":165,"npc_dota_hero_nyx_assassin":200,"npc_dota_hero_obsidian_destroyer":350,"npc_dota_hero_ogre_magi":180,"npc_dota_hero_omniknight":145,"npc_dota_hero_oracle":240,"npc_dota_hero_phantom_assassin":180,"npc_dota_hero_phantom_lancer":190,"npc_dota_hero_phoenix":240,"npc_dota_hero_puck":165,"npc_dota_hero_pudge":180,"npc_dota_hero_pugna":140,"npc_dota_hero_queenofpain":145,"npc_dota_hero_rattletrap":130,"npc_dota_hero_razor":230,"npc_dota_hero_riki":115,"npc_dota_hero_rubick":170,"npc_dota_hero_sand_king":130,"npc_dota_hero_shadow_demon":175,"npc_dota_hero_shadow_shaman":130,"npc_dota_hero_shredder":250,"npc_dota_hero_silencer":130,"npc_dota_hero_skeleton_king":190,"npc_dota_hero_skywrath_mage":300,"npc_dota_hero_slardar":140,"npc_dota_hero_slark":140,"npc_dota_hero_sniper":110,"npc_dota_hero_spectre":180,"npc_dota_hero_spirit_breaker":160,"npc_dota_hero_storm_spirit":170,"npc_dota_hero_sven":150,"npc_dota_hero_target_dummy":200,"npc_dota_hero_techies":150,"npc_dota_hero_templar_assassin":180,"npc_dota_hero_terrorblade":280,"npc_dota_hero_tidehunter":190,"npc_dota_hero_tinker":150,"npc_dota_hero_tiny":165,"npc_dota_hero_treant":260,"npc_dota_hero_troll_warlord":200,"npc_dota_hero_tusk":190,"npc_dota_hero_undying":250,"npc_dota_hero_ursa":150,"npc_dota_hero_vengefulspirit":170,"npc_dota_hero_venomancer":150,"npc_dota_hero_viper":210,"npc_dota_hero_visage":180,"npc_dota_hero_warlock":195,"npc_dota_hero_weaver":110,"npc_dota_hero_windrunner":160,"npc_dota_hero_winter_wyvern":200,"npc_dota_hero_wisp":160,"npc_dota_hero_witch_doctor":150,"npc_dota_hero_zuus":130}
 
-//приказ герою переместится в точку с координатами [x,y,z]
 Game.MoveToPos = function(ent, xyz, queue){
 	var order = {};
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_MOVE_TO_POSITION
@@ -338,7 +328,6 @@ Game.MoveToAttackTarget = function(ent, ent, queue){
 	Game.PrepareUnitOrders(order)
 }
 
-//каст способности или айтема на цель (chiling touch)
 Game.CastTarget = function(ent, abil, target, queue){
 	var order = {};
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_CAST_TARGET
@@ -350,7 +339,6 @@ Game.CastTarget = function(ent, abil, target, queue){
 	Game.PrepareUnitOrders(order)
 }
 
-//каст способности или айтема в точку (sunstrike)
 Game.CastPosition = function(ent, abil, xyz, queue){
 	var order = {};
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_CAST_POSITION
@@ -362,7 +350,6 @@ Game.CastPosition = function(ent, abil, xyz, queue){
 	Game.PrepareUnitOrders( order )
 }
 
-//каст способности или айтема
 Game.CastNoTarget = function(ent, abil, queue){
 	var order = {};
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_CAST_NO_TARGET
@@ -373,7 +360,6 @@ Game.CastNoTarget = function(ent, abil, queue){
 	Game.PrepareUnitOrders( order )
 }
 
-//переключение способности
 Game.ToggleAbil = function(ent, abil, queue){
 	var order = {};
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_CAST_TOGGLE
@@ -384,13 +370,73 @@ Game.ToggleAbil = function(ent, abil, queue){
 	Game.PrepareUnitOrders( order )
 }
 
-//приказ остановиться
 Game.EntStop = function(ent, queue){
 	var order = {};
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_STOP 
 	order.UnitIndex = ent
 	order.Queue = queue
 	order.ShowEffects = D2JS.debugAnimations
+	Game.PrepareUnitOrders( order )
+}
+
+Game.DisassembleItem = function(ent, item, queue){
+	var order = {};
+	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_DISASSEMBLE_ITEM 
+	order.UnitIndex = ent
+	order.AbilityIndex = item
+	order.Queue = queue
+	order.ShowEffects = false
+	Game.PrepareUnitOrders( order )
+}
+
+Game.DropItem = function(ent, item, xyz, queue){
+	var order = {};
+	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_DROP_ITEM
+	order.UnitIndex = ent
+	order.Position = xyz
+	order.AbilityIndex = item
+	order.Queue = queue
+	order.ShowEffects = false
+	Game.PrepareUnitOrders( order )
+}
+
+Game.PickupItem = function(ent, item, queue){
+	var order = {};
+	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_PICKUP_ITEM 
+	order.UnitIndex = ent
+	order.TargetIndex  = item
+	order.Queue = queue
+	order.ShowEffects = false
+	Game.PrepareUnitOrders( order )
+}
+
+Game.ItemLock = function(ent, item, queue){
+	var order = {};
+	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_SET_ITEM_COMBINE_LOCK
+	order.UnitIndex = ent
+	order.TargetIndex  = item
+	order.Queue = queue
+	order.ShowEffects = false
+	Game.PrepareUnitOrders( order )
+}
+
+Game.PuckupRune = function(ent, rune, queue){
+	var order = {};
+	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_PICKUP_RUNE 
+	order.UnitIndex = ent
+	order.TargetIndex  = rune
+	order.Queue = queue
+	order.ShowEffects = false
+	Game.PrepareUnitOrders( order )
+}
+
+Game.PurchaseItem = function(ent, itemid, queue){
+	var order = {};
+	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_PURCHASE_ITEM 
+	order.UnitIndex = ent
+	order.AbilityIndex = itemid
+	order.Queue = queue
+	order.ShowEffects = false
 	Game.PrepareUnitOrders( order )
 }
 

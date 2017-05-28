@@ -36,9 +36,9 @@ ToDo:
 [XG1] AnnoyingPinger
 
 FixMe:
-[D] Fix RuneSnatcher
-[D] Fix command re-binding on reload
+[S] Fix command re-binding on reload
 
+[R] Fix RuneSnatcher, now works: hover rune by mouse, if there's rune - it'll be automatically picked up
 [R] Fix ItemsPanel, EnemyManaBars
 [R] EzTechies: update values, refactor code
 [R] Fix error on first loading

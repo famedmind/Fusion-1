@@ -18,7 +18,7 @@ function EMBEvery(){
 				continue
 			}
 			var xyz = Entities.GetAbsOrigin(Ents[i])
-			var healthbaroffset = Game.GetHealthBarOffset(Entities.GetUnitName(Ents[i]))
+			var healthbaroffset = Game.HPBarOffsets[Entities.GetUnitName(Ents[i])]
 			if (!xyz || !healthbaroffset) {
 				if (Game.Panels.EnemyManaBars[Ents[i]])
 					Game.Panels.EnemyManaBars[Ents[i]].visible = false
