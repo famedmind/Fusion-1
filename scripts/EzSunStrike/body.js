@@ -1,6 +1,6 @@
 ﻿var SunStrikeDamage = [ 100, 162, 225, 287, 350, 412, 475, 537 ]
 var SunStrikeDelay = 1.7
-var SunStrikeRadius = 179
+var SunStrikeRadius = 175
 function EzSunstrikeOnInterval() {
 	MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var SunStrike = Game.GetAbilityByName(MyEnt, "invoker_sun_strike")

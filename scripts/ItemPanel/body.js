@@ -32,7 +32,7 @@ function ItemPanelEvery() {
 		}
 		return
 	}
-	if(Game.GetState() !== DOTA_GameState.DOTA_GAMERULES_STATE_GAME_IN_PROGRESS) {
+	if(Game.GameStateIsBefore(DOTA_GameState.DOTA_GAMERULES_STATE_PRE_GAME)) {
 		try {
 			Game.Panels.ItemPanel.DeleteAsync(0)
 		} catch(e) {

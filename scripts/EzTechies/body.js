@@ -73,7 +73,10 @@ function EzTechiesF() {
 	RemoteMines(MyEnt, HEnts)
 }
 
-function CallMines(MyEnt, ent, mines, callback, explosionCallback) {
+function CallMines(MyEnt, ent, callback, explosionCallback) {
+	var mines = Entities.GetAllEntitiesByClassname('npc_dota_techies_mines').filter(function(ent) {
+		return Entities.IsAlive(ent) && Entities.GetUnitName(ent) === 'npc_dota_techies_remote_mine' && Entities.IsValidEntity(ent)
+	})
 	var NeedMagicDmg = Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent))
 	var rmines = []
 	var rminessumdmg = 0
@@ -124,13 +127,10 @@ function RemoteMines(MyEnt, HEnts) {
 	HEnts = HEnts.filter(function(ent) {
 		return Game.GetMagicMultiplier(MyEnt, ent) !== 0
 	})
-	var mines = Entities.GetAllEntitiesByClassname('npc_dota_techies_mines').filter(function(ent) {
-		return Entities.IsAlive(ent) && Entities.GetUnitName(ent) === 'npc_dota_techies_remote_mine' && Entities.IsValidEntity(ent)
-	})
 	HEnts.forEach(function(ent) {
 		var callBackCalled = false
 		CallMines (
-			MyEnt, ent, mines,
+			MyEnt, ent,
 			function(MyEnt, ent, rmine) {
 				return Entities.GetRangeToUnit(rmine, ent) <= triggerradius
 			},
@@ -152,7 +152,7 @@ function RemoteMines(MyEnt, HEnts) {
 			Entities.GetRangeToUnit(MyEnt, ent) <= Abilities.GetCastRangeFix(force)
 		)
 			CallMines (
-				MyEnt, ent, mines,
+				MyEnt, ent,
 				function(MyEnt, ent, rmine) {
 					var entVec = Entities.GetAbsOrigin(ent)
 					var entForward = Entities.GetForward(ent)
