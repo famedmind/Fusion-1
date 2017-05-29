@@ -28,7 +28,7 @@ function EMBEvery() {
 			if (!Entities.IsEnemy(ent) || !Entities.IsAlive(ent) || Game.IsIllusion(ent)) {
 				if (Game.Panels.EnemyManaBars[ent])
 					Game.Panels.EnemyManaBars[ent].visible = false
-				if(Entities.IsEnemy(ent) && typeof Game.Particles.EnemyManaBars[ent] === 'undefined' && D2JS.Configs.EnemyManaBars.DisplayParticle) {
+				if(Entities.IsEnemy(ent) && Game.IsIllusion(ent) && typeof Game.Particles.EnemyManaBars[ent] === 'undefined' && D2JS.Configs.EnemyManaBars.DisplayParticle) {
 					Game.Particles.EnemyManaBars[ent] = Particles.CreateParticle("particles/dark_smoke_test.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, ent)
 					Particles.SetParticleControl(Game.Particles.EnemyManaBars[ent], 1, [500, 0, 0])
 				}
