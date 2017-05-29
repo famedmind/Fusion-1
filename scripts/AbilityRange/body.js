@@ -35,9 +35,9 @@ function InventoryChanged(data){
 
 Destroy = function(){
 	try{ Game.Panels.AbilityRange.DeleteAsync(0) }catch(e){}
-	for (i in Game.Subscribes.AbilityRange.length)
+	for (var i in Game.Subscribes.AbilityRange.length)
 		try{ GameEvents.Unsubscribe( Game.Subscribes.AbilityRange[i] ) }catch(e){}
-	for(i in Game.Particles.AbilityRange)
+	for(var i in Game.Particles.AbilityRange)
 		try{ Particles.DestroyParticleEffect(Game.Particles.AbilityRange[i],Game.Particles.AbilityRange[i]) }catch(e){}
 	Game.Subscribes.AbilityRange = []
 	Game.Particles.AbilityRange = []

@@ -8,15 +8,14 @@ ToDo:
 [S] JavaScript obfuscation in server
 [S] Finiah school & make D2JS site
 [S] Make aome really cheaty acripta
-[S] Good GUI with config changing
 [S] ColoredHPBar
 [S] Make "friendly maphack" for custom games & custom games replays
 [S] AutoArmlet - press armlet to make many more HP
 [S] Rework rubick autosteal
 [S] Add WTF combos
 
-[D] Make EnemyManaBars layout loading from D2JS.GetXML
-[D] Remove all comments from code, make server gives client "min" version.
+[D] Good GUI with config changing
+[D] Make server gives client "min" version.
 [D] AegisSnatcher
 [D] Combos for some heroes
 
