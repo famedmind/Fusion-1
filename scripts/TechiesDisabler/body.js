@@ -1,6 +1,6 @@
 var DisablingAbils = [
 	["item_force_staff", -1],
-	["item_hurricane_pike", -1],
+	["item_hurricane_pike", -1]//,
 //	["invoker_deafening_blast", 1100], // FIXME: pointed are badly working now
 //	["invoker_tornado", 1000], // FIXME: pointed are badly working now
 //	["pudge_meat_hook", 1450], // FIXME: pointed are badly working now
