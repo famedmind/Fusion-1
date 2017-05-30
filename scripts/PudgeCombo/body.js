@@ -1,20 +1,20 @@
-var PING = (50 / 1000)
 var GLOBALTIME
 var ENEMYFORWARD
 var POS
 function Hook(MyEnt, ent) {
 	var hook = Game.GetAbilityByName(MyEnt,'pudge_meat_hook'),
-		hookspeed = 1600
+		hookspeed = 1450,
+		ping = (50 / 1000),
 		a = Entities.GetAbsOrigin(MyEnt),
 		b = Entities.GetAbsOrigin(ent),
 		forward = Entities.GetForward(MyEnt),
 		enforward = Entities.GetForward(ent),
-		distance = Game.PointDistance(a,b),
+		distance = Entities.GetRangeToUnit(MyEnt, ent),
 		reachtime = (distance / hookspeed),
 		angle = Game.AngleBetweenVectors(a, forward, b),
 		rottime = Game.RotationTime(angle, 0.7),
-		delay = Game.MyTick,
-		time = reachtime + delay + PING + rottime,
+		delay = Abilities.GetCastPoint(abil),
+		time = reachtime + delay + ping + rottime,
 		predict = Game.VelocityWaypoint(ent, time)
 		GLOBALTIME = time
 		ENEMYFORWARD = enforward
@@ -78,7 +78,7 @@ function Dismember(MyEnt, ent) {
  
 function PudgeCombo() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
-	var ent = Game.ClosetToMouse(500, true)
+	var ent = Game.ClosetToMouse(1000, true)
 	if(ent === -1)
 		return
  

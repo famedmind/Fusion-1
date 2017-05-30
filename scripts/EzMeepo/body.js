@@ -79,7 +79,7 @@ function MeepoCombo() {
 	}
 	var EarthBind = Game.GetAbilityByName(EarthBindMeepo, 'meepo_earthbind')
 	
-	var Blink = Entities.GetFirstItem(MyEnt, "item_blink")
+	var Blink = Game.GetAbilityByName(MyEnt, "item_blink")
 	/*
 	if(Blink === -1) {
 		Game.ScriptLogMsg('MeepoCombo: No blink, cannot make combo!', '#cccccc')
@@ -91,7 +91,7 @@ function MeepoCombo() {
 	}
 	*/
 	
-	var Veil = Entities.GetFirstItem(MyEnt, "item_veil_of_discord")
+	var Veil = Game.GetAbilityByName(MyEnt, "item_veil_of_discord")
 	var pos = Game.ScreenXYToWorld(GameUI.GetCursorPosition()[0], GameUI.GetCursorPosition()[1])
 	
 	GameUI.SelectUnit(EarthBindMeepo, false)

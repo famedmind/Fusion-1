@@ -19,7 +19,7 @@ function AutoDenyOnInterval() {
 		return
 	}
 	
-	var item = Entities.GetFirstItem(MyEnt, BSName)
+	var item = Game.GetAbilityByName(MyEnt, BSName)
 	if(item == -1)
 		return
 	Game.CastPosition(MyEnt, item, Entities.GetAbsOrigin(MyEnt), false)

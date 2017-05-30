@@ -6,36 +6,42 @@
 	["modifier_spirit_breaker_charge_of_darkness_vision", 1.5],
 	["modifier_tusk_snowball_visible", 1.5]
 ]
+var alertModifiers = [
+	"modifier_spirit_breaker_charge_of_darkness_vision",
+	"modifier_tusk_snowball_visible"
+]
+var alertParticle = "particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_target_mark.vpcf"
 
 var z = []
 
 function SAlertEvery(){
 	if (!SkillAlert.checked)
 		return
-	thinkers = Entities.GetAllEntitiesByName('npc_dota_thinker')
 	
-	var User = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
-
-	for (var m in thinkers){
-		var ent = thinkers[m]
+	Entities.GetAllEntitiesByName('npc_dota_thinker').map(function(ent) {
 		var xyz = Entities.GetAbsOrigin(ent)
 		var buffsnames = Game.GetBuffsNames(ent)
 		if(buffsnames.length !== 1)
-			continue
-		CreateTimerParticle(xyz,modifiers[i][1])	
-	}
+			return
+		CreateTimerParticle(xyz, modifiers[i][1])	
+	})
 	
-	var UserBuffs = Game.GetBuffsNames(User)
-	var xyz = Entities.GetAbsOrigin(User)
-	
-	for(var ibuff in UserBuffs)
-		for(var imod in modifiers)
-			if(modifiers[imod][0] === UserBuffs[ibuff]) {
-				if (modifiers[imod][0] === "modifier_spirit_breaker_charge_of_darkness_vision" || modifiers[imod][0]=="modifier_tusk_snowball_visible")
-					CreateFollowParticle(modifiers[imod][1], "particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_target_mark.vpcf", User)
-				else
-					CreateTimerParticle(xyz, modifiers[imod][1])
-			}
+	Entities.GetAllEntities().map(function(ent) {
+		return parseInt(ent)
+	}).filter(function(ent) {
+		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsEnemy(ent))
+	}).map(function(ent) {
+		var buffs = Game.GetBuffsNames(ent)
+		var xyz = Entities.GetAbsOrigin(ent)
+		
+		for(var buff of buffs)
+			for(var modifier of modifiers)
+				if(modifier[0] === buff)
+					if(Game.IntersecArrays(alertModifiers, [modifier[0]]))
+						CreateFollowParticle(modifier[1], alertParticle, ent)
+					else
+						CreateTimerParticle(xyz, modifier[1])
+	})
 }
 
 function CreateFollowParticle(time, particlepath, someobj, ent) {
@@ -60,7 +66,7 @@ function CreateTimerParticle(xyz, time, ent) {
 	Particles.SetParticleControl(p, 0, xyz)
 	z.push(ent)
 	$.Schedule (
-		time + 0.1,
+		time + Game.Tick,
 		function() {
 			Particles.DestroyParticleEffect(p,p)
 			z.splice(z.indexOf(ent), 1)
@@ -74,7 +80,7 @@ function SkillAlertChkBox() {
 	else {
 		function f() {
 			$.Schedule (
-				0.1,
+				Game.Tick,
 				function(){
 					if(SkillAlert.checked)
 						SAlertEvery()

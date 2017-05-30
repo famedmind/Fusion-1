@@ -1,5 +1,4 @@
-﻿
-try{
+﻿try{
 	Game.Panels.EzProcast.DeleteAsync(0)
 	GameEvents.Unsubscribe( parseInt(Game.Subscribes.EzProcastonchatmsg) )
 }catch(e){}
@@ -12,47 +11,33 @@ D2JS.EzProcastF = function(){
 	var CursorXYZ = Game.ScreenXYToWorld( GameUI.GetCursorPosition()[0],GameUI.GetCursorPosition()[1] )
 	var items = Game.Panels.EzProcast.Children()[2].Children()
 	var abils = []
-	for(i in items){
-		if(items[i].Children()[0].paneltype=='DOTAAbilityImage'){
+	for(i in items)
+		if(items[i].Children()[0].paneltype === 'DOTAAbilityImage')
 			abils.push(items[i].Children()[0].abilityname)
-		
-		}else if(items[i].Children()[0].paneltype=='DOTAItemImage'){
-			abils.push(items[i].Children()[0].itemname)
-		}
-	}
+		else
+			if(items[i].Children()[0].paneltype === 'DOTAItemImage')
+				abils.push(items[i].Children()[0].itemname)
 	$.Msg('Abils: '+abils)
 	Game.EntStop(MyEnt)
 	for(i in abils){
 		var AbName = abils[i]
 		var Abil = Game.GetAbilityByName(MyEnt,abils[i])
-		var EzPBeh = Game.Behaviors( Abil )
-		var EzPDUTT = Abilities.GetAbilityTargetTeam( Abil )
+		var EzPBeh = Game.Behaviors(Abil)
+		var EzPDUTT = Abilities.GetAbilityTargetTeam(Abil)
 		$.Msg('Team Target: '+EzPDUTT)
 		$.Msg('Ability Behavior: '+EzPBeh)
-		if(EzPBeh.indexOf(512)!=-1){
-			$.Msg('voni')
+		if(EzPBeh.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_TOGGLE) !== -1)
 			Game.ToggleAbil(MyEnt, Abil)
-			continue
-			
-		}else if(EzPBeh.indexOf(4)!=-1){
-			
+		else if(EzPBeh.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_NO_TARGET) !== -1)
 			Game.CastNoTarget(MyEnt, Abil)
-			continue
-			
-		}else if(EzPBeh.indexOf(16)!=-1){
-			
+		else if(EzPBeh.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT) !== -1)
 			Game.CastPosition(MyEnt, Abil, CursorXYZ)
-			continue
-			
-		}else if(AbName=="item_ethereal_blade"){
-			
+		else if(AbName=="item_ethereal_blade") {
 			if(EntOnCursor.length!=0)
 				Game.CastTarget(MyEnt, Abil, EntOnCursor[0].entityIndex)
 			else
 				Game.CastTarget(MyEnt, Abil, MyEnt)
-			
-		}else if(EzPBeh.indexOf(8)!=-1 || EzPBeh.length == 0 ){
-			
+		} else if(EzPBeh.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_UNIT_TARGET) !== -1 || EzPBeh.length === 0) {
 			if( parseInt(EzPDUTT)==3 || parseInt(EzPDUTT)==1 ){
 				Game.CastTarget(MyEnt, Abil, MyEnt)
 			}else if( parseInt(EzPDUTT)!=-1 || parseInt(EzPDUTT)==4 ){
@@ -60,7 +45,6 @@ D2JS.EzProcastF = function(){
 			}else{
 				Game.CastTarget(MyEnt, Abil, MyEnt)
 			}
-			
 		}
 	}
 }

@@ -8,11 +8,11 @@ function InvokerCombo() {
 	var enemy = Game.ClosetToMouse(500, true)
 	var pos = Entities.GetAbsOrigin(enemy)
 	
-	var Veil = Entities.GetFirstItem(MyEnt, "item_veil_of_discord")
-	var Eul = Entities.GetFirstItem(MyEnt, "item_cyclone")
-	var Etherial = Entities.GetFirstItem(MyEnt, "item_ethereal_blade")
-	var Orchid = Entities.GetFirstItem(MyEnt, "item_orchid")
-	var Urn = Entities.GetFirstItem(MyEnt, "item_urn_of_shadows")
+	var Veil = Game.GetAbilityByName(MyEnt, "item_veil_of_discord")
+	var Eul = Game.GetAbilityByName(MyEnt, "item_cyclone")
+	var Etherial = Game.GetAbilityByName(MyEnt, "item_ethereal_blade")
+	var Orchid = Game.GetAbilityByName(MyEnt, "item_orchid")
+	var Urn = Game.GetAbilityByName(MyEnt, "item_urn_of_shadows")
 	var Dagon = D2JS.GetDagon(MyEnt)
 	
 	var SunStrike = Game.GetAbilityByName(MyEnt, "invoker_sun_strike")

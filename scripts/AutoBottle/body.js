@@ -3,7 +3,7 @@
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return
 	
-	var Bottle = Entities.GetFirstItem(MyEnt, "item_bottle")
+	var Bottle = Game.GetAbilityByName(MyEnt, "item_bottle")
 	if(Entities.IsInRangeOfFountain(MyEnt))
 		Game.CastNoTarget(MyEnt, Bottle, false)
 }

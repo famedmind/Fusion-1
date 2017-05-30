@@ -1,13 +1,13 @@
 ﻿Game.MyTick = 1 / 30
 
-var LenseBonusRange = 200
+D2JS.LenseBonusRange = 200
 Abilities.GetCastRangeFix = function(abil) { // Don't conflict with internal usage
 	var AbilRange = Abilities.GetCastRange(abil)
 	var Caster = Abilities.GetCaster(abil)
 	
 	var Behaviors = Game.Behaviors(abil)
-	if(Entities.HasItemInInventory(Caster, 'item_aether_lens') && (Behaviors.indexOf(16)!=-1 || Behaviors.indexOf(8)!=-1))
-		AbilRange += LenseBonusRange
+	if(Entities.HasItemInInventory(Caster, 'item_aether_lens') && (Behaviors.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT) !== -1 || Behaviors.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_UNIT_TARGET) !== -1))
+		AbilRange += D2JS.LenseBonusRange
 	
 	return AbilRange
 }
@@ -129,8 +129,8 @@ Game.AngleBetweenTwoFaces = function(a_facing, b_facing) {
     return Math.acos((a_facing[0] * b_facing[0]) + (a_facing[1] * b_facing[1]));
 }
  
-Game.RotationTime = function(angle,rotspeed) {
-    return (0.03 * angle / rotspeed);
+Game.RotationTime = function(angle, rotspeed) {
+    return (0.03 * angle / rotspeed)
 }
 
 Game.ClosetToMouse = function(range, enemy) {
@@ -164,13 +164,15 @@ Game.ClosetToMouse = function(range, enemy) {
 	}
 }
 
-Entities.GetFirstItem = function(ent, ItemName) {
-	for(i = 0; i < 6; i++) {
+Game.GetAbilityByName = function(ent, name) {
+	var ab = Entities.GetAbilityByName(ent, name)
+	if (ab !== -1)
+		return ab
+	for(var i=0; i < Entities.GetNumItemsInInventory(ent); i++){
 		var item = Entities.GetItemInSlot(ent, i)
-		if(Abilities.GetAbilityName(item) === ItemName)
+		if(Abilities.GetAbilityName(item) === name)
 			return item
 	}
-	
 	return -1
 }
 
@@ -183,11 +185,12 @@ Game.GetSpeed = function(ent) {
         return 1;
     }
 }
- 
-Game.VelocityWaypoint = function(ent, time){
+
+Game.VelocityWaypoint = function(ent, time, movespeed) {
     var zxc = Entities.GetAbsOrigin(ent)
     var forward = Entities.GetForward(ent)
-    var movespeed = Game.GetSpeed(ent);
+	if(typeof movespeed === 'undefined')
+		var movespeed = Game.GetSpeed(ent)
  
     return [zxc[0] + (forward[0] * movespeed * time),zxc[1] + (forward[1] * movespeed * time),zxc[2]]
 }
@@ -526,33 +529,19 @@ Game.Behaviors = function(DABor){
 	return DABh
 }
 
-//ищет по названию и в абилках и в инвентаре
-Game.GetAbilityByName = function(ent,name){
-	var GABN = Entities.GetAbilityByName( ent, name )
-	if (GABN!=-1)
-		return GABN
-	var itemsnum = Entities.GetNumItemsInInventory( ent )
-	for(i=0;i<itemsnum;i++){
-		var item = Entities.GetItemInSlot( ent, i )
-		if(Abilities.GetAbilityName(item)==name)
-			return item
-	}
-	return -1
-}
-
 //объект с указателями на бафы юнита
 Game.GetBuffs = function(ent){
 	var buffs = []
-	for(i=0;i<Entities.GetNumBuffs(ent);i++)
-		buffs.push(ent,Entities.GetBuff(ent,i))
+	for(var i=0; i < Entities.GetNumBuffs(ent); i++)
+		buffs.push(ent, Entities.GetBuff(ent,i))
 	return buffs
 }
+
 //объект с именами бафов юнита
 Game.GetBuffsNames = function(ent){
-	var buffs = []
-	for(i=0;i<Entities.GetNumBuffs(ent);i++)
-		buffs.push(Buffs.GetName(ent,Entities.GetBuff(ent,i)))
-	return buffs
+	return Game.GetBuffs(ent).map(function(buff) {
+		return Buffs.GetName(ent, buff)
+	})
 }
 
 //анимирование панелей. Источник moddota.com

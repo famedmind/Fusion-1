@@ -46,7 +46,7 @@ function AutoDagon(MyEnt, HEnts) {
 D2JS.GetDagon = function(MyEnt) {
 	for(var i in DagonNames) {
 		var DagonName = DagonNames[i]
-		var item = Entities.GetFirstItem(MyEnt, DagonName)
+		var item = Game.GetAbilityByName(MyEnt, DagonName)
 		if(item !== -1)
 			return item
 	}

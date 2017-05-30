@@ -1,21 +1,22 @@
 var RuneRadius = 150
 
-var SnatcherF = function(){
-	if(Game.IsGamePaused())
-		return
+var SnatcherF = function() {
 	var MyEnt = parseInt(Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID()))
+	if(Game.IsGamePaused() || Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
+		return
 	var EntsOnCursor = GameUI.FindScreenEntities(GameUI.GetCursorPosition())
 	var myVec = Entities.GetAbsOrigin(MyEnt)
 	EntsOnCursor.forEach(function(entObj) {
 		var Rune = entObj.entityIndex
-		if(Game.PointDistance(Entities.GetAbsOrigin(Rune), myVec) > RuneRadius)
-			Game.PuckupRune(MyEnt, entObj.entityIndex, false)
+		var RuneName = Entities.GetUnitName(Rune)
+		if(RuneName === "" && !Entities.IsBuilding(Rune) && Game.PointDistance(Entities.GetAbsOrigin(Rune), myVec) > RuneRadius)
+			Game.PuckupRune(MyEnt, Rune, false)
 	})
 }
 
-function SnatcherOnOff() {
+function SnatcherToggle() {
 	if (!Snatcher.checked) {
-		Game.ScriptLogMsg('Script disabled: Rune Snatcher', '#ff0000')
+		Game.ScriptLogMsg('Script disabled: RuneSnatcher', '#ff0000')
 		return
 	} else {
 		function L() {
@@ -25,8 +26,8 @@ function SnatcherOnOff() {
 			}
 		}
 		L()
-		Game.ScriptLogMsg('Script enabled: Rune Snatcher', '#00ff00')
+		Game.ScriptLogMsg('Script enabled: RuneSnatcher', '#00ff00')
 	}
 }
 
-var Snatcher = Game.AddScript("RuneSnatcher", SnatcherOnOff)
+var Snatcher = Game.AddScript("RuneSnatcher", SnatcherToggle)
