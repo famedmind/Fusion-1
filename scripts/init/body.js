@@ -18,9 +18,9 @@ D2JS.ReloadD2JS = function(postfix) {
 	D2JS.ServerRequest('scriptlist' + postfix, '', function(response) {
 		var scriptlist = JSON.parse(response)
 		$('#trics').RemoveAndDeleteChildren()
-		scriptlist.map(function (name) {
+		scriptlist.forEach(function(name) {
 			D2JS.LoadScript(name)
-		});
+		})
 	})
 }
 

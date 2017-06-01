@@ -4,8 +4,8 @@ var SnatcherF = function() {
 	var MyEnt = parseInt(Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID()))
 	if(Game.IsGamePaused() || Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return
-	var EntsOnCursor = GameUI.FindScreenEntities(GameUI.GetCursorPosition())
 	var myVec = Entities.GetAbsOrigin(MyEnt)
+	var EntsOnCursor = GameUI.FindScreenEntities(GameUI.GetCursorPosition())
 	EntsOnCursor.forEach(function(entObj) {
 		var Rune = entObj.entityIndex
 		var RuneName = Entities.GetUnitName(Rune)
@@ -14,6 +14,15 @@ var SnatcherF = function() {
 			Game.PickupItem(MyEnt, Rune, false) // Aegis
 		}
 	})
+	/*Entities.GetAllEntities().map(function(ent) {
+		return parseInt(ent)
+	}).filter(function(ent) {
+		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Game.PointDistance(Entities.GetAbsOrigin(ent), myVec) <= RuneRadius && Entities.GetUnitName(ent) === ""
+	}).forEach(function(ent) {
+		$.Msg(ent)
+		Game.PuckupRune(MyEnt, ent, false) // Rune
+		Game.PickupItem(MyEnt, ent, false) // Aegis
+	})*/
 }
 
 function SnatcherToggle() {

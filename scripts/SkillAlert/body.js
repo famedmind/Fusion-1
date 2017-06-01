@@ -19,7 +19,7 @@ function SAlertEvery(){
 		var buffsnames = Game.GetBuffsNames(ent)
 		if(buffsnames.length !== 2)
 			return
-		positionModifiers.map(function(ar) {
+		positionModifiers.forEach(function(ar) {
 			var name = ar[0]
 			var duration = ar[1]
 			$.Msg(vec)
@@ -32,7 +32,7 @@ function SAlertEvery(){
 		return parseInt(ent)
 	}).filter(function(ent) {
 		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsEnemy(ent))
-	}).map(function(ent) {
+	}).forEach(function(ent) {
 		var buffs = Game.GetBuffsNames(ent)
 		var xyz = Entities.GetAbsOrigin(ent)
 		

@@ -59,8 +59,7 @@ var AntiTechiesF = function() {
 		return parseInt(ent)
 	}).filter(function(ent) {
 		return Entities.GetUnitName(ent) === "npc_dota_hero_techies" && Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent)
-	})
-	HEnts.map(function(ent) {
+	}).some(function(ent) {
 		var buffsNames = Game.GetBuffsNames(ent)
 		buffsNames.some(function(buffName) {
 			if(buffName === "modifier_techies_suicide_leap") {
