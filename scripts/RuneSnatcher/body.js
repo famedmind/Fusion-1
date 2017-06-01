@@ -9,14 +9,16 @@ var SnatcherF = function() {
 	EntsOnCursor.forEach(function(entObj) {
 		var Rune = entObj.entityIndex
 		var RuneName = Entities.GetUnitName(Rune)
-		if(RuneName === "" && !Entities.IsBuilding(Rune) && Game.PointDistance(Entities.GetAbsOrigin(Rune), myVec) > RuneRadius)
-			Game.PuckupRune(MyEnt, Rune, false)
+		if(RuneName === "" && !Entities.IsBuilding(Rune) && Game.PointDistance(Entities.GetAbsOrigin(Rune), myVec) > RuneRadius) {
+			Game.PuckupRune(MyEnt, Rune, false) // Rune
+			Game.PickupItem(MyEnt, Rune, false) // Aegis
+		}
 	})
 }
 
 function SnatcherToggle() {
 	if (!Snatcher.checked) {
-		Game.ScriptLogMsg('Script disabled: RuneSnatcher', '#ff0000')
+		Game.ScriptLogMsg('Script disabled: Snatcher', '#ff0000')
 		return
 	} else {
 		function L() {
@@ -26,8 +28,8 @@ function SnatcherToggle() {
 			}
 		}
 		L()
-		Game.ScriptLogMsg('Script enabled: RuneSnatcher', '#00ff00')
+		Game.ScriptLogMsg('Script enabled: Snatcher', '#00ff00')
 	}
 }
 
-var Snatcher = Game.AddScript("RuneSnatcher", SnatcherToggle)
+var Snatcher = Game.AddScript("Snatcher", SnatcherToggle)

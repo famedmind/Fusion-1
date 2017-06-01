@@ -119,16 +119,16 @@ Game.GetNeededMagicDmg = function(entFrom, entTo, dmg) {
 }
 
 Game.AngleBetweenVectors = function(a_pos, a_facing, b_pos) {
-    var distancevector = [b_pos[0] - a_pos[0], b_pos[1] - a_pos[1]];
-    var normalize = [ distancevector[0] / Math.sqrt(Math.pow(distancevector[0],2) + Math.pow(distancevector[1],2)), distancevector[1] / Math.sqrt(Math.pow(distancevector[0],2) + Math.pow(distancevector[1],2))];
-    var anglerad = Math.acos((a_facing[0] * normalize[0]) + (a_facing[1] * normalize[1]));
+    var distancevector = [b_pos[0] - a_pos[0], b_pos[1] - a_pos[1]]
+    var normalize = [ distancevector[0] / Math.sqrt(Math.pow(distancevector[0],2) + Math.pow(distancevector[1],2)), distancevector[1] / Math.sqrt(Math.pow(distancevector[0],2) + Math.pow(distancevector[1],2))]
+    var anglerad = Math.acos((a_facing[0] * normalize[0]) + (a_facing[1] * normalize[1]))
     return anglerad
 }
- 
+
 Game.AngleBetweenTwoFaces = function(a_facing, b_facing) {
-    return Math.acos((a_facing[0] * b_facing[0]) + (a_facing[1] * b_facing[1]));
+    return Math.acos((a_facing[0] * b_facing[0]) + (a_facing[1] * b_facing[1]))
 }
- 
+
 Game.RotationTime = function(angle, rotspeed) {
     return (0.03 * angle / rotspeed)
 }
@@ -141,7 +141,7 @@ Game.ClosetToMouse = function(range, enemy) {
 		enemyTeam = enemyTeam.filter(function(ent) {
 			return ent > 0 && Entities.IsEnemy(ent)
 		})
- 
+
 	if(enemyTeam.length > 0) {
 		for(var enemy of enemyTeam) {
 			var enemyXY = Entities.GetAbsOrigin(enemy)
@@ -168,7 +168,7 @@ Game.GetAbilityByName = function(ent, name) {
 	var ab = Entities.GetAbilityByName(ent, name)
 	if (ab !== -1)
 		return ab
-	for(var i=0; i < Entities.GetNumItemsInInventory(ent); i++){
+	for(var i=0; i < Entities.GetNumItemsInInventory(ent); i++) {
 		var item = Entities.GetItemInSlot(ent, i)
 		if(Abilities.GetAbilityName(item) === name)
 			return item
@@ -178,11 +178,11 @@ Game.GetAbilityByName = function(ent, name) {
 
 Game.GetSpeed = function(ent) {
     if(Entities.IsMoving(ent)) {
-        var a = Entities.GetBaseMoveSpeed(ent);
-        var b = Entities.GetMoveSpeedModifier(ent,a);
-        return b;
+        var a = Entities.GetBaseMoveSpeed(ent)
+        var b = Entities.GetMoveSpeedModifier(ent,a)
+        return b
     } else {
-        return 1;
+        return 1
     }
 }
 
@@ -191,24 +191,24 @@ Game.VelocityWaypoint = function(ent, time, movespeed) {
     var forward = Entities.GetForward(ent)
 	if(typeof movespeed === 'undefined')
 		var movespeed = Game.GetSpeed(ent)
- 
+
     return [zxc[0] + (forward[0] * movespeed * time),zxc[1] + (forward[1] * movespeed * time),zxc[2]]
 }
 
-Game.Every = function(start, time, tick, func){var startTime = Game.Time();var tickRate = tick;if(tick < 1){if(start < 0) tick--;tickRate = time / -tick;}var tickCount =  time/ tickRate;if(time < 0){tickCount = 9999999;}var numRan = 0;$.Schedule(start, (function(start,numRan,tickRate,tickCount){return function(){if(start < 0){start = 0;if(func()){return;}; }  var tickNew = function(){numRan++;delay = (startTime+tickRate*numRan)-Game.Time();if((startTime+tickRate*numRan)-Game.Time() < 0){delay = 0;}$.Schedule(delay, function(){if(func()){return;};tickCount--;if(tickCount > 0) tickNew();});};tickNew();}})(start,numRan,tickRate,tickCount));};
+Game.Every = function(start, time, tick, func) {var startTime = Game.Time();var tickRate = tick;if(tick < 1) {if(start < 0) tick--;tickRate = time / -tick;}var tickCount =  time/ tickRate;if(time < 0) {tickCount = 9999999;}var numRan = 0;$.Schedule(start, (function(start,numRan,tickRate,tickCount) {return function() {if(start < 0) {start = 0;if(func()) {return;}; }  var tickNew = function() {numRan++;delay = (startTime+tickRate*numRan)-Game.Time();if((startTime+tickRate*numRan)-Game.Time() < 0) {delay = 0;}$.Schedule(delay, function() {if(func()) {return;};tickCount--;if(tickCount > 0) tickNew();});};tickNew();}})(start,numRan,tickRate,tickCount));}
 
 //глобальный массив для хранения партиклов
 if(!Array.isArray(Game.Particles))
 	Game.Particles = []
 if(!Array.isArray(Game.Panels))
 	Game.Panels = []
-if(Array.isArray(Game.Subscribes)){
-	for(i in Game.Subscribes){
+if(Array.isArray(Game.Subscribes)) {
+	for(i in Game.Subscribes) {
 		if ( typeof Game.Subscribes[i] === 'number' )
-			try{ GameEvents.Unsubscribe(Game.Subscribes[i]) }catch(e){}
-		else if( typeof Game.Subscribes[i] === 'object' ){
+			try{ GameEvents.Unsubscribe(Game.Subscribes[i]) }catch(e) {}
+		else if( typeof Game.Subscribes[i] === 'object' ) {
 			for(m in Game.Subscribes[i])
-				try{ GameEvents.Unsubscribe(Game.Subscribes[i][m]) }catch(e){}
+				try{ GameEvents.Unsubscribe(Game.Subscribes[i][m]) }catch(e) {}
 		}
 	}
 }
@@ -219,31 +219,31 @@ Game.Subscribes.MoneyChanged = []
 	for(i in Game.Subscribes.OnMapLoad)
 		Game.Subscribes.OnMapLoad[i]()
 //})
-Game.Subscribes.MoneyChangedCB = GameEvents.Subscribe('dota_money_changed', function(){
+Game.Subscribes.MoneyChangedCB = GameEvents.Subscribe('dota_money_changed', function() {
 	for(i in Game.Subscribes.MoneyChanged)
 		Game.Subscribes.MoneyChanged[i]()
 })
 
 
 //сообщение в боковую панель
-Game.ScriptLogMsg = function(msg, color){
+Game.ScriptLogMsg = function(msg, color) {
 	var ScriptLog = $('#ScriptLog')
 	var ScriptLogMessage = $.CreatePanel( "Label", ScriptLog, "ScriptLogMessage" )
 	ScriptLogMessage.BLoadLayoutFromString( "<root><Label /></root>", false, false)
 	ScriptLogMessage.style.fontSize = '15px'
 	var text = '	•••	' + msg
 	ScriptLogMessage.text = text
-	if (color){
+	if (color) {
 		ScriptLogMessage.style.color = color
-		ScriptLogMessage.style.textShadow = '0px 0px 4px 1.2 ' + color + '33';
+		ScriptLogMessage.style.textShadow = '0px 0px 4px 1.2 ' + color + '33'
 	}
 	ScriptLogMessage.DeleteAsync(7)
 	AnimatePanel( ScriptLogMessage, {"opacity": "0;"}, 2, "linear", 4)
 }
 
 //Функция делает панельку перемещаемой кликом мыши по ней. callback нужен например для того, чтобы сохранить координаты панели в файл
-GameUI.MovePanel = function(a, callback){
-	var e = function(){
+GameUI.MovePanel = function(a, callback) {
+	var e = function() {
 		var m = true
 		if (!GameUI.IsControlDown())
 			return
@@ -251,7 +251,7 @@ GameUI.MovePanel = function(a, callback){
 		a.style.backgroundColor = '#FFFF00FF'
 		var uiw = Game.GetMainHUD().actuallayoutwidth
 		var uih = Game.GetMainHUD().actuallayoutheight
-		linkpanel = function(){
+		linkpanel = function() {
 			a.style.position = (GameUI.GetCursorPosition()[0] / uiw * 100) + '% ' + (GameUI.GetCursorPosition()[1] / uih * 100) + '% ' + '0'
 			if (GameUI.IsMouseDown(0)) {
 				m = false
@@ -265,7 +265,7 @@ GameUI.MovePanel = function(a, callback){
 				0,
 				function() {
 					L()
-					if(m) 
+					if(m)
 						linkpanel()
 					
 				}
@@ -277,10 +277,10 @@ GameUI.MovePanel = function(a, callback){
 }
 
 //нахождение главного родительского HUD`a
-Game.GetMainHUD = function(){
+Game.GetMainHUD = function() {
 	var globalContext=$.GetContextPanel()
-	while(true){
-		if(globalContext.paneltype == "DOTAHud"){
+	while(true) {
+		if(globalContext.paneltype == "DOTAHud") {
 			break
 		}else{
 			globalContext = globalContext.GetParent()
@@ -291,8 +291,8 @@ Game.GetMainHUD = function(){
 
 Game.HPBarOffsets={"npc_dota_hero_abaddon":175,"npc_dota_hero_abyssal_underlord":200,"npc_dota_hero_alchemist":200,"npc_dota_hero_ancient_apparition":190,"npc_dota_hero_antimage":140,"npc_dota_hero_arc_warden":160,"npc_dota_hero_axe":160,"npc_dota_hero_bane":235,"npc_dota_hero_batrider":240,"npc_dota_hero_beastmaster":180,"npc_dota_hero_bloodseeker":130,"npc_dota_hero_bounty_hunter":120,"npc_dota_hero_brewmaster":140,"npc_dota_hero_bristleback":200,"npc_dota_hero_broodmother":120,"npc_dota_hero_centaur":220,"npc_dota_hero_chaos_knight":220,"npc_dota_hero_chen":190,"npc_dota_hero_clinkz":144,"npc_dota_hero_crystal_maiden":135,"npc_dota_hero_dark_seer":130,"npc_dota_hero_dazzle":160,"npc_dota_hero_death_prophet":200,"npc_dota_hero_disruptor":200,"npc_dota_hero_doom_bringer":240,"npc_dota_hero_dragon_knight":170,"npc_dota_hero_drow_ranger":130,"npc_dota_hero_earth_spirit":200,"npc_dota_hero_earthshaker":155,"npc_dota_hero_elder_titan":200,"npc_dota_hero_ember_spirit":200,"npc_dota_hero_enchantress":180,"npc_dota_hero_enigma":220,"npc_dota_hero_faceless_void":150,"npc_dota_hero_furion":180,"npc_dota_hero_gyrocopter":240,"npc_dota_hero_huskar":170,"npc_dota_hero_invoker":170,"npc_dota_hero_jakiro":280,"npc_dota_hero_juggernaut":170,"npc_dota_hero_keeper_of_the_light":230,"npc_dota_hero_kunkka":150,"npc_dota_hero_legion_commander":200,"npc_dota_hero_leshrac":170,"npc_dota_hero_lich":225,"npc_dota_hero_life_stealer":130,"npc_dota_hero_lina":170,"npc_dota_hero_lion":170,"npc_dota_hero_lone_druid":145,"npc_dota_hero_luna":185,"npc_dota_hero_lycan":220,"npc_dota_hero_magnataur":220,"npc_dota_hero_medusa":200,"npc_dota_hero_meepo":125,"npc_dota_hero_mirana":155,"npc_dota_hero_monkey_king":165,"npc_dota_hero_morphling":140,"npc_dota_hero_naga_siren":180,"npc_dota_hero_necrolyte":160,"npc_dota_hero_nevermore":250,"npc_dota_hero_night_stalker":165,"npc_dota_hero_nyx_assassin":200,"npc_dota_hero_obsidian_destroyer":350,"npc_dota_hero_ogre_magi":180,"npc_dota_hero_omniknight":145,"npc_dota_hero_oracle":240,"npc_dota_hero_phantom_assassin":180,"npc_dota_hero_phantom_lancer":190,"npc_dota_hero_phoenix":240,"npc_dota_hero_puck":165,"npc_dota_hero_pudge":180,"npc_dota_hero_pugna":140,"npc_dota_hero_queenofpain":145,"npc_dota_hero_rattletrap":130,"npc_dota_hero_razor":230,"npc_dota_hero_riki":115,"npc_dota_hero_rubick":170,"npc_dota_hero_sand_king":130,"npc_dota_hero_shadow_demon":175,"npc_dota_hero_shadow_shaman":130,"npc_dota_hero_shredder":250,"npc_dota_hero_silencer":130,"npc_dota_hero_skeleton_king":190,"npc_dota_hero_skywrath_mage":300,"npc_dota_hero_slardar":140,"npc_dota_hero_slark":140,"npc_dota_hero_sniper":110,"npc_dota_hero_spectre":180,"npc_dota_hero_spirit_breaker":160,"npc_dota_hero_storm_spirit":170,"npc_dota_hero_sven":150,"npc_dota_hero_target_dummy":200,"npc_dota_hero_techies":150,"npc_dota_hero_templar_assassin":180,"npc_dota_hero_terrorblade":280,"npc_dota_hero_tidehunter":190,"npc_dota_hero_tinker":150,"npc_dota_hero_tiny":165,"npc_dota_hero_treant":260,"npc_dota_hero_troll_warlord":200,"npc_dota_hero_tusk":190,"npc_dota_hero_undying":250,"npc_dota_hero_ursa":150,"npc_dota_hero_vengefulspirit":170,"npc_dota_hero_venomancer":150,"npc_dota_hero_viper":210,"npc_dota_hero_visage":180,"npc_dota_hero_warlock":195,"npc_dota_hero_weaver":110,"npc_dota_hero_windrunner":160,"npc_dota_hero_winter_wyvern":200,"npc_dota_hero_wisp":160,"npc_dota_hero_witch_doctor":150,"npc_dota_hero_zuus":130}
 
-Game.MoveToPos = function(ent, xyz, queue){
-	var order = {};
+Game.MoveToPos = function(ent, xyz, queue) {
+	var order = {}
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_MOVE_TO_POSITION
 	order.UnitIndex = ent
 	order.Position = xyz
@@ -301,8 +301,8 @@ Game.MoveToPos = function(ent, xyz, queue){
 	Game.PrepareUnitOrders(order)
 }
 
-Game.MoveToTarget = function(ent, ent, queue){
-	var order = {};
+Game.MoveToTarget = function(ent, ent, queue) {
+	var order = {}
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_MOVE_TO_TARGET
 	order.UnitIndex = ent
 	order.Position = xyz
@@ -311,8 +311,8 @@ Game.MoveToTarget = function(ent, ent, queue){
 	Game.PrepareUnitOrders(order)
 }
 
-Game.MoveToAttackPos = function(ent, xyz, queue){
-	var order = {};
+Game.MoveToAttackPos = function(ent, xyz, queue) {
+	var order = {}
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_ATTACK_MOVE
 	order.UnitIndex = ent
 	order.Position = xyz
@@ -321,8 +321,8 @@ Game.MoveToAttackPos = function(ent, xyz, queue){
 	Game.PrepareUnitOrders(order)
 }
 
-Game.MoveToAttackTarget = function(ent, ent, queue){
-	var order = {};
+Game.MoveToAttackTarget = function(ent, ent, queue) {
+	var order = {}
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_ATTACK_TARGET
 	order.UnitIndex = ent
 	order.Position = xyz
@@ -331,8 +331,8 @@ Game.MoveToAttackTarget = function(ent, ent, queue){
 	Game.PrepareUnitOrders(order)
 }
 
-Game.CastTarget = function(ent, abil, target, queue){
-	var order = {};
+Game.CastTarget = function(ent, abil, target, queue) {
+	var order = {}
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_CAST_TARGET
 	order.UnitIndex = ent
 	order.TargetIndex  = target
@@ -342,115 +342,125 @@ Game.CastTarget = function(ent, abil, target, queue){
 	Game.PrepareUnitOrders(order)
 }
 
-Game.CastPosition = function(ent, abil, xyz, queue){
-	var order = {};
+Game.CastPosition = function(ent, abil, xyz, queue) {
+	var order = {}
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_CAST_POSITION
 	order.UnitIndex = ent
 	order.Position = xyz
 	order.AbilityIndex = abil
 	order.Queue = queue
 	order.ShowEffects = D2JS.debugAnimations
-	Game.PrepareUnitOrders( order )
+	Game.PrepareUnitOrders(order)
 }
 
-Game.CastNoTarget = function(ent, abil, queue){
-	var order = {};
+Game.CastNoTarget = function(ent, abil, queue) {
+	var order = {}
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_CAST_NO_TARGET
 	order.UnitIndex = ent
 	order.AbilityIndex = abil
 	order.Queue = queue
 	order.ShowEffects = D2JS.debugAnimations
-	Game.PrepareUnitOrders( order )
+	Game.PrepareUnitOrders(order)
 }
 
-Game.ToggleAbil = function(ent, abil, queue){
-	var order = {};
+Game.ToggleAbil = function(ent, abil, queue) {
+	var order = {}
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_CAST_TOGGLE
 	order.UnitIndex = ent
 	order.AbilityIndex = abil
 	order.Queue = queue
 	order.ShowEffects = D2JS.debugAnimations
-	Game.PrepareUnitOrders( order )
+	Game.PrepareUnitOrders(order)
 }
 
-Game.EntStop = function(ent, queue){
-	var order = {};
-	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_STOP 
+Game.EntStop = function(ent, queue) {
+	var order = {}
+	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_STOP
 	order.UnitIndex = ent
 	order.Queue = queue
 	order.ShowEffects = D2JS.debugAnimations
-	Game.PrepareUnitOrders( order )
+	Game.PrepareUnitOrders(order)
 }
 
-Game.DisassembleItem = function(ent, item, queue){
-	var order = {};
-	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_DISASSEMBLE_ITEM 
+Game.DisassembleItem = function(ent, item, queue) {
+	var order = {}
+	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_DISASSEMBLE_ITEM
 	order.UnitIndex = ent
 	order.AbilityIndex = item
 	order.Queue = queue
 	order.ShowEffects = false
-	Game.PrepareUnitOrders( order )
+	Game.PrepareUnitOrders(order)
 }
 
-Game.DropItem = function(ent, item, xyz, queue){
-	var order = {};
+Game.DropItem = function(ent, item, xyz, queue) {
+	var order = {}
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_DROP_ITEM
 	order.UnitIndex = ent
 	order.Position = xyz
 	order.AbilityIndex = item
 	order.Queue = queue
 	order.ShowEffects = false
-	Game.PrepareUnitOrders( order )
+	Game.PrepareUnitOrders(order)
 }
 
-Game.PickupItem = function(ent, item, queue){
-	var order = {};
-	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_PICKUP_ITEM 
+Game.PickupItem = function(ent, item, queue) {
+	var order = {}
+	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_PICKUP_ITEM
 	order.UnitIndex = ent
 	order.TargetIndex  = item
 	order.Queue = queue
 	order.ShowEffects = false
-	Game.PrepareUnitOrders( order )
+	Game.PrepareUnitOrders(order)
 }
 
-Game.ItemLock = function(ent, item, queue){
-	var order = {};
+Game.ItemLock = function(ent, item, queue) {
+	var order = {}
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_SET_ITEM_COMBINE_LOCK
 	order.UnitIndex = ent
 	order.TargetIndex  = item
 	order.Queue = queue
 	order.ShowEffects = false
-	Game.PrepareUnitOrders( order )
+	Game.PrepareUnitOrders(order)
 }
 
-Game.PuckupRune = function(ent, rune, queue){
-	var order = {};
-	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_PICKUP_RUNE 
+Game.PuckupRune = function(ent, rune, queue) {
+	var order = {}
+	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_PICKUP_ITEM
 	order.UnitIndex = ent
 	order.TargetIndex  = rune
 	order.Queue = queue
 	order.ShowEffects = false
-	Game.PrepareUnitOrders( order )
+	Game.PrepareUnitOrders(order)
 }
 
-Game.PurchaseItem = function(ent, itemid, queue){
-	var order = {};
-	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_PURCHASE_ITEM 
+Game.PuckupRune = function(ent, rune, queue) {
+	var order = {}
+	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_PICKUP_RUNE
+	order.UnitIndex = ent
+	order.TargetIndex  = rune
+	order.Queue = queue
+	order.ShowEffects = false
+	Game.PrepareUnitOrders(order)
+}
+
+Game.PurchaseItem = function(ent, itemid, queue) {
+	var order = {}
+	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_PURCHASE_ITEM
 	order.UnitIndex = ent
 	order.AbilityIndex = itemid
 	order.Queue = queue
 	order.ShowEffects = false
-	Game.PrepareUnitOrders( order )
+	Game.PrepareUnitOrders(order)
 }
 
 //Получение расстояния между двумя точками в пространстве, высшая математика епта
-Game.PointDistance = function(a,b){
+Game.PointDistance = function(a,b) {
 	return Math.sqrt(Math.pow(a[0]-b[0],2)+Math.pow(a[1]-b[1],2)+Math.pow(a[1]-b[1],2))
 }
 
 //"округление" числа до определенного кол-ва знаков после запятой
-Game.roundPlus = function(x, n){
-	if(isNaN(x) || isNaN(n)) return false;
+Game.roundPlus = function(x, n) {
+	if(isNaN(x) || isNaN(n)) return false
 	var m = Math.pow(10,n)
 	return Math.round(x*m)/m
 }
@@ -461,7 +471,7 @@ Math.logb = function(number, base) {
 }
 
 //поэлементное сравнение двух массивов, порядок элементов не учитывается
-Game.CompareArrays = function(a,b){
+Game.CompareArrays = function(a,b) {
 	if (a==b)
 		return true
 	if (a.length!=b.length)
@@ -473,7 +483,7 @@ Game.CompareArrays = function(a,b){
 }
 
 //проверяет есть ли в двух объектах хотя бы один одинаковый элемент
-Game.IntersecArrays = function(a,b){
+Game.IntersecArrays = function(a,b) {
 	for(i in a)
 		for(m in b)
 			if(a[i]==b[m])
@@ -493,7 +503,7 @@ Game.GetInventory = function(ent) {
 }
 
 //проверяет является ли иллюзией герой
-Game.IsIllusion = function(entity){
+Game.IsIllusion = function(entity) {
 	var PlayersEnt = []
 	var PlayersIDs = Game.GetAllPlayerIDs()
 	for(i in PlayersIDs)
@@ -505,7 +515,7 @@ Game.IsIllusion = function(entity){
 }
 
 //список указателей на героев без иллюзий
-Game.PlayersHeroEnts = function(){
+Game.PlayersHeroEnts = function() {
 	var PlayersEnt = []
 	var PlayersIDs = Game.GetAllPlayerIDs()
 	for(i in PlayersIDs)
@@ -514,12 +524,12 @@ Game.PlayersHeroEnts = function(){
 }
 
 //возвращает DOTA_ABILITY_BEHAVIOR в удобном представлении
-Game.Behaviors = function(DABor){
+Game.Behaviors = function(DABor) {
 	var DABh = []
 	var ZBehavior = Abilities.GetBehavior( parseInt( DABor ) )
 	var s = 32
-	while ( ZBehavior > 0 && s > 0 ){
-		if(Math.pow(2,s)>ZBehavior){
+	while ( ZBehavior > 0 && s > 0 ) {
+		if(Math.pow(2,s)>ZBehavior) {
 			s--
 			continue
 		}
@@ -530,7 +540,7 @@ Game.Behaviors = function(DABor){
 }
 
 //объект с указателями на бафы юнита
-Game.GetBuffs = function(ent){
+Game.GetBuffs = function(ent) {
 	var buffs = []
 	for(var i=0; i < Entities.GetNumBuffs(ent); i++)
 		buffs.push(ent, Entities.GetBuff(ent,i))
@@ -538,52 +548,52 @@ Game.GetBuffs = function(ent){
 }
 
 //объект с именами бафов юнита
-Game.GetBuffsNames = function(ent){
+Game.GetBuffsNames = function(ent) {
 	return Game.GetBuffs(ent).map(function(buff) {
 		return Buffs.GetName(ent, buff)
 	})
 }
 
 //анимирование панелей. Источник moddota.com
-var AnimatePanel_DEFAULT_DURATION = "300.0ms";
-var AnimatePanel_DEFAULT_EASE = "linear";
+var AnimatePanel_DEFAULT_DURATION = "300.0ms"
+var AnimatePanel_DEFAULT_EASE = "linear"
 function AnimatePanel(panel, values, duration, ease, delay)
 {
-	var durationString = (duration != null ? parseInt(duration * 1000) + ".0ms" : AnimatePanel_DEFAULT_DURATION);
-	var easeString = (ease != null ? ease : AnimatePanel_DEFAULT_EASE);
-	var delayString = (delay != null ? parseInt(delay * 1000) + ".0ms" : "0.0ms"); 
-	var transitionString = durationString + " " + easeString + " " + delayString;
-	var i = 0;
+	var durationString = (duration != null ? parseInt(duration * 1000) + ".0ms" : AnimatePanel_DEFAULT_DURATION)
+	var easeString = (ease != null ? ease : AnimatePanel_DEFAULT_EASE)
+	var delayString = (delay != null ? parseInt(delay * 1000) + ".0ms" : "0.0ms")
+	var transitionString = durationString + " " + easeString + " " + delayString
+	var i = 0
 	var finalTransition = ""
 	for (var property in values)
 	{
-		finalTransition = finalTransition + (i > 0 ? ", " : "") + property + " " + transitionString;
-		i++;
+		finalTransition = finalTransition + (i > 0 ? ", " : "") + property + " " + transitionString
+		i++
 	}
-	panel.style.transition = finalTransition + ";";
+	panel.style.transition = finalTransition + ";"
 	for (var property in values)
-		panel.style[property] = values[property];
+		panel.style[property] = values[property]
 }
 
 
 //клонирование объекта
 Game.CloneObject = function(obj) {
-    if (null == obj || "object" != typeof obj) return obj;
-    var copy = obj.constructor();
+    if (null == obj || "object" != typeof obj) return obj
+    var copy = obj.constructor()
     for (var attr in obj) {
-        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr]
     }
-    return copy;
+    return copy
 }
 
 Game.AddScript = function(scriptName, onCheckBoxClick) {
 	var Temp = $.CreatePanel("Panel", $('#trics'), scriptName)
 	Temp.SetPanelEvent('onactivate', onCheckBoxClick)
-	Temp.BLoadLayoutFromString('<root><styles><include src="s2r://panorama/styles/dotastyles.vcss_c"/><include src="s2r://panorama/styles/magadan.vcss_c"/></styles><Panel><ToggleButton class="CheckBox" id="' + scriptName + '" text="' + scriptName + '"/></Panel></root>', false, false)  
+	Temp.BLoadLayoutFromString('<root><styles><include src="s2r://panorama/styles/dotastyles.vcss_c"/><include src="s2r://panorama/styles/magadan.vcss_c"/></styles><Panel><ToggleButton class="CheckBox" id="' + scriptName + '" text="' + scriptName + '"/></Panel></root>', false, false) 
 	
-	$("#trics").Children().sort(function(a,b){
-		if (a.text > b.text) return 1;
-		if (a.text < b.text) return -1;
+	$("#trics").Children().sort(function(a,b) {
+		if (a.text > b.text) return 1
+		if (a.text < b.text) return -1
 	})
 	
 	return $.GetContextPanel().FindChildTraverse(scriptName).Children()[0]
