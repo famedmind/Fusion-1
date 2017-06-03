@@ -1,4 +1,4 @@
-﻿var feeder = false
+﻿var feeder = true
 
 function AntiAFKOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())

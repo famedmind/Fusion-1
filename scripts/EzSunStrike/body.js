@@ -27,10 +27,10 @@ function EzSunstrikeOnInterval() {
 	if(HEnts.length !== 0) {
 		ent = parseInt(HEnts[0])
 		if(Entities.GetHealth(ent) <= SunStrikeDamageCur) {
-			GameUI.SelectUnit(MyEnt, false)
 			SunStrikeTime = Game.GetGameTime() + SunStrikeDelay
 			SunStrikePos = Game.VelocityWaypoint(ent, SunStrikeDelay)
-			Game.CastPosition(MyEnt, SunStrike, SunStrikePos, false)
+			//GameUI.SelectUnit(MyEnt, false)
+			//Game.CastPosition(MyEnt, SunStrike, SunStrikePos, false)
 			GameUI.PingMinimapAtLocation(SunStrikePos)
 			CancelSunstrike(MyEnt, ent)
 		}

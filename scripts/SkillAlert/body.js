@@ -1,31 +1,27 @@
-﻿var positionModifiers = [
-	["modifier_invoker_sun_strike", 1.7],
-	["modifier_kunkka_torrent_thinker", 1.6],
-	["modifier_lina_light_strike_array", 0.5],
-	["modifier_leshrac_split_earth_thinker", 0.35]
-]
-var targetModifiers = [
-	["modifier_spirit_breaker_charge_of_darkness_vision", 1.5, "particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_target_mark.vpcf"],
-	["modifier_tusk_snowball_visible", 1.5, "particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_target_mark.vpcf"/*"particles/econ/items/crystal_maiden/ti7_immortal_shoulder/cm_ti7_immortal_base_attack_snowball.vpcf"*/]
-]
+﻿var positionModifiers = []
+var targetModifiers = []
 var z = []
+var panels = []
+positionModifiers["modifier_invoker_sun_strike"] = [1.7, "npc_dota_hero_invoker", "invoker_sun_strike", "sounds/vo/announcer_dlc_rick_and_morty/invoker_03.vsnd"]
+positionModifiers["modifier_kunkka_torrent_thinker"] = [1.6, "npc_dota_hero_kunkka", "kunkka_torrent", "sounds/vo/announcer_dlc_rick_and_morty/kunkka_01.vsnd"]
+positionModifiers["modifier_lina_light_strike_array"] = [0.5, "npc_dota_hero_lina", "lina_light_strike_array", "sounds/vo/announcer_dlc_rick_and_morty/lina_02.vsnd"]
+positionModifiers["modifier_leshrac_split_earth_thinker"] = [0.35, "npc_dota_hero_leshrac", "leshrac_split_earth", "sounds/vo/announcer_dlc_rick_and_morty/leshrac_01.vsnd"]
+targetModifiers["modifier_spirit_breaker_charge_of_darkness_vision"] = ["particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_target_mark.vpcf", 1.5, "npc_dota_hero_spirit_breaker", "spirit_breaker_charge_of_darkness", "sounds/vo/announcer_dlc_rick_and_morty/spirit_breaker_01.vsnd"]
+targetModifiers["modifier_tusk_snowball_visible"] = ["particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_target_mark.vpcf", 1.5, "npc_dota_hero_tusk", "tusk_snowball", "sounds/vo/announcer_dlc_rick_and_morty/tusk_01.vsnd"]
 
-function SAlertEvery(){
+function SAlertEvery() {
 	if (!SkillAlert.checked)
 		return
 	
-	Entities.GetAllEntitiesByName('npc_dota_thinker').map(function(ent) {
-		var vec = Entities.GetAbsOrigin(ent)
-		var buffsnames = Game.GetBuffsNames(ent)
+	Entities.GetAllEntitiesByName('npc_dota_thinker').map(function(thinker) {
+		var vec = Entities.GetAbsOrigin(thinker)
+		var buffsnames = Game.GetBuffsNames(thinker)
 		if(buffsnames.length !== 2)
 			return
-		positionModifiers.forEach(function(ar) {
-			var name = ar[0]
-			var duration = ar[1]
-			$.Msg(vec)
-			if(name === buffsnames[1])
-				CreateTimerParticle(vec, duration, ent)
-		})
+		var buffName = buffsnames[1]
+		var modifier = positionModifiers[buffName]
+		if(typeof modifier !== 'undefined')
+			AlertPosition(modifier, vec, thinker)
 	})
 	
 	Entities.GetAllEntities().map(function(ent) {
@@ -36,16 +32,69 @@ function SAlertEvery(){
 		var buffs = Game.GetBuffsNames(ent)
 		var xyz = Entities.GetAbsOrigin(ent)
 		
-		for(var buff of buffs)
-			for(var modifier of targetModifiers)
-				if(buff === modifier[0]) {
-					CreateFollowParticle(modifier[1], modifier[2], ent)
-					break
-				}
+		for(var buff of buffs) {
+			var modifier = targetModifiers[buff]
+			if(typeof modifier !== 'undefined' && modifier !== []) {
+				AlertTarget(modifier, ent)
+				break
+			}
+		}
 	})
+	if(SkillAlert.checked)
+		$.Schedule(Game.MyTick, SAlertEvery)
 }
 
-function CreateFollowParticle(time, particlepath, ent) {
+function AlertTarget(modifier, ent) {
+	CreateFollowParticle(modifier[0], modifier[1], ent)
+	if(Game.Panels.ItemPanel !== undefined && D2JS.Configs.SkillAlert.Notify === "true" && panels[ent] === undefined) {
+		var A = $.CreatePanel('Panel', Game.Panels.ItemPanel, 'Alert' + ent)
+		A.BLoadLayoutFromString('\
+		<root>\
+			<Panel style="width:100%;height:37px;background-color:#111;">\
+				<DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:0px;"/>\
+				<DOTAAbilityImage abilityname="" style="vertical-align:center;width:60px;height:35px;position:60px;"/>\
+				<DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:120px;"/>\
+			</Panel>\
+		</root>\
+		', false, false)
+		A.Children()[0].heroname = modifier[2]
+		A.Children()[1].abilityname = modifier[3]
+		A.Children()[2].heroname = Entities.GetUnitName(ent)
+		A.DeleteAsync(modifier[0])
+		panels[ent] = A
+		$.Schedule(modifier[0], function() {
+			delete panels[ent]
+		})
+	}
+	if (D2JS.Configs.SkillAlert.EmitSound === "true")
+		Game.EmitSound(modifier[4])
+}
+
+function AlertPosition(modifier, vec, thinker) {
+	CreateTimerParticle(vec, modifier[0], thinker)
+	if(Game.Panels.ItemPanel !== undefined && D2JS.Configs.SkillAlert.Notify === "true" && panels[thinker] === undefined) {
+		var A = $.CreatePanel('Panel', Game.Panels.ItemPanel, 'Alert' + thinker)
+		A.BLoadLayoutFromString('\
+		<root>\
+			<Panel style="width:100%;height:37px;background-color:#111;">\
+				<DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:0px;"/>\
+				<DOTAAbilityImage abilityname="" style="vertical-align:center;width:60px;height:35px;position:60px;"/>\
+			</Panel>\
+		</root>\
+		', false, false)
+		A.Children()[0].heroname = modifier[1]
+		A.Children()[1].abilityname = modifier[2]
+		A.DeleteAsync(modifier[1])
+		panels[thinker] = A
+		$.Schedule(modifier[1], function() {
+			delete panels[thinker]
+		})
+	}
+	if (D2JS.Configs.SkillAlert.EmitSound === "true")
+		Game.EmitSound(modifier[4])
+}
+
+function CreateFollowParticle(particlepath, time, ent) {
 	if(z.indexOf(ent) !== -1)
 		return
 	var p = Particles.CreateParticle(particlepath, ParticleAttachment_t.PATTACH_OVERHEAD_FOLLOW, ent)
@@ -79,17 +128,11 @@ function SkillAlertToggle() {
 	if (!SkillAlert.checked)
 		Game.ScriptLogMsg('Script disabled: SkillAlert', '#ff0000')
 	else {
-		function f() {
-			$.Schedule (
-				Game.MyTick,
-				function(){
-					if(SkillAlert.checked)
-						SAlertEvery()
-					f()
-				}
-			)
-		}
-		f()
+		D2JS.GetConfig('SkillAlert', function(response) {
+			response = response[0]
+			D2JS.Configs.SkillAlert = response
+			SAlertEvery()
+		})
 		Game.ScriptLogMsg('Script enabled: SkillAlert', '#00ff00')
 	}
 }

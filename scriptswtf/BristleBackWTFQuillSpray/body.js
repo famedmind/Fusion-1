@@ -25,7 +25,7 @@ function BristleBackWTFQuillSprayOnToggle() {
 		Game.ScriptLogMsg('Script disabled: BristleBackWTFQuillSpray', '#ff0000')
 	} else {
 		function intervalFunc(){
-			$.Schedule(
+			$.Schedule (
 				Game.MyTick,
 				function() {
 					BristleBackWTFQuillSprayOnInterval()

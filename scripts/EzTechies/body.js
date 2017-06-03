@@ -172,6 +172,7 @@ function RemoteMines(MyEnt, HEnts) {
 			)
 	})
 }
+
 function RefreshR() {
 	for(i in Game.Particles.EzTechies) {
 		var par = parseInt(Game.Particles.EzTechies[i])
@@ -185,7 +186,7 @@ function RefreshR() {
 		else if(Entities.GetUnitName(rmine) === 'npc_dota_techies_land_mine')
 			var range = 400
 		else
-			return
+			continue
 		var particle = Particles.CreateParticle("particles/ui_mouseactions/range_display.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, rmine)
 		Particles.SetParticleControl(particle, 1, [range, 0, 0])
 		Game.Particles.EzTechies.push(particle)

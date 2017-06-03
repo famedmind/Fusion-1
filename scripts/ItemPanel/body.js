@@ -11,10 +11,17 @@ function NewItem(oldinv, newinv, ent) {
 		if(oldinv.indexOf(n) === -1 && D2JS.Configs.ItemPanel.Items.indexOf(Abilities.GetAbilityName(n))!= -1){
 			if(D2JS.Configs.ItemPanel.Notify === "true") {
 				A = $.CreatePanel('Panel', Game.Panels.ItemPanel, 'Alert' + ent + n)
-				A.BLoadLayoutFromString( '<root><Panel style="width:100%;height:37px;background-color:#111;"><DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:160px;"/><Image src="s2r://panorama/images/hud/button_courier_greenarrow_png.vtex" style="horizontal-align:center;vertical-align:center;" /><DOTAItemImage itemname="" style="vertical-align:center;width:60px;height:35px;position:20px;"/></Panel></root>', false, false )
+				A.BLoadLayoutFromString('\
+				<root>\
+					<Panel style="width:100%;height:37px;background-color:#111;">\
+						<DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:0px;"/>\
+						<DOTAItemImage itemname="" style="vertical-align:center;width:60px;height:35px;position:70px;"/>\
+					</Panel>\
+				</root>\
+				', false, false)
 				A.Children()[0].heroname = Entities.GetUnitName(ent)
-				A.Children()[2].itemname = Abilities.GetAbilityName(n)
-				A.DeleteAsync( parseInt( D2JS.Configs.ItemPanel.NotifyTime ) )
+				A.Children()[1].itemname = Abilities.GetAbilityName(n)
+				A.DeleteAsync(parseInt(D2JS.Configs.ItemPanel.NotifyTime))
 			}
 			if (D2JS.Configs.ItemPanel.EmitSound === "true")
 				Game.EmitSound('General.Buy')
@@ -69,7 +76,8 @@ function ItemPanelEvery() {
 			P.Children()[parseInt(n) + 1].itemname = Abilities.GetAbilityName(Inv[n])
 		k++
 	}
-	$.Schedule(Game.MyTick, ItemPanelEvery)
+	if(ItemPanel.checked)
+		$.Schedule(Game.MyTick, ItemPanelEvery)
 }
 
 var ItemPanelLoad = function() {

@@ -17,8 +17,6 @@ function DeathPulse(MyEnt, HEnts) {
 	var AbilRange = Abilities.GetCastRangeFix(Abil)
 	if(AbilLvl === 0)
 		return
-	var ToHeal = false
-	
 	
 	for (i in HEnts) {
 		var ent = parseInt(HEnts[i])
@@ -36,11 +34,9 @@ function DeathPulse(MyEnt, HEnts) {
 		if(!Entities.IsEnemy(ent) && Entities.GetHealthPercent(ent) > DeathPulseMinHealPercent)
 			continue
 		
-		ToHeal = true
+		Game.CastNoTarget(MyEnt, Abil, false)
 		break
 	}
-	if(ToHeal === true)
-		Game.CastNoTarget(MyEnt, Abil, false)
 }
 
 function ReaperScythe(MyEnt, ent) {
