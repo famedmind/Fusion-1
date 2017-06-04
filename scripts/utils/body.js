@@ -119,49 +119,50 @@ Game.GetNeededMagicDmg = function(entFrom, entTo, dmg) {
 }
 
 Game.AngleBetweenVectors = function(a_pos, a_facing, b_pos) {
-    var distancevector = [b_pos[0] - a_pos[0], b_pos[1] - a_pos[1]]
-    var normalize = [ distancevector[0] / Math.sqrt(Math.pow(distancevector[0],2) + Math.pow(distancevector[1],2)), distancevector[1] / Math.sqrt(Math.pow(distancevector[0],2) + Math.pow(distancevector[1],2))]
-    var anglerad = Math.acos((a_facing[0] * normalize[0]) + (a_facing[1] * normalize[1]))
-    return anglerad
+	var distancevector = [b_pos[0] - a_pos[0], b_pos[1] - a_pos[1]]
+	var normalize = [ distancevector[0] / Math.sqrt(Math.pow(distancevector[0],2) + Math.pow(distancevector[1],2)), distancevector[1] / Math.sqrt(Math.pow(distancevector[0],2) + Math.pow(distancevector[1],2))]
+	var anglerad = Math.acos((a_facing[0] * normalize[0]) + (a_facing[1] * normalize[1]))
+	return anglerad
 }
 
 Game.AngleBetweenTwoFaces = function(a_facing, b_facing) {
-    return Math.acos((a_facing[0] * b_facing[0]) + (a_facing[1] * b_facing[1]))
+	return Math.acos((a_facing[0] * b_facing[0]) + (a_facing[1] * b_facing[1]))
 }
 
 Game.RotationTime = function(angle, rotspeed) {
-    return (0.03 * angle / rotspeed)
+	return (0.03 * angle / rotspeed)
 }
 
 Game.ClosetToMouse = function(range, enemy) {
 	var mousePos = Game.ScreenXYToWorld(GameUI.GetCursorPosition()[0],GameUI.GetCursorPosition()[1])
-	var enemies = []
 	var enemyTeam = Game.PlayersHeroEnts()
 	if(enemy)
 		enemyTeam = enemyTeam.filter(function(ent) {
-			return ent > 0 && Entities.IsEnemy(ent)
+			return Entities.IsEnemy(ent) && Entities.IsAlive(ent) && !Entities.IsBuilding(ent) && !Entities.IsInvulnerable(ent)
 		})
 
-	if(enemyTeam.length > 0) {
-		for(var enemy of enemyTeam) {
-			var enemyXY = Entities.GetAbsOrigin(enemy)
+	if(enemyTeam.length > 0)
+		return enemyTeam.map(function(ent) {
+			var enemyXY = Entities.GetAbsOrigin(ent)
 			var distance = Game.PointDistance(mousePos, enemyXY)
-			if(distance < range) {
-				enemies.push([enemy, distance])
-			}
-		}
-		
-		return enemies.sort(function(a, b) {
-			if(a[1] > b[1])
+			if(distance < range)
+				return ent
+			else
+				return undefined
+		}).filter(function(ent) {
+			return ent !== undefined
+		}).sort(function(ent1, ent2) {
+			var dst1 = Game.PointDistance(ent1, MyEnt),
+				dst2 = Game.PointDistance(ent2, MyEnt)
+			if(dst1 > dst2)
 				return 1
-			else if(a[1] < b[1])
+			else if(dst1 < dst2)
 				return -1
 			else
 				return 0
-		})[0][0]
-	} else {
-		return -1
-	}
+		})[0]
+	else
+		return undefined
 }
 
 Game.GetAbilityByName = function(ent, name) {
@@ -177,22 +178,22 @@ Game.GetAbilityByName = function(ent, name) {
 }
 
 Game.GetSpeed = function(ent) {
-    if(Entities.IsMoving(ent)) {
-        var a = Entities.GetBaseMoveSpeed(ent)
-        var b = Entities.GetMoveSpeedModifier(ent,a)
-        return b
-    } else {
-        return 1
-    }
+	if(Entities.IsMoving(ent)) {
+		var a = Entities.GetBaseMoveSpeed(ent)
+		var b = Entities.GetMoveSpeedModifier(ent,a)
+		return b
+	} else {
+		return 1
+	}
 }
 
 Game.VelocityWaypoint = function(ent, time, movespeed) {
-    var zxc = Entities.GetAbsOrigin(ent)
-    var forward = Entities.GetForward(ent)
+	var zxc = Entities.GetAbsOrigin(ent)
+	var forward = Entities.GetForward(ent)
 	if(typeof movespeed === 'undefined')
 		var movespeed = Game.GetSpeed(ent)
 
-    return [zxc[0] + (forward[0] * movespeed * time),zxc[1] + (forward[1] * movespeed * time),zxc[2]]
+	return [zxc[0] + (forward[0] * movespeed * time),zxc[1] + (forward[1] * movespeed * time),zxc[2]]
 }
 
 Game.Every = function(start, time, tick, func) {var startTime = Game.Time();var tickRate = tick;if(tick < 1) {if(start < 0) tick--;tickRate = time / -tick;}var tickCount =  time/ tickRate;if(time < 0) {tickCount = 9999999;}var numRan = 0;$.Schedule(start, (function(start,numRan,tickRate,tickCount) {return function() {if(start < 0) {start = 0;if(func()) {return;}; }  var tickNew = function() {numRan++;delay = (startTime+tickRate*numRan)-Game.Time();if((startTime+tickRate*numRan)-Game.Time() < 0) {delay = 0;}$.Schedule(delay, function() {if(func()) {return;};tickCount--;if(tickCount > 0) tickNew();});};tickNew();}})(start,numRan,tickRate,tickCount));}
@@ -578,12 +579,12 @@ function AnimatePanel(panel, values, duration, ease, delay)
 
 //клонирование объекта
 Game.CloneObject = function(obj) {
-    if (null == obj || "object" != typeof obj) return obj
-    var copy = obj.constructor()
-    for (var attr in obj) {
-        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr]
-    }
-    return copy
+	if (null == obj || "object" != typeof obj) return obj
+	var copy = obj.constructor()
+	for (var attr in obj) {
+		if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr]
+	}
+	return copy
 }
 
 Game.AddScript = function(scriptName, onCheckBoxClick) {

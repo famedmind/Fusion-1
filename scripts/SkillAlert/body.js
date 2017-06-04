@@ -1,5 +1,6 @@
 ﻿var positionModifiers = []
 var targetModifiers = []
+var waitingPosModifiers = []
 var z = []
 var panels = []
 positionModifiers["modifier_invoker_sun_strike"] = [1.7, "npc_dota_hero_invoker", "invoker_sun_strike", "sounds/vo/announcer_dlc_rick_and_morty/invoker_03.vsnd"]
@@ -8,6 +9,9 @@ positionModifiers["modifier_lina_light_strike_array"] = [0.5, "npc_dota_hero_lin
 positionModifiers["modifier_leshrac_split_earth_thinker"] = [0.35, "npc_dota_hero_leshrac", "leshrac_split_earth", "sounds/vo/announcer_dlc_rick_and_morty/leshrac_01.vsnd"]
 targetModifiers["modifier_spirit_breaker_charge_of_darkness_vision"] = ["particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_target_mark.vpcf", 1.5, "npc_dota_hero_spirit_breaker", "spirit_breaker_charge_of_darkness", "sounds/vo/announcer_dlc_rick_and_morty/spirit_breaker_01.vsnd"]
 targetModifiers["modifier_tusk_snowball_visible"] = ["particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_target_mark.vpcf", 1.5, "npc_dota_hero_tusk", "tusk_snowball", "sounds/vo/announcer_dlc_rick_and_morty/tusk_01.vsnd"]
+targetModifiers["modifier_life_stealer_infest_effect"] = ["particles/units/heroes/hero_life_stealer/life_stealer_infested_unit_icon.vpcf", 1.5, "npc_dota_hero_life_stealer", "life_stealer_infest", ""]
+targetModifiers["modifier_life_stealer_assimilate_effect"] = ["particles/units/heroes/hero_life_stealer/life_stealer_infested_unit_icon.vpcf", 1.5, "npc_dota_hero_life_stealer", "life_stealer_assimilate", ""]
+waitingPosModifiers["modifier_techies_suicide_leap"] = [1.5, "npc_dota_hero_techies", "techies_suicide", ""]
 
 function SAlertEvery() {
 	if (!SkillAlert.checked)
@@ -27,16 +31,21 @@ function SAlertEvery() {
 	Entities.GetAllEntities().map(function(ent) {
 		return parseInt(ent)
 	}).filter(function(ent) {
-		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsEnemy(ent))
+		return Entities.IsAlive(ent) && !Entities.IsBuilding(ent)
 	}).forEach(function(ent) {
 		var buffs = Game.GetBuffsNames(ent)
+		//if(Entities.IsEnemy(ent))
+			//$.Msg(buffs)
 		var xyz = Entities.GetAbsOrigin(ent)
 		
 		for(var buff of buffs) {
 			var modifier = targetModifiers[buff]
-			if(typeof modifier !== 'undefined' && modifier !== []) {
+			if(typeof modifier !== 'undefined' && modifier !== [])
 				AlertTarget(modifier, ent)
-				break
+			else {
+				var modifier = waitingPosModifiers[buff]
+				if(typeof modifier !== 'undefined' && modifier !== [])
+					;//AlertPosition(modifier, ent)
 			}
 		}
 	})
@@ -60,14 +69,14 @@ function AlertTarget(modifier, ent) {
 		A.Children()[0].heroname = modifier[2]
 		A.Children()[1].abilityname = modifier[3]
 		A.Children()[2].heroname = Entities.GetUnitName(ent)
-		A.DeleteAsync(modifier[0])
+		A.DeleteAsync(modifier[1])
 		panels[ent] = A
-		$.Schedule(modifier[0], function() {
+		$.Schedule(modifier[1], function() {
 			delete panels[ent]
 		})
+		if (D2JS.Configs.SkillAlert.EmitSound === "true")
+			Game.EmitSound(modifier[4])
 	}
-	if (D2JS.Configs.SkillAlert.EmitSound === "true")
-		Game.EmitSound(modifier[4])
 }
 
 function AlertPosition(modifier, vec, thinker) {
@@ -84,14 +93,14 @@ function AlertPosition(modifier, vec, thinker) {
 		', false, false)
 		A.Children()[0].heroname = modifier[1]
 		A.Children()[1].abilityname = modifier[2]
-		A.DeleteAsync(modifier[1])
+		A.DeleteAsync(modifier[0])
 		panels[thinker] = A
-		$.Schedule(modifier[1], function() {
+		$.Schedule(modifier[0], function() {
 			delete panels[thinker]
 		})
+		if (D2JS.Configs.SkillAlert.EmitSound === "true")
+			Game.EmitSound(modifier[4])
 	}
-	if (D2JS.Configs.SkillAlert.EmitSound === "true")
-		Game.EmitSound(modifier[4])
 }
 
 function CreateFollowParticle(particlepath, time, ent) {

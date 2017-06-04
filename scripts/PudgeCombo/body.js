@@ -1,99 +1,85 @@
-var GLOBALTIME
-var ENEMYFORWARD
-var POS
-function Hook(MyEnt, ent) {
-	var hook = Game.GetAbilityByName(MyEnt,'pudge_meat_hook'),
-		hookspeed = 1450,
-		ping = (50 / 1000),
-		a = Entities.GetAbsOrigin(MyEnt),
-		b = Entities.GetAbsOrigin(ent),
-		forward = Entities.GetForward(MyEnt),
-		enforward = Entities.GetForward(ent),
+var hookspeed = 1450,
+	hookwidth = 100,
+	myVec, myForwardVec, enVec, MyEnt, ent
+function Hook(callback) {
+	myVec = Entities.GetAbsOrigin(MyEnt)
+	myForwardVec = Entities.GetForward(MyEnt)
+	enVec = Entities.GetAbsOrigin(ent)
+	//enForwardVec = Entities.GetForward(ent)
+	var
+		hook = Game.GetAbilityByName(MyEnt, 'pudge_meat_hook'),
 		distance = Entities.GetRangeToUnit(MyEnt, ent),
 		reachtime = (distance / hookspeed),
-		angle = Game.AngleBetweenVectors(a, forward, b),
+		angle = Game.AngleBetweenVectors(myVec, myForwardVec, enVec),
 		rottime = Game.RotationTime(angle, 0.7),
-		delay = Abilities.GetCastPoint(abil),
-		time = reachtime + delay + ping + rottime,
+		delay = Abilities.GetCastPoint(hook),
+		time = reachtime + delay + rottime + Game.MyTick,
 		predict = Game.VelocityWaypoint(ent, time)
-		GLOBALTIME = time
-		ENEMYFORWARD = enforward
-		POS = b
-
+	
+	if(distance > Abilities.GetCastRangeFix(hook))
+		return
+	
 	Game.CastPosition(ent, hook, predict, false)
-	CancelHook(MyEnt, ent)
+	$.Schedule(time, function() {
+		if(!CancelHook())
+			callback()
+	})
 }
 
-function CancelHook(MyEnt, ent) {
-		var b = Entities.GetAbsOrigin(ent),
-			distance = Game.PointDistance(b, POS),
-			enforward = Entities.GetForward(ent),
-			angle = Game.AngleBetweenTwoFaces(ENEMYFORWARD, enforward)
-		
-		if(angle > 0.20 || distance > 200) {
-			$.Msg(angle)
-			$.Msg(distance)
-			Game.EntStop(MyEnt, false)
-			Cast()
-		}
-	$.Schedule(Game.MyTick, CancelHook)
+function CancelHook() {
+	var distance = Game.PointDistance(enVec, Entities.GetAbsOrigin(ent))/*,
+		angle = Game.AngleBetweenTwoFaces(enForwardVec, myForwardVec)*/
+	
+	if(distance > hookwidth) {
+		Game.EntStop(MyEnt, false)
+		PudgeCombo()
+		return true
+	} else
+		return false
 }
 
-function Rot(MyEnt, ent) {
+function Rot() {
 	var rot = Game.GetAbilityByName(MyEnt,'pudge_rot'),
 		userbuffs = Game.GetBuffsNames(ent),
 		MyEntbuffs = Game.GetBuffsNames(MyEnt),
-		a = Entities.GetAbsOrigin(MyEnt),
-		b = Entities.GetAbsOrigin(ent),
-		distance = Game.PointDistance(a,b)
+		distance = Entities.GetRangeToUnit(MyEnt, ent)
 
-	if(!Game.IntersecArrays(MyEntbuffs, ['modifier_pudge_rot'])) {
-		if(distance < 125) {
-			Abilities.ExecuteAbility(rot, MyEnt, false)
-		}
-	}
+	if(!Game.IntersecArrays(MyEntbuffs, ['modifier_pudge_rot']))
+		Abilities.ExecuteAbility(rot, MyEnt, false)
 }
 
-function Urn(MyEnt, ent) {
+function Urn() {
 	var urn = Game.GetAbilityByName(MyEnt, 'item_urn_of_shadows'),
 		urncharges = Items.GetCurrentCharges(urn)
 		
-	if(distance < 160 || urncharges > 0) {
+	if(urncharges > 0)
 		Game.CastTarget(MyEnt, urn, ent, false)
-	}
 }
 
-function Dismember(MyEnt, ent) {
-	var dismember = Game.GetAbilityByName(MyEnt,'pudge_dismember'),
-		userbuffs = Game.GetBuffsNames(ent),
-		MyEntbuffs = Game.GetBuffsNames(MyEnt),
-		a = Entities.GetAbsOrigin(MyEnt),
-		b = Entities.GetAbsOrigin(ent),
-		distance = Game.PointDistance(a,b)
+function Dismember() {
+	var dismember = Game.GetAbilityByName(MyEnt,'pudge_dismember')
 
-	if(distance < 160) {
-		Game.Castent(MyEnt, dismember, ent, false)
-	}
+	Game.CastTarget(MyEnt, dismember, ent, false)
 }
- 
-function PudgeCombo() {
-	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
-	var ent = Game.ClosetToMouse(1000, true)
-	if(ent === -1)
+
+D2JS.Commands.PudgeCombo = function() {
+	Hook(function() {
+		Urn()
+		Rot()
+		Dismember()
+	})
+}
+
+function PudgeComboCommand() {
+	MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
+	ent = Game.ClosetToMouse(1000, true)
+	if(ent === undefined)
 		return
- 
-	function Cast() {
-		Hook(MyEnt, ent)
-		Urn(MyEnt, ent)
-		Rot(MyEnt, ent)
-		Dismember(MyEnt, ent)
-	}
- 
-	Cast()
+	D2JS.Commands.PudgeCombo()
 }
 
 function BindCommands() {
-	Game.AddCommand("__PudgeCombo", PudgeCombo, "", 0)
+	Game.AddCommand("__PudgeCombo", PudgeComboCommand, "", 0)
 }
 
 //function MapLoaded(data) {

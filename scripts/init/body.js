@@ -1,5 +1,6 @@
 D2JS = {
 	Configs: {},
+	Commands: {},
 	ScriptVersion: "1.2",
 	debug: false,
 	debugAnimations:true,

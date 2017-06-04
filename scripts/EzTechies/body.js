@@ -71,6 +71,7 @@ function EzTechiesF() {
 	})
 	
 	RemoteMines(MyEnt, HEnts)
+	DenyMines(MyEnt)
 }
 
 function CallMines(MyEnt, ent, callback, explosionCallback) {
@@ -116,6 +117,18 @@ function CallMines(MyEnt, ent, callback, explosionCallback) {
 		} else
 			return false
 	})
+}
+
+function DenyMines(MyEnt) {
+	var dmgMines = Entities.GetAllEntitiesByClassname('npc_dota_techies_mines').filter(function(ent) {
+		return Entities.IsAlive(ent) && Entities.GetUnitName(ent) === 'npc_dota_techies_remote_mine' && Entities.IsValidEntity(ent) && Entities.GetHealthPercent(ent) !== 100
+	})
+	dmgMines.forEach(function(rmine) {
+		GameUI.SelectUnit(rmine, false)
+		Game.CastNoTarget(rmine, Entities.GetAbilityByName(rmine, 'techies_remote_mines_self_detonate'), false)
+	})
+	if(dmgMines.length !== 0)
+		GameUI.SelectUnit(MyEnt, false)
 }
 
 function RemoteMines(MyEnt, HEnts) {

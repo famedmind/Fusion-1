@@ -32,7 +32,7 @@ function EzSunstrikeOnInterval() {
 			//GameUI.SelectUnit(MyEnt, false)
 			//Game.CastPosition(MyEnt, SunStrike, SunStrikePos, false)
 			GameUI.PingMinimapAtLocation(SunStrikePos)
-			CancelSunstrike(MyEnt, ent)
+			$.Schedule(Game.MyTick, CancelSunstrike)
 		}
 	}
 }
@@ -46,7 +46,6 @@ function CancelSunstrike() {
 		Game.EntStop(MyEnt, false)
 		$.Msg("cancel. " + Game.PointDistance(SunStrikePos, SunStrikePos2))
 	}
-	$.Schedule(Game.MyTick, CancelSunstrike)
 }
 	
 function EzSunstrikeOnToggle() {

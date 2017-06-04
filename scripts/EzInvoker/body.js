@@ -6,6 +6,8 @@ function InvokerCombo() {
 	MyEnt = Players.GetPlayerHeroEntityIndex(playerID)
 	
 	var enemy = Game.ClosetToMouse(500, true)
+	if(enemy === undefined)
+		return
 	var pos = Entities.GetAbsOrigin(enemy)
 	
 	var Veil = Game.GetAbilityByName(MyEnt, "item_veil_of_discord")
