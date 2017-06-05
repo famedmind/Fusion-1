@@ -7,7 +7,7 @@ D2JS = {
 	D2JSServer: "http://m00fm0nkey.servegame.com:4297"
 }
 
-D2JS.ReloadD2JSVanilla = function(){
+D2JS.ReloadD2JSVanilla = function() {
 	D2JS.ReloadD2JS("")
 }
 
