@@ -12,6 +12,19 @@ Abilities.GetCastRangeFix = function(abil) { // Don't conflict with internal usa
 	return AbilRange
 }
 
+D2JS.ForceStaffPos = function(ent) {
+	var entVec = Entities.GetAbsOrigin(ent)
+	var entForward = Entities.GetForward(ent)
+	var mineVec = Entities.GetAbsOrigin(rmine)
+	var forceVec = [
+		entVec[0] + entForward[0] * dforce,
+		entVec[1] + entForward[1] * dforce,
+		entVec[2] + entForward[2] * dforce
+	]
+	
+	return forceVec
+}
+
 Game.IgnoreBuffs = [
 	"modifier_abaddon_borrowed_time",
 	"modifier_skeleton_king_reincarnation_scepter_active",

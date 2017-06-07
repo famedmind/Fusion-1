@@ -1,11 +1,8 @@
-﻿var DisableItems = [
+﻿var DisableAbils = [
 	"item_orchid",
 	"item_bloodthorn",
 	"item_sheepstick",
-	"item_cyclone"
-]
-
-var DisableAbils = [
+	"item_cyclone",
 	"pudge_dismember",
 	"lion_voodoo",
 	"puck_waning_rift",
@@ -34,41 +31,27 @@ function AntiInitiationF(){
 	if ( !AntiInitiation.checked || flag )
 		return
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
-	var item=-1
-	c: // C:
-	for(i in DisableItems)
-		for(m = 0; m<6; m++){
-			var it = Entities.GetItemInSlot( MyEnt, m )
-			if(DisableItems[i]==Abilities.GetAbilityName(it) && Abilities.GetCooldownTimeRemaining(it)==0){
-				item = it
-				break c;
-			}
-		}
-	C:
-	if(item==-1){
-		for(i in DisableAbils)
-		for(m = 0; m<Entities.GetAbilityCount(MyEnt); m++){
-			var it = Entities.GetAbility( MyEnt, m )
-			if(DisableAbils[i]==Abilities.GetAbilityName(it) && Abilities.GetCooldownTimeRemaining(it)==0){
-				item = it
-				break C;
-			}
-		}	
+	var abil = -1
+	for(var abilName of DisableAbils) {
+		var abilL = Game.GetAbilityByName(MyEnt, abilName)
+		if(abilL === -1)
+			continue
+		abil = abilL
+		break
 	}
-	if(item==-1)
+	if(abil ==== -1)
 		return
-	var itemname = Abilities.GetAbilityName(item)
-	var Behavior = Game.Behaviors(item)
+	var Behavior = Game.Behaviors(abil)
 	var HEnts = Game.PlayersHeroEnts()
-	for (i in HEnts) {
+	for (var i in HEnts) {
 		var ent = parseInt(HEnts[i])
 		if (!Entities.IsEnemy(ent) || !Entities.IsAlive(ent))
 			continue
-		var itemrange = Abilities.GetCastRangeFix(item)
+		var abilrange = Abilities.GetCastRangeFix(abil)
 		var Range = Entities.GetRangeToUnit(MyEnt, ent)
-		if(Range>itemrange && itemrange!=0)
+		if(Range > abilrange && abilrange !== 0)
 			continue
-		for(m=0;m<Entities.GetAbilityCount(ent);m++){
+		for(var m=0; m < Entities.GetAbilityCount(ent); m++){
 			var Abil = Entities.GetAbility(ent, m)
 			var AbilName = Abilities.GetAbilityName(Abil)
 			var Cast = Abilities.IsInAbilityPhase(Abil)
@@ -77,12 +60,12 @@ function AntiInitiationF(){
 			if(Cast){
 				GameUI.SelectUnit(MyEnt,false)
 				Game.EntStop(MyEnt, false)
-				if(Behavior.indexOf(4)!=-1)
-					Game.CastNoTarget(MyEnt, item, false)
+				if(Behavior.indexOf(4) !== -1)
+					Game.CastNoTarget(MyEnt, abil, false)
 				else if(Behavior.indexOf(16)!=-1)
-					Abilities.CreateDoubleTapCastOrder( item, MyEnt )
+					Abilities.CreateDoubleTapCastOrder(abil, MyEnt)
 				else if(Behavior.indexOf(8)!=-1 )
-					Game.CastTarget(MyEnt,item,ent,false)
+					Game.CastTarget(MyEnt, abil, ent, false)
 				flag = true
 				$.Schedule(0.5, function() {
 					flag=false
@@ -94,7 +77,7 @@ function AntiInitiationF(){
 }
 
 
-var AutoCritFOnCheckBoxClick = function(){
+var AntiInitiationToggle = function(){
 	if (!AntiInitiation.checked){
 		Game.ScriptLogMsg('Script disabled: AntiInitiation', '#ff0000')
 		return
@@ -114,4 +97,4 @@ var AutoCritFOnCheckBoxClick = function(){
 	}
 }
 
-var AntiInitiation = Game.AddScript('AntiInitiation', AutoCritFOnCheckBoxClick)
+var AntiInitiation = Game.AddScript('AntiInitiation', AntiInitiationToggle)

@@ -16,8 +16,8 @@ function OnValueChanged(slider){
 	GameUI.SetCameraDistance( slider.value )
 	$('#CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
 }
-slider.min = 1000
-slider.max = 2500
+slider.min = 1300
+slider.max = 3000
 slider.value = 1500
 lastValue = slider.value
 $('#CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
