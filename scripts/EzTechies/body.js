@@ -72,6 +72,9 @@ function EzTechiesF() {
 	
 	RemoteMines(MyEnt, HEnts)
 	DenyMines(MyEnt)
+} catch(e) {
+	$.Msg(e.stack)
+}
 }
 
 function CallMines(MyEnt, ent, callback, explosionCallback) {
