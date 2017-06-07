@@ -69,7 +69,7 @@ function EzTechiesF() {
 		else
 			return -1
 	})
-	
+try {
 	RemoteMines(MyEnt, HEnts)
 	DenyMines(MyEnt)
 } catch(e) {
