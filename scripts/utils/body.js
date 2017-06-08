@@ -1,6 +1,7 @@
 ﻿Game.MyTick = 1 / 30
 
 D2JS.LenseBonusRange = 200
+D2JS.ForceStaffUnits = 600
 Abilities.GetCastRangeFix = function(abil) { // Don't conflict with internal usage
 	var AbilRange = Abilities.GetCastRange(abil)
 	var Caster = Abilities.GetCaster(abil)
@@ -15,11 +16,10 @@ Abilities.GetCastRangeFix = function(abil) { // Don't conflict with internal usa
 D2JS.ForceStaffPos = function(ent) {
 	var entVec = Entities.GetAbsOrigin(ent)
 	var entForward = Entities.GetForward(ent)
-	var mineVec = Entities.GetAbsOrigin(rmine)
 	var forceVec = [
-		entVec[0] + entForward[0] * dforce,
-		entVec[1] + entForward[1] * dforce,
-		entVec[2] + entForward[2] * dforce
+		entVec[0] + entForward[0] * D2JS.ForceStaffUnits,
+		entVec[1] + entForward[1] * D2JS.ForceStaffUnits,
+		entVec[2] + entForward[2] * D2JS.ForceStaffUnits
 	]
 	
 	return forceVec

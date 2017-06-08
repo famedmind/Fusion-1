@@ -3,7 +3,8 @@ D2JS = {
 	Commands: {},
 	ScriptVersion: "1.2",
 	debug: false,
-	debugAnimations:true,
+	debugScripts: true,
+	debugAnimations: true,
 	D2JSServer: "http://m00fm0nkey.servegame.com:4297"
 }
 
@@ -27,6 +28,8 @@ D2JS.ReloadD2JS = function(postfix) {
 
 D2JS.LoadScript = function(script) {
 	D2JS.ServerRequest('getscript', script, function(response) {
+		if(D2JS.debugScripts)
+			response = "try {" + response + "} catch(e) {$.Msg(e.stack)}"
 		eval(response)
 		$.Msg("JScript " + script + " loaded")
 	})

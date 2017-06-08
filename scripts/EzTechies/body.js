@@ -1,5 +1,4 @@
 ﻿var triggerradius = 425
-var dforce		= 600
 var damage		= [300, 450, 600]
 var scepterdamage = [450, 600, 750]
 
@@ -108,9 +107,9 @@ function CallMines(MyEnt, ent, callback, explosionCallback) {
 		if(callback(MyEnt, ent, rmine)) {
 			rmines.push(rmine)
 			rminessumdmg += dmg
-			if(D2JS.debug)
-				$.Msg("There's " + rminessumdmg + ", need " + NeedMagicDmg + " for " + Entities.GetUnitName(ent))
 			if(rminessumdmg >= NeedMagicDmg) {
+				if(D2JS.debug)
+					$.Msg("There's " + rminessumdmg + ", need " + NeedMagicDmg + " for " + Entities.GetUnitName(ent))
 				explosionCallback(MyEnt, ent, rmines, rminessumdmg)
 				return true
 			}
