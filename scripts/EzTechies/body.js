@@ -68,7 +68,7 @@ function EzTechiesF() {
 		else
 			return -1
 	})
-	
+
 	RemoteMines(MyEnt, HEnts)
 	DenyMines(MyEnt)
 }
@@ -171,7 +171,7 @@ function RemoteMines(MyEnt, HEnts) {
 					
 					return Game.PointDistance(forceVec, mineVec) <= triggerradius
 				},
-				function(MyEnt, ent, rmines) {
+				function(MyEnt, ent) {
 					GameUI.SelectUnit(MyEnt,false)
 					Game.CastTarget(MyEnt, force, ent, false)
 				}
