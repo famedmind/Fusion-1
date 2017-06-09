@@ -108,7 +108,7 @@ function CallMines(MyEnt, ent, callback, explosionCallback) {
 			rmines.push(rmine)
 			rminessumdmg += dmg
 			if(rminessumdmg >= NeedMagicDmg) {
-				if(D2JS.debug)
+				//if(D2JS.debug)
 					$.Msg("There's " + rminessumdmg + ", need " + NeedMagicDmg + " for " + Entities.GetUnitName(ent))
 				explosionCallback(MyEnt, ent, rmines, rminessumdmg)
 				return true
@@ -160,6 +160,7 @@ function RemoteMines(MyEnt, HEnts) {
 		if (
 			!callBackCalled &&
 			force !== -1 &&
+			Entities.IsAlive(MyEnt) &&
 			Abilities.GetCooldownTimeRemaining(force) === 0 &&
 			Entities.GetRangeToUnit(MyEnt, ent) <= Abilities.GetCastRangeFix(force)
 		)

@@ -182,7 +182,7 @@ Game.GetAbilityByName = function(ent, name) {
 	var ab = Entities.GetAbilityByName(ent, name)
 	if (ab !== -1)
 		return ab
-	for(var i=0; i < Entities.GetNumItemsInInventory(ent); i++) {
+	for(var i = 0; i < Entities.GetNumItemsInInventory(ent); i++) {
 		var item = Entities.GetItemInSlot(ent, i)
 		if(Abilities.GetAbilityName(item) === name)
 			return item

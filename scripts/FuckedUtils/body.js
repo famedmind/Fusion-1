@@ -1,10 +1,6 @@
 function BindCommands() {
-	Game.AddCommand('__SetTimeoutForHost', function() {
-		SetTimeoutForHost()
-	}, '', 0)
-	Game.AddCommand('__Set1TimeoutForHost', function() {
-		Set1TimeoutForHost()
-	}, '', 0)
+	Game.AddCommand('__SetTimeoutForHost', SetTimeoutForHost, '', 0)
+	Game.AddCommand('__Set1TimeoutForHost', Set1TimeoutForHost, '', 0)
 }
 
 function SetTimeoutForHost() { //Host-troll
