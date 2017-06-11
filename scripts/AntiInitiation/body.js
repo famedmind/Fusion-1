@@ -23,18 +23,26 @@ var InitSpells = [
 	"batrider_flaming_lasso",
 	"dark_seer_wall_of_replica",
 	"slardar_slithereen_crush",
-	"queenofpain_sonic_wave"
+	"queenofpain_sonic_wave",
+	"enigma_black_hole",
+	"juggernaut_omni_slash",
+	"puck_waning_rift",
+	"pudge_dismember",
+	"shadow_shaman_shackles",
+	"sven_storm_bolt",
+	"rubick_telekinesis",
+	"lion_impale"
 ]
 
 var flag = false
 function AntiInitiationF(){
-	if ( !AntiInitiation.checked || flag )
+	if(!AntiInitiation.checked || flag)
 		return
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var abil = -1
 	for(var abilName of DisableAbils) {
 		var abilL = Game.GetAbilityByName(MyEnt, abilName)
-		if(abilL === -1)
+		if(abilL === -1 || Abilities.GetCooldownTimeRemaining(abilL) !== 0)
 			continue
 		abil = abilL
 		break
@@ -55,7 +63,7 @@ function AntiInitiationF(){
 			var Abil = Entities.GetAbility(ent, m)
 			var AbilName = Abilities.GetAbilityName(Abil)
 			var Cast = Abilities.IsInAbilityPhase(Abil)
-			if( Abil==-1  || Abilities.GetCooldownTimeRemaining(Abil) != 0 || Abilities.GetLevel(Abil)==0 || !Cast || InitSpells.indexOf(AbilName)==-1 )
+			if( Abil==-1  || Abilities.GetCooldownTimeRemaining(Abil) !== 0 || Abilities.GetLevel(Abil)==0 || !Cast || InitSpells.indexOf(AbilName)==-1 )
 				continue
 			if(Cast){
 				GameUI.SelectUnit(MyEnt,false)

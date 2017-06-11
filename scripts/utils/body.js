@@ -143,11 +143,11 @@ Game.AngleBetweenTwoFaces = function(a_facing, b_facing) {
 	return Math.acos((a_facing[0] * b_facing[0]) + (a_facing[1] * b_facing[1]))
 }
 
-Game.RotationTime = function(angle, rotspeed) {
-	return (0.03 * angle / rotspeed)
+Game.RotationTime = function(angle, rotspeed) { // MovementTurnRate
+	return (Game.MyTick * angle / rotspeed)
 }
 
-Game.ClosetToMouse = function(range, enemy) {
+Game.ClosetToMouse = function(MyEnt, range, enemy) {
 	var mousePos = Game.ScreenXYToWorld(GameUI.GetCursorPosition()[0],GameUI.GetCursorPosition()[1])
 	var enemyTeam = Game.PlayersHeroEnts()
 	if(enemy)
@@ -183,7 +183,7 @@ Game.GetAbilityByName = function(ent, name) {
 	var ab = Entities.GetAbilityByName(ent, name)
 	if (ab !== -1)
 		return ab
-	for(var i = 0; i < Entities.GetNumItemsInInventory(ent); i++) {
+	for(var i = 0; i < 7; i++) {
 		var item = Entities.GetItemInSlot(ent, i)
 		if(Abilities.GetAbilityName(item) === name)
 			return item
@@ -602,16 +602,40 @@ Game.CloneObject = function(obj) {
 Game.AddScript = function(scriptName, onCheckBoxClick) {
 	var Temp = $.CreatePanel("Panel", $('#trics'), scriptName)
 	Temp.SetPanelEvent('onactivate', onCheckBoxClick)
-	Temp.BLoadLayoutFromString('<root><styles><include src="s2r://panorama/styles/dotastyles.vcss_c"/><include src="s2r://panorama/styles/magadan.vcss_c"/></styles><Panel><ToggleButton class="CheckBox" id="' + scriptName + '" text="' + scriptName + '"/></Panel></root>', false, false) 
-	
-	$("#trics").Children().sort(function(a,b) {
-		if (a.text > b.text) return 1
-		if (a.text < b.text) return -1
-	})
+	Temp.BLoadLayoutFromString('\
+		<root>\
+			<styles>\
+				<include src="s2r://panorama/styles/dotastyles.vcss_c"/>\
+				<include src="s2r://panorama/styles/magadan.vcss_c"/>\
+			</styles>\
+			<Panel>\
+				<ToggleButton class="CheckBox" id="' + scriptName + '" text="' + scriptName + '"/>\
+			</Panel>\
+		</root>\
+	', false, false) 
+	SortScripts()
 	
 	return $.GetContextPanel().FindChildTraverse(scriptName).Children()[0]
 }
 
+function SortScripts() {
+	var scripts = $('#trics')
+	while (x !== 0) {
+		var x = 0
+		for (var i = 0; i < scripts.Children()['length'] - 1; i++)
+			if (scripts.Children()[i].Children()[1]['text'] > scripts.Children()[i + 1].Children()[1]['text']) {
+				scripts.MoveChildBefore(scripts.Children()[i + 1], scripts.Children()[i]);
+				x++
+			}
+	}
+	$('#trics').sort(function(a, b) {
+		if (a > b)
+			return -1
+		if (a < b)
+			return 1
+		return 0
+	})
+}
 
 Game.ScriptLogMsg('Utils sucessfull loaded', '#00ff00')
 if(Game.ServerRequest === null)

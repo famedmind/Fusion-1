@@ -5,7 +5,7 @@ function InvokerCombo() {
 	var playerID = Game.GetLocalPlayerID()
 	MyEnt = Players.GetPlayerHeroEntityIndex(playerID)
 	
-	var enemy = Game.ClosetToMouse(500, true)
+	var enemy = Game.ClosetToMouse(MyEnt, 500, true)
 	if(enemy === undefined)
 		return
 	var pos = Entities.GetAbsOrigin(enemy)

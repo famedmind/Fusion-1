@@ -40,7 +40,7 @@ D2JS.ServerRequest = function(name, val, callback) {
 		type: 'POST',
 		data: {},
 		complete: function(a) {
-			if (a.status === 200 && a.responseText !== null )
+			if (a.status === 200 && a.responseText !== null)
 				callback(a.responseText.substring(0, a.responseText.length - 3))
 		}
 	}

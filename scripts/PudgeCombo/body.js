@@ -1,5 +1,5 @@
 var hookspeed = 1450,
-	hookwidth = 100,
+	hookwidth = 200,
 	myVec, myForwardVec, enVec, MyEnt, ent
 function Hook(callback) {
 	myVec = Entities.GetAbsOrigin(MyEnt)
@@ -20,19 +20,19 @@ function Hook(callback) {
 		return
 	
 	Game.CastPosition(ent, hook, predict, false)
-	$.Schedule(time, function() {
+	$.Schedule(0.3 - Game.MyTick, function() {
 		if(!CancelHook())
 			callback()
 	})
 }
 
 function CancelHook() {
-	var distance = Game.PointDistance(enVec, Entities.GetAbsOrigin(ent))/*,
+	var distance = Game.PointDistance(enVec, Entities.GetAbsOrigin(ent)),/*
 		angle = Game.AngleBetweenTwoFaces(enForwardVec, myForwardVec)*/
 	
-	if(distance > hookwidth) {
+	if(/*angle > 0.20 || */distance > hookwidth) {
 		Game.EntStop(MyEnt, false)
-		PudgeCombo()
+		Combo()
 		return true
 	} else
 		return false
@@ -62,7 +62,7 @@ function Dismember() {
 	Game.CastTarget(MyEnt, dismember, ent, false)
 }
 
-D2JS.Commands.PudgeCombo = function() {
+function Combo() {
 	Hook(function() {
 		Urn()
 		Rot()
@@ -70,16 +70,16 @@ D2JS.Commands.PudgeCombo = function() {
 	})
 }
 
-function PudgeComboCommand() {
+D2JS.Commands.PudgeCombo = function() {
 	MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
-	ent = Game.ClosetToMouse(1000, true)
+	ent = Game.ClosetToMouse(MyEnt, 1000, true)
 	if(ent === undefined)
 		return
-	D2JS.Commands.PudgeCombo()
+	Combo()
 }
 
 function BindCommands() {
-	Game.AddCommand("__PudgeCombo", PudgeComboCommand, "", 0)
+	Game.AddCommand("__PudgeCombo", D2JS.Commands.PudgeCombo, "", 0)
 }
 
 //function MapLoaded(data) {
