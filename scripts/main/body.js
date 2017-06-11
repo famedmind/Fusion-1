@@ -12,13 +12,13 @@ function RefreshToggles() {
 
 var slider = $.GetContextPanel().FindChildInLayoutFile("CameraDistance")
 var lastValue = 0
-function OnValueChanged(slider){
+function OnValueChanged(slider) {
 	GameUI.SetCameraDistance( slider.value )
 	$('#CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
 }
 slider.min = 1300
 slider.max = 3000
-slider.value = 1500
+slider.value = 2000
 lastValue = slider.value
 $('#CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
 Game.Every(-1, -1, 0, function() { 

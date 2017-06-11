@@ -35,14 +35,14 @@ function EMBEvery() {
 				continue
 			}
 			var xyz = Entities.GetAbsOrigin(ent)
-			var healthbaroffset = Game.HPBarOffsets[Entities.GetUnitName(ent)]
+			var healthbaroffset = 200
 			if (!xyz || !healthbaroffset) {
 				if (Game.Panels.EnemyManaBars[ent])
 					Game.Panels.EnemyManaBars[ent].visible = false
 				continue
 			}
-			uix = Game.WorldToScreenX(xyz[0], xyz[1], xyz[2] + healthbaroffset)
-			uiy = Game.WorldToScreenY(xyz[0], xyz[1], xyz[2] + healthbaroffset)
+			var uix = Game.WorldToScreenX(xyz[0], xyz[1], xyz[2] + healthbaroffset),
+				uiy = Game.WorldToScreenY(xyz[0], xyz[1], xyz[2] + healthbaroffset)
 			if (uix == -1 || uiy == -1) {
 				if (Game.Panels.EnemyManaBars[ent])
 					Game.Panels.EnemyManaBars[ent].visible = false
@@ -57,7 +57,14 @@ function EMBEvery() {
 			}
 			if (!Game.Panels.EnemyManaBars[ent]) {
 				Game.Panels.EnemyManaBars[ent] = $.CreatePanel("Panel", MainHud, "EnemyManaBar")
-				Game.Panels.EnemyManaBars[ent].BLoadLayoutFromString("<root><Panel style='margin: -22px 0 0 -52px;width:103px;height:15px;background-color:#000000ff;border: 1px solid #333;' class='EnemyManaBar'><Panel 	style='width:60%;height:100%;background-color:#4444ffff;'></Panel><Label style='color:#ffffff55;font-size:13px;font-weight: bold;width:100%;opacity:0.5;text-align: center;' text='60%'/></Panel></root>", false, false)
+				Game.Panels.EnemyManaBars[ent].BLoadLayoutFromString("\
+					<root>\
+						<Panel style='margin: -22px 0 0 -52px;width:103px;height:15px;background-color:#000000ff;border: 1px solid #333;' class='EnemyManaBar'>\
+							<Panel 	style='width:60%;height:100%;background-color:#4444ffff;'/>\
+							<Label style='color:#ffffff55;font-size:13px;font-weight: bold;width:100%;opacity:0.5;text-align: center;' text='60%'/>\
+						</Panel>\
+					</root>\
+				", false, false)
 			}
 			Game.Panels.EnemyManaBars[ent].visible = true
 			Game.Panels.EnemyManaBars[ent].style.position = uixp + '% ' + uiyp + '% 0'

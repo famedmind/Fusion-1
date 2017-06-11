@@ -39,7 +39,7 @@ function AntiInitiationF(){
 		abil = abilL
 		break
 	}
-	if(abil ==== -1)
+	if(abil === -1)
 		return
 	var Behavior = Game.Behaviors(abil)
 	var HEnts = Game.PlayersHeroEnts()
