@@ -27,7 +27,7 @@ function Hook(callback) {
 }
 
 function CancelHook() {
-	var distance = Game.PointDistance(enVec, Entities.GetAbsOrigin(ent)),/*
+	var distance = Game.PointDistance(enVec, Entities.GetAbsOrigin(ent))/*,
 		angle = Game.AngleBetweenTwoFaces(enForwardVec, myForwardVec)*/
 	
 	if(/*angle > 0.20 || */distance > hookwidth) {

@@ -21,14 +21,10 @@ function Disable(MyEnt, ent) {
 		var speed = ar[1]
 		if(distance > Abilities.GetCastRangeFix(abil) || !Abilities.IsCooldownReady(abil) || Abilities.IsHidden(abil) || !Abilities.IsActivated(abil))
 			return false
-		var techiesDist = 1200
-		if(Entities.HasItemInInventory(ent, 'item_aether_lens'))
-			techiesDist += D2JS.LenseBonusRange
-		var techiesTime = 0.75
-		var techiesSpeed = techiesDist * techiesTime
+		var monkeySpeed = 700
 		if(speed === -1) {
 			if(abilBehaviors.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT) !== -1)
-				Game.CastPosition(MyEnt, abil, Game.VelocityWaypoint(ent, Abilities.GetCastPoint(abil), techiesSpeed))
+				Game.CastPosition(MyEnt, abil, Game.VelocityWaypoint(ent, Abilities.GetCastPoint(abil), monkeySpeed))
 			else if(abilBehaviors.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_UNIT_TARGET) !== -1 || abilBehaviors.length === 0)
 				Game.CastTarget(MyEnt, abil, ent)
 		} else {
@@ -39,9 +35,8 @@ function Disable(MyEnt, ent) {
 				angle = Game.AngleBetweenVectors(a, forward, b),
 				rottime = Game.RotationTime(angle, 0.7),
 				delay = Abilities.GetCastPoint(abil),
-				ping = (50 / 1000),
-				time = reachtime + delay + ping + rottime,
-				predict = Game.VelocityWaypoint(ent, time, techiesSpeed)
+				time = reachtime + delay + rottime + Game.MyTick,
+				predict = Game.VelocityWaypoint(ent, time, monkeySpeed)
 			Game.CastPosition(MyEnt, abil, predict)
 		}
 		flag = true
@@ -52,40 +47,41 @@ function Disable(MyEnt, ent) {
 	})
 }
 
-var AntiTechiesF = function() {
+var AntiMonkeyF = function() {
 	var MyEnt = parseInt(Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID()))
 	if(Game.IsGamePaused() || Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return
 	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
 		return parseInt(ent)
 	}).filter(function(ent) {
-		return Entities.GetUnitName(ent) === "npc_dota_hero_techies" && Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent)
+		return Entities.GetUnitName(ent) === "npc_dota_hero_monkey_king" && Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent)
 	}).some(function(ent) {
 		var buffsNames = Game.GetBuffsNames(ent)
 		buffsNames.some(function(buffName) {
-			if(buffName === "modifier_techies_suicide_leap") {
+			if(buffName === "modifier_monkey_king_bounce_leap") {
 				Disable(MyEnt, ent)
 				return true
 			} else
 				return false
 		})
+		//$.Msg(buffsNames)
 	})
 }
 
-function AntiTechiesToggle() {
-	if (!AntiTechies.checked) {
-		Game.ScriptLogMsg('Script disabled: AntiTechies', '#ff0000')
+function AntiMonkeyToggle() {
+	if (!AntiMonkey.checked) {
+		Game.ScriptLogMsg('Script disabled: AntiMonkey', '#ff0000')
 		return
 	} else {
 		function L() {
-			if (AntiTechies.checked) {
-				AntiTechiesF()
+			if (AntiMonkey.checked) {
+				AntiMonkeyF()
 				$.Schedule(Game.MyTick, L)
 			}
 		}
 		L()
-		Game.ScriptLogMsg('Script enabled: AntiTechies', '#00ff00')
+		Game.ScriptLogMsg('Script enabled: AntiMonkey', '#00ff00')
 	}
 }
 
-var AntiTechies = Game.AddScript("AntiTechies", AntiTechiesToggle)
+var AntiMonkey = Game.AddScript("AntiMonkey", AntiMonkeyToggle)

@@ -242,7 +242,7 @@ Game.Subscribes.MoneyChangedCB = GameEvents.Subscribe('dota_money_changed', func
 
 //сообщение в боковую панель
 Game.ScriptLogMsg = function(msg, color) {
-	var ScriptLog = $('#ScriptLog')
+	var ScriptLog = D2JS.Panels.MainPanel.FindChildTraverse('ScriptLog')
 	var ScriptLogMessage = $.CreatePanel( "Label", ScriptLog, "ScriptLogMessage" )
 	ScriptLogMessage.BLoadLayoutFromString( "<root><Label /></root>", false, false)
 	ScriptLogMessage.style.fontSize = '15px'
@@ -293,14 +293,12 @@ GameUI.MovePanel = function(a, callback) {
 
 //нахождение главного родительского HUD`a
 Game.GetMainHUD = function() {
-	var globalContext=$.GetContextPanel()
-	while(true) {
-		if(globalContext.paneltype == "DOTAHud") {
+	var globalContext = $.GetContextPanel()
+	while(true)
+		if(globalContext.paneltype == "DOTAHud")
 			break
-		}else{
+		else
 			globalContext = globalContext.GetParent()
-		}
-	}
 	return globalContext
 }
 
@@ -600,7 +598,7 @@ Game.CloneObject = function(obj) {
 }
 
 Game.AddScript = function(scriptName, onCheckBoxClick) {
-	var Temp = $.CreatePanel("Panel", $('#trics'), scriptName)
+	var Temp = $.CreatePanel("Panel", D2JS.Panels.MainPanel.FindChildTraverse('trics'), scriptName)
 	Temp.SetPanelEvent('onactivate', onCheckBoxClick)
 	Temp.BLoadLayoutFromString('\
 		<root>\
@@ -613,28 +611,12 @@ Game.AddScript = function(scriptName, onCheckBoxClick) {
 			</Panel>\
 		</root>\
 	', false, false) 
-	SortScripts()
+	D2JS.Panels.MainPanel.FindChildTraverse("trics").Children().sort(function(a,b) {
+		if (a > b) return 1
+		if (a < b) return -1
+	})
 	
 	return $.GetContextPanel().FindChildTraverse(scriptName).Children()[0]
-}
-
-function SortScripts() {
-	var scripts = $('#trics')
-	while (x !== 0) {
-		var x = 0
-		for (var i = 0; i < scripts.Children()['length'] - 1; i++)
-			if (scripts.Children()[i].Children()[1]['text'] > scripts.Children()[i + 1].Children()[1]['text']) {
-				scripts.MoveChildBefore(scripts.Children()[i + 1], scripts.Children()[i]);
-				x++
-			}
-	}
-	$('#trics').sort(function(a, b) {
-		if (a > b)
-			return -1
-		if (a < b)
-			return 1
-		return 0
-	})
 }
 
 Game.ScriptLogMsg('Utils sucessfull loaded', '#00ff00')
