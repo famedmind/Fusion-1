@@ -80,7 +80,7 @@ function AntiTechiesToggle() {
 		function L() {
 			if (AntiTechies.checked) {
 				AntiTechiesF()
-				$.Schedule(Game.MyTick, L)
+				$.Schedule(D2JS.MyTick, L)
 			}
 		}
 		L()

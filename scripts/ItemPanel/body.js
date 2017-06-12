@@ -12,12 +12,12 @@ function NewItem(oldinv, newinv, ent) {
 			if(D2JS.Configs.ItemPanel.Notify === "true") {
 				A = $.CreatePanel('Panel', D2JS.Panels.ItemPanel, 'Alert' + ent + n)
 				A.BLoadLayoutFromString('\
-				<root>\
-					<Panel style="width:100%;height:37px;background-color:#111;">\
-						<DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:0px;"/>\
-						<DOTAItemImage itemname="" style="vertical-align:center;width:60px;height:35px;position:70px;"/>\
-					</Panel>\
-				</root>\
+<root>\
+	<Panel style="width:100%;height:37px;background-color:#111;">\
+		<DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:0px;"/>\
+		<DOTAItemImage itemname="" style="vertical-align:center;width:60px;height:35px;position:70px;"/>\
+	</Panel>\
+</root>\
 				', false, false)
 				A.Children()[0].heroname = Entities.GetUnitName(ent)
 				A.Children()[1].itemname = Abilities.GetAbilityName(n)
@@ -77,7 +77,7 @@ function ItemPanelEvery() {
 		k++
 	}
 	if(ItemPanel.checked)
-		$.Schedule(Game.MyTick, ItemPanelEvery)
+		$.Schedule(D2JS.MyTick, ItemPanelEvery)
 }
 
 var ItemPanelLoad = function() {

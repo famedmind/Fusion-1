@@ -33,7 +33,7 @@ function TerrorBladeWTFSunderOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				Game.MyTick,
+				D2JS.MyTick,
 				function() {
 					TerrorBladeWTFSunderOnInterval()
 					if(TerrorBladeWTFSunder.checked)

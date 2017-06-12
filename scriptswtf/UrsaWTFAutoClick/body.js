@@ -38,7 +38,7 @@ function UrsaWTFAutoClickOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				Game.MyTick,
+				D2JS.MyTick,
 				function() {
 					UrsaWTFAutoClickOnInterval()
 					if(UrsaWTFAutoClick.checked)

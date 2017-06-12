@@ -31,7 +31,7 @@ function AutoDenyOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				Game.MyTick / 3,
+				D2JS.MyTick / 3,
 				function() {
 					AutoDenyOnInterval()
 					if(AutoDeny.checked)

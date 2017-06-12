@@ -62,8 +62,8 @@ var ancients = {
 }
 var spots = [[-3307, 383, -2564, -413, 400],[3456, -384, 4543, -1151, 300]]
 function destroy(){
-	if(typeof Game.Subscribes.AncientCreepStack != 'undefined')
-		GameEvents.Unsubscribe(Game.Subscribes.AncientCreepStack)
+	if(typeof D2JS.Subscribes.AncientCreepStack != 'undefined')
+		GameEvents.Unsubscribe(D2JS.Subscribes.AncientCreepStack)
 	try{D2JS.Panels.AncientCreepStack.DeleteAsync(0)}catch(e){}
 	for(i in D2JS.Particles.AncientCreepStack)
 		try{Particles.DestroyParticleEffect(D2JS.Particles.AncientCreepStack[i],D2JS.Particles.AncientCreepStack[i])}catch(e){}
@@ -81,7 +81,7 @@ function create(){
 		return
 	}
 	DrawBox(spots[team])
-	Game.Subscribes.AncientCreepStack = GameEvents.Subscribe("entity_hurt", function(a){
+	D2JS.Subscribes.AncientCreepStack = GameEvents.Subscribe("entity_hurt", function(a){
 		if(a.entindex_attacker==ent)
 			b=true
 	})

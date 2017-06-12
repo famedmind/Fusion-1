@@ -54,7 +54,7 @@ function SkywrathMageWTFAutoOnToggle() {
 	else {
 		function intervalFunc(){
 			$.Schedule(
-				Game.MyTick,
+				D2JS.MyTick,
 				function() {
 					SkywrathMageWTFAutoOnInterval()
 					if(SkywrathMageWTFAuto.checked)

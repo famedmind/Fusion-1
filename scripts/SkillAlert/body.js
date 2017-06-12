@@ -50,7 +50,7 @@ function SAlertEvery() {
 		})
 	})
 	if(SkillAlert.checked)
-		$.Schedule(Game.MyTick, SAlertEvery)
+		$.Schedule(D2JS.MyTick, SAlertEvery)
 }
 
 function AlertTarget(modifier, ent) {
@@ -58,13 +58,13 @@ function AlertTarget(modifier, ent) {
 	if(D2JS.Panels.ItemPanel !== undefined && D2JS.Configs.SkillAlert.Notify === "true" && panels[ent] === undefined) {
 		var A = $.CreatePanel('Panel', D2JS.Panels.ItemPanel, 'Alert' + ent)
 		A.BLoadLayoutFromString('\
-		<root>\
-			<Panel style="width:100%;height:37px;background-color:#111;">\
-				<DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:0px;"/>\
-				<DOTAAbilityImage abilityname="" style="vertical-align:center;width:60px;height:35px;position:60px;"/>\
-				<DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:120px;"/>\
-			</Panel>\
-		</root>\
+<root>\
+	<Panel style="width:100%;height:37px;background-color:#111;">\
+		<DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:0px;"/>\
+		<DOTAAbilityImage abilityname="" style="vertical-align:center;width:60px;height:35px;position:60px;"/>\
+		<DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:120px;"/>\
+	</Panel>\
+</root>\
 		', false, false)
 		A.Children()[0].heroname = modifier[2]
 		A.Children()[1].abilityname = modifier[3]
@@ -84,12 +84,12 @@ function AlertPosition(modifier, vec, thinker) {
 	if(D2JS.Panels.ItemPanel !== undefined && D2JS.Configs.SkillAlert.Notify === "true" && panels[thinker] === undefined) {
 		var A = $.CreatePanel('Panel', D2JS.Panels.ItemPanel, 'Alert' + thinker)
 		A.BLoadLayoutFromString('\
-		<root>\
-			<Panel style="width:100%;height:37px;background-color:#111;">\
-				<DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:0px;"/>\
-				<DOTAAbilityImage abilityname="" style="vertical-align:center;width:60px;height:35px;position:60px;"/>\
-			</Panel>\
-		</root>\
+<root>\
+	<Panel style="width:100%;height:37px;background-color:#111;">\
+		<DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:0px;"/>\
+		<DOTAAbilityImage abilityname="" style="vertical-align:center;width:60px;height:35px;position:60px;"/>\
+	</Panel>\
+</root>\
 		', false, false)
 		A.Children()[0].heroname = modifier[1]
 		A.Children()[1].abilityname = modifier[2]
@@ -110,7 +110,7 @@ function CreateFollowParticle(particlepath, time, ent) {
 	Particles.SetParticleControl(p, 0, 0)
 	z.push(ent)
 	$.Schedule (
-		time + Game.MyTick,
+		time + D2JS.MyTick,
 		function() {
 			Particles.DestroyParticleEffect(p,p)
 			z.splice(z.indexOf(ent), 1)
@@ -125,7 +125,7 @@ function CreateTimerParticle(vec, time, ent) {
 	Particles.SetParticleControl(p, 0, vec)
 	z.push(ent)
 	$.Schedule (
-		time + Game.MyTick,
+		time + D2JS.MyTick,
 		function() {
 			Particles.DestroyParticleEffect(p,p)
 			z.splice(z.indexOf(ent), 1)

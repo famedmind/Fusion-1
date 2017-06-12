@@ -21,13 +21,13 @@ try {
 	D2JS.Panels.EzTechies.DeleteAsync(0)
 } catch(e) {  }
 try {
-	GameEvents.Unsubscribe(parseInt(Game.Subscribes.EzTechiesMinesSpawn))
+	GameEvents.Unsubscribe(parseInt(D2JS.Subscribes.EzTechiesMinesSpawn))
 } catch(e) {  }
 try {
-	GameEvents.Unsubscribe(parseInt(Game.Subscribes.UltiUp))
+	GameEvents.Unsubscribe(parseInt(D2JS.Subscribes.UltiUp))
 } catch(e) {  }
 
-Game.Subscribes.UltiUp = GameEvents.Subscribe("dota_player_learned_ability", function(event) {
+D2JS.Subscribes.UltiUp = GameEvents.Subscribe("dota_player_learned_ability", function(event) {
 	if(event.PlayerID != Game.GetLocalPlayerID() || event.abilityname!='techies_remote_mines')
 		return
 	
@@ -36,7 +36,7 @@ Game.Subscribes.UltiUp = GameEvents.Subscribe("dota_player_learned_ability", fun
 	D2JS.EzTechiesLVLUp[lvl] = Game.GetGameTime()
 })
 
-Game.Subscribes.EzTechiesMinesSpawn = GameEvents.Subscribe('npc_spawned', function(event) {
+D2JS.Subscribes.EzTechiesMinesSpawn = GameEvents.Subscribe('npc_spawned', function(event) {
 	var ent = parseInt(event.entindex)
 	if(Entities.IsEnemy(ent))
 		return
@@ -245,7 +245,7 @@ var EzTechiesCheckBoxClick = function(){
 				}
 				D2JS.Panels.EzTechies.Children()[0].lastval = D2JS.Panels.EzTechies.Children()[0].value
 				if(EzTechies.checked)
-					$.Schedule(Game.MyTick, x)
+					$.Schedule(D2JS.MyTick, x)
 			}
 			x()
 		})
@@ -253,7 +253,7 @@ var EzTechiesCheckBoxClick = function(){
 	
 	function f() {
 		$.Schedule (
-			Game.MyTick,
+			D2JS.MyTick,
 			function() {
 				EzTechiesF()
 				if(EzTechies.checked)

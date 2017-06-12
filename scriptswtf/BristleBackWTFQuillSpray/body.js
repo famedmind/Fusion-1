@@ -26,7 +26,7 @@ function BristleBackWTFQuillSprayOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule (
-				Game.MyTick,
+				D2JS.MyTick,
 				function() {
 					BristleBackWTFQuillSprayOnInterval()
 					if(BristleBackWTFQuillSpray.checked)

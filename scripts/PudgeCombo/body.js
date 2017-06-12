@@ -13,14 +13,14 @@ function Hook(callback) {
 		angle = Game.AngleBetweenVectors(myVec, myForwardVec, enVec),
 		rottime = Game.RotationTime(angle, 0.7),
 		delay = Abilities.GetCastPoint(hook),
-		time = reachtime + delay + rottime + Game.MyTick,
+		time = reachtime + delay + rottime + D2JS.MyTick,
 		predict = Game.VelocityWaypoint(ent, time)
 	
 	if(distance > Abilities.GetCastRangeFix(hook))
 		return
 	
 	Game.CastPosition(ent, hook, predict, false)
-	$.Schedule(0.3 - Game.MyTick, function() {
+	$.Schedule(0.3 - D2JS.MyTick, function() {
 		if(!CancelHook())
 			callback()
 	})

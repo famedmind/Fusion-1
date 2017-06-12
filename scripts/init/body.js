@@ -4,7 +4,7 @@ D2JS = {
 	Panels: {},
 	Particles: {},
 	Subscribes: {},
-	ScriptVersion: "1.2",
+	MyTick: 1 / 30,
 	debug: false,
 	debugScripts: true,
 	debugAnimations: true,
@@ -24,22 +24,15 @@ D2JS.ReloadD2JS = function(postfix) {
 	D2JS.ServerRequest('scriptlist' + postfix, '', function(response) {
 		var scriptlist = JSON.parse(response)
 		D2JS.Panels.MainPanel.FindChildTraverse('trics').RemoveAndDeleteChildren()
-		scriptlist.forEach(function(name) {
-			D2JS.LoadScript(name)
-		})
+		scriptlist.forEach(D2JS.LoadScript)
 	})
 }
 
 D2JS.LoadScript = function(script) {
 	D2JS.ServerRequest('getscript', script, function(response) {
+		var code = response
 		if(D2JS.debugScripts)
-			var code = "\
-				try {\
-				" + response + "\
-				} catch(e) {\
-					$.Msg(e.stack)\
-				}\
-			"
+			code = "try {" + code + "} catch(e) {$.Msg(e.stack)}"
 		eval(code)
 		$.Msg("JScript " + script + " loaded")
 	})
@@ -128,7 +121,7 @@ GameEvents.Subscribe('game_newmap', function(data) {
 		}, '',0)
 		D2JS.Panels.MainPanel.ToggleClass('Popup')
 	}
-
+	
 	function f() {
 		$.Schedule (
 			1,
@@ -143,12 +136,29 @@ GameEvents.Subscribe('game_newmap', function(data) {
 	f()
 })
 var MainHUD = $.GetContextPanel()
+if(D2JS.Panels.MainPanel !== undefined)
+	D2JS.Panels.MainPanel.DeleteAsync(0)
 D2JS.Panels.MainPanel = $.CreatePanel('Panel', MainHUD, 'DotaOverlay');
 D2JS.GetXML("init/hud", function(response) {
 	$.Msg("HUD Loaded!")
+	
 	D2JS.Panels.MainPanel.BLoadLayoutFromString(response, false, false)
 	D2JS.Panels.MainPanel.ToggleClass('PopupOpened')
 	D2JS.Panels.MainPanel.ToggleClass('Popup')
 	D2JS.Panels.MainPanel.FindChildTraverse('Reload').SetPanelEvent('onactivate', D2JS.ReloadD2JSVanilla)
 	D2JS.Panels.MainPanel.FindChildTraverse('ReloadCustomGames').SetPanelEvent('onactivate', D2JS.ReloadD2JSCustomGames)
+	var slider = D2JS.Panels.MainPanel.FindChildInLayoutFile("CameraDistance")
+	var lastValue = 0
+	slider.min = 1300
+	slider.max = 3000
+	slider.value = 2000
+	function OnTickSlider() {
+		if (slider.value !== lastValue) {
+			GameUI.SetCameraDistance(slider.value)
+			D2JS.Panels.MainPanel.FindChildTraverse('CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
+			lastValue = slider.value
+		}
+		$.Schedule(D2JS.MyTick, OnTickSlider)
+	}
+	OnTickSlider()
 })

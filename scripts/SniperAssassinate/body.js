@@ -58,7 +58,7 @@ var SniperAssassinateOnCheckBoxClick = function(){
 
 	function f() {
 		$.Schedule (
-			Game.MyTick,
+			D2JS.MyTick,
 			function() {
 				SniperAssassinateFunc()
 				if(SniperAssassinate.checked)

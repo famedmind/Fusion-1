@@ -36,7 +36,7 @@ var ZeusAutoultOnCheckBoxClick = function(){
 		}
 		function f() {
 			$.Schedule (
-				Game.MyTick,
+				D2JS.MyTick,
 				function() {
 					ZeusAutoultF()
 					if(ZeusAutoult.checked)

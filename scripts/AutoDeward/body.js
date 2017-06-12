@@ -66,7 +66,7 @@ function AutoDewardOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				Game.MyTick,
+				D2JS.MyTick,
 				function() {
 					AutoDewardOnInterval()
 					if(AutoDeward.checked)

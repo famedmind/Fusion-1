@@ -94,7 +94,7 @@ var AntiInitiationToggle = function(){
 	} else {
 		function f() {
 			$.Schedule (
-				Game.MyTick,
+				D2JS.MyTick,
 				function() {
 					AntiInitiationF()
 					if(AntiInitiation.checked)

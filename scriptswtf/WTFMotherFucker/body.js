@@ -26,7 +26,7 @@ function WTFMotherFuckerOnToggle() {
 	else {
 		function intervalFunc(){
 			$.Schedule(
-				Game.MyTick,
+				D2JS.MyTick,
 				function() {
 					WTFMotherFuckerOnInterval()
 					if(WTFMotherFucker.checked)

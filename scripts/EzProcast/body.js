@@ -1,6 +1,6 @@
 ﻿try{
 	D2JS.Panels.EzProcast.DeleteAsync(0)
-	GameEvents.Unsubscribe( parseInt(Game.Subscribes.EzProcastonchatmsg) )
+	GameEvents.Unsubscribe( parseInt(D2JS.Subscribes.EzProcastonchatmsg) )
 }catch(e){}
 	
 var Config = []

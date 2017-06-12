@@ -35,7 +35,7 @@ function InvokerCombo() {
 	}
 	
 	Game.CastTarget(MyEnt, Eul, enemy, false)
-	$.Schedule(EulDuration - SunStrikeDelay + Game.MyTick * 9, function() {
+	$.Schedule(EulDuration - SunStrikeDelay + D2JS.MyTick * 9, function() {
 		Game.CastPosition(MyEnt, SunStrike, pos, false)
 		Exort(); Wex(); Exort(); Invoke();
 		
@@ -47,7 +47,7 @@ function InvokerCombo() {
 		
 		Game.CastPosition(MyEnt, Tornado, pos, false)
 		
-		$.Schedule(TornadoDelay[Abilities.GetLevel(Game.GetAbilityByName(MyEnt, "invoker_quas")) - 2 + (Entities.HasScepter(MyEnt) ? 1 : 0)] + Game.MyTick * 2, function() {
+		$.Schedule(TornadoDelay[Abilities.GetLevel(Game.GetAbilityByName(MyEnt, "invoker_quas")) - 2 + (Entities.HasScepter(MyEnt) ? 1 : 0)] + D2JS.MyTick * 2, function() {
 			Game.CastPosition(MyEnt, Meteor, pos, false)
 			
 			Quas(); Quas(); Quas(); Invoke();

@@ -1,6 +1,4 @@
-﻿Game.MyTick = 1 / 30
-
-D2JS.LenseBonusRange = 200
+﻿D2JS.LenseBonusRange = 200
 D2JS.ForceStaffUnits = 600
 
 Abilities.GetCastRangeFix = function(abil) { // Don't conflict with internal usage
@@ -144,7 +142,7 @@ Game.AngleBetweenTwoFaces = function(a_facing, b_facing) {
 }
 
 Game.RotationTime = function(angle, rotspeed) { // MovementTurnRate
-	return (Game.MyTick * angle / rotspeed)
+	return (D2JS.MyTick * angle / rotspeed)
 }
 
 Game.ClosetToMouse = function(MyEnt, range, enemy) {
@@ -210,10 +208,8 @@ Game.VelocityWaypoint = function(ent, time, movespeed) {
 	return [zxc[0] + (forward[0] * movespeed * time),zxc[1] + (forward[1] * movespeed * time),zxc[2]]
 }
 
-Game.Every = function(start, time, tick, func) {var startTime = Game.Time();var tickRate = tick;if(tick < 1) {if(start < 0) tick--;tickRate = time / -tick;}var tickCount =  time/ tickRate;if(time < 0) {tickCount = 9999999;}var numRan = 0;$.Schedule(start, (function(start,numRan,tickRate,tickCount) {return function() {if(start < 0) {start = 0;if(func()) {return;}; }  var tickNew = function() {numRan++;delay = (startTime+tickRate*numRan)-Game.Time();if((startTime+tickRate*numRan)-Game.Time() < 0) {delay = 0;}$.Schedule(delay, function() {if(func()) {return;};tickCount--;if(tickCount > 0) tickNew();});};tickNew();}})(start,numRan,tickRate,tickCount));}
-
-if(Array.isArray(Game.Subscribes)) {
-	Game.Subscribes.forEach(function(sub) {
+if(Array.isArray(D2JS.Subscribes)) {
+	D2JS.Subscribes.forEach(function(sub) {
 		if (typeof sub === 'number')
 			try {
 				GameEvents.Unsubscribe(sub)
@@ -556,8 +552,7 @@ Game.GetBuffsNames = function(ent) {
 //анимирование панелей. Источник moddota.com
 var AnimatePanel_DEFAULT_DURATION = "300.0ms"
 var AnimatePanel_DEFAULT_EASE = "linear"
-function AnimatePanel(panel, values, duration, ease, delay)
-{
+function AnimatePanel(panel, values, duration, ease, delay) {
 	var durationString = (duration != null ? parseInt(duration * 1000) + ".0ms" : AnimatePanel_DEFAULT_DURATION)
 	var easeString = (ease != null ? ease : AnimatePanel_DEFAULT_EASE)
 	var delayString = (delay != null ? parseInt(delay * 1000) + ".0ms" : "0.0ms")

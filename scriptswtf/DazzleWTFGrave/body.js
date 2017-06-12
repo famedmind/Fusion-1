@@ -40,7 +40,7 @@ function DazzleWTFGraveOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				Game.MyTick,
+				D2JS.MyTick,
 				function() {
 					DazzleWTFGraveOnInterval()
 					if(DazzleWTFGrave.checked)

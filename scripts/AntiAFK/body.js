@@ -44,7 +44,7 @@ function AntiAFKOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				Game.MyTick,
+				D2JS.MyTick,
 				function() {
 					AntiAFKOnInterval()
 					if(AntiAFK.checked)

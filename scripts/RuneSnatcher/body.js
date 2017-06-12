@@ -33,7 +33,7 @@ function SnatcherToggle() {
 		function L() {
 			if (Snatcher.checked) {
 				SnatcherF()
-				$.Schedule(Game.MyTick, L)
+				$.Schedule(D2JS.MyTick, L)
 			}
 		}
 		L()

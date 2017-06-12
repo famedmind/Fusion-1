@@ -87,7 +87,7 @@ function EMBEvery() {
 		D2JS.Panels.EnemyManaBars[ent].Children()[1].text = ManaPercent + '%'
 	})
 	if(EnemyManaBars.checked)
-		$.Schedule(Game.MyTick, EMBEvery)
+		$.Schedule(D2JS.MyTick, EMBEvery)
 	else
 		DeleteAll()
 }

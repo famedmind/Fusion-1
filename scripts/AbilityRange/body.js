@@ -1,11 +1,11 @@
 ﻿try{ D2JS.Panels.AbilityRange.DeleteAsync(0) }catch(e){}
-for (i in Game.Subscribes.AbilityRange)
-	try{ GameEvents.Unsubscribe( Game.Subscribes.AbilityRange[i] ) }catch(e){}
+for (i in D2JS.Subscribes.AbilityRange)
+	try{ GameEvents.Unsubscribe( D2JS.Subscribes.AbilityRange[i] ) }catch(e){}
 for(i in D2JS.Particles.AbilityRange)
 	try{ Particles.DestroyParticleEffect(D2JS.Particles.AbilityRange[i],D2JS.Particles.AbilityRange[i]) }catch(e){}
 
 D2JS.Particles.AbilityRange = []
-Game.Subscribes.AbilityRange = []
+D2JS.Subscribes.AbilityRange = []
 D2JS.Panels.AbilityRange = []
 var Config = []
 
@@ -35,11 +35,11 @@ function InventoryChanged(data){
 
 Destroy = function(){
 	try{ D2JS.Panels.AbilityRange.DeleteAsync(0) }catch(e){}
-	for (var i in Game.Subscribes.AbilityRange.length)
-		try{ GameEvents.Unsubscribe( Game.Subscribes.AbilityRange[i] ) }catch(e){}
+	for (var i in D2JS.Subscribes.AbilityRange.length)
+		try{ GameEvents.Unsubscribe( D2JS.Subscribes.AbilityRange[i] ) }catch(e){}
 	for(var i in D2JS.Particles.AbilityRange)
 		try{ Particles.DestroyParticleEffect(D2JS.Particles.AbilityRange[i],D2JS.Particles.AbilityRange[i]) }catch(e){}
-	Game.Subscribes.AbilityRange = []
+	D2JS.Subscribes.AbilityRange = []
 	D2JS.Particles.AbilityRange = []
 }
 
@@ -150,8 +150,8 @@ AbilityRangeF = function(){
 		CheckB.SetAttributeInt('Skill', Abil)
 		CheckB.SetPanelEvent( 'onactivate', chkboxpressed )
 	}
-	Game.Subscribes.AbilityRange.push( GameEvents.Subscribe('dota_player_learned_ability', SkillLearned) )
-	Game.Subscribes.AbilityRange.push( GameEvents.Subscribe('dota_inventory_changed', InventoryChanged) )
+	D2JS.Subscribes.AbilityRange.push( GameEvents.Subscribe('dota_player_learned_ability', SkillLearned) )
+	D2JS.Subscribes.AbilityRange.push( GameEvents.Subscribe('dota_inventory_changed', InventoryChanged) )
 	Game.ScriptLogMsg('Script enabled: AbilityRange', '#00ff00')
 }
 
