@@ -576,6 +576,7 @@ Game.AddScript = function(scriptName, onCheckBoxClick) {
 		<root>\
 			<styles>\
 				<include src="s2r://panorama/styles/dotastyles.vcss_c"/>\
+				<include src="s2r://panorama/styles/magadan.vcss_c"/>\
 			</styles>\
 			<Panel>\
 				<ToggleButton class="CheckBox" id="' + scriptName + '" text="' + scriptName + '"/>\
