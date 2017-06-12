@@ -109,7 +109,7 @@ AbilityRangeF = function(){
 			Destroy()
 			return
 		}
-		D2JS.Panels.AbilityRange = $.CreatePanel( 'Panel', Game.GetMainHUD(), 'AbilityRangePanel' )
+		D2JS.Panels.AbilityRange = $.CreatePanel( 'Panel', D2JS.GetMainHUD(), 'AbilityRangePanel' )
 		D2JS.Panels.AbilityRange.BLoadLayoutFromString( "<root><Panel class='AbilityRangePanel' style='flow-children: down;background-color:#00000099;border-radius:15px;padding:20px 0;'></Panel></root>", false, false )
 		GameUI.MovePanel(D2JS.Panels.AbilityRange,function(p){
 			var position = D2JS.Panels.AbilityRange.style.position.split(' ')
@@ -135,7 +135,7 @@ AbilityRangeF = function(){
 		Destroy()
 		return
 	}
-	AbilityRangePanel = Game.GetMainHUD().FindChildrenWithClassTraverse( 'AbilityRangePanel' )[0]
+	AbilityRangePanel = D2JS.GetMainHUD().FindChildrenWithClassTraverse( 'AbilityRangePanel' )[0]
 	for ( i = 0; i < Entities.GetAbilityCount(MyEnt ); i++){
 		Abil = Entities.GetAbility(MyEnt,i)
 		if ( Abil == -1 )

@@ -180,32 +180,11 @@ function RemoteMines(MyEnt, HEnts) {
 	})
 }
 
-function RefreshR() {
-	for(i in D2JS.Particles.EzTechies) {
-		var par = parseInt(D2JS.Particles.EzTechies[i])
-		Particles.DestroyParticleEffect(par, par)
-	}
-	D2JS.Particles.EzTechies = []
-	var rmines = Entities.GetAllEntitiesByClassname('npc_dota_techies_mines')
-	rmines.forEach(function(rmine) {
-		if(Entities.GetUnitName(rmine) === 'npc_dota_techies_remote_mine')
-			var range = triggerradius
-		else if(Entities.GetUnitName(rmine) === 'npc_dota_techies_land_mine')
-			var range = 400
-		else
-			return
-		var particle = Particles.CreateParticle("particles/ui_mouseactions/range_display.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, rmine)
-		Particles.SetParticleControl(particle, 1, [range, 0, 0])
-		D2JS.Particles.EzTechies.push(particle)
-	})
-}
-
 var EzTechiesCheckBoxClick = function(){
 	if (!EzTechies.checked) {
-		try{D2JS.Panels.EzTechies.DeleteAsync(0)}catch(e){}
-		for(i in D2JS.Particles.EzTechies){
-			Particles.DestroyParticleEffect(parseInt(D2JS.Particles.EzTechies[i]),parseInt(D2JS.Particles.EzTechies[i]))
-			}
+		D2JS.Particles.EzTechies.forEach(function(par) {
+			Particles.DestroyParticleEffect(par, par)
+		})
 		D2JS.Particles.EzTechies = []
 		Game.ScriptLogMsg('Script disabled: EzTechies', '#ff0000')
 		return
@@ -215,41 +194,6 @@ var EzTechiesCheckBoxClick = function(){
 		Game.ScriptLogMsg('Error: Your hero must be Techies to run this script', '#ff0000')
 		return
 	}
-	RefreshR()
-	D2JS.Panels.EzTechies = $.CreatePanel( "Panel", Game.GetMainHUD(), "EzTechiesSlider" )
-	D2JS.GetConfig('EzTechies', function(config) {
-		D2JS.Configs.EzTechies = config[0]
-		D2JS.GetXML('EzTechies/slider', function(xml) {
-			D2JS.Panels.EzTechies.BLoadLayoutFromString(xml, false, false)
-			GameUI.MovePanel (
-				D2JS.Panels.EzTechies,
-				function(p) {
-					var position = p.style.position.split(' ')
-					D2JS.Configs.EzTechies.MainPanel.x = position[0]
-					D2JS.Configs.EzTechies.MainPanel.y = position[1]
-					D2JS.SaveConfig('EzTechies', D2JS.Configs.EzTechies)
-				}
-			)
-			
-			D2JS.Panels.EzTechies.style.position = D2JS.Configs.EzTechies.MainPanel.x + ' ' + D2JS.Configs.EzTechies.MainPanel.y + ' 0'
-			var slider = []
-			D2JS.Panels.EzTechies.Children()[0].min = 0
-			D2JS.Panels.EzTechies.Children()[0].max = triggerradius
-			D2JS.Panels.EzTechies.Children()[0].value = triggerradius
-			D2JS.Panels.EzTechies.Children()[0].lastval = D2JS.Panels.EzTechies.Children()[0].value
-			function x() {
-				if(D2JS.Panels.EzTechies.Children()[0].value !== D2JS.Panels.EzTechies.Children()[0].lastval){
-					triggerradius = D2JS.Panels.EzTechies.Children()[0].value
-					D2JS.Panels.EzTechies.Children()[1].Children()[1].text = Math.floor(triggerradius)
-					RefreshR()
-				}
-				D2JS.Panels.EzTechies.Children()[0].lastval = D2JS.Panels.EzTechies.Children()[0].value
-				if(EzTechies.checked)
-					$.Schedule(D2JS.MyTick, x)
-			}
-			x()
-		})
-	})
 	
 	function f() {
 		$.Schedule (

@@ -1,4 +1,4 @@
-﻿var MainHud = Game.GetMainHUD()
+﻿var MainHud = D2JS.GetMainHUD()
 var uiw, uih
 function DeleteAll() {
 	try {
@@ -96,8 +96,8 @@ EnemyManaBarsF = function() {
 	if (!EnemyManaBars.checked) {
 		Game.ScriptLogMsg('Script disabled: EnemyManaBars', '#ff0000')
 	} else {
-		uiw = Game.GetMainHUD().actuallayoutwidth
-		uih = Game.GetMainHUD().actuallayoutheight
+		uiw = D2JS.GetMainHUD().actuallayoutwidth
+		uih = D2JS.GetMainHUD().actuallayoutheight
 		D2JS.GetConfig('EnemyManaBars', function(config) {
 			D2JS.Configs.EnemyManaBars = config[0]
 			EMBEvery()

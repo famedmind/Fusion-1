@@ -82,7 +82,7 @@ function ItemPanelEvery() {
 
 var ItemPanelLoad = function() {
 	D2JS.GetXML('ItemPanel/panel', function(a) {
-		D2JS.Panels.ItemPanel = $.CreatePanel( 'Panel', Game.GetMainHUD(), 'ItemPanel1' )
+		D2JS.Panels.ItemPanel = $.CreatePanel( 'Panel', D2JS.GetMainHUD(), 'ItemPanel1' )
 		D2JS.Panels.ItemPanel.BLoadLayoutFromString(a, false, false)
 		for(var i=0; i < 5; i++)
 			D2JS.Panels.ItemPanel.Children()[i].style.height = '0'

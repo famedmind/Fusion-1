@@ -226,7 +226,7 @@ if(Array.isArray(D2JS.Subscribes)) {
 
 //сообщение в боковую панель
 Game.ScriptLogMsg = function(msg, color) {
-	var ScriptLog = D2JS.Panels.MainPanel.FindChildTraverse('ScriptLog')
+/*	var ScriptLog = D2JS.Panels.MainPanel.FindChildTraverse('ScriptLog')
 	var ScriptLogMessage = $.CreatePanel( "Label", ScriptLog, "ScriptLogMessage" )
 	ScriptLogMessage.BLoadLayoutFromString( "<root><Label /></root>", false, false)
 	ScriptLogMessage.style.fontSize = '15px'
@@ -237,7 +237,7 @@ Game.ScriptLogMsg = function(msg, color) {
 		ScriptLogMessage.style.textShadow = '0px 0px 4px 1.2 ' + color + '33'
 	}
 	ScriptLogMessage.DeleteAsync(7)
-	AnimatePanel( ScriptLogMessage, {"opacity": "0;"}, 2, "linear", 4)
+	AnimatePanel( ScriptLogMessage, {"opacity": "0;"}, 2, "linear", 4)*/
 }
 
 //Функция делает панельку перемещаемой кликом мыши по ней. callback нужен например для того, чтобы сохранить координаты панели в файл
@@ -248,8 +248,8 @@ GameUI.MovePanel = function(a, callback) {
 			return
 		var color = a.style.backgroundColor
 		a.style.backgroundColor = '#FFFF00FF'
-		var uiw = Game.GetMainHUD().actuallayoutwidth
-		var uih = Game.GetMainHUD().actuallayoutheight
+		var uiw = D2JS.GetMainHUD().actuallayoutwidth
+		var uih = D2JS.GetMainHUD().actuallayoutheight
 		linkpanel = function() {
 			a.style.position = (GameUI.GetCursorPosition()[0] / uiw * 100) + '% ' + (GameUI.GetCursorPosition()[1] / uih * 100) + '% ' + '0'
 			if (GameUI.IsMouseDown(0)) {
@@ -273,17 +273,6 @@ GameUI.MovePanel = function(a, callback) {
 		L()
 	}
 	a.SetPanelEvent('onactivate', e)
-}
-
-//нахождение главного родительского HUD`a
-Game.GetMainHUD = function() {
-	var globalContext = $.GetContextPanel()
-	while(true)
-		if(globalContext.paneltype == "DOTAHud")
-			break
-		else
-			globalContext = globalContext.GetParent()
-	return globalContext
 }
 
 Game.MoveToPos = function(ent, xyz, queue) {
@@ -587,7 +576,6 @@ Game.AddScript = function(scriptName, onCheckBoxClick) {
 		<root>\
 			<styles>\
 				<include src="s2r://panorama/styles/dotastyles.vcss_c"/>\
-				<include src="s2r://panorama/styles/magadan.vcss_c"/>\
 			</styles>\
 			<Panel>\
 				<ToggleButton class="CheckBox" id="' + scriptName + '" text="' + scriptName + '"/>\

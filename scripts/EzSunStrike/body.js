@@ -11,7 +11,7 @@ function EzSunstrikeOnInterval() {
 	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
 		return parseInt(ent)
 	}).filter(function(ent) {
-		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent)
+		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent) && (Entities.IsStunned(ent) || Entities.IsRooted(ent))
 	}).sort(function(ent1, ent2) {
 		var rng1 = Entities.GetHealth(ent1)
 		var rng2 = Entities.GetHealth(ent2)

@@ -99,23 +99,23 @@ GameEvents.Subscribe('game_newmap', function(data) {
 			$.GetContextPanel().ToggleClass('Popup')
 		}, '',0)
 		Game.AddCommand('__ToggleMinimapActs', function() {
-			var panel = D2JS.GetHUD_REBORN()
+			var panel = D2JS.GetMainHUD()
 			
 			if(panel && (panel = panel.FindChild("HUDElements")))
 			if(panel = panel.FindChild("minimap_container"))
 				if(panel = panel.FindChild("GlyphScanContainer"))
 					if(D2JS.MinimapActsEnabled = !D2JS.MinimapActsEnabled)
-							panel.style.visibility = null
+							panel.style.visibility = ""
 						else
 							panel.style.visibility = "collapse"
 		}, '',0)
 		Game.AddCommand('__ToggleStats', function() {
-			var panel = D2JS.GetHUD_REBORN()
+			var panel = D2JS.GetMainHUD()
 
 			if(panel && (panel = panel.FindChild("HUDElements")))
 				if(panel = panel.FindChild("quickstats"))
 					if(D2JS.StatsEnabled = !D2JS.StatsEnabled)
-						panel.style.visibility = null
+						panel.style.visibility = ""
 					else
 						panel.style.visibility = "collapse"
 		}, '',0)
@@ -135,6 +135,17 @@ GameEvents.Subscribe('game_newmap', function(data) {
 	}
 	f()
 })
+
+D2JS.GetMainHUD = function() {
+	var globalContext = $.GetContextPanel()
+	while(true)
+		if(globalContext.paneltype == "DOTAHud")
+			break
+		else
+			globalContext = globalContext.GetParent()
+	return globalContext
+}
+
 var MainHUD = $.GetContextPanel()
 if(D2JS.Panels.MainPanel !== undefined)
 	D2JS.Panels.MainPanel.DeleteAsync(0)
@@ -148,12 +159,12 @@ D2JS.GetXML("init/hud", function(response) {
 	D2JS.Panels.MainPanel.FindChildTraverse('Reload').SetPanelEvent('onactivate', D2JS.ReloadD2JSVanilla)
 	D2JS.Panels.MainPanel.FindChildTraverse('ReloadCustomGames').SetPanelEvent('onactivate', D2JS.ReloadD2JSCustomGames)
 	var slider = D2JS.Panels.MainPanel.FindChildInLayoutFile("CameraDistance")
-	var lastValue = 0
 	slider.min = 1300
 	slider.max = 3000
 	slider.value = 2000
+	slider.lastValue = 0
 	function OnTickSlider() {
-		if (slider.value !== lastValue) {
+		if (slider.value !== slider.lastValue) {
 			GameUI.SetCameraDistance(slider.value)
 			D2JS.Panels.MainPanel.FindChildTraverse('CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
 			lastValue = slider.value

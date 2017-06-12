@@ -51,7 +51,7 @@ D2JS.EzProcastF = function(){
 
 EzProcast01OnOffLoad = function(){
 	D2JS.GetXML('EzProcast/panel', function(a){
-		D2JS.Panels.EzProcast = $.CreatePanel( 'Panel', Game.GetMainHUD(), 'EzProcast1' )
+		D2JS.Panels.EzProcast = $.CreatePanel( 'Panel', D2JS.GetMainHUD(), 'EzProcast1' )
 		D2JS.Panels.EzProcast.BLoadLayoutFromString( a, false, false )
 		GameUI.MovePanel(D2JS.Panels.EzProcast,function(p){
 			var position = p.style.position.split(' ')

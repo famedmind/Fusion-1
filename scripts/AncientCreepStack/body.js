@@ -85,12 +85,11 @@ function create(){
 		if(a.entindex_attacker==ent)
 			b=true
 	})
-	D2JS.Panels.AncientCreepStack = $.CreatePanel( "Panel", Game.GetMainHUD(), "AncientCreepStack" )
+	D2JS.Panels.AncientCreepStack = $.CreatePanel( "Panel", D2JS.GetMainHUD(), "AncientCreepStack" )
 	D2JS.Panels.AncientCreepStack.BLoadLayoutFromString( '\
 	<root>\
 		<styles>\
 			<include src="s2r://panorama/styles/dotastyles.vcss_c" />\
-			<include src="s2r://panorama/styles/magadan.vcss_c" />\
 		</styles>\
 		<Panel style="padding:3px;border-radius:5px;flow-children:down;background-color:#000000EE;border: 1px solid white;">\
 			<Label style="color:white;font-size:16px;"/>\
