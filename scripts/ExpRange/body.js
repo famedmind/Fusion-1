@@ -3,17 +3,17 @@ var DaggerRanged = 1200
 
 function DestroyParticles() {
 	try {
-		Particles.DestroyParticleEffect(Game.Particles.ExpRange, Game.Particles.ExpRange)
-		Particles.DestroyParticleEffect(Game.Particles.DaggerRange, Game.Particles.DaggerRange)
+		Particles.DestroyParticleEffect(D2JS.Particles.ExpRange, D2JS.Particles.ExpRange)
+		Particles.DestroyParticleEffect(D2JS.Particles.DaggerRange, D2JS.Particles.DaggerRange)
 	} catch(e) {  }
 }
 
 function ExpRangeEnable() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
-	Game.Particles.ExpRange = Particles.CreateParticle("particles/ui_mouseactions/range_display.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, MyEnt)
-	Game.Particles.DaggerRange = Particles.CreateParticle("particles/ui_mouseactions/range_display.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, MyEnt)
-	Particles.SetParticleControl(Game.Particles.ExpRange, 1, [ExpRanged, 0, 0])
-	Particles.SetParticleControl(Game.Particles.DaggerRange, 1, [DaggerRanged, 0, 0])
+	D2JS.Particles.ExpRange = Particles.CreateParticle("particles/ui_mouseactions/range_display.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, MyEnt)
+	D2JS.Particles.DaggerRange = Particles.CreateParticle("particles/ui_mouseactions/range_display.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, MyEnt)
+	Particles.SetParticleControl(D2JS.Particles.ExpRange, 1, [ExpRanged, 0, 0])
+	Particles.SetParticleControl(D2JS.Particles.DaggerRange, 1, [DaggerRanged, 0, 0])
 }
 
 function exprangeOnOff(){

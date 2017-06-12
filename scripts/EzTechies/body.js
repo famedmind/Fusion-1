@@ -10,15 +10,15 @@ function init() {
 	D2JS.EzTechiesLVLUp[lvl] = Game.GetGameTime()
 }
 
-for(i in Game.Particles.EzTechies)
+for(i in D2JS.Particles.EzTechies)
 	try {
-		var par = parseInt(Game.Particles.EzTechies[i])
+		var par = parseInt(D2JS.Particles.EzTechies[i])
 		Particles.DestroyParticleEffect(par, par)
 	} catch(e) {  }
-Game.Particles.EzTechies = []
+D2JS.Particles.EzTechies = []
 
 try {
-	Game.Panels.EzTechies.DeleteAsync(0)
+	D2JS.Panels.EzTechies.DeleteAsync(0)
 } catch(e) {  }
 try {
 	GameEvents.Unsubscribe(parseInt(Game.Subscribes.EzTechiesMinesSpawn))
@@ -48,7 +48,7 @@ Game.Subscribes.EzTechiesMinesSpawn = GameEvents.Subscribe('npc_spawned', functi
 		return
 	radius = Particles.CreateParticle("particles/ui_mouseactions/range_display.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, ent)
 	Particles.SetParticleControl(radius, 1, [range, 0, 0])
-	Game.Particles.EzTechies.push(radius)
+	D2JS.Particles.EzTechies.push(radius)
 })
 
 function EzTechiesF() {
@@ -181,32 +181,32 @@ function RemoteMines(MyEnt, HEnts) {
 }
 
 function RefreshR() {
-	for(i in Game.Particles.EzTechies) {
-		var par = parseInt(Game.Particles.EzTechies[i])
+	for(i in D2JS.Particles.EzTechies) {
+		var par = parseInt(D2JS.Particles.EzTechies[i])
 		Particles.DestroyParticleEffect(par, par)
 	}
-	Game.Particles.EzTechies = []
+	D2JS.Particles.EzTechies = []
 	var rmines = Entities.GetAllEntitiesByClassname('npc_dota_techies_mines')
-	for(var rmine of rmines) {
+	rmines.forEach(function(rmine) {
 		if(Entities.GetUnitName(rmine) === 'npc_dota_techies_remote_mine')
 			var range = triggerradius
 		else if(Entities.GetUnitName(rmine) === 'npc_dota_techies_land_mine')
 			var range = 400
 		else
-			continue
+			return
 		var particle = Particles.CreateParticle("particles/ui_mouseactions/range_display.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, rmine)
 		Particles.SetParticleControl(particle, 1, [range, 0, 0])
-		Game.Particles.EzTechies.push(particle)
-	}
+		D2JS.Particles.EzTechies.push(particle)
+	})
 }
 
 var EzTechiesCheckBoxClick = function(){
 	if (!EzTechies.checked) {
-		try{Game.Panels.EzTechies.DeleteAsync(0)}catch(e){}
-		for(i in Game.Particles.EzTechies){
-			Particles.DestroyParticleEffect(parseInt(Game.Particles.EzTechies[i]),parseInt(Game.Particles.EzTechies[i]))
+		try{D2JS.Panels.EzTechies.DeleteAsync(0)}catch(e){}
+		for(i in D2JS.Particles.EzTechies){
+			Particles.DestroyParticleEffect(parseInt(D2JS.Particles.EzTechies[i]),parseInt(D2JS.Particles.EzTechies[i]))
 			}
-		Game.Particles.EzTechies = []
+		D2JS.Particles.EzTechies = []
 		Game.ScriptLogMsg('Script disabled: EzTechies', '#ff0000')
 		return
 	}
@@ -216,13 +216,13 @@ var EzTechiesCheckBoxClick = function(){
 		return
 	}
 	RefreshR()
-	Game.Panels.EzTechies = $.CreatePanel( "Panel", Game.GetMainHUD(), "EzTechiesSlider" )
+	D2JS.Panels.EzTechies = $.CreatePanel( "Panel", Game.GetMainHUD(), "EzTechiesSlider" )
 	D2JS.GetConfig('EzTechies', function(config) {
 		D2JS.Configs.EzTechies = config[0]
 		D2JS.GetXML('EzTechies/slider', function(xml) {
-			Game.Panels.EzTechies.BLoadLayoutFromString(xml, false, false)
+			D2JS.Panels.EzTechies.BLoadLayoutFromString(xml, false, false)
 			GameUI.MovePanel (
-				Game.Panels.EzTechies,
+				D2JS.Panels.EzTechies,
 				function(p) {
 					var position = p.style.position.split(' ')
 					D2JS.Configs.EzTechies.MainPanel.x = position[0]
@@ -231,19 +231,19 @@ var EzTechiesCheckBoxClick = function(){
 				}
 			)
 			
-			Game.Panels.EzTechies.style.position = D2JS.Configs.EzTechies.MainPanel.x + ' ' + D2JS.Configs.EzTechies.MainPanel.y + ' 0'
+			D2JS.Panels.EzTechies.style.position = D2JS.Configs.EzTechies.MainPanel.x + ' ' + D2JS.Configs.EzTechies.MainPanel.y + ' 0'
 			var slider = []
-			Game.Panels.EzTechies.Children()[0].min = 0
-			Game.Panels.EzTechies.Children()[0].max = triggerradius
-			Game.Panels.EzTechies.Children()[0].value = triggerradius
-			Game.Panels.EzTechies.Children()[0].lastval = Game.Panels.EzTechies.Children()[0].value
+			D2JS.Panels.EzTechies.Children()[0].min = 0
+			D2JS.Panels.EzTechies.Children()[0].max = triggerradius
+			D2JS.Panels.EzTechies.Children()[0].value = triggerradius
+			D2JS.Panels.EzTechies.Children()[0].lastval = D2JS.Panels.EzTechies.Children()[0].value
 			function x() {
-				if(Game.Panels.EzTechies.Children()[0].value !== Game.Panels.EzTechies.Children()[0].lastval){
-					triggerradius = Game.Panels.EzTechies.Children()[0].value
-					Game.Panels.EzTechies.Children()[1].Children()[1].text = Math.floor(triggerradius)
+				if(D2JS.Panels.EzTechies.Children()[0].value !== D2JS.Panels.EzTechies.Children()[0].lastval){
+					triggerradius = D2JS.Panels.EzTechies.Children()[0].value
+					D2JS.Panels.EzTechies.Children()[1].Children()[1].text = Math.floor(triggerradius)
 					RefreshR()
 				}
-				Game.Panels.EzTechies.Children()[0].lastval = Game.Panels.EzTechies.Children()[0].value
+				D2JS.Panels.EzTechies.Children()[0].lastval = D2JS.Panels.EzTechies.Children()[0].value
 				if(EzTechies.checked)
 					$.Schedule(Game.MyTick, x)
 			}

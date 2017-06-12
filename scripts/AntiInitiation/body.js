@@ -35,53 +35,55 @@ var InitSpells = [
 ]
 
 var flag = false
-function AntiInitiationF(){
+function AntiInitiationF() {
 	if(!AntiInitiation.checked || flag)
 		return
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var abil = -1
-	for(var abilName of DisableAbils) {
+	DisableAbils.some(function(abilName) {
 		var abilL = Game.GetAbilityByName(MyEnt, abilName)
 		if(abilL === -1 || Abilities.GetCooldownTimeRemaining(abilL) !== 0)
-			continue
+			return false
+		
 		abil = abilL
-		break
-	}
+		return true
+	})
 	if(abil === -1)
 		return
+	var abilrange = Abilities.GetCastRangeFix(abil)
 	var Behavior = Game.Behaviors(abil)
-	var HEnts = Game.PlayersHeroEnts()
-	for (var i in HEnts) {
-		var ent = parseInt(HEnts[i])
-		if (!Entities.IsEnemy(ent) || !Entities.IsAlive(ent))
-			continue
-		var abilrange = Abilities.GetCastRangeFix(abil)
+	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
+		return parseInt(ent)
+	}).filter(function(ent) {
+		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent)
+	})
+	HEnts.some(function(ent) {
 		var Range = Entities.GetRangeToUnit(MyEnt, ent)
 		if(Range > abilrange && abilrange !== 0)
-			continue
-		for(var m=0; m < Entities.GetAbilityCount(ent); m++){
+			return false
+		for(var m=0; m < Entities.GetAbilityCount(ent); m++) {
 			var Abil = Entities.GetAbility(ent, m)
 			var AbilName = Abilities.GetAbilityName(Abil)
 			var Cast = Abilities.IsInAbilityPhase(Abil)
-			if( Abil==-1  || Abilities.GetCooldownTimeRemaining(Abil) !== 0 || Abilities.GetLevel(Abil)==0 || !Cast || InitSpells.indexOf(AbilName)==-1 )
-				continue
-			if(Cast){
-				GameUI.SelectUnit(MyEnt,false)
-				Game.EntStop(MyEnt, false)
-				if(Behavior.indexOf(4) !== -1)
-					Game.CastNoTarget(MyEnt, abil, false)
-				else if(Behavior.indexOf(16)!=-1)
-					Abilities.CreateDoubleTapCastOrder(abil, MyEnt)
-				else if(Behavior.indexOf(8)!=-1 )
-					Game.CastTarget(MyEnt, abil, ent, false)
-				flag = true
-				$.Schedule(0.5, function() {
-					flag=false
-				})
-				return
-			}
+			if(!Cast || Abil === -1 || Abilities.GetCooldownTimeRemaining(Abil) !== 0 || Abilities.GetLevel(Abil) === 0 || InitSpells.indexOf(AbilName) === -1)
+				return false
+			
+			GameUI.SelectUnit(MyEnt,false)
+			Game.EntStop(MyEnt, false)
+			if(Behavior.indexOf(4) !== -1)
+				Game.CastNoTarget(MyEnt, abil, false)
+			else if(Behavior.indexOf(16) !== -1)
+				Abilities.CreateDoubleTapCastOrder(abil, MyEnt)
+			else if(Behavior.indexOf(8) !== -1)
+				Game.CastTarget(MyEnt, abil, ent, false)
+			flag = true
+			$.Schedule(0.5, function() {
+				flag = false
+			})
+			return true
 		}
-	}
+		return false
+	})
 }
 
 

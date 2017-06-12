@@ -46,7 +46,7 @@ function SniperAssassinateFunc() {
 
 var SniperAssassinateOnCheckBoxClick = function(){
 	if (!SniperAssassinate.checked) {
-		Game.Panels.SniperAssassinate.DeleteAsync(0)
+		D2JS.Panels.SniperAssassinate.DeleteAsync(0)
 		Game.ScriptLogMsg('Script disabled: SniperAssassinate', '#ff0000')
 		return
 	}

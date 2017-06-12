@@ -2,6 +2,8 @@ D2JS = {
 	Configs: {},
 	Commands: {},
 	Panels: {},
+	Particles: {},
+	Subscribes: {},
 	ScriptVersion: "1.2",
 	debug: false,
 	debugScripts: true,

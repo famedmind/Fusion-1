@@ -1,12 +1,12 @@
-﻿try{ Game.Panels.AbilityRange.DeleteAsync(0) }catch(e){}
+﻿try{ D2JS.Panels.AbilityRange.DeleteAsync(0) }catch(e){}
 for (i in Game.Subscribes.AbilityRange)
 	try{ GameEvents.Unsubscribe( Game.Subscribes.AbilityRange[i] ) }catch(e){}
-for(i in Game.Particles.AbilityRange)
-	try{ Particles.DestroyParticleEffect(Game.Particles.AbilityRange[i],Game.Particles.AbilityRange[i]) }catch(e){}
+for(i in D2JS.Particles.AbilityRange)
+	try{ Particles.DestroyParticleEffect(D2JS.Particles.AbilityRange[i],D2JS.Particles.AbilityRange[i]) }catch(e){}
 
-Game.Particles.AbilityRange = []
+D2JS.Particles.AbilityRange = []
 Game.Subscribes.AbilityRange = []
-Game.Panels.AbilityRange = []
+D2JS.Panels.AbilityRange = []
 var Config = []
 
 function GetAbilityRange(Abil) {
@@ -21,26 +21,26 @@ function InventoryChanged(data){
 	MyEnt = Players.GetPlayerHeroEntityIndex(MyID)
 	if ( MyEnt==-1 )
 		return
-	if ( Game.Particles.AbilityRange.length == 0 )
+	if ( D2JS.Particles.AbilityRange.length == 0 )
 		return
-	for(var i in Game.Particles.AbilityRange){
+	for(var i in D2JS.Particles.AbilityRange){
 		Range = GetAbilityRange(i)
-		Particles.DestroyParticleEffect(Game.Particles.AbilityRange[i],Game.Particles.AbilityRange[i])
+		Particles.DestroyParticleEffect(D2JS.Particles.AbilityRange[i],D2JS.Particles.AbilityRange[i])
 		if ( !Range || Range <= 0 )
 			return
-		Game.Particles.AbilityRange[i] = Particles.CreateParticle("particles/ui_mouseactions/range_display.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW , MyEnt)
-		Particles.SetParticleControl(Game.Particles.AbilityRange[i], 1,  [Range,0,0])
+		D2JS.Particles.AbilityRange[i] = Particles.CreateParticle("particles/ui_mouseactions/range_display.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW , MyEnt)
+		Particles.SetParticleControl(D2JS.Particles.AbilityRange[i], 1,  [Range,0,0])
 	}
 }
 
 Destroy = function(){
-	try{ Game.Panels.AbilityRange.DeleteAsync(0) }catch(e){}
+	try{ D2JS.Panels.AbilityRange.DeleteAsync(0) }catch(e){}
 	for (var i in Game.Subscribes.AbilityRange.length)
 		try{ GameEvents.Unsubscribe( Game.Subscribes.AbilityRange[i] ) }catch(e){}
-	for(var i in Game.Particles.AbilityRange)
-		try{ Particles.DestroyParticleEffect(Game.Particles.AbilityRange[i],Game.Particles.AbilityRange[i]) }catch(e){}
+	for(var i in D2JS.Particles.AbilityRange)
+		try{ Particles.DestroyParticleEffect(D2JS.Particles.AbilityRange[i],D2JS.Particles.AbilityRange[i]) }catch(e){}
 	Game.Subscribes.AbilityRange = []
-	Game.Particles.AbilityRange = []
+	D2JS.Particles.AbilityRange = []
 }
 
 function SkillLearned(data){
@@ -54,10 +54,10 @@ function SkillLearned(data){
 	Range = GetAbilityRange( LearnedAbil )
 	if ( data.abilityname == 'attribute_bonus' || Range<=0 )
 		return
-	if (Game.Particles.AbilityRange[LearnedAbil]){
-		Particles.DestroyParticleEffect(Game.Particles.AbilityRange[LearnedAbil],Game.Particles.AbilityRange[LearnedAbil])
-		Game.Particles.AbilityRange[LearnedAbil] = Particles.CreateParticle("particles/ui_mouseactions/range_display.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW , MyEnt)
-		Particles.SetParticleControl(Game.Particles.AbilityRange[LearnedAbil], 1,  [Range,0,0])
+	if (D2JS.Particles.AbilityRange[LearnedAbil]){
+		Particles.DestroyParticleEffect(D2JS.Particles.AbilityRange[LearnedAbil],D2JS.Particles.AbilityRange[LearnedAbil])
+		D2JS.Particles.AbilityRange[LearnedAbil] = Particles.CreateParticle("particles/ui_mouseactions/range_display.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW , MyEnt)
+		Particles.SetParticleControl(D2JS.Particles.AbilityRange[LearnedAbil], 1,  [Range,0,0])
 	}
 	CheckBs = AbilityRangePanel.Children()
 	for(c=0;c<CheckBs.length;c++){
@@ -81,15 +81,15 @@ function chkboxpressed(){
 		if (Abil == 0 )
 			continue
 		if (Checked){
-			if (!Game.Particles.AbilityRange[Abil]){
-				Game.Particles.AbilityRange[Abil] = Particles.CreateParticle("particles/ui_mouseactions/range_display.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW , MyEnt)
+			if (!D2JS.Particles.AbilityRange[Abil]){
+				D2JS.Particles.AbilityRange[Abil] = Particles.CreateParticle("particles/ui_mouseactions/range_display.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW , MyEnt)
 				Range = GetAbilityRange( Abil )
-				Particles.SetParticleControl(Game.Particles.AbilityRange[Abil], 1,  [Range,0,0])
+				Particles.SetParticleControl(D2JS.Particles.AbilityRange[Abil], 1,  [Range,0,0])
 			}
 		}else{
-			if (Game.Particles.AbilityRange[Abil]){
-				Particles.DestroyParticleEffect(Game.Particles.AbilityRange[Abil],Game.Particles.AbilityRange[Abil])
-				delete Game.Particles.AbilityRange[Abil]
+			if (D2JS.Particles.AbilityRange[Abil]){
+				Particles.DestroyParticleEffect(D2JS.Particles.AbilityRange[Abil],D2JS.Particles.AbilityRange[Abil])
+				delete D2JS.Particles.AbilityRange[Abil]
 			}
 		}
 	}
@@ -109,25 +109,25 @@ AbilityRangeF = function(){
 			Destroy()
 			return
 		}
-		Game.Panels.AbilityRange = $.CreatePanel( 'Panel', Game.GetMainHUD(), 'AbilityRangePanel' )
-		Game.Panels.AbilityRange.BLoadLayoutFromString( "<root><Panel class='AbilityRangePanel' style='flow-children: down;background-color:#00000099;border-radius:15px;padding:20px 0;'></Panel></root>", false, false )
-		GameUI.MovePanel(Game.Panels.AbilityRange,function(p){
-			var position = Game.Panels.AbilityRange.style.position.split(' ')
+		D2JS.Panels.AbilityRange = $.CreatePanel( 'Panel', Game.GetMainHUD(), 'AbilityRangePanel' )
+		D2JS.Panels.AbilityRange.BLoadLayoutFromString( "<root><Panel class='AbilityRangePanel' style='flow-children: down;background-color:#00000099;border-radius:15px;padding:20px 0;'></Panel></root>", false, false )
+		GameUI.MovePanel(D2JS.Panels.AbilityRange,function(p){
+			var position = D2JS.Panels.AbilityRange.style.position.split(' ')
 			Config.MainPanel.x = position[0]
 			Config.MainPanel.y = position[1]
 			D2JS.SaveConfig('AbilityRange', Config)
 		})
 		D2JS.GetConfig('AbilityRange',function(a){
 			Config = a[0]
-			Game.Panels.AbilityRange.style.position = Config.MainPanel.x + ' ' + Config.MainPanel.y + ' 0'
-			Game.Panels.AbilityRange.style.flowChildren = Config.MainPanel.flow
+			D2JS.Panels.AbilityRange.style.position = Config.MainPanel.x + ' ' + Config.MainPanel.y + ' 0'
+			D2JS.Panels.AbilityRange.style.flowChildren = Config.MainPanel.flow
 		});
 		Game.AddCommand( '__AbilityRange_Rotate', function(){
-			if (Game.Panels.AbilityRange.style.flowChildren == 'right')
-				Game.Panels.AbilityRange.style.flowChildren = 'down'
+			if (D2JS.Panels.AbilityRange.style.flowChildren == 'right')
+				D2JS.Panels.AbilityRange.style.flowChildren = 'down'
 			else
-				Game.Panels.AbilityRange.style.flowChildren = 'right'
-			Config.MainPanel.flow = Game.Panels.AbilityRange.style.flowChildren
+				D2JS.Panels.AbilityRange.style.flowChildren = 'right'
+			Config.MainPanel.flow = D2JS.Panels.AbilityRange.style.flowChildren
 			D2JS.SaveConfig('AbilityRange', Config)
 		}, '',0 )
 	}else{

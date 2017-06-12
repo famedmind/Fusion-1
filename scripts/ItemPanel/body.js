@@ -1,5 +1,5 @@
 ﻿try {
-	Game.Panels.ItemPanel.DeleteAsync(0)
+	D2JS.Panels.ItemPanel.DeleteAsync(0)
 } catch(e) {
 
 }
@@ -10,7 +10,7 @@ function NewItem(oldinv, newinv, ent) {
 		n = newinv[i]
 		if(oldinv.indexOf(n) === -1 && D2JS.Configs.ItemPanel.Items.indexOf(Abilities.GetAbilityName(n))!= -1){
 			if(D2JS.Configs.ItemPanel.Notify === "true") {
-				A = $.CreatePanel('Panel', Game.Panels.ItemPanel, 'Alert' + ent + n)
+				A = $.CreatePanel('Panel', D2JS.Panels.ItemPanel, 'Alert' + ent + n)
 				A.BLoadLayoutFromString('\
 				<root>\
 					<Panel style="width:100%;height:37px;background-color:#111;">\
@@ -33,7 +33,7 @@ function ItemPanelEvery() {
 	if (!ItemPanel.checked) {
 		D2JS.ItemPanel = []
 		try {
-			Game.Panels.ItemPanel.DeleteAsync(0)
+			D2JS.Panels.ItemPanel.DeleteAsync(0)
 		} catch(e) {
 			
 		}
@@ -41,12 +41,12 @@ function ItemPanelEvery() {
 	}
 	if(Game.GameStateIsBefore(DOTA_GameState.DOTA_GAMERULES_STATE_PRE_GAME)) {
 		try {
-			Game.Panels.ItemPanel.DeleteAsync(0)
+			D2JS.Panels.ItemPanel.DeleteAsync(0)
 		} catch(e) {
 			
 		}
-		for(var i=0; i < Game.Panels.ItemPanel.Children().length; i++)
-			Game.Panels.ItemPanel.Children()[i].style.height = '0'
+		for(var i=0; i < D2JS.Panels.ItemPanel.Children().length; i++)
+			D2JS.Panels.ItemPanel.Children()[i].style.height = '0'
 		D2JS.ItemPanel = []
 		ItemPanel.checked = false
 		return
@@ -57,7 +57,7 @@ function ItemPanelEvery() {
 		var Ent = Players.GetPlayerHeroEntityIndex(IDs[i])
 		if(!Entities.IsEnemy(Ent))
 			continue
-		var P = Game.Panels.ItemPanel.Children()[k]
+		var P = D2JS.Panels.ItemPanel.Children()[k]
 		P.style.height = '24px'
 		P.Children()[0].heroname = Entities.GetUnitName(Ent)
 		var Inv = Game.GetInventory(Ent)
@@ -82,11 +82,11 @@ function ItemPanelEvery() {
 
 var ItemPanelLoad = function() {
 	D2JS.GetXML('ItemPanel/panel', function(a) {
-		Game.Panels.ItemPanel = $.CreatePanel( 'Panel', Game.GetMainHUD(), 'ItemPanel1' )
-		Game.Panels.ItemPanel.BLoadLayoutFromString(a, false, false)
+		D2JS.Panels.ItemPanel = $.CreatePanel( 'Panel', Game.GetMainHUD(), 'ItemPanel1' )
+		D2JS.Panels.ItemPanel.BLoadLayoutFromString(a, false, false)
 		for(var i=0; i < 5; i++)
-			Game.Panels.ItemPanel.Children()[i].style.height = '0'
-		GameUI.MovePanel(Game.Panels.ItemPanel, function(p) {
+			D2JS.Panels.ItemPanel.Children()[i].style.height = '0'
+		GameUI.MovePanel(D2JS.Panels.ItemPanel, function(p) {
 			var position = p.style.position.split(' ')
 			D2JS.Configs.ItemPanel.MainPanel.x = position[0]
 			D2JS.Configs.ItemPanel.MainPanel.y = position[1]
@@ -95,7 +95,7 @@ var ItemPanelLoad = function() {
 		
 		D2JS.GetConfig('ItemPanel', function(response) {
 			response = response[0]
-			Game.Panels.ItemPanel.style.position = response.MainPanel.x + ' ' + response.MainPanel.y + ' 0'
+			D2JS.Panels.ItemPanel.style.position = response.MainPanel.x + ' ' + response.MainPanel.y + ' 0'
 			D2JS.Configs.ItemPanel = response
 			ItemPanelEvery()
 		})
@@ -106,7 +106,7 @@ function ItemPanelLoadOnOff() {
 	if (!ItemPanel.checked) {
 		D2JS.ItemPanel = []
 		try {
-			Game.Panels.ItemPanel.DeleteAsync(0)
+			D2JS.Panels.ItemPanel.DeleteAsync(0)
 		} catch(e) {
 			
 		}

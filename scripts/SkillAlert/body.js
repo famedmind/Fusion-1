@@ -38,7 +38,7 @@ function SAlertEvery() {
 			//$.Msg(buffs)
 		var xyz = Entities.GetAbsOrigin(ent)
 		
-		for(var buff of buffs) {
+		buffs.forEach(function(buff) {
 			var modifier = targetModifiers[buff]
 			if(typeof modifier !== 'undefined' && modifier !== [])
 				AlertTarget(modifier, ent)
@@ -47,7 +47,7 @@ function SAlertEvery() {
 				if(typeof modifier !== 'undefined' && modifier !== [])
 					;//AlertPosition(modifier, ent)
 			}
-		}
+		})
 	})
 	if(SkillAlert.checked)
 		$.Schedule(Game.MyTick, SAlertEvery)
@@ -55,8 +55,8 @@ function SAlertEvery() {
 
 function AlertTarget(modifier, ent) {
 	CreateFollowParticle(modifier[0], modifier[1], ent)
-	if(Game.Panels.ItemPanel !== undefined && D2JS.Configs.SkillAlert.Notify === "true" && panels[ent] === undefined) {
-		var A = $.CreatePanel('Panel', Game.Panels.ItemPanel, 'Alert' + ent)
+	if(D2JS.Panels.ItemPanel !== undefined && D2JS.Configs.SkillAlert.Notify === "true" && panels[ent] === undefined) {
+		var A = $.CreatePanel('Panel', D2JS.Panels.ItemPanel, 'Alert' + ent)
 		A.BLoadLayoutFromString('\
 		<root>\
 			<Panel style="width:100%;height:37px;background-color:#111;">\
@@ -81,8 +81,8 @@ function AlertTarget(modifier, ent) {
 
 function AlertPosition(modifier, vec, thinker) {
 	CreateTimerParticle(vec, modifier[0], thinker)
-	if(Game.Panels.ItemPanel !== undefined && D2JS.Configs.SkillAlert.Notify === "true" && panels[thinker] === undefined) {
-		var A = $.CreatePanel('Panel', Game.Panels.ItemPanel, 'Alert' + thinker)
+	if(D2JS.Panels.ItemPanel !== undefined && D2JS.Configs.SkillAlert.Notify === "true" && panels[thinker] === undefined) {
+		var A = $.CreatePanel('Panel', D2JS.Panels.ItemPanel, 'Alert' + thinker)
 		A.BLoadLayoutFromString('\
 		<root>\
 			<Panel style="width:100%;height:37px;background-color:#111;">\

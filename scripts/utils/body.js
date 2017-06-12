@@ -212,32 +212,20 @@ Game.VelocityWaypoint = function(ent, time, movespeed) {
 
 Game.Every = function(start, time, tick, func) {var startTime = Game.Time();var tickRate = tick;if(tick < 1) {if(start < 0) tick--;tickRate = time / -tick;}var tickCount =  time/ tickRate;if(time < 0) {tickCount = 9999999;}var numRan = 0;$.Schedule(start, (function(start,numRan,tickRate,tickCount) {return function() {if(start < 0) {start = 0;if(func()) {return;}; }  var tickNew = function() {numRan++;delay = (startTime+tickRate*numRan)-Game.Time();if((startTime+tickRate*numRan)-Game.Time() < 0) {delay = 0;}$.Schedule(delay, function() {if(func()) {return;};tickCount--;if(tickCount > 0) tickNew();});};tickNew();}})(start,numRan,tickRate,tickCount));}
 
-//глобальный массив для хранения партиклов
-if(!Array.isArray(Game.Particles))
-	Game.Particles = []
-if(!Array.isArray(Game.Panels))
-	Game.Panels = []
 if(Array.isArray(Game.Subscribes)) {
-	for(i in Game.Subscribes) {
-		if ( typeof Game.Subscribes[i] === 'number' )
-			try{ GameEvents.Unsubscribe(Game.Subscribes[i]) }catch(e) {}
-		else if( typeof Game.Subscribes[i] === 'object' ) {
-			for(m in Game.Subscribes[i])
-				try{ GameEvents.Unsubscribe(Game.Subscribes[i][m]) }catch(e) {}
-		}
-	}
+	Game.Subscribes.forEach(function(sub) {
+		if (typeof sub === 'number')
+			try {
+				GameEvents.Unsubscribe(sub)
+			} catch(e) {}
+		else if(typeof sub === 'object')
+			sub.forEach(function(sub2) {
+				try {
+					GameEvents.Unsubscribe(sub2)
+				} catch(e) {}
+			})
+	})
 }
-Game.Subscribes = []
-Game.Subscribes.OnMapLoad = []
-Game.Subscribes.MoneyChanged = []
-//Game.Subscribes.OnMapLoadCB = GameEvents.Subscribe('game_newmap', function() {
-	for(i in Game.Subscribes.OnMapLoad)
-		Game.Subscribes.OnMapLoad[i]()
-//})
-Game.Subscribes.MoneyChangedCB = GameEvents.Subscribe('dota_money_changed', function() {
-	for(i in Game.Subscribes.MoneyChanged)
-		Game.Subscribes.MoneyChanged[i]()
-})
 
 
 //сообщение в боковую панель
@@ -620,11 +608,3 @@ Game.AddScript = function(scriptName, onCheckBoxClick) {
 }
 
 Game.ScriptLogMsg('Utils sucessfull loaded', '#00ff00')
-if(Game.ServerRequest === null)
-	GameEvents.SendEventClientSide (
-		'antiaddiction_toast',
-		{
-			"message": "Please update your D2JS version",
-			"duration": "999999"
-		}
-	)
