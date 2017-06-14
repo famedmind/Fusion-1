@@ -55,7 +55,7 @@ function AutoUltNecrophosF() {
 
 var AutoUltNecrophosOnCheckBoxClick = function(){
 	if (!AutoUltNecrophos.checked) {
-		D2JS.Panels.AutoUltNecrophos.DeleteAsync(0)
+		Fusion.Panels.AutoUltNecrophos.DeleteAsync(0)
 		Game.ScriptLogMsg('Script disabled: AutoUltNecrophos', '#ff0000')
 		return
 	}

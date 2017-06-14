@@ -25,7 +25,7 @@ function TerrorBladeWTFConjureImageOnToggle() {
 	else {
 		function intervalFunc(){
 			$.Schedule(
-				D2JS.MyTick,
+				Fusion.MyTick,
 				function() {
 					TerrorBladeWTFConjureImageOnInterval()
 					if(TerrorBladeWTFConjureImage.checked)

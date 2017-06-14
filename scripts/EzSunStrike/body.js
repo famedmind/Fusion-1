@@ -32,7 +32,7 @@ function EzSunstrikeOnInterval() {
 			//GameUI.SelectUnit(MyEnt, false)
 			//Game.CastPosition(MyEnt, SunStrike, SunStrikePos, false)
 			GameUI.PingMinimapAtLocation(SunStrikePos)
-			$.Schedule(D2JS.MyTick, CancelSunstrike)
+			$.Schedule(Fusion.MyTick, CancelSunstrike)
 		}
 	}
 }
@@ -54,7 +54,7 @@ function EzSunstrikeOnToggle() {
 	} else {
 		function intervalFunc() {
 			$.Schedule(
-				D2JS.MyTick,
+				Fusion.MyTick,
 				function() {
 					EzSunstrikeOnInterval()
 					if(EzSunstrike.checked)

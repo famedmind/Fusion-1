@@ -4,39 +4,39 @@ var scepterdamage = [450, 600, 750]
 
 init()
 function init() {
-	D2JS.EzTechiesLVLUp = [-1, -1, -1]
+	Fusion.EzTechiesLVLUp = [-1, -1, -1]
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var lvl = Abilities.GetLevel(Entities.GetAbilityByName(MyEnt, 'techies_remote_mines')) - 1
-	D2JS.EzTechiesLVLUp[lvl] = Game.GetGameTime()
+	Fusion.EzTechiesLVLUp[lvl] = Game.GetGameTime()
 }
 
-for(i in D2JS.Particles.EzTechies)
+for(i in Fusion.Particles.EzTechies)
 	try {
-		var par = parseInt(D2JS.Particles.EzTechies[i])
+		var par = parseInt(Fusion.Particles.EzTechies[i])
 		Particles.DestroyParticleEffect(par, par)
 	} catch(e) {  }
-D2JS.Particles.EzTechies = []
+Fusion.Particles.EzTechies = []
 
 try {
-	D2JS.Panels.EzTechies.DeleteAsync(0)
+	Fusion.Panels.EzTechies.DeleteAsync(0)
 } catch(e) {  }
 try {
-	GameEvents.Unsubscribe(parseInt(D2JS.Subscribes.EzTechiesMinesSpawn))
+	GameEvents.Unsubscribe(parseInt(Fusion.Subscribes.EzTechiesMinesSpawn))
 } catch(e) {  }
 try {
-	GameEvents.Unsubscribe(parseInt(D2JS.Subscribes.UltiUp))
+	GameEvents.Unsubscribe(parseInt(Fusion.Subscribes.UltiUp))
 } catch(e) {  }
 
-D2JS.Subscribes.UltiUp = GameEvents.Subscribe("dota_player_learned_ability", function(event) {
+Fusion.Subscribes.UltiUp = GameEvents.Subscribe("dota_player_learned_ability", function(event) {
 	if(event.PlayerID != Game.GetLocalPlayerID() || event.abilityname!='techies_remote_mines')
 		return
 	
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var lvl = Abilities.GetLevel(Entities.GetAbilityByName(MyEnt, 'techies_remote_mines')) - 1
-	D2JS.EzTechiesLVLUp[lvl] = Game.GetGameTime()
+	Fusion.EzTechiesLVLUp[lvl] = Game.GetGameTime()
 })
 
-D2JS.Subscribes.EzTechiesMinesSpawn = GameEvents.Subscribe('npc_spawned', function(event) {
+Fusion.Subscribes.EzTechiesMinesSpawn = GameEvents.Subscribe('npc_spawned', function(event) {
 	var ent = parseInt(event.entindex)
 	if(Entities.IsEnemy(ent))
 		return
@@ -48,7 +48,7 @@ D2JS.Subscribes.EzTechiesMinesSpawn = GameEvents.Subscribe('npc_spawned', functi
 		return
 	radius = Particles.CreateParticle("particles/ui_mouseactions/range_display.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, ent)
 	Particles.SetParticleControl(radius, 1, [range, 0, 0])
-	D2JS.Particles.EzTechies.push(radius)
+	Fusion.Particles.EzTechies.push(radius)
 })
 
 function EzTechiesF() {
@@ -95,8 +95,8 @@ function CallMines(MyEnt, ent, callback, explosionCallback) {
 			return false
 		
 		var dmg = 0
-		for(var z = D2JS.EzTechiesLVLUp.length; z >= 0; z--)
-			if(D2JS.EzTechiesLVLUp[z] !== -1 && time > D2JS.EzTechiesLVLUp[z]) {
+		for(var z = Fusion.EzTechiesLVLUp.length; z >= 0; z--)
+			if(Fusion.EzTechiesLVLUp[z] !== -1 && time > Fusion.EzTechiesLVLUp[z]) {
 				if(Entities.HasScepter(MyEnt))
 					dmg = scepterdamage[z]
 				else
@@ -108,7 +108,7 @@ function CallMines(MyEnt, ent, callback, explosionCallback) {
 			rmines.push(rmine)
 			rminessumdmg += dmg
 			if(rminessumdmg >= NeedMagicDmg) {
-				//if(D2JS.debug)
+				//if(Fusion.debug)
 					$.Msg("There's " + rminessumdmg + ", need " + NeedMagicDmg + " for " + Entities.GetUnitName(ent))
 				explosionCallback(MyEnt, ent, rmines, rminessumdmg)
 				return true
@@ -168,7 +168,7 @@ function RemoteMines(MyEnt, HEnts) {
 				MyEnt, ent,
 				function(MyEnt, ent, rmine) {
 					var mineVec = Entities.GetAbsOrigin(rmine)
-					var forceVec = D2JS.ForceStaffPos(ent)
+					var forceVec = Fusion.ForceStaffPos(ent)
 					
 					return Game.PointDistance(forceVec, mineVec) <= triggerradius
 				},
@@ -182,10 +182,10 @@ function RemoteMines(MyEnt, HEnts) {
 
 var EzTechiesCheckBoxClick = function(){
 	if (!EzTechies.checked) {
-		D2JS.Particles.EzTechies.forEach(function(par) {
+		Fusion.Particles.EzTechies.forEach(function(par) {
 			Particles.DestroyParticleEffect(par, par)
 		})
-		D2JS.Particles.EzTechies = []
+		Fusion.Particles.EzTechies = []
 		Game.ScriptLogMsg('Script disabled: EzTechies', '#ff0000')
 		return
 	}
@@ -197,7 +197,7 @@ var EzTechiesCheckBoxClick = function(){
 	
 	function f() {
 		$.Schedule (
-			D2JS.MyTick,
+			Fusion.MyTick,
 			function() {
 				EzTechiesF()
 				if(EzTechies.checked)

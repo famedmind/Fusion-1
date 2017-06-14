@@ -31,7 +31,7 @@ function AutoDenyOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				D2JS.MyTick / 3,
+				Fusion.MyTick / 3,
 				function() {
 					AutoDenyOnInterval()
 					if(AutoDeny.checked)

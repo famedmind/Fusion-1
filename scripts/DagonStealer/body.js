@@ -11,7 +11,7 @@ function DagonStealerOnInterval() {
 }
 
 function AutoDagon(MyEnt, HEnts) {
-	var Dagon = D2JS.GetDagon(MyEnt)
+	var Dagon = Fusion.GetDagon(MyEnt)
 	var DagonRange = Abilities.GetCastRangeFix(Dagon)
 	var DagonDamage = GetDagonDamage(Dagon)
 	
@@ -43,7 +43,7 @@ function AutoDagon(MyEnt, HEnts) {
 	}
 }
 
-D2JS.GetDagon = function(MyEnt) {
+Fusion.GetDagon = function(MyEnt) {
 	for(var i in DagonNames) {
 		var DagonName = DagonNames[i]
 		var item = Game.GetAbilityByName(MyEnt, DagonName)
@@ -66,7 +66,7 @@ function DagonStealerOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				D2JS.MyTick * 3,
+				Fusion.MyTick * 3,
 				function() {
 					DagonStealerOnInterval()
 					if(DagonStealer.checked)

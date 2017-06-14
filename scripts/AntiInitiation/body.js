@@ -1,100 +1,210 @@
-﻿var DisableAbils = [
-	"item_orchid",
-	"item_bloodthorn",
-	"item_sheepstick",
-	"item_cyclone",
-	"pudge_dismember",
-	"lion_voodoo",
-	"puck_waning_rift",
-	"shadow_shaman_voodoo",
-	"dragon_knight_dragon_tail",
-	"rubick_telekinesis"
+﻿var HexAbils = [
+	["item_sheepstick", true, true],
+	["lion_voodoo", true, true],
+	["shadow_shaman_voodoo", true, true]
 ]
 
-var InitSpells = [
-	"tidehunter_ravage",
-	"axe_berserkers_call",
-	"earthshaker_echo_slam",
-	"magnataur_reverse_polarity",
-	"legion_commander_duel",
-	"beastmaster_primal_roar",
-	"treant_overgrowth",
-	"faceless_void_chronosphere",
-	"batrider_flaming_lasso",
-	"dark_seer_wall_of_replica",
-	"slardar_slithereen_crush",
-	"queenofpain_sonic_wave",
-	"enigma_black_hole",
-	"juggernaut_omni_slash",
-	"puck_waning_rift",
-	"pudge_dismember",
-	"shadow_shaman_shackles",
-	"sven_storm_bolt",
-	"rubick_telekinesis",
-	"lion_impale"
+var DisableAbils = [
+	["item_orchid", true, true],
+	["item_bloodthorn", true, true],
+	["item_cyclone", true, true],
+	["axe_berserkers_call" , false],
+	["legion_commander_duel", false],
+	["puck_waning_rift", true],
+	["crystal_maiden_frostbite", true]
 ]
 
-var flag = false
+var StunAbils = [
+	["dragon_knight_dragon_tail", false],
+	["tidehunter_ravage", false],
+	["earthshaker_echo_slam", true],
+	["magnataur_reverse_polarity", false],
+	["beastmaster_primal_roar", false],
+	["treant_overgrowth", false],
+	["faceless_void_chronosphere", false],
+	["batrider_flaming_lasso", true],
+	["slardar_slithereen_crush", false],
+	["enigma_black_hole", false],
+	["shadow_shaman_shackles", false],
+	["sven_storm_bolt", true],
+	["lion_impale", true],
+	["centaur_hoof_stomp", false],
+	["vengefulspirit_magic_missile", true],
+	["sand_king_burrowstrike", false],
+	["nyx_assassin_impale", true],
+	["chaos_knight_chaos_bolt", false],
+	["tiny_avalanche", true],
+	["ogre_magi_fireblast", true],
+	["obsidian_destroyer_astral_imprisonment", true],
+	["rubick_telekinesis", false],
+	["pudge_dismember", true],
+	["invoker_cold_snap", true]
+]
+
+var OtherAbils = [
+	["dark_seer_wall_of_replica", false],
+	["queenofpain_sonic_wave", false],
+	["juggernaut_omni_slash", false],
+	["slark_pounce", false]
+]
+
+var Abils = [
+	HexAbils,
+	DisableAbils,
+	StunAbils,
+	OtherAbils
+]
+
+function GetAbilArray(abilNameToSearch) {
+	var abilArFound
+	Abils.some(function(ar) {
+		return ar.some(function(abilAr) {
+			var abilName = abilAr[0]
+			var abilToUse = abilAr[1]
+			if(abilName !== abilNameToSearch)
+				return false
+			
+			abilArFound = abilAr
+			return true
+		})
+	})
+	
+	return abilArFound
+}
+
+var flags = []
 function AntiInitiationF() {
-	if(!AntiInitiation.checked || flag)
+	if(!AntiInitiation.checked)
 		return
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
-	var abil = -1
-	DisableAbils.some(function(abilName) {
-		var abilL = Game.GetAbilityByName(MyEnt, abilName)
-		if(abilL === -1 || Abilities.GetCooldownTimeRemaining(abilL) !== 0)
-			return false
-		
-		abil = abilL
-		return true
-	})
-	if(abil === -1)
-		return
-	var abilrange = Abilities.GetCastRangeFix(abil)
-	var Behavior = Game.Behaviors(abil)
 	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
 		return parseInt(ent)
 	}).filter(function(ent) {
 		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent)
 	})
 	HEnts.some(function(ent) {
-		var Range = Entities.GetRangeToUnit(MyEnt, ent)
-		if(Range > abilrange && abilrange !== 0)
-			return false
-		for(var m=0; m < Entities.GetAbilityCount(ent); m++) {
+		if(flags[ent])
+			return
+		for(var m = 0; m < Entities.GetAbilityCount(ent); m++) {
 			var Abil = Entities.GetAbility(ent, m)
-			var AbilName = Abilities.GetAbilityName(Abil)
-			var Cast = Abilities.IsInAbilityPhase(Abil)
-			if(!Cast || Abil === -1 || Abilities.GetCooldownTimeRemaining(Abil) !== 0 || Abilities.GetLevel(Abil) === 0 || InitSpells.indexOf(AbilName) === -1)
-				return false
-			
-			GameUI.SelectUnit(MyEnt,false)
-			Game.EntStop(MyEnt, false)
-			if(Behavior.indexOf(4) !== -1)
-				Game.CastNoTarget(MyEnt, abil, false)
-			else if(Behavior.indexOf(16) !== -1)
-				Abilities.CreateDoubleTapCastOrder(abil, MyEnt)
-			else if(Behavior.indexOf(8) !== -1)
-				Game.CastTarget(MyEnt, abil, ent, false)
-			flag = true
-			$.Schedule(0.5, function() {
-				flag = false
+			if(Disable(ent, Abil))
+				return true
+		}
+		if(Game.GetBuffsNames(ent).indexOf("modifier_teleporting") !== -1) {
+			var abil
+			StunAbils.some(function(abilAr) {
+				var abilName = abilAr[0]
+				var abilToUse = abilAr[1]
+				if(!abilToUse)
+					return false
+				
+				var abilL = Game.GetAbilityByName(MyEnt, abilName)
+				var abilrange = Abilities.GetCastRangeFix(abilL)
+				if (
+					abilL === -1 ||
+					Abilities.GetCooldownTimeRemaining(abilL) !== 0 ||
+					(
+						Entities.GetRangeToUnit(MyEnt, ent) > abilrange &&
+						abilrange !== 0
+					)
+				)
+					return false
+				
+				abil = abilL
+				return true
 			})
-			return true
+			
+			if(abil !== undefined) {
+				GameUI.SelectUnit(MyEnt, false)
+				Game.EntStop(MyEnt, false)
+				
+				var Behavior = Game.Behaviors(abil)
+				if(Behavior.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_NO_TARGET) !== -1)
+					Game.CastNoTarget(MyEnt, abil, false)
+				else if(Behavior.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT) !== -1)
+					Abilities.CreateDoubleTapCastOrder(abil, MyEnt)
+				else if(Behavior.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_UNIT_TARGET) !== -1)
+					Game.CastTarget(MyEnt, abil, ent, false)
+				flags[ent] = true
+				$.Schedule(1, function() {
+					flags[ent] = false
+				})
+				return true
+			}
 		}
 		return false
 	})
 }
 
+function Disable(ent, Abil) {
+	var AbilName = Abilities.GetAbilityName(Abil)
+	if (
+		Abil === -1 ||
+		!Abilities.IsInAbilityPhase(Abil) ||
+		Abilities.GetCooldownTimeRemaining(Abil) !== 0 ||
+		Abilities.GetLevel(Abil) === 0 ||
+		(
+			InitSpells.indexOf(AbilName) === -1 &&
+				Both.indexOf(AbilName) === -1
+		)
+	)
+		return false
+	var AbilAr = GetAbilArray(AbilName)
+	if(AbilAr !== undefined && AbilAr[3])
+		return false
+	var abil
+	Abils.some(function(ar) {
+		return ar.some(function(abilAr) {
+			var abilName = abilAr[0]
+			var abilToUse = abilAr[1]
+			if(!abilToUse)
+				return false
+			
+			var abilL = Game.GetAbilityByName(MyEnt, abilName)
+			var abilrange = Abilities.GetCastRangeFix(abilL)
+			if (
+				abilL === -1 ||
+				Abilities.GetCooldownTimeRemaining(abilL) !== 0 ||
+				(
+					Entities.GetRangeToUnit(MyEnt, ent) > abilrange &&
+					abilrange !== 0
+				)
+			)
+				return false
+			
+			abil = abilL
+			return true
+		})
+	})
+	if(abil === undefined)
+		return false
+	
+	GameUI.SelectUnit(MyEnt, false)
+	Game.EntStop(MyEnt, false)
+	
+	var Behavior = Game.Behaviors(abil)
+	if(Behavior.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_NO_TARGET) !== -1)
+		Game.CastNoTarget(MyEnt, abil, false)
+	else if(Behavior.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT) !== -1)
+		Abilities.CreateDoubleTapCastOrder(abil, MyEnt)
+	else if(Behavior.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_UNIT_TARGET) !== -1)
+		Game.CastTarget(MyEnt, abil, ent, false)
+	flags[ent] = true
+	$.Schedule(1, function() {
+		flags[ent] = false
+	})
+	return true
+}
 
-var AntiInitiationToggle = function(){
+
+var AntiInitiationToggle = function() {
 	if (!AntiInitiation.checked){
 		Game.ScriptLogMsg('Script disabled: AntiInitiation', '#ff0000')
 		return
 	} else {
 		function f() {
 			$.Schedule (
-				D2JS.MyTick,
+				Fusion.MyTick,
 				function() {
 					AntiInitiationF()
 					if(AntiInitiation.checked)

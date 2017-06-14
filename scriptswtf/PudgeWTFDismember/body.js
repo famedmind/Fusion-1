@@ -39,7 +39,7 @@ function PudgeWTFDismemberOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				D2JS.MyTick * 2,
+				Fusion.MyTick * 2,
 				function() {
 					PudgeWTFDismemberOnInterval()
 					if(PudgeWTFDismember.checked)

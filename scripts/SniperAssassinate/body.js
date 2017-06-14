@@ -46,7 +46,7 @@ function SniperAssassinateFunc() {
 
 var SniperAssassinateOnCheckBoxClick = function(){
 	if (!SniperAssassinate.checked) {
-		D2JS.Panels.SniperAssassinate.DeleteAsync(0)
+		Fusion.Panels.SniperAssassinate.DeleteAsync(0)
 		Game.ScriptLogMsg('Script disabled: SniperAssassinate', '#ff0000')
 		return
 	}
@@ -58,7 +58,7 @@ var SniperAssassinateOnCheckBoxClick = function(){
 
 	function f() {
 		$.Schedule (
-			D2JS.MyTick,
+			Fusion.MyTick,
 			function() {
 				SniperAssassinateFunc()
 				if(SniperAssassinate.checked)

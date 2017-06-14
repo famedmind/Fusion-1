@@ -62,12 +62,12 @@ var ancients = {
 }
 var spots = [[-3307, 383, -2564, -413, 400],[3456, -384, 4543, -1151, 300]]
 function destroy(){
-	if(typeof D2JS.Subscribes.AncientCreepStack != 'undefined')
-		GameEvents.Unsubscribe(D2JS.Subscribes.AncientCreepStack)
-	try{D2JS.Panels.AncientCreepStack.DeleteAsync(0)}catch(e){}
-	for(i in D2JS.Particles.AncientCreepStack)
-		try{Particles.DestroyParticleEffect(D2JS.Particles.AncientCreepStack[i],D2JS.Particles.AncientCreepStack[i])}catch(e){}
-	D2JS.Particles.AncientCreepStack = []
+	if(typeof Fusion.Subscribes.AncientCreepStack != 'undefined')
+		GameEvents.Unsubscribe(Fusion.Subscribes.AncientCreepStack)
+	try{Fusion.Panels.AncientCreepStack.DeleteAsync(0)}catch(e){}
+	for(i in Fusion.Particles.AncientCreepStack)
+		try{Particles.DestroyParticleEffect(Fusion.Particles.AncientCreepStack[i],Fusion.Particles.AncientCreepStack[i])}catch(e){}
+	Fusion.Particles.AncientCreepStack = []
 }
 function create(){
 	myid = Players.GetLocalPlayer()
@@ -81,12 +81,12 @@ function create(){
 		return
 	}
 	DrawBox(spots[team])
-	D2JS.Subscribes.AncientCreepStack = GameEvents.Subscribe("entity_hurt", function(a){
+	Fusion.Subscribes.AncientCreepStack = GameEvents.Subscribe("entity_hurt", function(a){
 		if(a.entindex_attacker==ent)
 			b=true
 	})
-	D2JS.Panels.AncientCreepStack = $.CreatePanel( "Panel", D2JS.GetMainHUD(), "AncientCreepStack" )
-	D2JS.Panels.AncientCreepStack.BLoadLayoutFromString( '\
+	Fusion.Panels.AncientCreepStack = $.CreatePanel( "Panel", Fusion.GetMainHUD(), "AncientCreepStack" )
+	Fusion.Panels.AncientCreepStack.BLoadLayoutFromString( '\
 	<root>\
 		<styles>\
 			<include src="s2r://panorama/styles/dotastyles.vcss_c" />\
@@ -98,7 +98,7 @@ function create(){
 		</Panel>\
 	</root>\
 	', false, false)
-	Game.AnimatePanel( D2JS.Panels.AncientCreepStack, {"transform": "rotateX( 35deg );"}, 0.3, "ease-in", 0)
+	Game.AnimatePanel( Fusion.Panels.AncientCreepStack, {"transform": "rotateX( 35deg );"}, 0.3, "ease-in", 0)
 	Game.ScriptLogMsg('Script enabled: AncientCreepStack', '#00ff00')
 }
 if(!Game.AncientCreepStackCreate){
@@ -106,10 +106,10 @@ if(!Game.AncientCreepStackCreate){
 	Game.AddCommand("__AncientCreepStack_Activate", create, "", 0)
 }
 function DrawBox(box){
-	D2JS.Particles.AncientCreepStack.push(DrawLineInGameWorld( [ box[0], box[1], box[4] ], [ box[0], box[3], box[4] ]))
-	D2JS.Particles.AncientCreepStack.push(DrawLineInGameWorld( [ box[2], box[1], box[4] ], [ box[2], box[3], box[4] ]))
-	D2JS.Particles.AncientCreepStack.push(DrawLineInGameWorld( [ box[0], box[1], box[4] ], [ box[2], box[1], box[4] ]))
-	D2JS.Particles.AncientCreepStack.push(DrawLineInGameWorld( [ box[0], box[3], box[4] ], [ box[2], box[3], box[4] ]))
+	Fusion.Particles.AncientCreepStack.push(DrawLineInGameWorld( [ box[0], box[1], box[4] ], [ box[0], box[3], box[4] ]))
+	Fusion.Particles.AncientCreepStack.push(DrawLineInGameWorld( [ box[2], box[1], box[4] ], [ box[2], box[3], box[4] ]))
+	Fusion.Particles.AncientCreepStack.push(DrawLineInGameWorld( [ box[0], box[1], box[4] ], [ box[2], box[1], box[4] ]))
+	Fusion.Particles.AncientCreepStack.push(DrawLineInGameWorld( [ box[0], box[3], box[4] ], [ box[2], box[3], box[4] ]))
 }
 function DrawLineInGameWorld(a, b){
 		var temp = Particles.CreateParticle("particles/ui_mouseactions/bounding_area_view_a.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN, 0)
@@ -164,7 +164,7 @@ function AncientCreepStackF(){
 		return
 	}
 	var xy = [Game.WorldToScreenX(spots[team][2]-400,spots[team][1],spots[team][4])+50,Game.WorldToScreenY(spots[team][2]-400,spots[team][1],spots[team][4]+50)]
-	D2JS.Panels.AncientCreepStack.style.position = (xy[0]/uiw*100)+'% '+(xy[1]/uih*100)+'% 0'
+	Fusion.Panels.AncientCreepStack.style.position = (xy[0]/uiw*100)+'% '+(xy[1]/uih*100)+'% 0'
 	var time = (parseInt((Game.GetDOTATime(false,false)%60)*10))/10
 	var entnow = Players.GetLocalPlayerPortraitUnit()
 	if(Entities.GetHealth(ent)<=400&&!hpn){
@@ -215,16 +215,16 @@ function AncientCreepStackU(){
 		return
 	var xy = [Game.WorldToScreenX(spots[team][2]-400,spots[team][1],spots[team][4])+50,Game.WorldToScreenY(spots[team][2]-400,spots[team][1],spots[team][4]+50)]
 	if(xy[0]<0||xy[1]<0)
-		D2JS.Panels.AncientCreepStack.visible = false
+		Fusion.Panels.AncientCreepStack.visible = false
 	else
-		D2JS.Panels.AncientCreepStack.visible = true
-	D2JS.Panels.AncientCreepStack.style.position = (xy[0]/uiw*100)+'% '+(xy[1]/uih*100)+'% 0'
+		Fusion.Panels.AncientCreepStack.visible = true
+	Fusion.Panels.AncientCreepStack.style.position = (xy[0]/uiw*100)+'% '+(xy[1]/uih*100)+'% 0'
 	var neu = GetNeutral(ent,1000)
-	D2JS.Panels.AncientCreepStack.Children()[0].text='Stacks: '+((parseInt((neu[3]/3)*10))/10)
-	D2JS.Panels.AncientCreepStack.Children()[1].text='Gold: ~'+neu[4]
-	D2JS.Panels.AncientCreepStack.Children()[2].text='Exp: ~'+neu[5]
+	Fusion.Panels.AncientCreepStack.Children()[0].text='Stacks: '+((parseInt((neu[3]/3)*10))/10)
+	Fusion.Panels.AncientCreepStack.Children()[1].text='Gold: ~'+neu[4]
+	Fusion.Panels.AncientCreepStack.Children()[2].text='Exp: ~'+neu[5]
 	var time = (parseInt((Game.GetDOTATime(false,false)%60)*10))/10
-	Game.AnimatePanel( D2JS.Panels.AncientCreepStack, {"transform": "rotateX( 35deg ) translate3d( 0px, "+((time-Math.floor(time))*20)+"px, 0px );"}, 0.3, "ease-in-out", 0)
+	Game.AnimatePanel( Fusion.Panels.AncientCreepStack, {"transform": "rotateX( 35deg ) translate3d( 0px, "+((time-Math.floor(time))*20)+"px, 0px );"}, 0.3, "ease-in-out", 0)
 }
 function move(ent,entnow,xyz){
 	GameUI.SelectUnit(ent,false)

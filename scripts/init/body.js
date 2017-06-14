@@ -1,4 +1,4 @@
-D2JS = {
+Fusion = {
 	Configs: {},
 	Commands: {},
 	Panels: {},
@@ -8,37 +8,37 @@ D2JS = {
 	debug: false,
 	debugScripts: true,
 	debugAnimations: true,
-	D2JSServer: "http://m00fm0nkey.servegame.com:4297",
+	FusionServer: "http://m00fm0nkey.servegame.com:4297",
 	SteamID: 0
 }
 
-D2JS.ReloadD2JSVanilla = function() {
-	D2JS.ReloadD2JS("")
+Fusion.ReloadFusionVanilla = function() {
+	Fusion.ReloadFusion("")
 }
 
-D2JS.ReloadD2JSCustomGames = function() {
-	D2JS.ReloadD2JS("customgames")
+Fusion.ReloadFusionCustomGames = function() {
+	Fusion.ReloadFusion("customgames")
 }
 
-D2JS.ReloadD2JS = function(postfix) {
-	D2JS.ServerRequest('scriptlist' + postfix, '', function(response) {
+Fusion.ReloadFusion = function(postfix) {
+	Fusion.ServerRequest('scriptlist' + postfix, '', function(response) {
 		var scriptlist = JSON.parse(response)
-		D2JS.Panels.MainPanel.FindChildTraverse('trics').RemoveAndDeleteChildren()
-		scriptlist.forEach(D2JS.LoadScript)
+		Fusion.Panels.MainPanel.FindChildTraverse('scripts').RemoveAndDeleteChildren()
+		scriptlist.forEach(Fusion.LoadScript)
 	})
 }
 
-D2JS.LoadScript = function(script) {
-	D2JS.ServerRequest('getscript', script, function(response) {
+Fusion.LoadScript = function(script) {
+	Fusion.ServerRequest('getscript', script, function(response) {
 		var code = response
-		if(D2JS.debugScripts)
+		if(Fusion.debugScripts)
 			code = "try {" + code + "} catch(e) {$.Msg(e.stack)}"
 		eval(code)
 		$.Msg("JScript " + script + " loaded")
 	})
 }
 
-D2JS.ServerRequest = function(name, val, callback) {
+Fusion.ServerRequest = function(name, val, callback) {
 	var args = {
 		type: 'POST',
 		data: {},
@@ -48,23 +48,23 @@ D2JS.ServerRequest = function(name, val, callback) {
 		}
 	}
 	args['data'][name] = val
-	args['data']['steamid'] = D2JS.SteamID
+	args['data']['steamid'] = Fusion.SteamID
 	
-	$.AsyncWebRequest(D2JS.D2JSServer, args)
+	$.AsyncWebRequest(Fusion.FusionServer, args)
 }
 	
-D2JS.GetXML = function(file, callback){
-	D2JS.ServerRequest('getxml', file, callback)
+Fusion.GetXML = function(file, callback){
+	Fusion.ServerRequest('getxml', file, callback)
 }
 
-D2JS.GetConfig = function(config, callback) {
-	D2JS.ServerRequest('getconfig', config, function(response) {
+Fusion.GetConfig = function(config, callback) {
+	Fusion.ServerRequest('getconfig', config, function(response) {
 		callback(JSON.parse(response))
 	})
 }
 
-D2JS.SaveConfig = function(config, json){
-	D2JS.ServerRequest('writeconfig', JSON.stringify (
+Fusion.SaveConfig = function(config, json){
+	Fusion.ServerRequest('writeconfig', JSON.stringify (
 		{
 			"filepath": config,
 			"json": JSON.stringify(json)
@@ -74,7 +74,7 @@ D2JS.SaveConfig = function(config, json){
 	})
 }
 
-D2JS.GetHUD_REBORN = function() {
+Fusion.GetHUD_REBORN = function() {
 	var panel = $.GetContextPanel()
 	while(panel = panel.GetParent())
 		if(panel.id == "Hud")
@@ -83,43 +83,43 @@ D2JS.GetHUD_REBORN = function() {
 	return panel
 }
 	
-D2JS.StatsEnabled = true
-D2JS.MinimapActsEnabled = true
+Fusion.StatsEnabled = true
+Fusion.MinimapActsEnabled = true
 GameEvents.Subscribe('game_newmap', function(data) {
-	D2JS.LoadD2JS = function() {
-		D2JS.SteamID = Game.GetLocalPlayerInfo().player_steamid
-		D2JS.ReloadD2JSVanilla()
-		Game.AddCommand( '__ReloadD2JSVanilla', function() {
-			D2JS.ReloadD2JSVanilla()
+	Fusion.LoadFusion = function() {
+		Fusion.SteamID = Game.GetLocalPlayerInfo().player_steamid
+		Fusion.ReloadFusionVanilla()
+		Game.AddCommand( '__ReloadFusionVanilla', function() {
+			Fusion.ReloadFusionVanilla()
 		}, '', 0)
-		Game.AddCommand( '__ReloadD2JSCustomGames', function() {
-			D2JS.ReloadD2JSCustomGames()
+		Game.AddCommand( '__ReloadFusionCustomGames', function() {
+			Fusion.ReloadFusionCustomGames()
 		}, '', 0)
 		Game.AddCommand('__TogglePanel', function() {
 			$.GetContextPanel().ToggleClass('Popup')
 		}, '',0)
 		Game.AddCommand('__ToggleMinimapActs', function() {
-			var panel = D2JS.GetMainHUD()
+			var panel = Fusion.GetMainHUD()
 			
 			if(panel && (panel = panel.FindChild("HUDElements")))
 			if(panel = panel.FindChild("minimap_container"))
 				if(panel = panel.FindChild("GlyphScanContainer"))
-					if(D2JS.MinimapActsEnabled = !D2JS.MinimapActsEnabled)
+					if(Fusion.MinimapActsEnabled = !Fusion.MinimapActsEnabled)
 							panel.style.visibility = ""
 						else
 							panel.style.visibility = "collapse"
 		}, '',0)
 		Game.AddCommand('__ToggleStats', function() {
-			var panel = D2JS.GetMainHUD()
+			var panel = Fusion.GetMainHUD()
 
 			if(panel && (panel = panel.FindChild("HUDElements")))
 				if(panel = panel.FindChild("quickstats"))
-					if(D2JS.StatsEnabled = !D2JS.StatsEnabled)
+					if(Fusion.StatsEnabled = !Fusion.StatsEnabled)
 						panel.style.visibility = ""
 					else
 						panel.style.visibility = "collapse"
 		}, '',0)
-		D2JS.Panels.MainPanel.ToggleClass('Popup')
+		Fusion.Panels.MainPanel.ToggleClass('Popup')
 	}
 	
 	function f() {
@@ -127,7 +127,7 @@ GameEvents.Subscribe('game_newmap', function(data) {
 			1,
 			function() {
 				if(Players.GetLocalPlayer() !== -1)
-					D2JS.LoadD2JS()
+					Fusion.LoadFusion()
 				else
 					f()
 			}
@@ -136,7 +136,7 @@ GameEvents.Subscribe('game_newmap', function(data) {
 	f()
 })
 
-D2JS.GetMainHUD = function() {
+Fusion.GetMainHUD = function() {
 	var globalContext = $.GetContextPanel()
 	while(true)
 		if(globalContext.paneltype == "DOTAHud")
@@ -147,18 +147,18 @@ D2JS.GetMainHUD = function() {
 }
 
 var MainHUD = $.GetContextPanel()
-if(D2JS.Panels.MainPanel !== undefined)
-	D2JS.Panels.MainPanel.DeleteAsync(0)
-D2JS.Panels.MainPanel = $.CreatePanel('Panel', MainHUD, 'DotaOverlay');
-D2JS.GetXML("init/hud", function(response) {
+if(Fusion.Panels.MainPanel !== undefined)
+	Fusion.Panels.MainPanel.DeleteAsync(0)
+Fusion.Panels.MainPanel = $.CreatePanel('Panel', MainHUD, 'DotaOverlay');
+Fusion.GetXML("init/hud", function(response) {
 	$.Msg("HUD Loaded!")
 	
-	D2JS.Panels.MainPanel.BLoadLayoutFromString(response, false, false)
-	D2JS.Panels.MainPanel.ToggleClass('PopupOpened')
-	D2JS.Panels.MainPanel.ToggleClass('Popup')
-	D2JS.Panels.MainPanel.FindChildTraverse('Reload').SetPanelEvent('onactivate', D2JS.ReloadD2JSVanilla)
-	D2JS.Panels.MainPanel.FindChildTraverse('ReloadCustomGames').SetPanelEvent('onactivate', D2JS.ReloadD2JSCustomGames)
-	var slider = D2JS.Panels.MainPanel.FindChildInLayoutFile("CameraDistance")
+	Fusion.Panels.MainPanel.BLoadLayoutFromString(response, false, false)
+	Fusion.Panels.MainPanel.ToggleClass('PopupOpened')
+	Fusion.Panels.MainPanel.ToggleClass('Popup')
+	Fusion.Panels.MainPanel.FindChildTraverse('Reload').SetPanelEvent('onactivate', Fusion.ReloadFusionVanilla)
+	Fusion.Panels.MainPanel.FindChildTraverse('ReloadCustomGames').SetPanelEvent('onactivate', Fusion.ReloadFusionCustomGames)
+	var slider = Fusion.Panels.MainPanel.FindChildInLayoutFile("CameraDistance")
 	slider.min = 1300
 	slider.max = 3000
 	slider.value = 2000
@@ -166,10 +166,10 @@ D2JS.GetXML("init/hud", function(response) {
 	function OnTickSlider() {
 		if (slider.value !== slider.lastValue) {
 			GameUI.SetCameraDistance(slider.value)
-			D2JS.Panels.MainPanel.FindChildTraverse('CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
+			Fusion.Panels.MainPanel.FindChildTraverse('CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
 			lastValue = slider.value
 		}
-		$.Schedule(D2JS.MyTick, OnTickSlider)
+		$.Schedule(Fusion.MyTick, OnTickSlider)
 	}
 	OnTickSlider()
 })

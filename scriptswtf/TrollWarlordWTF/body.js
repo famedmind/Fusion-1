@@ -35,7 +35,7 @@ function TrollWarlordWTF() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				D2JS.MyTick,
+				Fusion.MyTick,
 				function() {
 					TrollWarlordWTFOnInterval()
 					if(TrollWarlordWTF.checked)

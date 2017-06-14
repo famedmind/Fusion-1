@@ -23,7 +23,7 @@ function TimberSawWTF() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				D2JS.MyTick,
+				Fusion.MyTick,
 				function() {
 					TimberSawWTFOnInterval()
 					if(TimberSawWTF.checked)

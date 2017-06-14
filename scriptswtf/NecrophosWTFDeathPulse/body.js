@@ -54,7 +54,7 @@ function NecrophosWTFDeathPulseOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				D2JS.MyTick,
+				Fusion.MyTick,
 				function() {
 					NecrophosWTFDeathPulseOnInterval()
 					if(NecrophosWTFDeathPulse.checked)

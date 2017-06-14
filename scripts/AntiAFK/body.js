@@ -44,7 +44,7 @@ function AntiAFKOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				D2JS.MyTick,
+				Fusion.MyTick,
 				function() {
 					AntiAFKOnInterval()
 					if(AntiAFK.checked)

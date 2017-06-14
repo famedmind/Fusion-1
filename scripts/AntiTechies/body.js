@@ -23,7 +23,7 @@ function Disable(MyEnt, ent) {
 			return false
 		var techiesDist = 1200
 		if(Entities.HasItemInInventory(ent, 'item_aether_lens'))
-			techiesDist += D2JS.LenseBonusRange
+			techiesDist += Fusion.LenseBonusRange
 		var techiesTime = 0.75
 		var techiesSpeed = techiesDist * techiesTime
 		if(speed === -1) {
@@ -80,7 +80,7 @@ function AntiTechiesToggle() {
 		function L() {
 			if (AntiTechies.checked) {
 				AntiTechiesF()
-				$.Schedule(D2JS.MyTick, L)
+				$.Schedule(Fusion.MyTick, L)
 			}
 		}
 		L()

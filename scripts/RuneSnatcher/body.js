@@ -33,7 +33,7 @@ function SnatcherToggle() {
 		function L() {
 			if (Snatcher.checked) {
 				SnatcherF()
-				$.Schedule(D2JS.MyTick, L)
+				$.Schedule(Fusion.MyTick, L)
 			}
 		}
 		L()

@@ -14,7 +14,7 @@ function AutoBottleOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				D2JS.MyTick,
+				Fusion.MyTick,
 				function() {
 					AutoBottleOnInterval()
 					if(AutoBottle.checked)

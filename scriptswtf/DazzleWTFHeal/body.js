@@ -41,7 +41,7 @@ function DazzleWTFHealOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				D2JS.MyTick,
+				Fusion.MyTick,
 				function() {
 					DazzleWTFHealOnInterval()
 					if(DazzleWTFHeal.checked)

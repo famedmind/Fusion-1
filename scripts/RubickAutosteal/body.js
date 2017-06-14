@@ -1,6 +1,6 @@
 ﻿//Автостилл спелов
 try{
-	D2JS.Panels.RubickAutoSteal.DeleteAsync(0)
+	Fusion.Panels.RubickAutoSteal.DeleteAsync(0)
 }catch(e){}
 
 var interval = 0.1
@@ -12,11 +12,11 @@ var WTFMode = false
 function RubickAutoStealF(){
 	if ( !RubickAutoSteal.checked ){
 		try{
-			D2JS.Panels.RubickAutoSteal.DeleteAsync(0)
+			Fusion.Panels.RubickAutoSteal.DeleteAsync(0)
 		}catch(e){}
 		return
 	}
-	var AbPanel = D2JS.Panels.RubickAutoSteal.Children()
+	var AbPanel = Fusion.Panels.RubickAutoSteal.Children()
 	var z = []
 	for(i in AbPanel){
 		if(AbPanel[i].style.opacity==1 || AbPanel[i].style.opacity==null)
@@ -65,17 +65,17 @@ function RubickAutoStealF(){
 	}
 }
 function RubickAutoStealCreatePanel(){
-	D2JS.Panels.RubickAutoSteal = $.CreatePanel( 'Panel', D2JS.GetMainHUD(), 'RubickAutoStealAbilities' )
-	D2JS.Panels.RubickAutoSteal.BLoadLayoutFromString( '<root><Panel style="border: 1px solid #000;background-color:#000000EE;flow-children:down-wrap;max-width:200px;border-radius:10px;padding:5px 3px;" onactivate="Add()"></Panel></root>', false, false )
-	GameUI.MovePanel(D2JS.Panels.RubickAutoSteal,function(p){
+	Fusion.Panels.RubickAutoSteal = $.CreatePanel( 'Panel', Fusion.GetMainHUD(), 'RubickAutoStealAbilities' )
+	Fusion.Panels.RubickAutoSteal.BLoadLayoutFromString( '<root><Panel style="border: 1px solid #000;background-color:#000000EE;flow-children:down-wrap;max-width:200px;border-radius:10px;padding:5px 3px;" onactivate="Add()"></Panel></root>', false, false )
+	GameUI.MovePanel(Fusion.Panels.RubickAutoSteal,function(p){
 		var position = p.style.position.split(' ')
 		Config.MainPanel.x = position[0]
 		Config.MainPanel.y = position[1]
-		D2JS.SaveConfig('rubickautosteal', Config)
+		Fusion.SaveConfig('rubickautosteal', Config)
 	})
-	D2JS.GetConfig('rubickautosteal',function(a){
+	Fusion.GetConfig('rubickautosteal',function(a){
 		Config = a[0]
-		D2JS.Panels.RubickAutoSteal.style.position = Config.MainPanel.x + ' ' + Config.MainPanel.y + ' 0'
+		Fusion.Panels.RubickAutoSteal.style.position = Config.MainPanel.x + ' ' + Config.MainPanel.y + ' 0'
 	});
 	var HEnts = Game.PlayersHeroEnts()
 	for (i in HEnts) {
@@ -88,7 +88,7 @@ function RubickAutoStealCreatePanel(){
 			if(!Abilities.IsDisplayedAbility(ab) || Abilities.IsPassive(ab) )
 				continue
 			var name = Abilities.GetAbilityName( ab )
-			var Item = $.CreatePanel( 'Panel', D2JS.Panels.RubickAutoSteal, 'RubickAutoStealAbilities' )
+			var Item = $.CreatePanel( 'Panel', Fusion.Panels.RubickAutoSteal, 'RubickAutoStealAbilities' )
 			//Item.BLoadLayoutFromString( '<root><Panel><DOTAAbilityImage style="width:35px;"/></Panel></root>', false, false )
 			Item.BLoadLayoutFromString( '<root><script>function Add(){$.GetContextPanel().style.opacity="0.1";$.GetContextPanel().SetPanelEvent("onactivate", Rem)}function Rem(){$.GetContextPanel().style.opacity="1.0";$.GetContextPanel().SetPanelEvent("onactivate", Add)}</script><Panel style="border: 1px solid #000; border-radius: 10px;" onactivate="Add()"><DOTAAbilityImage style="width:35px;"/></Panel></root>', false, false )
 			Item.Children()[0].abilityname=name
@@ -99,7 +99,7 @@ function RubickAutoStealCreatePanel(){
 var RubickAutoStealOnCheckBoxClick = function(){
 	if ( !RubickAutoSteal.checked ){
 		try{
-			D2JS.Panels.RubickAutoSteal.DeleteAsync(0)
+			Fusion.Panels.RubickAutoSteal.DeleteAsync(0)
 		}catch(e){}
 		Game.ScriptLogMsg('Script disabled: RubickAutoSteal', '#ff0000')
 		return

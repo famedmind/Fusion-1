@@ -1,5 +1,5 @@
-﻿D2JS.LenseBonusRange = 200
-D2JS.ForceStaffUnits = 600
+﻿Fusion.LenseBonusRange = 200
+Fusion.ForceStaffUnits = 600
 
 Abilities.GetCastRangeFix = function(abil) { // Don't conflict with internal usage
 	var AbilRange = Abilities.GetCastRange(abil)
@@ -7,18 +7,18 @@ Abilities.GetCastRangeFix = function(abil) { // Don't conflict with internal usa
 	
 	var Behaviors = Game.Behaviors(abil)
 	if(Entities.HasItemInInventory(Caster, 'item_aether_lens') && (Behaviors.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT) !== -1 || Behaviors.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_UNIT_TARGET) !== -1))
-		AbilRange += D2JS.LenseBonusRange
+		AbilRange += Fusion.LenseBonusRange
 	
 	return AbilRange
 }
 
-D2JS.ForceStaffPos = function(ent) {
+Fusion.ForceStaffPos = function(ent) {
 	var entVec = Entities.GetAbsOrigin(ent)
 	var entForward = Entities.GetForward(ent)
 	var forceVec = [
-		entVec[0] + entForward[0] * D2JS.ForceStaffUnits,
-		entVec[1] + entForward[1] * D2JS.ForceStaffUnits,
-		entVec[2] + entForward[2] * D2JS.ForceStaffUnits
+		entVec[0] + entForward[0] * Fusion.ForceStaffUnits,
+		entVec[1] + entForward[1] * Fusion.ForceStaffUnits,
+		entVec[2] + entForward[2] * Fusion.ForceStaffUnits
 	]
 	
 	return forceVec
@@ -118,14 +118,15 @@ Game.GetMagicMultiplier = function(entFrom, entTo) {
 }
 
 Game.GetNeededMagicDmg = function(entFrom, entTo, dmg) {
-	var enemyBuffs = Game.GetBuffs(entTo)
-	for(var i in enemyBuffs)
-		for(var k in Game.BuffsAbsorbMagicDmg)
-			if(Buffs.GetName(entTo, enemyBuffs[i]) === Game.BuffsAbsorbMagicDmg[k][0])
-				if(Array.isArray(Game.BuffsAbsorbMagicDmg[k][1]))
-					dmg += Game.BuffsAbsorbMagicDmg[k][1][Abilities.GetLevel(Buffs.GetAbility(entTo, enemyBuffs[i])) - 1]
+	Game.GetBuffs(entTo).forEach(function(enemyBuff) {
+		Game.BuffsAbsorbMagicDmg.forEach(function(absorbBuff) {
+			if(Buffs.GetName(entTo, enemyBuff) === absorbBuff[0])
+				if(Array.isArray(absorbBuff[1]))
+					dmg += absorbBuff[1][Abilities.GetLevel(Buffs.GetAbility(entTo, enemyBuff)) - 1]
 				else
-					dmg += Game.BuffsAbsorbMagicDmg[k][1]
+					dmg += absorbBuff[1]
+		})
+	})
 	
 	return dmg * Game.GetMagicMultiplier(entFrom, entTo)
 }
@@ -142,7 +143,7 @@ Game.AngleBetweenTwoFaces = function(a_facing, b_facing) {
 }
 
 Game.RotationTime = function(angle, rotspeed) { // MovementTurnRate
-	return (D2JS.MyTick * angle / rotspeed)
+	return (Fusion.MyTick * angle / rotspeed)
 }
 
 Game.ClosetToMouse = function(MyEnt, range, enemy) {
@@ -208,8 +209,8 @@ Game.VelocityWaypoint = function(ent, time, movespeed) {
 	return [zxc[0] + (forward[0] * movespeed * time),zxc[1] + (forward[1] * movespeed * time),zxc[2]]
 }
 
-if(Array.isArray(D2JS.Subscribes)) {
-	D2JS.Subscribes.forEach(function(sub) {
+if(Array.isArray(Fusion.Subscribes)) {
+	Fusion.Subscribes.forEach(function(sub) {
 		if (typeof sub === 'number')
 			try {
 				GameEvents.Unsubscribe(sub)
@@ -226,7 +227,7 @@ if(Array.isArray(D2JS.Subscribes)) {
 
 //сообщение в боковую панель
 Game.ScriptLogMsg = function(msg, color) {
-/*	var ScriptLog = D2JS.Panels.MainPanel.FindChildTraverse('ScriptLog')
+	var ScriptLog = Fusion.Panels.MainPanel.FindChildTraverse('ScriptLog')
 	var ScriptLogMessage = $.CreatePanel( "Label", ScriptLog, "ScriptLogMessage" )
 	ScriptLogMessage.BLoadLayoutFromString( "<root><Label /></root>", false, false)
 	ScriptLogMessage.style.fontSize = '15px'
@@ -237,7 +238,7 @@ Game.ScriptLogMsg = function(msg, color) {
 		ScriptLogMessage.style.textShadow = '0px 0px 4px 1.2 ' + color + '33'
 	}
 	ScriptLogMessage.DeleteAsync(7)
-	AnimatePanel( ScriptLogMessage, {"opacity": "0;"}, 2, "linear", 4)*/
+	AnimatePanel( ScriptLogMessage, {"opacity": "0;"}, 2, "linear", 4)
 }
 
 //Функция делает панельку перемещаемой кликом мыши по ней. callback нужен например для того, чтобы сохранить координаты панели в файл
@@ -248,8 +249,8 @@ GameUI.MovePanel = function(a, callback) {
 			return
 		var color = a.style.backgroundColor
 		a.style.backgroundColor = '#FFFF00FF'
-		var uiw = D2JS.GetMainHUD().actuallayoutwidth
-		var uih = D2JS.GetMainHUD().actuallayoutheight
+		var uiw = Fusion.GetMainHUD().actuallayoutwidth
+		var uih = Fusion.GetMainHUD().actuallayoutheight
 		linkpanel = function() {
 			a.style.position = (GameUI.GetCursorPosition()[0] / uiw * 100) + '% ' + (GameUI.GetCursorPosition()[1] / uih * 100) + '% ' + '0'
 			if (GameUI.IsMouseDown(0)) {
@@ -281,7 +282,7 @@ Game.MoveToPos = function(ent, xyz, queue) {
 	order.UnitIndex = ent
 	order.Position = xyz
 	order.Queue = queue
-	order.ShowEffects = D2JS.debugAnimations
+	order.ShowEffects = Fusion.debugAnimations
 	Game.PrepareUnitOrders(order)
 }
 
@@ -291,7 +292,7 @@ Game.MoveToTarget = function(ent, ent, queue) {
 	order.UnitIndex = ent
 	order.Position = xyz
 	order.Queue = queue
-	order.ShowEffects = D2JS.debugAnimations
+	order.ShowEffects = Fusion.debugAnimations
 	Game.PrepareUnitOrders(order)
 }
 
@@ -301,7 +302,7 @@ Game.MoveToAttackPos = function(ent, xyz, queue) {
 	order.UnitIndex = ent
 	order.Position = xyz
 	order.Queue = queue
-	order.ShowEffects = D2JS.debugAnimations
+	order.ShowEffects = Fusion.debugAnimations
 	Game.PrepareUnitOrders(order)
 }
 
@@ -311,7 +312,7 @@ Game.MoveToAttackTarget = function(ent, ent, queue) {
 	order.UnitIndex = ent
 	order.Position = xyz
 	order.Queue = queue
-	order.ShowEffects = D2JS.debugAnimations
+	order.ShowEffects = Fusion.debugAnimations
 	Game.PrepareUnitOrders(order)
 }
 
@@ -322,7 +323,7 @@ Game.CastTarget = function(ent, abil, target, queue) {
 	order.TargetIndex  = target
 	order.AbilityIndex = abil
 	order.Queue = queue
-	order.ShowEffects = D2JS.debugAnimations
+	order.ShowEffects = Fusion.debugAnimations
 	Game.PrepareUnitOrders(order)
 }
 
@@ -333,7 +334,7 @@ Game.CastPosition = function(ent, abil, xyz, queue) {
 	order.Position = xyz
 	order.AbilityIndex = abil
 	order.Queue = queue
-	order.ShowEffects = D2JS.debugAnimations
+	order.ShowEffects = Fusion.debugAnimations
 	Game.PrepareUnitOrders(order)
 }
 
@@ -343,7 +344,7 @@ Game.CastNoTarget = function(ent, abil, queue) {
 	order.UnitIndex = ent
 	order.AbilityIndex = abil
 	order.Queue = queue
-	order.ShowEffects = D2JS.debugAnimations
+	order.ShowEffects = Fusion.debugAnimations
 	Game.PrepareUnitOrders(order)
 }
 
@@ -353,7 +354,7 @@ Game.ToggleAbil = function(ent, abil, queue) {
 	order.UnitIndex = ent
 	order.AbilityIndex = abil
 	order.Queue = queue
-	order.ShowEffects = D2JS.debugAnimations
+	order.ShowEffects = Fusion.debugAnimations
 	Game.PrepareUnitOrders(order)
 }
 
@@ -362,7 +363,7 @@ Game.EntStop = function(ent, queue) {
 	order.OrderType = dotaunitorder_t.DOTA_UNIT_ORDER_STOP
 	order.UnitIndex = ent
 	order.Queue = queue
-	order.ShowEffects = D2JS.debugAnimations
+	order.ShowEffects = Fusion.debugAnimations
 	Game.PrepareUnitOrders(order)
 }
 
@@ -570,7 +571,7 @@ Game.CloneObject = function(obj) {
 }
 
 Game.AddScript = function(scriptName, onCheckBoxClick) {
-	var Temp = $.CreatePanel("Panel", D2JS.Panels.MainPanel.FindChildTraverse('trics'), scriptName)
+	var Temp = $.CreatePanel("Panel", Fusion.Panels.MainPanel.FindChildTraverse('scripts'), scriptName)
 	Temp.SetPanelEvent('onactivate', onCheckBoxClick)
 	Temp.BLoadLayoutFromString('\
 		<root>\
@@ -583,9 +584,10 @@ Game.AddScript = function(scriptName, onCheckBoxClick) {
 			</Panel>\
 		</root>\
 	', false, false) 
-	D2JS.Panels.MainPanel.FindChildTraverse("trics").Children().sort(function(a,b) {
-		if (a > b) return 1
-		if (a < b) return -1
+	Fusion.Panels.MainPanel.FindChildTraverse("scripts").Children().sort(function(a, b) {
+		var aText = a.Children()[0].text
+		var bText = b.Children()[0].text
+		return aText.toLowerCase() > bText.toLowerCase()
 	})
 	
 	return $.GetContextPanel().FindChildTraverse(scriptName).Children()[0]

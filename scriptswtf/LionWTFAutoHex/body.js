@@ -42,7 +42,7 @@ function LionWTFAutoHexOnToggle() {
 	} else {
 		function intervalFunc(){
 			$.Schedule(
-				D2JS.MyTick / 3,
+				Fusion.MyTick / 3,
 				function() {
 					LionWTFAutoHexOnInterval()
 					if(LionWTFAutoHex.checked)

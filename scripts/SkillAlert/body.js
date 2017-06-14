@@ -50,13 +50,13 @@ function SAlertEvery() {
 		})
 	})
 	if(SkillAlert.checked)
-		$.Schedule(D2JS.MyTick, SAlertEvery)
+		$.Schedule(Fusion.MyTick, SAlertEvery)
 }
 
 function AlertTarget(modifier, ent) {
 	CreateFollowParticle(modifier[0], modifier[1], ent)
-	if(D2JS.Panels.ItemPanel !== undefined && D2JS.Configs.SkillAlert.Notify === "true" && panels[ent] === undefined) {
-		var A = $.CreatePanel('Panel', D2JS.Panels.ItemPanel, 'Alert' + ent)
+	if(Fusion.Panels.ItemPanel !== undefined && Fusion.Configs.SkillAlert.Notify === "true" && panels[ent] === undefined) {
+		var A = $.CreatePanel('Panel', Fusion.Panels.ItemPanel, 'Alert' + ent)
 		A.BLoadLayoutFromString('\
 <root>\
 	<Panel style="width:100%;height:37px;background-color:#111;">\
@@ -74,15 +74,15 @@ function AlertTarget(modifier, ent) {
 		$.Schedule(modifier[1], function() {
 			delete panels[ent]
 		})
-		if (D2JS.Configs.SkillAlert.EmitSound === "true")
+		if (Fusion.Configs.SkillAlert.EmitSound === "true")
 			Game.EmitSound(modifier[4])
 	}
 }
 
 function AlertPosition(modifier, vec, thinker) {
 	CreateTimerParticle(vec, modifier[0], thinker)
-	if(D2JS.Panels.ItemPanel !== undefined && D2JS.Configs.SkillAlert.Notify === "true" && panels[thinker] === undefined) {
-		var A = $.CreatePanel('Panel', D2JS.Panels.ItemPanel, 'Alert' + thinker)
+	if(Fusion.Panels.ItemPanel !== undefined && Fusion.Configs.SkillAlert.Notify === "true" && panels[thinker] === undefined) {
+		var A = $.CreatePanel('Panel', Fusion.Panels.ItemPanel, 'Alert' + thinker)
 		A.BLoadLayoutFromString('\
 <root>\
 	<Panel style="width:100%;height:37px;background-color:#111;">\
@@ -98,7 +98,7 @@ function AlertPosition(modifier, vec, thinker) {
 		$.Schedule(modifier[0], function() {
 			delete panels[thinker]
 		})
-		if (D2JS.Configs.SkillAlert.EmitSound === "true")
+		if (Fusion.Configs.SkillAlert.EmitSound === "true")
 			Game.EmitSound(modifier[4])
 	}
 }
@@ -110,7 +110,7 @@ function CreateFollowParticle(particlepath, time, ent) {
 	Particles.SetParticleControl(p, 0, 0)
 	z.push(ent)
 	$.Schedule (
-		time + D2JS.MyTick,
+		time + Fusion.MyTick,
 		function() {
 			Particles.DestroyParticleEffect(p,p)
 			z.splice(z.indexOf(ent), 1)
@@ -125,7 +125,7 @@ function CreateTimerParticle(vec, time, ent) {
 	Particles.SetParticleControl(p, 0, vec)
 	z.push(ent)
 	$.Schedule (
-		time + D2JS.MyTick,
+		time + Fusion.MyTick,
 		function() {
 			Particles.DestroyParticleEffect(p,p)
 			z.splice(z.indexOf(ent), 1)
@@ -137,9 +137,9 @@ function SkillAlertToggle() {
 	if (!SkillAlert.checked)
 		Game.ScriptLogMsg('Script disabled: SkillAlert', '#ff0000')
 	else {
-		D2JS.GetConfig('SkillAlert', function(response) {
+		Fusion.GetConfig('SkillAlert', function(response) {
 			response = response[0]
-			D2JS.Configs.SkillAlert = response
+			Fusion.Configs.SkillAlert = response
 			SAlertEvery()
 		})
 		Game.ScriptLogMsg('Script enabled: SkillAlert', '#00ff00')

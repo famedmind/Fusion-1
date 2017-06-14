@@ -26,7 +26,7 @@ function WTFMotherFuckerOnToggle() {
 	else {
 		function intervalFunc(){
 			$.Schedule(
-				D2JS.MyTick,
+				Fusion.MyTick,
 				function() {
 					WTFMotherFuckerOnInterval()
 					if(WTFMotherFucker.checked)

@@ -13,14 +13,14 @@ function Hook(callback) {
 		angle = Game.AngleBetweenVectors(myVec, myForwardVec, enVec),
 		rottime = Game.RotationTime(angle, 0.7),
 		delay = Abilities.GetCastPoint(hook),
-		time = reachtime + delay + rottime + D2JS.MyTick,
+		time = reachtime + delay + rottime + Fusion.MyTick,
 		predict = Game.VelocityWaypoint(ent, time)
 	
 	if(distance > Abilities.GetCastRangeFix(hook))
 		return
 	
 	Game.CastPosition(ent, hook, predict, false)
-	$.Schedule(0.3 - D2JS.MyTick, function() {
+	$.Schedule(0.3 - Fusion.MyTick, function() {
 		if(!CancelHook())
 			callback()
 	})
@@ -70,7 +70,7 @@ function Combo() {
 	})
 }
 
-D2JS.Commands.PudgeCombo = function() {
+Fusion.Commands.PudgeCombo = function() {
 	MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	ent = Game.ClosetToMouse(MyEnt, 1000, true)
 	if(ent === undefined)
@@ -79,7 +79,7 @@ D2JS.Commands.PudgeCombo = function() {
 }
 
 function BindCommands() {
-	Game.AddCommand("__PudgeCombo", D2JS.Commands.PudgeCombo, "", 0)
+	Game.AddCommand("__PudgeCombo", Fusion.Commands.PudgeCombo, "", 0)
 }
 
 //function MapLoaded(data) {

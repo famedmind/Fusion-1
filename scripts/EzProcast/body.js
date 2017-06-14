@@ -1,15 +1,15 @@
 ﻿try{
-	D2JS.Panels.EzProcast.DeleteAsync(0)
-	GameEvents.Unsubscribe( parseInt(D2JS.Subscribes.EzProcastonchatmsg) )
+	Fusion.Panels.EzProcast.DeleteAsync(0)
+	GameEvents.Unsubscribe( parseInt(Fusion.Subscribes.EzProcastonchatmsg) )
 }catch(e){}
 	
 var Config = []
 
-D2JS.EzProcastF = function(){
+Fusion.EzProcastF = function(){
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var EntOnCursor = GameUI.FindScreenEntities( GameUI.GetCursorPosition() )
 	var CursorXYZ = Game.ScreenXYToWorld( GameUI.GetCursorPosition()[0],GameUI.GetCursorPosition()[1] )
-	var items = D2JS.Panels.EzProcast.Children()[2].Children()
+	var items = Fusion.Panels.EzProcast.Children()[2].Children()
 	var abils = []
 	for(i in items)
 		if(items[i].Children()[0].paneltype === 'DOTAAbilityImage')
@@ -50,18 +50,18 @@ D2JS.EzProcastF = function(){
 }
 
 EzProcast01OnOffLoad = function(){
-	D2JS.GetXML('EzProcast/panel', function(a){
-		D2JS.Panels.EzProcast = $.CreatePanel( 'Panel', D2JS.GetMainHUD(), 'EzProcast1' )
-		D2JS.Panels.EzProcast.BLoadLayoutFromString( a, false, false )
-		GameUI.MovePanel(D2JS.Panels.EzProcast,function(p){
+	Fusion.GetXML('EzProcast/panel', function(a){
+		Fusion.Panels.EzProcast = $.CreatePanel( 'Panel', Fusion.GetMainHUD(), 'EzProcast1' )
+		Fusion.Panels.EzProcast.BLoadLayoutFromString( a, false, false )
+		GameUI.MovePanel(Fusion.Panels.EzProcast,function(p){
 			var position = p.style.position.split(' ')
 			Config.MainPanel.x = position[0]
 			Config.MainPanel.y = position[1]
-			D2JS.SaveConfig('ezprocast', Config)
+			Fusion.SaveConfig('ezprocast', Config)
 		})
-		D2JS.GetConfig('ezprocast',function(a){
+		Fusion.GetConfig('ezprocast',function(a){
 			Config = a[0]
-			D2JS.Panels.EzProcast.style.position = Config.MainPanel.x + ' ' + Config.MainPanel.y + ' 0'
+			Fusion.Panels.EzProcast.style.position = Config.MainPanel.x + ' ' + Config.MainPanel.y + ' 0'
 		})
 		
 		var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
@@ -70,7 +70,7 @@ EzProcast01OnOffLoad = function(){
 			var Ab = Entities.GetAbility( MyEnt, i )
 			if( !Abilities.IsDisplayedAbility(Ab) || Abilities.IsPassive(Ab) )
 				continue
-			var P = $.CreatePanel( 'Panel', D2JS.Panels.EzProcast.Children()[0], 'EzProcast1Items' )
+			var P = $.CreatePanel( 'Panel', Fusion.Panels.EzProcast.Children()[0], 'EzProcast1Items' )
 			P.BLoadLayoutFromString( '<root><script>function Add(){Parent=$.GetContextPanel().GetParent().GetParent();$.GetContextPanel().SetParent(Parent.Children()[2]);$.GetContextPanel().SetPanelEvent("onactivate", Rem)}function Rem(){Parent=$.GetContextPanel().GetParent().GetParent();$.GetContextPanel().SetParent(Parent.Children()[0]);$.GetContextPanel().SetPanelEvent("onactivate", Add)}</script><Panel style="border: 1px solid #000; border-radius: 10px;" onactivate="Add()"><DOTAAbilityImage /></Panel></root>', false, false )
 			P.Children()[0].abilityname = Abilities.GetAbilityName( Ab )
 		}
@@ -79,7 +79,7 @@ EzProcast01OnOffLoad = function(){
 			Behaviors = Game.Behaviors(Inv[i])
 			if( Behaviors.indexOf(2)!=-1 )
 				continue
-			var P = $.CreatePanel( 'Panel', D2JS.Panels.EzProcast.Children()[0], 'EzProcast1Items2' )
+			var P = $.CreatePanel( 'Panel', Fusion.Panels.EzProcast.Children()[0], 'EzProcast1Items2' )
 			P.BLoadLayoutFromString( '<root><script>function Add(){Parent=$.GetContextPanel().GetParent().GetParent();$.GetContextPanel().SetParent(Parent.Children()[2]);$.GetContextPanel().SetPanelEvent("onactivate", Rem)}function Rem(){Parent=$.GetContextPanel().GetParent().GetParent();$.GetContextPanel().SetParent(Parent.Children()[0]);$.GetContextPanel().SetPanelEvent("onactivate", Add)}</script><Panel style="border: 1px solid #000; border-radius: 10px;" onactivate="Add()"><DOTAItemImage /></Panel></root>', false, false )
 			P.Children()[0].itemname = Abilities.GetAbilityName( Inv[i] )
 		}
@@ -89,7 +89,7 @@ EzProcast01OnOffLoad = function(){
 function EzProcast01OnOff(){
 	if ( !EzProcast01.checked ){
 		try{
-			D2JS.Panels.EzProcast.DeleteAsync(0)
+			Fusion.Panels.EzProcast.DeleteAsync(0)
 		}catch(e){}
 		Game.ScriptLogMsg('Script disabled: EzProcast-V0.1', '#ff0000')
 		
@@ -99,7 +99,7 @@ function EzProcast01OnOff(){
 	}
 }
 Game.AddCommand('__EzProcast', function() {
-	D2JS.EzProcastF()
+	Fusion.EzProcastF()
 }, '',0)
 var EzProcast01 = Game.AddScript('EzProcast01', EzProcast01OnOff)
 

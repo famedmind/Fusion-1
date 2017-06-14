@@ -53,7 +53,7 @@ var AxeUltiOnCheckBoxClick = function(){
 		} else {
 			function f() {
 				if(AxeUlti.checked)
-					$.Schedule(D2JS.MyTick, function() {
+					$.Schedule(Fusion.MyTick, function() {
 						AxeUltiF()
 						f()
 					})

@@ -35,7 +35,7 @@ function Disable(MyEnt, ent) {
 				angle = Game.AngleBetweenVectors(a, forward, b),
 				rottime = Game.RotationTime(angle, 0.7),
 				delay = Abilities.GetCastPoint(abil),
-				time = reachtime + delay + rottime + D2JS.MyTick,
+				time = reachtime + delay + rottime + Fusion.MyTick,
 				predict = Game.VelocityWaypoint(ent, time, monkeySpeed)
 			Game.CastPosition(MyEnt, abil, predict)
 		}
@@ -76,7 +76,7 @@ function AntiMonkeyToggle() {
 		function L() {
 			if (AntiMonkey.checked) {
 				AntiMonkeyF()
-				$.Schedule(D2JS.MyTick, L)
+				$.Schedule(Fusion.MyTick, L)
 			}
 		}
 		L()

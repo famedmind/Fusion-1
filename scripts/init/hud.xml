@@ -6,11 +6,11 @@
 	
 	<Panel class="Popup">
 		<Panel class="Main">
-			<Label class="Title2" text="D2Jscripts MoofMonkey Edition"/>
+			<Label class="Title2" text="Fusion"/>
 			<Panel class="Overlay">
 				<Label style="text-align:center;width:600px;" text="Camera distance" id="CamDist"/>
 				<Slider class="HorizontalSlider" style="width:600px;" direction="horizontal" id="CameraDistance"/>
-				<Panel class="Toggles" id="trics"/>
+				<Panel class="Toggles" id="scripts"/>
 			</Panel>
 			<Button id="Reload" class="Title2">
 				<Label id="ReloadText" class="Title2" text="Reload scripts"/>

@@ -1,16 +1,16 @@
 ﻿try {
-	D2JS.Panels.ItemPanel.DeleteAsync(0)
+	Fusion.Panels.ItemPanel.DeleteAsync(0)
 } catch(e) {
 
 }
-D2JS.ItemPanel = []
+Fusion.ItemPanel = []
 
 function NewItem(oldinv, newinv, ent) {
 	for(i in newinv){
 		n = newinv[i]
-		if(oldinv.indexOf(n) === -1 && D2JS.Configs.ItemPanel.Items.indexOf(Abilities.GetAbilityName(n))!= -1){
-			if(D2JS.Configs.ItemPanel.Notify === "true") {
-				A = $.CreatePanel('Panel', D2JS.Panels.ItemPanel, 'Alert' + ent + n)
+		if(oldinv.indexOf(n) === -1 && Fusion.Configs.ItemPanel.Items.indexOf(Abilities.GetAbilityName(n))!= -1){
+			if(Fusion.Configs.ItemPanel.Notify === "true") {
+				A = $.CreatePanel('Panel', Fusion.Panels.ItemPanel, 'Alert' + ent + n)
 				A.BLoadLayoutFromString('\
 <root>\
 	<Panel style="width:100%;height:37px;background-color:#111;">\
@@ -21,9 +21,9 @@ function NewItem(oldinv, newinv, ent) {
 				', false, false)
 				A.Children()[0].heroname = Entities.GetUnitName(ent)
 				A.Children()[1].itemname = Abilities.GetAbilityName(n)
-				A.DeleteAsync(parseInt(D2JS.Configs.ItemPanel.NotifyTime))
+				A.DeleteAsync(parseInt(Fusion.Configs.ItemPanel.NotifyTime))
 			}
-			if (D2JS.Configs.ItemPanel.EmitSound === "true")
+			if (Fusion.Configs.ItemPanel.EmitSound === "true")
 				Game.EmitSound('General.Buy')
 		}
 	}
@@ -31,9 +31,9 @@ function NewItem(oldinv, newinv, ent) {
 
 function ItemPanelEvery() {
 	if (!ItemPanel.checked) {
-		D2JS.ItemPanel = []
+		Fusion.ItemPanel = []
 		try {
-			D2JS.Panels.ItemPanel.DeleteAsync(0)
+			Fusion.Panels.ItemPanel.DeleteAsync(0)
 		} catch(e) {
 			
 		}
@@ -41,13 +41,13 @@ function ItemPanelEvery() {
 	}
 	if(Game.GameStateIsBefore(DOTA_GameState.DOTA_GAMERULES_STATE_PRE_GAME)) {
 		try {
-			D2JS.Panels.ItemPanel.DeleteAsync(0)
+			Fusion.Panels.ItemPanel.DeleteAsync(0)
 		} catch(e) {
 			
 		}
-		for(var i=0; i < D2JS.Panels.ItemPanel.Children().length; i++)
-			D2JS.Panels.ItemPanel.Children()[i].style.height = '0'
-		D2JS.ItemPanel = []
+		for(var i=0; i < Fusion.Panels.ItemPanel.Children().length; i++)
+			Fusion.Panels.ItemPanel.Children()[i].style.height = '0'
+		Fusion.ItemPanel = []
 		ItemPanel.checked = false
 		return
 	}
@@ -57,19 +57,19 @@ function ItemPanelEvery() {
 		var Ent = Players.GetPlayerHeroEntityIndex(IDs[i])
 		if(!Entities.IsEnemy(Ent))
 			continue
-		var P = D2JS.Panels.ItemPanel.Children()[k]
+		var P = Fusion.Panels.ItemPanel.Children()[k]
 		P.style.height = '24px'
 		P.Children()[0].heroname = Entities.GetUnitName(Ent)
 		var Inv = Game.GetInventory(Ent)
-		if(typeof D2JS.ItemPanel[Ent] === 'undefined')
-			D2JS.ItemPanel[Ent] = []
-		if (Array.isArray(D2JS.ItemPanel[Ent]))
-			if(Game.CompareArrays(D2JS.ItemPanel[Ent], Inv)) {
+		if(typeof Fusion.ItemPanel[Ent] === 'undefined')
+			Fusion.ItemPanel[Ent] = []
+		if (Array.isArray(Fusion.ItemPanel[Ent]))
+			if(Game.CompareArrays(Fusion.ItemPanel[Ent], Inv)) {
 				k++
 				continue
 			}
-		NewItem(D2JS.ItemPanel[Ent], Inv, Ent)
-		D2JS.ItemPanel[Ent] = Inv
+		NewItem(Fusion.ItemPanel[Ent], Inv, Ent)
+		Fusion.ItemPanel[Ent] = Inv
 		for(var i = 1; i < P.Children().length; i++)
 			P.Children()[i].itemname = ""
 		for(var n in Inv)
@@ -77,26 +77,26 @@ function ItemPanelEvery() {
 		k++
 	}
 	if(ItemPanel.checked)
-		$.Schedule(D2JS.MyTick, ItemPanelEvery)
+		$.Schedule(Fusion.MyTick, ItemPanelEvery)
 }
 
 var ItemPanelLoad = function() {
-	D2JS.GetXML('ItemPanel/panel', function(a) {
-		D2JS.Panels.ItemPanel = $.CreatePanel( 'Panel', D2JS.GetMainHUD(), 'ItemPanel1' )
-		D2JS.Panels.ItemPanel.BLoadLayoutFromString(a, false, false)
+	Fusion.GetXML('ItemPanel/panel', function(a) {
+		Fusion.Panels.ItemPanel = $.CreatePanel( 'Panel', Fusion.GetMainHUD(), 'ItemPanel1' )
+		Fusion.Panels.ItemPanel.BLoadLayoutFromString(a, false, false)
 		for(var i=0; i < 5; i++)
-			D2JS.Panels.ItemPanel.Children()[i].style.height = '0'
-		GameUI.MovePanel(D2JS.Panels.ItemPanel, function(p) {
+			Fusion.Panels.ItemPanel.Children()[i].style.height = '0'
+		GameUI.MovePanel(Fusion.Panels.ItemPanel, function(p) {
 			var position = p.style.position.split(' ')
-			D2JS.Configs.ItemPanel.MainPanel.x = position[0]
-			D2JS.Configs.ItemPanel.MainPanel.y = position[1]
-			D2JS.SaveConfig('ItemPanel', D2JS.Configs.ItemPanel)
+			Fusion.Configs.ItemPanel.MainPanel.x = position[0]
+			Fusion.Configs.ItemPanel.MainPanel.y = position[1]
+			Fusion.SaveConfig('ItemPanel', Fusion.Configs.ItemPanel)
 		})
 		
-		D2JS.GetConfig('ItemPanel', function(response) {
+		Fusion.GetConfig('ItemPanel', function(response) {
 			response = response[0]
-			D2JS.Panels.ItemPanel.style.position = response.MainPanel.x + ' ' + response.MainPanel.y + ' 0'
-			D2JS.Configs.ItemPanel = response
+			Fusion.Panels.ItemPanel.style.position = response.MainPanel.x + ' ' + response.MainPanel.y + ' 0'
+			Fusion.Configs.ItemPanel = response
 			ItemPanelEvery()
 		})
 	})
@@ -104,9 +104,9 @@ var ItemPanelLoad = function() {
 
 function ItemPanelLoadOnOff() {
 	if (!ItemPanel.checked) {
-		D2JS.ItemPanel = []
+		Fusion.ItemPanel = []
 		try {
-			D2JS.Panels.ItemPanel.DeleteAsync(0)
+			Fusion.Panels.ItemPanel.DeleteAsync(0)
 		} catch(e) {
 			
 		}
