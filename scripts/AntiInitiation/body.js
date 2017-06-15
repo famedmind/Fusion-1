@@ -87,7 +87,7 @@ function AntiInitiationF() {
 			return
 		for(var m = 0; m < Entities.GetAbilityCount(ent); m++) {
 			var Abil = Entities.GetAbility(ent, m)
-			if(Disable(ent, Abil))
+			if(Disable(MyEnt, ent, Abil))
 				return true
 		}
 		if(Game.GetBuffsNames(ent).indexOf("modifier_teleporting") !== -1) {
@@ -136,17 +136,14 @@ function AntiInitiationF() {
 	})
 }
 
-function Disable(ent, Abil) {
+function Disable(MyEnt, ent, Abil) {
 	var AbilName = Abilities.GetAbilityName(Abil)
 	if (
 		Abil === -1 ||
 		!Abilities.IsInAbilityPhase(Abil) ||
 		Abilities.GetCooldownTimeRemaining(Abil) !== 0 ||
 		Abilities.GetLevel(Abil) === 0 ||
-		(
-			InitSpells.indexOf(AbilName) === -1 &&
-				Both.indexOf(AbilName) === -1
-		)
+		GetAbilArray(Abilities.GetAbilityName(Abil)) === undefined
 	)
 		return false
 	var AbilAr = GetAbilArray(AbilName)
