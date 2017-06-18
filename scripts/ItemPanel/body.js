@@ -82,7 +82,7 @@ function ItemPanelEvery() {
 
 var ItemPanelLoad = function() {
 	Fusion.GetXML('ItemPanel/panel', function(a) {
-		Fusion.Panels.ItemPanel = $.CreatePanel( 'Panel', Fusion.GetMainHUD(), 'ItemPanel1' )
+		Fusion.Panels.ItemPanel = $.CreatePanel('Panel', Fusion.GetMainHUD(), 'ItemPanel1')
 		Fusion.Panels.ItemPanel.BLoadLayoutFromString(a, false, false)
 		for(var i=0; i < 5; i++)
 			Fusion.Panels.ItemPanel.Children()[i].style.height = '0'

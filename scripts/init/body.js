@@ -74,15 +74,6 @@ Fusion.SaveConfig = function(config, json){
 	})
 }
 
-Fusion.GetHUD_REBORN = function() {
-	var panel = $.GetContextPanel()
-	while(panel = panel.GetParent())
-		if(panel.id == "Hud")
-			break
-		
-	return panel
-}
-	
 Fusion.StatsEnabled = true
 Fusion.MinimapActsEnabled = true
 GameEvents.Subscribe('game_newmap', function(data) {
@@ -96,7 +87,7 @@ GameEvents.Subscribe('game_newmap', function(data) {
 			Fusion.ReloadFusionCustomGames()
 		}, '', 0)
 		Game.AddCommand('__TogglePanel', function() {
-			$.GetContextPanel().ToggleClass('Popup')
+			Fusion.Panels.MainPanel.ToggleClass('Popup')
 		}, '',0)
 		Game.AddCommand('__ToggleMinimapActs', function() {
 			var panel = Fusion.GetMainHUD()
