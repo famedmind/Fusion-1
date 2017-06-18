@@ -1,42 +1,28 @@
 ﻿var MeepoName = 'npc_dota_hero_meepo'
 
 function PoofAllMeeposToMeepo(playerID, To, WithCheck, Queue) {
-	var HEnts = Entities.GetAllEntitiesByClassname(MeepoName)
-	for (i in HEnts) {
-		var ent = parseInt(HEnts[i])
-		
-		if(Entities.IsIllusion(ent))
-			continue
-		if(!Entities.IsControllableByPlayer(ent, playerID))
-			continue
-		if(WithCheck && ent === To)
-			continue
-		if(Entities.IsStunned(ent) || !Entities.IsAlive(ent))
-			return
-		
+	var HEnts = Entities.GetAllEntitiesByClassname(MeepoName).map(function(ent) {
+		return parseInt(ent)
+	}).filter(function(ent) {
+		return Entities.IsAlive(ent) && !Entities.IsBuilding(ent) && !Entities.IsEnemy(ent) && !Entities.IsStunned(ent) && !(WithCheck && ent === To) && Entities.IsControllableByPlayer(ent, playerID) && !Entities.IsIllusion(ent)
+	}).forEach(function(ent) {
 		var Abil = Game.GetAbilityByName(ent, 'meepo_poof')
 		GameUI.SelectUnit(ent, false)
 		Game.EntStop(ent, false)
 		Game.CastTarget(ent, Abil, To, Queue)
-	}
+	})
 }
 
 function PoofAllMeeposToPos(playerID, To, Queue) {
-	var HEnts = Entities.GetAllEntitiesByClassname(MeepoName)
-	for (i in HEnts) {
-		var ent = parseInt(HEnts[i])
-		
-		if(Entities.IsIllusion(ent))
-			continue
-		if(!Entities.IsControllableByPlayer(ent, playerID))
-			continue
-		if(Entities.IsStunned(ent) || !Entities.IsAlive(ent))
-			return
-		
+	var HEnts = Entities.GetAllEntitiesByClassname(MeepoName).map(function(ent) {
+		return parseInt(ent)
+	}).filter(function(ent) {
+		return Entities.IsAlive(ent) && !Entities.IsBuilding(ent) && !Entities.IsEnemy(ent) && !Entities.IsStunned(ent) && !(WithCheck && ent === To) && Entities.IsControllableByPlayer(ent, playerID) && !Entities.IsIllusion(ent)
+	}).forEach(function(ent) {
 		var Abil = Game.GetAbilityByName(ent, 'meepo_poof')
 		GameUI.SelectUnit(ent, false)
 		Game.CastPosition(ent, Abil, To, Queue)
-	}
+	})
 }
 
 function MeepoAutoPoof(flag, WithCheck) {
@@ -107,23 +93,15 @@ function MeepoCombo() {
 function GetMeepoWithAvailableEarthBind() {
 	var playerID = Game.GetLocalPlayerID()
 	var MyEnt = Players.GetPlayerHeroEntityIndex(playerID)
-	var HEnts = Entities.GetAllEntitiesByClassname(MeepoName)
-	for (i in HEnts) {
-		var ent = parseInt(HEnts[i])
-		
-		if(Entities.IsIllusion(ent))
-			continue
-		if(ent === MyEnt)
-			continue
-		if(!Entities.IsControllableByPlayer(ent, playerID))
-			continue
-		if(Entities.IsStunned(ent) || !Entities.IsAlive(ent))
-			return
-		
+	var HEnts = Entities.GetAllEntitiesByClassname(MeepoName).map(function(ent) {
+		return parseInt(ent)
+	}).filter(function(ent) {
+		return Entities.IsAlive(ent) && !Entities.IsBuilding(ent) && !Entities.IsEnemy(ent) && !Entities.IsStunned(ent) && !(WithCheck && ent === To) && Entities.IsControllableByPlayer(ent, playerID) && !Entities.IsIllusion(ent)
+	}).forEach(function(ent) {
 		var Abil = Game.GetAbilityByName(ent, 'meepo_earthbind')
 		if(Abilities.GetCooldownTimeRemaining(Abil) === 0)
 			return ent
-	}
+	})
 	return -1
 }
 

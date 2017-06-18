@@ -43,11 +43,25 @@ function AutoUltNecrophosF() {
 				return false
 		}
 		var dmg = (Entities.GetMaxHealth(ent) - Entities.GetHealth(ent)) * DamagePerMissHP
+		var NeededDmg = Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent))
 		
-		if(Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent)) <= dmg) {
+		if(NeededDmg <= dmg) {
 			GameUI.SelectUnit(MyEnt,false)
 			Game.CastTarget(MyEnt, Ulti, ent, false)
 			return true
+		} else {
+			var Dagon = Fusion.GetDagon(MyEnt)
+			if(Dagon !== undefined) {
+				var DagonDamage = Fusion.GetDagonDamage(Dagon)
+				if (
+					Abilities.GetCooldownTimeRemaining(Dagon) === 0 &&
+					NeededDmg <= (dmg + DagonDamage)
+				) {
+					GameUI.SelectUnit(MyEnt, false)
+					Game.CastTarget(MyEnt, Dagon, ent, false)
+					Game.EntStop(MyEnt, false)
+				}
+			}
 		}
 		return false
 	})

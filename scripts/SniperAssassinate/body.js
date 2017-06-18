@@ -2,6 +2,7 @@ function SniperAssassinateFunc() {
 	var MyEnt = parseInt(Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID()))
 	
 	var Ulti = Entities.GetAbilityByName(MyEnt, 'sniper_assassinate')
+	var Glimmer = Game.GetAbilityByName(MyEnt, "item_glimmer_cape")
 	var UltiRange = Abilities.GetCastRangeFix(Ulti)
 	var UltiLvl = Abilities.GetLevel(Ulti)
 	var UltiCd = Abilities.GetCooldownTimeRemaining(Ulti)
@@ -37,6 +38,8 @@ function SniperAssassinateFunc() {
 		
 		if(Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent)) <= UltiDmg) {
 			GameUI.SelectUnit(MyEnt,false)
+			if(Glimmer !== undefined)
+				Game.CastTarget(MyEnt, Glimmer, MyEnt, false)
 			Game.CastTarget(MyEnt, Ulti, ent, false)
 			return true
 		}

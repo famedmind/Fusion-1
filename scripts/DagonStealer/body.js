@@ -1,5 +1,4 @@
-﻿var DagonNames = ["item_dagon", "item_dagon_2", "item_dagon_3", "item_dagon_4", "item_dagon_5"]
-var DagonDamage = [400, 500, 600, 700, 800]
+﻿var DagonDamage = [400, 500, 600, 700, 800]
 
 function DagonStealerOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
@@ -12,8 +11,10 @@ function DagonStealerOnInterval() {
 
 function AutoDagon(MyEnt, HEnts) {
 	var Dagon = Fusion.GetDagon(MyEnt)
+	if(Dagon === undefined)
+		return
+	var DagonDamage = Fusion.GetDagonDamage(Dagon)
 	var DagonRange = Abilities.GetCastRangeFix(Dagon)
-	var DagonDamage = GetDagonDamage(Dagon)
 	
 	if(Abilities.GetCooldownTimeRemaining(Dagon) !== 0)
 		return
@@ -44,17 +45,28 @@ function AutoDagon(MyEnt, HEnts) {
 }
 
 Fusion.GetDagon = function(MyEnt) {
-	for(var i in DagonNames) {
-		var DagonName = DagonNames[i]
-		var item = Game.GetAbilityByName(MyEnt, DagonName)
-		if(item !== -1)
-			return item
-	}
+	var item
+	[
+		"item_dagon",
+		"item_dagon_2",
+		"item_dagon_3",
+		"item_dagon_4",
+		"item_dagon_5"
+	].some(function(DagonName) {
+		var itemZ = Game.GetAbilityByName(MyEnt, DagonName)
+		if(itemZ !== undefined) {
+			item = itemZ
+			return true
+		}
+		return false
+	})
 	
-	return -1
+	return item
 }
 
-function GetDagonDamage(dagon) {
+Fusion.GetDagonDamage = function(dagon) {
+	if(dagon === undefined)
+		return undefined
 	var DagonLvl = Abilities.GetLevel(dagon)
 	
 	return DagonDamage[DagonLvl - 1]

@@ -25,26 +25,24 @@ function EzSunstrikeOnInterval() {
 	})
 	
 	if(HEnts.length !== 0) {
-		ent = parseInt(HEnts[0])
+		var ent = parseInt(HEnts[0])
 		if(Entities.GetHealth(ent) <= SunStrikeDamageCur) {
 			SunStrikeTime = Game.GetGameTime() + SunStrikeDelay
 			SunStrikePos = Game.VelocityWaypoint(ent, SunStrikeDelay)
 			//GameUI.SelectUnit(MyEnt, false)
 			//Game.CastPosition(MyEnt, SunStrike, SunStrikePos, false)
 			GameUI.PingMinimapAtLocation(SunStrikePos)
-			$.Schedule(Fusion.MyTick, CancelSunstrike)
+			$.Schedule(Fusion.MyTick, function() {
+				var time = SunStrikeTime - Game.GetGameTime()
+				if(time < 0)
+					return
+				var SunStrikePos2 = SunStrikePos = Game.VelocityWaypoint(ent, time)
+				if(Game.PointDistance(SunStrikePos, SunStrikePos2) > SunStrikeRadius) {
+					Game.EntStop(MyEnt, false)
+					$.Msg("cancel. " + Game.PointDistance(SunStrikePos, SunStrikePos2))
+				}
+			})
 		}
-	}
-}
-
-function CancelSunstrike() {
-	var time = SunStrikeTime - Game.GetGameTime()
-	if(time < 0)
-		return
-	var SunStrikePos2 = SunStrikePos = Game.VelocityWaypoint(ent, time)
-	if(Game.PointDistance(SunStrikePos, SunStrikePos2) > SunStrikeRadius) {
-		Game.EntStop(MyEnt, false)
-		$.Msg("cancel. " + Game.PointDistance(SunStrikePos, SunStrikePos2))
 	}
 }
 	

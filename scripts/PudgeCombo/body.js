@@ -78,12 +78,4 @@ Fusion.Commands.PudgeCombo = function() {
 	Combo()
 }
 
-function BindCommands() {
-	Game.AddCommand("__PudgeCombo", Fusion.Commands.PudgeCombo, "", 0)
-}
-
-//function MapLoaded(data) {
-	BindCommands()
-//}
-
-//GameEvents.Subscribe('game_newmap', MapLoaded)
+Game.AddCommand("__PudgeCombo", Fusion.Commands.PudgeCombo, "", 0)
