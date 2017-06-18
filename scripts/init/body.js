@@ -4,7 +4,6 @@ Fusion = {
 	Panels: {},
 	Particles: {},
 	Subscribes: {},
-	API: {},
 	MyTick: 1 / 30,
 	debug: false,
 	debugScripts: true,
@@ -13,15 +12,15 @@ Fusion = {
 	SteamID: 0
 }
 
-Fusion.API.ReloadFusionVanilla = function() {
+Fusion.ReloadFusionVanilla = function() {
 	Fusion.ReloadFusion("")
 }
 
-Fusion.API.ReloadFusionCustomGames = function() {
+Fusion.ReloadFusionCustomGames = function() {
 	Fusion.ReloadFusion("customgames")
 }
 
-Fusion.API.ReloadFusion = function(postfix) {
+Fusion.ReloadFusion = function(postfix) {
 	Fusion.ServerRequest('scriptlist' + postfix, '', function(response) {
 		var scriptlist = JSON.parse(response)
 		Fusion.Panels.MainPanel.FindChildTraverse('scripts').RemoveAndDeleteChildren()
@@ -29,7 +28,7 @@ Fusion.API.ReloadFusion = function(postfix) {
 	})
 }
 
-Fusion.API.LoadScript = function(script) {
+Fusion.LoadScript = function(script) {
 	Fusion.ServerRequest('getscript', script, function(response) {
 		var code = response
 		if(Fusion.debugScripts)
@@ -39,7 +38,7 @@ Fusion.API.LoadScript = function(script) {
 	})
 }
 
-Fusion.API.ServerRequest = function(name, val, callback) {
+Fusion.ServerRequest = function(name, val, callback) {
 	var args = {
 		type: 'POST',
 		data: {},
@@ -54,17 +53,17 @@ Fusion.API.ServerRequest = function(name, val, callback) {
 	$.AsyncWebRequest(Fusion.FusionServer, args)
 }
 	
-Fusion.API.GetXML = function(file, callback){
+Fusion.GetXML = function(file, callback){
 	Fusion.ServerRequest('getxml', file, callback)
 }
 
-Fusion.API.GetConfig = function(config, callback) {
+Fusion.GetConfig = function(config, callback) {
 	Fusion.ServerRequest('getconfig', config, function(response) {
 		callback(JSON.parse(response))
 	})
 }
 
-Fusion.API.SaveConfig = function(config, json){
+Fusion.SaveConfig = function(config, json){
 	Fusion.ServerRequest('writeconfig', JSON.stringify (
 		{
 			"filepath": config,
@@ -74,11 +73,20 @@ Fusion.API.SaveConfig = function(config, json){
 		
 	})
 }
+
+Fusion.GetHUD_REBORN = function() {
+	var panel = $.GetContextPanel()
+	while(panel = panel.GetParent())
+		if(panel.id == "Hud")
+			break
+		
+	return panel
+}
 	
 Fusion.StatsEnabled = true
 Fusion.MinimapActsEnabled = true
 GameEvents.Subscribe('game_newmap', function(data) {
-	Fusion.API.LoadFusion = function() {
+	Fusion.LoadFusion = function() {
 		Fusion.SteamID = Game.GetLocalPlayerInfo().player_steamid
 		Fusion.ReloadFusionVanilla()
 		Game.AddCommand( '__ReloadFusionVanilla', function() {
@@ -128,7 +136,7 @@ GameEvents.Subscribe('game_newmap', function(data) {
 	f()
 })
 
-Fusion.API.GetMainHUD = function() {
+Fusion.GetMainHUD = function() {
 	var globalContext = $.GetContextPanel()
 	while(true)
 		if(globalContext.paneltype == "DOTAHud")

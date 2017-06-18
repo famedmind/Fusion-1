@@ -5,7 +5,7 @@
 	
 var Config = []
 
-Fusion.API.EzProcastF = function(){
+Fusion.EzProcastF = function(){
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var EntOnCursor = GameUI.FindScreenEntities( GameUI.GetCursorPosition() )
 	var CursorXYZ = Game.ScreenXYToWorld( GameUI.GetCursorPosition()[0],GameUI.GetCursorPosition()[1] )

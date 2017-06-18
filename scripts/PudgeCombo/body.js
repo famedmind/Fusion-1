@@ -70,7 +70,7 @@ function Combo() {
 	})
 }
 
-Fusion.API.Commands.PudgeCombo = function() {
+Fusion.Commands.PudgeCombo = function() {
 	MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	ent = Game.ClosetToMouse(MyEnt, 1000, true)
 	if(ent === undefined)

@@ -2,7 +2,7 @@ function BindCommands() {
 	Game.AddCommand('__DumpEnemyAbilities', Fusion.Commands.DumpEnemyAbilities, '', 0)
 }
 
-Fusion.API.Commands.DumpEnemyAbilities = function() {
+Fusion.Commands.DumpEnemyAbilities = function() {
 	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
 		return parseInt(ent)
 	}).filter(function(ent) {
