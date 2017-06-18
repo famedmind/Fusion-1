@@ -1,8 +1,3 @@
-function BindCommands() {
-	Game.AddCommand('__SetTimeoutForHost', SetTimeoutForHost, '', 0)
-	Game.AddCommand('__Set1TimeoutForHost', Set1TimeoutForHost, '', 0)
-}
-
 function SetTimeoutForHost() { //Host-troll
 	Game.SetAutoLaunchEnabled(false)
 	Game.SetAutoLaunchEnabled(true)
@@ -17,8 +12,5 @@ function Set1TimeoutForHost() { //Host-antitroll
 	Game.SetRemainingSetupTime(1) 
 }
 
-//function MapLoaded(data) {
-	BindCommands()
-//}
-
-//GameEvents.Subscribe('game_newmap', MapLoaded)
+Game.AddCommand('__SetTimeoutForHost', SetTimeoutForHost, '', 0)
+Game.AddCommand('__Set1TimeoutForHost', Set1TimeoutForHost, '', 0)
