@@ -44,7 +44,7 @@ function AutoDagon(MyEnt, HEnts) {
 	}
 }
 
-Fusion.GetDagon = function(MyEnt) {
+Fusion.API.GetDagon = function(MyEnt) {
 	var item
 	[
 		"item_dagon",
@@ -64,7 +64,7 @@ Fusion.GetDagon = function(MyEnt) {
 	return item
 }
 
-Fusion.GetDagonDamage = function(dagon) {
+Fusion.API.GetDagonDamage = function(dagon) {
 	if(dagon === undefined)
 		return undefined
 	var DagonLvl = Abilities.GetLevel(dagon)
