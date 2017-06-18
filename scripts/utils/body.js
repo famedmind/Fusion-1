@@ -187,7 +187,6 @@ Game.GetAbilityByName = function(ent, name) {
 		if(Abilities.GetAbilityName(item) === name)
 			return item
 	}
-	return -1
 }
 
 Game.GetSpeed = function(ent) {
