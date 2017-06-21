@@ -38,7 +38,8 @@ var StunAbils = [
 	["obsidian_destroyer_astral_imprisonment", true],
 	["rubick_telekinesis", false],
 	["pudge_dismember", true],
-	["invoker_cold_snap", true]
+	["invoker_cold_snap", true],
+	["dark_seer_vacuum", true]
 ]
 
 var OtherAbils = [
@@ -101,7 +102,7 @@ function AntiInitiationF() {
 				var abilL = Game.GetAbilityByName(MyEnt, abilName)
 				var abilrange = Abilities.GetCastRangeFix(abilL)
 				if (
-					abilL === -1 ||
+					abilL === undefined ||
 					Abilities.GetCooldownTimeRemaining(abilL) !== 0 ||
 					(
 						Entities.GetRangeToUnit(MyEnt, ent) > abilrange &&
@@ -160,7 +161,7 @@ function Disable(MyEnt, ent, Abil) {
 			var abilL = Game.GetAbilityByName(MyEnt, abilName)
 			var abilrange = Abilities.GetCastRangeFix(abilL)
 			if (
-				abilL === -1 ||
+				abilL === undefined ||
 				Abilities.GetCooldownTimeRemaining(abilL) !== 0 ||
 				(
 					Entities.GetRangeToUnit(MyEnt, ent) > abilrange &&

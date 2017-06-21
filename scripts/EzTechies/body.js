@@ -159,7 +159,7 @@ function RemoteMines(MyEnt, HEnts) {
 		var force = Game.GetAbilityByName(MyEnt,'item_force_staff')
 		if (
 			!callBackCalled &&
-			force !== -1 &&
+			force !== undefined &&
 			Entities.IsAlive(MyEnt) &&
 			Abilities.GetCooldownTimeRemaining(force) === 0 &&
 			Entities.GetRangeToUnit(MyEnt, ent) <= Abilities.GetCastRangeFix(force)

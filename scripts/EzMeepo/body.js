@@ -67,7 +67,7 @@ function MeepoCombo() {
 	
 	var Blink = Game.GetAbilityByName(MyEnt, "item_blink")
 	/*
-	if(Blink === -1) {
+	if(Blink === undefined) {
 		Game.ScriptLogMsg('MeepoCombo: No blink, cannot make combo!', '#cccccc')
 		return
 	}
@@ -83,9 +83,9 @@ function MeepoCombo() {
 	GameUI.SelectUnit(EarthBindMeepo, false)
 	Game.CastPosition(EarthBindMeepo, EarthBind, pos, false)
 	GameUI.SelectUnit(MyEnt, false)
-	if(Blink !== -1)
+	if(Blink !== undefined)
 		Game.CastPosition(MyEnt, Blink, pos, false)
-	if(Veil !== -1)
+	if(Veil !== undefined)
 		Game.CastPosition(MyEnt, Veil, pos, false)
 	PoofAllMeeposToMeepo(playerID, MyEnt, false, true)
 }

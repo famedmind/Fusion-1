@@ -4,7 +4,7 @@
 		return
 	
 	var Bottle = Game.GetAbilityByName(MyEnt, "item_bottle")
-	if(Entities.IsInRangeOfFountain(MyEnt))
+	if(Bottle !== undefined && Entities.IsInRangeOfFountain(MyEnt))
 		Game.CastNoTarget(MyEnt, Bottle, false)
 }
 

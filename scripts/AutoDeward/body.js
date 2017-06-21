@@ -51,9 +51,7 @@ function GetDewardItem(MyEnt) {
 		var DewardItemName = DewardItemNames[i]
 		
 		var item = Game.GetAbilityByName(MyEnt, DewardItemName)
-		//$.Msg(DewardItemName)
-		//$.Msg(item)
-		if(item != -1)
+		if(item !== undefined)
 			return item
 	}
 	

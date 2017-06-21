@@ -39,7 +39,7 @@ function AutoUltNecrophosF() {
 		if(Entities.HasItemInInventory(ent, 'item_sphere')) {
 			var sphere = Game.GetAbilityByName(ent, 'item_sphere')
 
-			if (Abilities.GetCooldownTimeRemaining(sphere) - 2 <= 0)
+			if(sphere !== undefined && Abilities.GetCooldownTimeRemaining(sphere) - 2 <= 0)
 				return false
 		}
 		var dmg = (Entities.GetMaxHealth(ent) - Entities.GetHealth(ent)) * DamagePerMissHP

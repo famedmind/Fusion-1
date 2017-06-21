@@ -15,7 +15,7 @@ function Disable(MyEnt, ent) {
 	var distance = Entities.GetRangeToUnit(MyEnt, ent)
 	DisablingAbils.some(function(ar) {
 		var abil = Game.GetAbilityByName(MyEnt, ar[0])
-		if(abil === -1)
+		if(abil === undefined)
 			return false
 		var abilBehaviors = Game.Behaviors(abil)
 		var speed = ar[1]
