@@ -39,7 +39,8 @@ var StunAbils = [
 	["rubick_telekinesis", false],
 	["pudge_dismember", true],
 	["invoker_cold_snap", true],
-	["dark_seer_vacuum", true]
+	["dark_seer_vacuum", true],
+	["bane_nightmare", true]
 ]
 
 var OtherAbils = [

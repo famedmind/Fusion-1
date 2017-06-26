@@ -33,28 +33,32 @@ function InvokerCombo() {
 	if(Abilities.IsHidden(Tornado)) {
 		Wex(); Quas(); Wex(); Invoke();
 	}
-	
+	// sunstrike tornado eul veil etherial dagon
 	Game.CastTarget(MyEnt, Eul, enemy, false)
 	$.Schedule(EulDuration - SunStrikeDelay + Fusion.MyTick * 9, function() {
 		Game.CastPosition(MyEnt, SunStrike, pos, false)
 		Exort(); Wex(); Exort(); Invoke();
 		
-		Game.CastPosition(MyEnt, Veil, pos, false)
-		Game.CastTarget(MyEnt, Etherial, enemy, false)
-		Game.CastTarget(MyEnt, Dagon, enemy, false)
-		if(Abilities.GetCurrentCharges(Urn) > 0)
-			Game.CastTarget(MyEnt, Urn, enemy, false)
-		
-		Game.CastPosition(MyEnt, Tornado, pos, false)
-		
-		$.Schedule(TornadoDelay[Abilities.GetLevel(Game.GetAbilityByName(MyEnt, "invoker_quas")) - 2 + (Entities.HasScepter(MyEnt) ? 1 : 0)] + Fusion.MyTick * 2, function() {
-			Game.CastPosition(MyEnt, Meteor, pos, false)
+		$.Schedule(EulDuration - SunStrikeDelay + Fusion.MyTick * 5, function() {
+			Game.CastPosition(MyEnt, Veil, pos, false)
+			Game.CastTarget(MyEnt, Etherial, enemy, false)
+			Game.CastTarget(MyEnt, Dagon, enemy, false)
+			//if(Abilities.GetCurrentCharges(Urn) > 0)
+			//	Game.CastTarget(MyEnt, Urn, enemy, false)
 			
-			Quas(); Quas(); Quas(); Invoke();
-			Quas(); Wex(); Exort(); Invoke();
-			
-			Game.CastTarget(MyEnt, Orchid, enemy, false)
-			Game.CastPosition(MyEnt, Blast, pos, false)
+			$.Schedule(EulDuration - SunStrikeDelay + Fusion.MyTick * 15, function() {
+				Game.CastPosition(MyEnt, Tornado, pos, false)
+				
+				$.Schedule(TornadoDelay[Abilities.GetLevel(Game.GetAbilityByName(MyEnt, "invoker_quas")) - 2 + (Entities.HasScepter(MyEnt) ? 1 : 0)] + Fusion.MyTick * 2, function() {
+					Game.CastPosition(MyEnt, Meteor, pos, false)
+					
+					Quas(); Quas(); Quas(); Invoke();
+					Quas(); Wex(); Exort(); Invoke();
+					
+					Game.CastTarget(MyEnt, Orchid, enemy, false)
+					Game.CastPosition(MyEnt, Blast, pos, false)
+				})
+			})
 		})
 	})
 }
@@ -79,6 +83,4 @@ function Invoke() {
 	Game.CastNoTarget(MyEnt, Abil, false)
 }
 
-Game.AddCommand("__InvokerCombo", function() {
-	InvokerCombo()
-}, "", 0)
+Game.AddCommand("__InvokerCombo", InvokerCombo, "", 0)
