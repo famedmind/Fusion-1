@@ -34,11 +34,18 @@ function CullingBlade(MyEnt, HEnts) {
 			return -1
 	})
 	
-	if(HEnts.length !== 0) {
-		var ent = parseInt(HEnts[0])
+	HEnts.some(function(ent) {
+		if(Entities.HasItemInInventory(ent, 'item_sphere')) {
+			var sphere = Game.GetAbilityByName(ent, 'item_sphere')
+
+			if (Abilities.GetCooldownTimeRemaining(sphere) - 2 <= 0)
+				return false
+		}
+		
 		GameUI.SelectUnit(MyEnt, false)
 		Game.CastTarget(MyEnt, Ulti, ent, false)
-	}
+		return false
+	})
 }
 
 var AxeUltiOnCheckBoxClick = function(){

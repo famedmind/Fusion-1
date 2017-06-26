@@ -37,7 +37,7 @@ function SniperAssassinateFunc() {
 		}
 		
 		if(Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent)) <= UltiDmg) {
-			GameUI.SelectUnit(MyEnt,false)
+			GameUI.SelectUnit(MyEnt, false)
 			if(Glimmer !== undefined)
 				Game.CastTarget(MyEnt, Glimmer, MyEnt, false)
 			Game.CastTarget(MyEnt, Ulti, ent, false)
