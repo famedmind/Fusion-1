@@ -6,6 +6,7 @@ Fusion = {
 	Subscribes: {},
 	MyTick: 1 / 30,
 	debug: false,
+	debugLoad: false,
 	debugScripts: true,
 	debugAnimations: true,
 	FusionServer: "http://m00fm0nkey.servegame.com:4297",
@@ -21,10 +22,12 @@ Fusion.ReloadFusionCustomGames = function() {
 }
 
 Fusion.ReloadFusion = function(postfix) {
-	Fusion.ServerRequest('scriptlist' + postfix, '', function(response) {
-		var scriptlist = JSON.parse(response)
-		Fusion.Panels.MainPanel.FindChildTraverse('scripts').RemoveAndDeleteChildren()
-		scriptlist.forEach(Fusion.LoadScript)
+	Fusion.LoadFusion(function() {
+		Fusion.ServerRequest('scriptlist' + postfix, '', function(response) {
+			var scriptlist = JSON.parse(response)
+			Fusion.Panels.MainPanel.FindChildTraverse('scripts').RemoveAndDeleteChildren()
+			scriptlist.forEach(Fusion.LoadScript)
+		})
 	})
 }
 
@@ -47,10 +50,12 @@ Fusion.ServerRequest = function(name, val, callback) {
 				callback(a.responseText.substring(0, a.responseText.length - 3))
 			else
 				if(a.status !== 403 && a.status !== 400) {
-					$.Msg("Can't load \"" + name + "\" @ " + val + ", returned " + JSON.stringify(a) + ". Trying again.")
+					if(Fusion.debugLoad)
+						$.Msg("Can't load \"" + name + "\" @ " + val + ", returned " + JSON.stringify(a) + ". Trying again.")
 					Fusion.ServerRequest(name, val, callback)
 				} else
-					$.Msg("Can't load \"" + name + "\" @ " + val + ", got " + a.status + ".")
+					if(Fusion.debugLoad)
+						$.Msg("Can't load \"" + name + "\" @ " + val + ", got " + a.status + ".")
 		}
 	}
 	args['data'][name] = val
@@ -80,7 +85,10 @@ Fusion.SaveConfig = function(config, json){
 	})
 }
 
-Fusion.LoadFusion = function() {
+Fusion.LoadFusion = function(callback) {
+	var MainHUD = $.GetContextPanel()
+	if(Fusion.Panels.MainPanel !== undefined)
+		Fusion.Panels.MainPanel.DeleteAsync(0)
 	Fusion.Panels.MainPanel = $.CreatePanel('Panel', MainHUD, 'DotaOverlay');
 	Fusion.GetXML("init/hud", function(response) {
 		$.Msg("HUD Loaded!")
@@ -134,6 +142,8 @@ Fusion.LoadFusion = function() {
 						panel.style.visibility = "collapse"
 		}, '',0)
 		Fusion.Panels.MainPanel.ToggleClass('Popup')
+		if(callback !== undefined)
+			callback()
 	})
 }
 

@@ -1,4 +1,4 @@
-﻿var damage = [225,325,425]
+﻿var damage = [225, 325, 425]
 
 function ZeusAutoultF() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
