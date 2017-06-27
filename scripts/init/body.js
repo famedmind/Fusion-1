@@ -45,6 +45,8 @@ Fusion.ServerRequest = function(name, val, callback) {
 		complete: function(a) {
 			if (a.status === 200 && a.responseText !== null)
 				callback(a.responseText.substring(0, a.responseText.length - 3))
+			else
+				$.Msg("Can't load \"" + name + "\" @ " + val)
 		}
 	}
 	args['data'][name] = val

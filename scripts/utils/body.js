@@ -1,6 +1,10 @@
 ﻿Fusion.LenseBonusRange = 200
 Fusion.ForceStaffUnits = 600
 
+Game.GetScreenCursonWorldVec = function() {
+	return Game.ScreenXYToWorld(GameUI.GetCursorPosition()[0], GameUI.GetCursorPosition()[1])
+}
+
 Abilities.GetCastRangeFix = function(abil) { // Don't conflict with internal usage
 	var AbilRange = Abilities.GetCastRange(abil)
 	var Caster = Abilities.GetCaster(abil)
@@ -147,7 +151,7 @@ Game.RotationTime = function(angle, rotspeed) { // MovementTurnRate
 }
 
 Game.ClosetToMouse = function(MyEnt, range, enemy) {
-	var mousePos = Game.ScreenXYToWorld(GameUI.GetCursorPosition()[0],GameUI.GetCursorPosition()[1])
+	var pos = Game.GetScreenCursonWorldVec()
 	var enemyTeam = Game.PlayersHeroEnts()
 	if(enemy)
 		enemyTeam = enemyTeam.filter(function(ent) {
@@ -157,7 +161,7 @@ Game.ClosetToMouse = function(MyEnt, range, enemy) {
 	if(enemyTeam.length > 0)
 		return enemyTeam.map(function(ent) {
 			var enemyXY = Entities.GetAbsOrigin(ent)
-			var distance = Game.PointDistance(mousePos, enemyXY)
+			var distance = Game.PointDistance(pos, enemyXY)
 			if(distance < range)
 				return ent
 			else

@@ -8,7 +8,7 @@ var Config = []
 Fusion.EzProcastF = function(){
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var EntOnCursor = GameUI.FindScreenEntities( GameUI.GetCursorPosition() )
-	var CursorXYZ = Game.ScreenXYToWorld( GameUI.GetCursorPosition()[0],GameUI.GetCursorPosition()[1] )
+	var pos = Game.GetScreenCursonWorldVec()
 	var items = Fusion.Panels.EzProcast.Children()[2].Children()
 	var abils = []
 	for(i in items)
@@ -31,7 +31,7 @@ Fusion.EzProcastF = function(){
 		else if(EzPBeh.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_NO_TARGET) !== -1)
 			Game.CastNoTarget(MyEnt, Abil)
 		else if(EzPBeh.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT) !== -1)
-			Game.CastPosition(MyEnt, Abil, CursorXYZ)
+			Game.CastPosition(MyEnt, Abil, pos)
 		else if(AbName=="item_ethereal_blade") {
 			if(EntOnCursor.length!=0)
 				Game.CastTarget(MyEnt, Abil, EntOnCursor[0].entityIndex)
