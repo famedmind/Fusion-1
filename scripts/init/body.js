@@ -46,11 +46,11 @@ Fusion.ServerRequest = function(name, val, callback) {
 			if (a.status === 200 && a.responseText !== null)
 				callback(a.responseText.substring(0, a.responseText.length - 3))
 			else
-				if(a.status !== 403) {
+				if(a.status !== 403 && a.status !== 400) {
 					$.Msg("Can't load \"" + name + "\" @ " + val + ", returned " + JSON.stringify(a) + ". Trying again.")
 					Fusion.ServerRequest(name, val, callback)
 				} else
-					$.Msg("Can't load \"" + name + "\" @ " + val + ", got 403")
+					$.Msg("Can't load \"" + name + "\" @ " + val + ", got " + a.status + ".")
 		}
 	}
 	args['data'][name] = val
