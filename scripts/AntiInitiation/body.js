@@ -1,4 +1,5 @@
-﻿var HexAbils = [
+﻿// 3rd arg means that this ability can't be disabled because of castpoint (ex. eul has 0.0 castpoint)
+var HexAbils = [
 	["item_sheepstick", true, true],
 	["lion_voodoo", true, true],
 	["shadow_shaman_voodoo", true, true]
@@ -11,7 +12,8 @@ var DisableAbils = [
 	["axe_berserkers_call" , false],
 	["legion_commander_duel", false],
 	["puck_waning_rift", true],
-	["crystal_maiden_frostbite", true]
+	["crystal_maiden_frostbite", true],
+	["skywrath_mage_ancient_seal", true]
 ]
 
 var StunAbils = [
@@ -149,7 +151,7 @@ function Disable(MyEnt, ent, Abil) {
 	)
 		return false
 	var AbilAr = GetAbilArray(AbilName)
-	if(AbilAr !== undefined && AbilAr[3])
+	if(AbilAr !== undefined && AbilAr[2])
 		return false
 	var abil
 	Abils.some(function(ar) {
