@@ -46,7 +46,11 @@ Fusion.ServerRequest = function(name, val, callback) {
 			if (a.status === 200 && a.responseText !== null)
 				callback(a.responseText.substring(0, a.responseText.length - 3))
 			else
-				$.Msg("Can't load \"" + name + "\" @ " + val + ", returned " + JSON.stringify(a))
+				if(a.status !== 403) {
+					$.Msg("Can't load \"" + name + "\" @ " + val + ", returned " + JSON.stringify(a) + ". Trying again.")
+					Fusion.ServerRequest(name, val, callback)
+				} else
+					$.Msg("Can't load \"" + name + "\" @ " + val + ", got 403")
 		}
 	}
 	args['data'][name] = val
@@ -76,18 +80,35 @@ Fusion.SaveConfig = function(config, json){
 	})
 }
 
-Fusion.StatsEnabled = true
-Fusion.MinimapActsEnabled = true
-GameEvents.Subscribe('game_newmap', function(data) {
-	Fusion.LoadFusion = function() {
+Fusion.LoadFusion = function() {
+	Fusion.Panels.MainPanel = $.CreatePanel('Panel', MainHUD, 'DotaOverlay');
+	Fusion.GetXML("init/hud", function(response) {
+		$.Msg("HUD Loaded!")
+		
+		Fusion.Panels.MainPanel.BLoadLayoutFromString(response, false, false)
+		Fusion.Panels.MainPanel.ToggleClass('PopupOpened')
+		Fusion.Panels.MainPanel.ToggleClass('Popup')
+		Fusion.Panels.MainPanel.FindChildTraverse('Reload').SetPanelEvent('onactivate', Fusion.ReloadFusionVanilla)
+		Fusion.Panels.MainPanel.FindChildTraverse('ReloadCustomGames').SetPanelEvent('onactivate', Fusion.ReloadFusionCustomGames)
+		var slider = Fusion.Panels.MainPanel.FindChildInLayoutFile("CameraDistance")
+		slider.min = 1300
+		slider.max = 3000
+		slider.value = 2000
+		slider.lastValue = 0
+		function OnTickSlider() {
+			if (slider.value !== slider.lastValue) {
+				GameUI.SetCameraDistance(slider.value)
+				Fusion.Panels.MainPanel.FindChildTraverse('CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
+				lastValue = slider.value
+			}
+			$.Schedule(Fusion.MyTick, OnTickSlider)
+		}
+		OnTickSlider()
+		$.Msg("HUD init finished")
 		Fusion.SteamID = Game.GetLocalPlayerInfo().player_steamid
 		Fusion.ReloadFusionVanilla()
-		Game.AddCommand( '__ReloadFusionVanilla', function() {
-			Fusion.ReloadFusionVanilla()
-		}, '', 0)
-		Game.AddCommand( '__ReloadFusionCustomGames', function() {
-			Fusion.ReloadFusionCustomGames()
-		}, '', 0)
+		Game.AddCommand( '__ReloadFusionVanilla', Fusion.ReloadFusionVanilla, '', 0)
+		Game.AddCommand( '__ReloadFusionCustomGames', Fusion.ReloadFusionCustomGames, '', 0)
 		Game.AddCommand('__TogglePanel', function() {
 			Fusion.Panels.MainPanel.ToggleClass('Popup')
 		}, '',0)
@@ -104,7 +125,7 @@ GameEvents.Subscribe('game_newmap', function(data) {
 		}, '',0)
 		Game.AddCommand('__ToggleStats', function() {
 			var panel = Fusion.GetMainHUD()
-
+			
 			if(panel && (panel = panel.FindChild("HUDElements")))
 				if(panel = panel.FindChild("quickstats"))
 					if(Fusion.StatsEnabled = !Fusion.StatsEnabled)
@@ -113,11 +134,15 @@ GameEvents.Subscribe('game_newmap', function(data) {
 						panel.style.visibility = "collapse"
 		}, '',0)
 		Fusion.Panels.MainPanel.ToggleClass('Popup')
-	}
-	
+	})
+}
+
+Fusion.StatsEnabled = true
+Fusion.MinimapActsEnabled = true
+GameEvents.Subscribe('game_newmap', function(data) {
 	function f() {
 		$.Schedule (
-			1,
+			0.04,
 			function() {
 				if(Players.GetLocalPlayer() !== -1)
 					Fusion.LoadFusion()
@@ -142,27 +167,3 @@ Fusion.GetMainHUD = function() {
 var MainHUD = $.GetContextPanel()
 if(Fusion.Panels.MainPanel !== undefined)
 	Fusion.Panels.MainPanel.DeleteAsync(0)
-Fusion.Panels.MainPanel = $.CreatePanel('Panel', MainHUD, 'DotaOverlay');
-Fusion.GetXML("init/hud", function(response) {
-	$.Msg("HUD Loaded!")
-	
-	Fusion.Panels.MainPanel.BLoadLayoutFromString(response, false, false)
-	Fusion.Panels.MainPanel.ToggleClass('PopupOpened')
-	Fusion.Panels.MainPanel.ToggleClass('Popup')
-	Fusion.Panels.MainPanel.FindChildTraverse('Reload').SetPanelEvent('onactivate', Fusion.ReloadFusionVanilla)
-	Fusion.Panels.MainPanel.FindChildTraverse('ReloadCustomGames').SetPanelEvent('onactivate', Fusion.ReloadFusionCustomGames)
-	var slider = Fusion.Panels.MainPanel.FindChildInLayoutFile("CameraDistance")
-	slider.min = 1300
-	slider.max = 3000
-	slider.value = 2000
-	slider.lastValue = 0
-	function OnTickSlider() {
-		if (slider.value !== slider.lastValue) {
-			GameUI.SetCameraDistance(slider.value)
-			Fusion.Panels.MainPanel.FindChildTraverse('CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
-			lastValue = slider.value
-		}
-		$.Schedule(Fusion.MyTick, OnTickSlider)
-	}
-	OnTickSlider()
-})
