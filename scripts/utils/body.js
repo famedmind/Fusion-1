@@ -4,7 +4,7 @@ Fusion.ForceStaffUnits = 600
 Fusion.LinkenTargetName = "modifier_item_sphere_target"
 Fusion.HasLinkenAtTime = function(ent, time) {
 	var sphere = Game.GetAbilityByName(ent, 'item_sphere')
-	var buffsnames = Game.GetBuffsNames(entTo)
+	var buffsnames = Game.GetBuffsNames(ent)
 	if (
 		(
 			sphere !== -1 &&
