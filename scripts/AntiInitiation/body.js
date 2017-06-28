@@ -104,9 +104,10 @@ function AntiInitiationF() {
 					return false
 				
 				var abilL = Game.GetAbilityByName(MyEnt, abilName)
+				if(abilL === undefined)
+					return false
 				var abilrange = Abilities.GetCastRangeFix(abilL)
 				if (
-					abilL === undefined ||
 					Abilities.GetCooldownTimeRemaining(abilL) !== 0 ||
 					(
 						Entities.GetRangeToUnit(MyEnt, ent) > abilrange &&
