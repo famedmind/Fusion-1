@@ -6,7 +6,7 @@ Fusion = {
 	Subscribes: {},
 	MyTick: 1 / 30,
 	debug: false,
-	debugLoad: false,
+	debugLoad: true,
 	debugScripts: true,
 	debugAnimations: true,
 	FusionServer: "http://m00fm0nkey.servegame.com:4297",
@@ -114,7 +114,6 @@ Fusion.LoadFusion = function(callback) {
 		OnTickSlider()
 		$.Msg("HUD init finished")
 		Fusion.SteamID = Game.GetLocalPlayerInfo().player_steamid
-		Fusion.ReloadFusionVanilla()
 		Game.AddCommand( '__ReloadFusionVanilla', Fusion.ReloadFusionVanilla, '', 0)
 		Game.AddCommand( '__ReloadFusionCustomGames', Fusion.ReloadFusionCustomGames, '', 0)
 		Game.AddCommand('__TogglePanel', function() {
@@ -155,7 +154,7 @@ GameEvents.Subscribe('game_newmap', function(data) {
 			0.04,
 			function() {
 				if(Players.GetLocalPlayer() !== -1)
-					Fusion.LoadFusion()
+					Fusion.ReloadFusionVanilla()
 				else
 					f()
 			}

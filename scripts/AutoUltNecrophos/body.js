@@ -10,12 +10,11 @@ function AutoUltNecrophosF() {
 	var UltiRange = Abilities.GetCastRangeFix(Ulti)
 	
 	var UltiLvl = Abilities.GetLevel(Ulti)
-	var UltiCd = Abilities.GetCooldownTimeRemaining(Ulti)
 	var UltiDmg = Abilities.GetAbilityDamage(Ulti)
 	var UltiManaCost = Abilities.GetManaCost(Ulti)
 	var DamagePerMissHP = damage[UltiLvl-1]
 	
-	if(UltiLvl==0 || UltiCd > 0 || UltiManaCost > Entities.GetMana(MyEnt))
+	if(UltiLvl==0 || Abilities.GetCooldownTimeRemaining(Ulti) > 0 || UltiManaCost > Entities.GetMana(MyEnt))
 		return
 	
 	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
@@ -36,12 +35,8 @@ function AutoUltNecrophosF() {
 	
 	
 	HEnts.some(function(ent) {
-		if(Entities.HasItemInInventory(ent, 'item_sphere')) {
-			var sphere = Game.GetAbilityByName(ent, 'item_sphere')
-
-			if(sphere !== undefined && Abilities.GetCooldownTimeRemaining(sphere) - 2 <= 0)
-				return false
-		}
+		if(Fusion.HasLinkenAtTime(ent, Abilities.GetCastPoint(Ulti)))
+			return false
 		var dmg = (Entities.GetMaxHealth(ent) - Entities.GetHealth(ent)) * DamagePerMissHP
 		var NeededDmg = Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent))
 		

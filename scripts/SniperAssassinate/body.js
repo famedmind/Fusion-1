@@ -29,12 +29,8 @@ function SniperAssassinateFunc() {
 	})
 	
 	HEnts.some(function(ent) {
-		if(Entities.HasItemInInventory(ent, 'item_sphere')) {
-			var sphere = Game.GetAbilityByName(ent, 'item_sphere')
-
-			if (Abilities.GetCooldownTimeRemaining(sphere) - 2 <= 0)
-				return false
-		}
+		if(Fusion.HasLinkenAtTime(ent, 2))
+			return false
 		
 		if(Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent)) <= UltiDmg) {
 			GameUI.SelectUnit(MyEnt, false)

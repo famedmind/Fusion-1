@@ -1,6 +1,43 @@
 ﻿Fusion.LenseBonusRange = 200
 Fusion.ForceStaffUnits = 600
 
+Fusion.LinkenTargetName = "modifier_item_sphere_target"
+Fusion.HasLinkenAtTime = function(ent, time) {
+	var sphere = Game.GetAbilityByName(ent, 'item_sphere')
+	var buffsnames = Game.GetBuffsNames(entTo)
+	if (
+		(
+			sphere !== -1 &&
+			Abilities.GetCooldownTimeRemaining(sphere) - time <= 0
+		) ||
+		buffsnames.indexOf(Fusion.LinkenTargetName) !== -1
+	)
+		return true
+	
+	return false
+}
+
+Fusion.DeepEquals = function (x, y) {
+	if((typeof x == "object" && x != null) && (typeof y == "object" && y != null)) {
+		if(Object.keys(x).length != Object.keys(y).length)
+			return false;
+
+		for (var prop in x) {
+			if (y.hasOwnProperty(prop))	
+				if (!Fusion.DeepEquals(x[prop], y[prop]))
+					return false;
+			else
+				return false;
+		}
+
+		return true;
+	} else
+		if(x !== y)
+			return false;
+		else
+			return true;
+}
+
 Game.GetScreenCursonWorldVec = function() {
 	return Game.ScreenXYToWorld(GameUI.GetCursorPosition()[0], GameUI.GetCursorPosition()[1])
 }
@@ -70,11 +107,12 @@ Game.DebuffsAddMagicDmg = [
 	["modifier_item_ethereal_blade_ethereal", 1.4],
 	["modifier_item_mask_of_madness_berserk", 1.25],
 	["modifier_ghost_state", 1.4],
-	["modifier_ice_vortex", [1.15,1.2,1.25,1.3]],
-	["modifier_skywrath_mage_ancient_seal", [1.3,1.35,1.4,1.45]],
-	["modifier_bloodseeker_bloodrage", [1.25,1.3,1.35,1.4]],
-	["modifier_shadow_demon_soul_catcher", [1.2,1.3,1.4,1.5]],
-	["modifier_pugna_decrepify", [1.3,1.4,1.5,1.6]],
+	["modifier_ice_vortex", [1.15, 1.2, 1.25, 1.3]],
+	["modifier_skywrath_mage_ancient_seal", [1.3, 1.35, 1.4, 1.45]],
+	["modifier_bloodseeker_bloodrage", [1.25, 1.3, 1.35, 1.4]],
+	["modifier_shadow_demon_soul_catcher", [1.2, 1.3, 1.4, 1.5]],
+	["modifier_pugna_decrepify", [1.3, 1.4, 1.5, 1.6]],
+	["modifier_necrolyte_sadist_active", 1.2],
 	
 	//в меньшую сторону
 	["modifier_item_pipe", 0.7],
@@ -85,10 +123,10 @@ Game.DebuffsAddMagicDmg = [
 	["modifier_item_planeswalkers_cloak", 0.85],
 	["modifier_item_glimmer_cape", 0.85],
 	["item_glimmer_cape_fade", 0.55],
-	["modifier_wisp_overcharge", [0.95,0.9,0.85,0.8]],
-	["modifier_pudge_flesh_heap", [0.94,0.92,0.9,0.88]],
-	["modifier_rubick_null_field_effect", [0.9,0.86,0.82,0.78]],
-	["modifier_antimage_spell_shield", [0.74,0.66,0.58,0.5]]
+	["modifier_wisp_overcharge", [0.95, 0.9, 0.85, 0.8]],
+	["modifier_pudge_flesh_heap", [0.94, 0.92, 0.9, 0.88]],
+	["modifier_rubick_null_field_effect", [0.9, 0.86, 0.82, 0.78]],
+	["modifier_antimage_spell_shield", [0.74, 0.66, 0.58, 0.5]]
 ]
 
 Game.GetMagicMultiplier = function(entFrom, entTo) {
@@ -474,7 +512,7 @@ Game.CompareArrays = function(a,b) {
 Game.IntersecArrays = function(a,b) {
 	for(i in a)
 		for(m in b)
-			if(a[i]==b[m])
+			if(a[i] === b[m])
 				return true
 	return false
 }

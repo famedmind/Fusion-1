@@ -35,16 +35,12 @@ function CullingBlade(MyEnt, HEnts) {
 	})
 	
 	HEnts.some(function(ent) {
-		if(Entities.HasItemInInventory(ent, 'item_sphere')) {
-			var sphere = Game.GetAbilityByName(ent, 'item_sphere')
-
-			if (Abilities.GetCooldownTimeRemaining(sphere) - 2 <= 0)
-				return false
-		}
+		if(Fusion.HasLinkenAtTime(ent, Abilities.GetCastPoint(Ulti)))
+			return false
 		
 		GameUI.SelectUnit(MyEnt, false)
 		Game.CastTarget(MyEnt, Ulti, ent, false)
-		return false
+		return true
 	})
 }
 
