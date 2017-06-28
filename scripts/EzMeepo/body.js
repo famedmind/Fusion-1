@@ -105,36 +105,28 @@ function MeepoEarthBind(pos) {
 	})
 }
 
-function BindCommands() {
-	Game.AddCommand('__MeepoAutoPoof_ToSelected', function() {
-		MeepoAutoPoof(0, true)
-	}, '', 0)
-	Game.AddCommand('__MeepoAutoPoof_ToCursor', function() {
-		MeepoAutoPoof(1, true)
-	}, '', 0)
-	Game.AddCommand('__MeepoAutoPoof_ToMain', function() {
-		MeepoAutoPoof(2, true)
-	}, '', 0)
-	
-	Game.AddCommand('__MeepoAutoPoof_ToSelected_All', function() {
-		MeepoAutoPoof(0, false)
-	}, '', 0)
-	Game.AddCommand('__MeepoAutoPoof_ToCursor_All', function() {
-		MeepoAutoPoof(1, false)
-	}, '', 0)
-	Game.AddCommand('__MeepoAutoPoof_ToMain_All', function() {
-		MeepoAutoPoof(2, false)
-	}, '', 0)
-	
-	Game.AddCommand('__MeepoEarthBind', function() {
-		MeepoEarthBind(Game.GetScreenCursonWorldVec())
-	}, '', 0)
-	
-	Game.AddCommand('__MeepoCombo', MeepoCombo, '', 0)
-}
+Game.AddCommand('__MeepoAutoPoof_ToSelected', function() {
+	MeepoAutoPoof(0, true)
+}, '', 0)
+Game.AddCommand('__MeepoAutoPoof_ToCursor', function() {
+	MeepoAutoPoof(1, true)
+}, '', 0)
+Game.AddCommand('__MeepoAutoPoof_ToMain', function() {
+	MeepoAutoPoof(2, true)
+}, '', 0)
 
-//function MapLoaded(data) {
-	BindCommands()
-//}
+Game.AddCommand('__MeepoAutoPoof_ToSelected_All', function() {
+	MeepoAutoPoof(0, false)
+}, '', 0)
+Game.AddCommand('__MeepoAutoPoof_ToCursor_All', function() {
+	MeepoAutoPoof(1, false)
+}, '', 0)
+Game.AddCommand('__MeepoAutoPoof_ToMain_All', function() {
+	MeepoAutoPoof(2, false)
+}, '', 0)
 
-//GameEvents.Subscribe('game_newmap', MapLoaded)
+Game.AddCommand('__MeepoEarthBind', function() {
+	MeepoEarthBind(Game.GetScreenCursonWorldVec())
+}, '', 0)
+
+Game.AddCommand('__MeepoCombo', MeepoCombo, '', 0)
