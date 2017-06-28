@@ -49,7 +49,8 @@ var OtherAbils = [
 	["dark_seer_wall_of_replica", false],
 	["queenofpain_sonic_wave", false],
 	["juggernaut_omni_slash", false],
-	["slark_pounce", false]
+	["slark_pounce", false],
+	["axe_culling_blade", false]
 ]
 
 var Abils = [
