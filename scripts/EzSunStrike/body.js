@@ -29,9 +29,9 @@ function EzSunstrikeOnInterval() {
 		if(Entities.GetHealth(ent) <= SunStrikeDamageCur) {
 			SunStrikeTime = Game.GetGameTime() + SunStrikeDelay
 			SunStrikePos = Game.VelocityWaypoint(ent, SunStrikeDelay)
-			//GameUI.SelectUnit(MyEnt, false)
-			//Game.CastPosition(MyEnt, SunStrike, SunStrikePos, false)
-			GameUI.PingMinimapAtLocation(SunStrikePos)
+			GameUI.SelectUnit(MyEnt, false)
+			Game.CastPosition(MyEnt, SunStrike, SunStrikePos, false)
+			//GameUI.PingMinimapAtLocation(SunStrikePos)
 			$.Schedule(Fusion.MyTick, function() {
 				var time = SunStrikeTime - Game.GetGameTime()
 				if(time < 0)
