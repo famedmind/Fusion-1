@@ -20,6 +20,7 @@ var StunAbils = [
 	["dragon_knight_dragon_tail", false],
 	["tidehunter_ravage", false],
 	["earthshaker_echo_slam", true],
+	["earthshaker_fissure", false],
 	["magnataur_reverse_polarity", false],
 	["beastmaster_primal_roar", false],
 	["treant_overgrowth", false],

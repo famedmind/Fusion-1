@@ -17,16 +17,17 @@ var EzVisageF = function() {
 //TODO: realize kills by familiars' stone form (most likely with EzTechies)
 var HealBarrierPercent = 50
 var Familiars = function(MyEnt) {
-/*	GetFamiliars().forEach(function(ent) {
+	var familiars = GetFamiliars()
+	familiars.forEach(function(ent) {
 		var StoneForm = Entities.GetAbilityByName(ent, "visage_summon_familiars_stone_form")
-		if(Entities.GetHealthPercent(ent) <= HealBarrierPercent/*FIXIT: || Buffs.GetStackCount(MyEnt, Fusion.GetBuffByName(ent, "modifier_visage_summon_familiars_damage_charge")) === 0*//*)
+		if(Entities.GetHealthPercent(ent) <= HealBarrierPercent/*FIXIT: || Buffs.GetStackCount(MyEnt, Fusion.GetBuffByName(ent, "modifier_visage_summon_familiars_damage_charge")) === 0*/)
 			if(Abilities.GetCooldownTimeRemaining(StoneForm) === 0) {
 				GameUI.SelectUnit(ent, false)
 				Game.CastNoTarget(ent, StoneForm, false)
 				GameUI.SelectUnit(MyEnt, false)
 			} else
 				GameUI.PingMinimapAtLocation(Entities.GetAbsOrigin(ent))
-	})*/
+	})
 }
 var Souls = function(MyEnt) {
 	var Abil = Entities.GetAbilityByName(MyEnt, "visage_soul_assumption")

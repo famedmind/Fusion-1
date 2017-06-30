@@ -24,7 +24,7 @@ function SAlertEvery() {
 			return
 		var buffName = buffsnames[1]
 		var modifier = positionModifiers[buffName]
-		if(typeof modifier !== 'undefined')
+		if(modifier !== undefined)
 			AlertPosition(modifier, vec, thinker)
 	})
 	

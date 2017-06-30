@@ -85,6 +85,8 @@ Fusion.SaveConfig = function(config, json){
 	})
 }
 
+Fusion.StatsEnabled = true
+Fusion.MinimapActsEnabled = true
 Fusion.LoadFusion = function(callback) {
 	var MainHUD = $.GetContextPanel()
 	if(Fusion.Panels.MainPanel !== undefined)
@@ -146,23 +148,6 @@ Fusion.LoadFusion = function(callback) {
 	})
 }
 
-Fusion.StatsEnabled = true
-Fusion.MinimapActsEnabled = true
-GameEvents.Subscribe('game_newmap', function(data) {
-	function f() {
-		$.Schedule (
-			0.04,
-			function() {
-				if(Players.GetLocalPlayer() !== -1)
-					Fusion.ReloadFusionVanilla()
-				else
-					f()
-			}
-		)
-	}
-	f()
-})
-
 Fusion.GetMainHUD = function() {
 	var globalContext = $.GetContextPanel()
 	while(true)
@@ -176,3 +161,20 @@ Fusion.GetMainHUD = function() {
 var MainHUD = $.GetContextPanel()
 if(Fusion.Panels.MainPanel !== undefined)
 	Fusion.Panels.MainPanel.DeleteAsync(0)
+
+
+Fusion.OnLoad = function() {
+	function f() {
+		$.Schedule (
+			0.04,
+			function() {
+				if(Players.GetLocalPlayer() !== -1)
+					Fusion.ReloadFusionVanilla()
+				else
+					f()
+			}
+		)
+	}
+	f()
+}
+Fusion.OnLoad()

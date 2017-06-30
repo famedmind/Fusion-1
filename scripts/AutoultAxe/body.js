@@ -6,21 +6,6 @@ function AxeUltiF() {
 	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
 		return parseInt(ent)
 	}).filter(function(ent) {
-		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent)
-	})
-	
-	CullingBlade(MyEnt, HEnts)
-}
-
-function CullingBlade(MyEnt, HEnts) {
-	var Ulti = Entities.GetAbilityByName(MyEnt, "axe_culling_blade")
-	var UltiLvl = Abilities.GetLevel(Ulti)
-	if(UltiLvl === 0 || Abilities.GetCooldownTimeRemaining(Ulti) !== 0 || Entities.GetMana(MyEnt) < Abilities.GetManaCost(Ulti))
-		return
-	var UltiDmg = damage[UltiLvl - 1]
-	var UltiCastRange = Abilities.GetCastRangeFix(Ulti) + 75
-	
-	HEnts = HEnts.filter(function(ent) {
 		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent) && Entities.GetRangeToUnit(MyEnt, ent) <= UltiCastRange && Entities.GetHealth(ent) <= UltiDmg
 	}).sort(function(ent1, ent2) {
 		var h1 = Entities.GetHealth(ent1)
@@ -33,6 +18,17 @@ function CullingBlade(MyEnt, HEnts) {
 		else
 			return -1
 	})
+	
+	CullingBlade(MyEnt, HEnts)
+}
+
+function CullingBlade(MyEnt, HEnts) {
+	var Ulti = Entities.GetAbilityByName(MyEnt, "axe_culling_blade")
+	var UltiLvl = Abilities.GetLevel(Ulti)
+	if(UltiLvl === 0 || Abilities.GetCooldownTimeRemaining(Ulti) !== 0 || Entities.GetMana(MyEnt) < Abilities.GetManaCost(Ulti))
+		return
+	var UltiDmg = damage[UltiLvl - 1]
+	var UltiCastRange = Abilities.GetCastRangeFix(Ulti) + 75
 	
 	HEnts.some(function(ent) {
 		if(Fusion.HasLinkenAtTime(ent, Abilities.GetCastPoint(Ulti)))
