@@ -1,11 +1,15 @@
-﻿var MeepoName = 'npc_dota_hero_meepo'
-
-function PoofAllMeeposToMeepo(playerID, To, WithCheck, Queue) {
-	var HEnts = Entities.GetAllEntitiesByClassname(MeepoName).map(function(ent) {
+﻿var playerID = Game.GetLocalPlayerID()
+Fusion.MeepoClassname = 'npc_dota_hero_meepo'
+function GetMeepos() {
+	return Entities.GetAllEntitiesByClassname(Fusion.MeepoClassname).map(function(ent) {
 		return parseInt(ent)
 	}).filter(function(ent) {
 		return Entities.IsAlive(ent) && !Entities.IsBuilding(ent) && !Entities.IsEnemy(ent) && !Entities.IsStunned(ent) && !(WithCheck && ent === To) && Entities.IsControllableByPlayer(ent, playerID) && !Entities.IsIllusion(ent)
-	}).forEach(function(ent) {
+	})
+}
+
+function PoofAllMeeposToMeepo(playerID, To, WithCheck, Queue) {
+	GetMeepos().forEach(function(ent) {
 		var Abil = Game.GetAbilityByName(ent, 'meepo_poof')
 		GameUI.SelectUnit(ent, false)
 		Game.EntStop(ent, false)
@@ -13,12 +17,8 @@ function PoofAllMeeposToMeepo(playerID, To, WithCheck, Queue) {
 	})
 }
 
-function PoofAllMeeposToPos(playerID, To, Queue) {
-	var HEnts = Entities.GetAllEntitiesByClassname(MeepoName).map(function(ent) {
-		return parseInt(ent)
-	}).filter(function(ent) {
-		return Entities.IsAlive(ent) && !Entities.IsBuilding(ent) && !Entities.IsEnemy(ent) && !Entities.IsStunned(ent) && !(WithCheck && ent === To) && Entities.IsControllableByPlayer(ent, playerID) && !Entities.IsIllusion(ent)
-	}).forEach(function(ent) {
+function PoofAllMeeposToPos(playerID, To, WithCheck, Queue) {
+	GetMeepos().forEach(function(ent) {
 		var Abil = Game.GetAbilityByName(ent, 'meepo_poof')
 		GameUI.SelectUnit(ent, false)
 		Game.CastPosition(ent, Abil, To, Queue)
@@ -26,9 +26,7 @@ function PoofAllMeeposToPos(playerID, To, Queue) {
 }
 
 function MeepoAutoPoof(flag, WithCheck) {
-	var playerID = Game.GetLocalPlayerID()
-	
-	if (Players.GetPlayerSelectedHero(playerID) != MeepoName){
+	if (Players.GetPlayerSelectedHero(playerID) != Fusion.MeepoClassname){
 		Game.ScriptLogMsg('MeepoAutoPoof: Not Meepo', '#cccccc')
 		return
 	}
@@ -50,7 +48,7 @@ function MeepoAutoPoof(flag, WithCheck) {
 	if(flag === 2)
 		PoofAllMeeposToMeepo(playerID, MyEnt, WithCheck)
 	if(flag === 3)
-		PoofAllMeeposToPos(playerID, GameUI.GetCursorPosition())
+		PoofAllMeeposToPos(playerID, GameUI.GetCursorPosition(), WithCheck)
 	GameUI.SelectUnit(MyEnt, false)
 }
 
@@ -60,10 +58,12 @@ function MeepoCombo() {
 	var Veil = Game.GetAbilityByName(MyEnt, "item_veil_of_discord")
 	var pos = Game.GetScreenCursonWorldVec()
 	
+	/*
 	if(!MeepoEarthBind(pos)) {
 		Game.ScriptLogMsg('MeepoCombo: All earthbinds are at cooldown/stunned, cannot make combo!', '#cccccc')
 		return
 	}
+	*/
 	
 	var Blink = Game.GetAbilityByName(MyEnt, "item_blink")
 	/*

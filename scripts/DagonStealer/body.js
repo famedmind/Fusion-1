@@ -33,13 +33,12 @@ function AutoDagon(MyEnt, HEnts) {
 		if(!Entities.IsEnemy(ent))
 			continue
 		
-		if(Game.GetMagicMultiplier(MyEnt, ent) === 0)
+		if(Fusion.GetMagicMultiplier(MyEnt, ent) === 0)
 			continue
 		
-		if(Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent)) <= DagonDamage) {
+		if(Fusion.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent)) <= DagonDamage) {
 			GameUI.SelectUnit(MyEnt, false)
 			Game.CastTarget(MyEnt, Dagon, ent, false)
-			Game.EntStop(MyEnt, false)
 		}
 	}
 }

@@ -44,7 +44,7 @@ function CullingBlade(MyEnt, HEnts) {
 	})
 }
 
-var AxeUltiOnCheckBoxClick = function(){
+var AxeUltiOnCheckBoxClick = function() {
 	if (!AxeUlti.checked) {
 		Game.ScriptLogMsg('Script disabled: AxeUlti', '#ff0000')
 		return
@@ -67,4 +67,4 @@ var AxeUltiOnCheckBoxClick = function(){
 	}
 }
 
-var AxeUlti = Game.AddScript("AxeAutoult", AxeUltiOnCheckBoxClick)
+var AxeUlti = Game.AddScript("AutoultAxe", AxeUltiOnCheckBoxClick)

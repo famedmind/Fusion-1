@@ -38,7 +38,7 @@ function AutoUltNecrophosF() {
 		if(Fusion.HasLinkenAtTime(ent, Abilities.GetCastPoint(Ulti)))
 			return false
 		var dmg = (Entities.GetMaxHealth(ent) - Entities.GetHealth(ent)) * DamagePerMissHP
-		var NeededDmg = Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent))
+		var NeededDmg = Fusion.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent))
 		
 		if(NeededDmg <= dmg) {
 			GameUI.SelectUnit(MyEnt,false)

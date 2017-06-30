@@ -77,10 +77,10 @@ function CallMines(MyEnt, ent, callback, explosionCallback) {
 	var mines = Entities.GetAllEntitiesByClassname('npc_dota_techies_mines').filter(function(ent) {
 		return Entities.IsAlive(ent) && Entities.GetUnitName(ent) === 'npc_dota_techies_remote_mine' && Entities.IsValidEntity(ent)
 	})
-	var NeedMagicDmg = Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent))
+	var NeedMagicDmg = Fusion.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent))
 	var rmines = []
 	var rminessumdmg = 0
-	if(Game.GetMagicMultiplier(MyEnt, ent) === 0)
+	if(Fusion.GetMagicMultiplier(MyEnt, ent) === 0)
 		return
 	mines.some(function(rmine) {
 		var buffs = Game.GetBuffs(rmine)
@@ -108,7 +108,7 @@ function CallMines(MyEnt, ent, callback, explosionCallback) {
 			rmines.push(rmine)
 			rminessumdmg += dmg
 			if(rminessumdmg >= NeedMagicDmg) {
-				//if(Fusion.debug)
+				if(Fusion.debug)
 					$.Msg("There's " + rminessumdmg + ", need " + NeedMagicDmg + " for " + Entities.GetUnitName(ent))
 				explosionCallback(MyEnt, ent, rmines, rminessumdmg)
 				return true
@@ -137,7 +137,7 @@ function RemoteMines(MyEnt, HEnts) {
 		return
 	
 	HEnts = HEnts.filter(function(ent) {
-		return Game.GetMagicMultiplier(MyEnt, ent) !== 0
+		return Fusion.GetMagicMultiplier(MyEnt, ent) !== 0
 	})
 	HEnts.forEach(function(ent) {
 		var callBackCalled = false

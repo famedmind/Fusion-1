@@ -14,10 +14,10 @@ function ZeusAutoultF() {
 		var ent = parseInt(HEnts[i])
 		if (!Entities.IsEnemy(ent) || Entities.IsMagicImmune(ent) || !Entities.IsAlive(ent))
 			continue
-		if(Game.GetMagicMultiplier(MyEnt, ent) === 0)
+		if(Fusion.GetMagicMultiplier(MyEnt, ent) === 0)
 			continue
 		
-		if(Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent)) <= UltiDmg) {
+		if(Fusion.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent)) <= UltiDmg) {
 			Game.CastNoTarget(MyEnt, Ulti, false)
 			return
 		}
@@ -49,4 +49,4 @@ var ZeusAutoultOnCheckBoxClick = function(){
 	}
 }
 
-var ZeusAutoult = Game.AddScript('ZeusAutoult', ZeusAutoultOnCheckBoxClick)
+var ZeusAutoult = Game.AddScript('AutoultZeus', ZeusAutoultOnCheckBoxClick)

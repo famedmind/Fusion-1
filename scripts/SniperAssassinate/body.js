@@ -32,7 +32,7 @@ function SniperAssassinateFunc() {
 		if(Fusion.HasLinkenAtTime(ent, 2))
 			return false
 		
-		if(Game.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent)) <= UltiDmg) {
+		if(Fusion.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent)) <= UltiDmg) {
 			GameUI.SelectUnit(MyEnt, false)
 			if(Glimmer !== undefined)
 				Game.CastTarget(MyEnt, Glimmer, MyEnt, false)

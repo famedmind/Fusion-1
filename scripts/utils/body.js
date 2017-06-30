@@ -1,13 +1,23 @@
 ﻿Fusion.LenseBonusRange = 200
 Fusion.ForceStaffUnits = 600
 
+Fusion.GetBuffByName = function(ent, buffName) {
+	var ret
+	Game.GetBuffs(ent).forEach(function(buff) {
+		if(Buffs.GetName(ent, buff) === buffName)
+			ret = buff
+	})
+	
+	return ret
+}
+
 Fusion.LinkenTargetName = "modifier_item_sphere_target"
 Fusion.HasLinkenAtTime = function(ent, time) {
 	var sphere = Game.GetAbilityByName(ent, 'item_sphere')
 	var buffsnames = Game.GetBuffsNames(ent)
 	if (
 		(
-			sphere !== -1 &&
+			sphere !== undefined &&
 			Abilities.GetCooldownTimeRemaining(sphere) - time <= 0
 		) ||
 		buffsnames.indexOf(Fusion.LinkenTargetName) !== -1
@@ -65,7 +75,7 @@ Fusion.ForceStaffPos = function(ent) {
 	return forceVec
 }
 
-Game.IgnoreBuffs = [
+Fusion.IgnoreBuffs = [
 	"modifier_abaddon_borrowed_time",
 	"modifier_skeleton_king_reincarnation_scepter_active",
 	"modifier_brewmaster_primal_split",
@@ -86,7 +96,7 @@ Game.IgnoreBuffs = [
 	"modifier_tusk_snowball_movement_friendly"
 ]
 
-Game.BuffsAbsorbMagicDmg = [
+Fusion.BuffsAbsorbMagicDmg = [
 	["modifier_item_pipe_barrier", 400],
 	["modifier_item_hood_of_defiance_barrier", 400],
 	["modifier_item_infused_raindrop", 120],
@@ -94,12 +104,12 @@ Game.BuffsAbsorbMagicDmg = [
 	["modifier_ember_spirit_flame_guard", [50,200,350,500]]
 ]
 
-Game.BuffsAddMagicDmgForMe = [
+Fusion.BuffsAddMagicDmgForMe = [
 	["item_aether_lens", 1.05],
 	["modifier_bloodseeker_bloodrage", [1.25,1.3,1.35,1.4]]
 ]
 
-Game.DebuffsAddMagicDmg = [
+Fusion.DebuffsAddMagicDmg = [
 	//в большую сторону
 	["modifier_item_veil_of_discord_debuff", 1.25],
 	["modifier_bloodthorn_debuff", 1.3],
@@ -129,39 +139,39 @@ Game.DebuffsAddMagicDmg = [
 	["modifier_antimage_spell_shield", [0.74, 0.66, 0.58, 0.5]]
 ]
 
-Game.GetMagicMultiplier = function(entFrom, entTo) {
+Fusion.GetMagicMultiplier = function(entFrom, entTo) {
 	var multiplier = 1.0
 	var buffsnames = Game.GetBuffsNames(entTo)
 	
-	if (Game.IntersecArrays(buffsnames, Game.IgnoreBuffs) || Entities.IsMagicImmune(entTo))
+	if (Game.IntersecArrays(buffsnames, Fusion.IgnoreBuffs) || Entities.IsMagicImmune(entTo))
 		return 0.0
 	
 	var enemyBuffs = Game.GetBuffs(entTo)
 	var myBuffs = Game.GetBuffs(entFrom)
 	for(var i in enemyBuffs)
-		for(var k in Game.DebuffsAddMagicDmg)
-			if(Buffs.GetName(entTo, enemyBuffs[i]) === Game.DebuffsAddMagicDmg[k][0])
-				if(Array.isArray(Game.DebuffsAddMagicDmg[k][1]))
-					multiplier *= Game.DebuffsAddMagicDmg[k][1][Abilities.GetLevel(Buffs.GetAbility(entTo, enemyBuffs[i])) - 1]
+		for(var k in Fusion.DebuffsAddMagicDmg)
+			if(Buffs.GetName(entTo, enemyBuffs[i]) === Fusion.DebuffsAddMagicDmg[k][0])
+				if(Array.isArray(Fusion.DebuffsAddMagicDmg[k][1]))
+					multiplier *= Fusion.DebuffsAddMagicDmg[k][1][Abilities.GetLevel(Buffs.GetAbility(entTo, enemyBuffs[i])) - 1]
 				else
-					multiplier *= Game.DebuffsAddMagicDmg[k][1]
+					multiplier *= Fusion.DebuffsAddMagicDmg[k][1]
 	
 	for(var i in myBuffs)
-		for(var k in Game.BuffsAddMagicDmgForMe)
-			if(Buffs.GetName(entFrom, myBuffs[i]) === Game.BuffsAddMagicDmgForMe[k][0])
-				if(Array.isArray(Game.BuffsAddMagicDmgForMe[k][1]))
-					multiplier *= Game.BuffsAddMagicDmgForMe[k][1][Abilities.GetLevel(Buffs.GetAbility(entFrom, myBuffs[i])) - 1]
+		for(var k in Fusion.BuffsAddMagicDmgForMe)
+			if(Buffs.GetName(entFrom, myBuffs[i]) === Fusion.BuffsAddMagicDmgForMe[k][0])
+				if(Array.isArray(Fusion.BuffsAddMagicDmgForMe[k][1]))
+					multiplier *= Fusion.BuffsAddMagicDmgForMe[k][1][Abilities.GetLevel(Buffs.GetAbility(entFrom, myBuffs[i])) - 1]
 				else
-					multiplier *= Game.BuffsAddMagicDmgForMe[k][1]
+					multiplier *= Fusion.BuffsAddMagicDmgForMe[k][1]
 	
 	multiplier += Entities.GetArmorReductionForDamageType(entTo, DAMAGE_TYPES.DAMAGE_TYPE_MAGICAL)
 	
 	return multiplier
 }
 
-Game.GetNeededMagicDmg = function(entFrom, entTo, dmg) {
+Fusion.GetNeededMagicDmg = function(entFrom, entTo, dmg) {
 	Game.GetBuffs(entTo).forEach(function(enemyBuff) {
-		Game.BuffsAbsorbMagicDmg.forEach(function(absorbBuff) {
+		Fusion.BuffsAbsorbMagicDmg.forEach(function(absorbBuff) {
 			if(Buffs.GetName(entTo, enemyBuff) === absorbBuff[0])
 				if(Array.isArray(absorbBuff[1]))
 					dmg += absorbBuff[1][Abilities.GetLevel(Buffs.GetAbility(entTo, enemyBuff)) - 1]
@@ -170,7 +180,7 @@ Game.GetNeededMagicDmg = function(entFrom, entTo, dmg) {
 		})
 	})
 	
-	return dmg * Game.GetMagicMultiplier(entFrom, entTo)
+	return dmg * Fusion.GetMagicMultiplier(entFrom, entTo)
 }
 
 Game.AngleBetweenVectors = function(a_pos, a_facing, b_pos) {
