@@ -58,12 +58,12 @@ function EzTechiesF() {
 	}).filter(function(ent) {
 		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent)
 	}).sort(function(ent1, ent2) {
-		var rng1 = Entities.GetHealth(ent1)
-		var rng2 = Entities.GetHealth(ent2)
+		var h1 = Entities.GetHealth(ent1)
+		var h2 = Entities.GetHealth(ent2)
 		
-		if(rng1 === rng2)
+		if(h1 === h2)
 			return 0
-		if(rng1 > rng2)
+		if(h1 > h2)
 			return 1
 		else
 			return -1

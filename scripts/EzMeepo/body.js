@@ -1,6 +1,6 @@
-﻿var playerID = Game.GetLocalPlayerID()
-Fusion.MeepoClassname = 'npc_dota_hero_meepo'
+﻿Fusion.MeepoClassname = 'npc_dota_hero_meepo'
 function GetMeepos() {
+	var playerID = Game.GetLocalPlayerID()
 	return Entities.GetAllEntitiesByClassname(Fusion.MeepoClassname).map(function(ent) {
 		return parseInt(ent)
 	}).filter(function(ent) {
