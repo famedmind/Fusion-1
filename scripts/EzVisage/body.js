@@ -10,19 +10,22 @@ var GetFamiliars = function() {
 
 var EzVisageF = function() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
-	Familiars()
+	Familiars(MyEnt)
 	Souls(MyEnt)
 }
 
+//TODO: realize kills by familiars' stone form (most likely with EzTechies)
 var HealBarrierPercent = 50
-var Familiars = function() {
+var Familiars = function(MyEnt) {
 	GetFamiliars().forEach(function(ent) {
-		//if(Buffs.GetStackCount(MyEnt, Fusion.GetBuffByName(ent, "modifier_visage_summon_familiars_damage_charge")) === 0)
 		var StoneForm = Entities.GetAbilityByName(ent, "visage_summon_familiars_stone_form")
-		if(Entities.GetHealthPercent(ent) <= HealBarrierPercent && Abilities.GetCooldownTimeRemaining(StoneForm) === 0) {
-			GameUI.SelectUnit(ent, false)
-			Game.CastNoTarget(ent, StoneForm, false)
-		}
+		if(Entities.GetHealthPercent(ent) <= HealBarrierPercent/*FIXIT: || Buffs.GetStackCount(MyEnt, Fusion.GetBuffByName(ent, "modifier_visage_summon_familiars_damage_charge")) === 0*/)
+			if(Abilities.GetCooldownTimeRemaining(StoneForm) === 0) {
+				GameUI.SelectUnit(ent, false)
+				Game.CastNoTarget(ent, StoneForm, false)
+				GameUI.SelectUnit(MyEnt, false)
+			} else
+				GameUI.PingMinimapAtLocation(Entities.GetAbsOrigin(ent))
 	})
 }
 var Souls = function(MyEnt) {
