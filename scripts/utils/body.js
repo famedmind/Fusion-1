@@ -3,9 +3,13 @@ Fusion.ForceStaffUnits = 600
 
 Fusion.GetBuffByName = function(ent, buffName) {
 	var ret
-	Game.GetBuffs(ent).forEach(function(buff) {
-		if(Buffs.GetName(ent, buff) === buffName)
+	Game.GetBuffs(ent).some(function(buff) {
+		if(Buffs.GetName(ent, buff) === buffName) {
 			ret = buff
+			return true
+		}
+		
+		return false
 	})
 	
 	return ret
@@ -14,13 +18,12 @@ Fusion.GetBuffByName = function(ent, buffName) {
 Fusion.LinkenTargetName = "modifier_item_sphere_target"
 Fusion.HasLinkenAtTime = function(ent, time) {
 	var sphere = Game.GetAbilityByName(ent, 'item_sphere')
-	var buffsnames = Game.GetBuffsNames(ent)
 	if (
 		(
 			sphere !== undefined &&
 			Abilities.GetCooldownTimeRemaining(sphere) - time <= 0
 		) ||
-		buffsnames.indexOf(Fusion.LinkenTargetName) !== -1
+		Fusion.GetBuffByName(ent) !== undefined
 	)
 		return true
 	
@@ -289,12 +292,12 @@ Game.ScriptLogMsg = function(msg, color) {
 		ScriptLogMessage.style.textShadow = '0px 0px 4px 1.2 ' + color + '33'
 	}
 	ScriptLogMessage.DeleteAsync(7)
-	AnimatePanel( ScriptLogMessage, {"opacity": "0;"}, 2, "linear", 4)
+	Fusion.AnimatePanel( ScriptLogMessage, {"opacity": "0;"}, 2, "linear", 4)
 }
 
 //Функция делает панельку перемещаемой кликом мыши по ней. callback нужен например для того, чтобы сохранить координаты панели в файл
 GameUI.MovePanel = function(a, callback) {
-	var e = function() {
+	a.SetPanelEvent('onactivate', function() {
 		var m = true
 		if (!GameUI.IsControlDown())
 			return
@@ -323,8 +326,7 @@ GameUI.MovePanel = function(a, callback) {
 			)
 		}
 		L()
-	}
-	a.SetPanelEvent('onactivate', e)
+	})
 }
 
 Game.MoveToPos = function(ent, xyz, queue) {
@@ -593,7 +595,7 @@ Game.GetBuffsNames = function(ent) {
 //анимирование панелей. Источник moddota.com
 var AnimatePanel_DEFAULT_DURATION = "300.0ms"
 var AnimatePanel_DEFAULT_EASE = "linear"
-function AnimatePanel(panel, values, duration, ease, delay) {
+Fusion.AnimatePanel = function(panel, values, duration, ease, delay) {
 	var durationString = (duration != null ? parseInt(duration * 1000) + ".0ms" : AnimatePanel_DEFAULT_DURATION)
 	var easeString = (ease != null ? ease : AnimatePanel_DEFAULT_EASE)
 	var delayString = (delay != null ? parseInt(delay * 1000) + ".0ms" : "0.0ms")

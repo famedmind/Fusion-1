@@ -34,7 +34,7 @@ function AxeUltiF() {
 	})
 }
 
-var AxeUltiOnCheckBoxClick = function() {
+function AxeUltiOnCheckBoxClick() {
 	if (!AxeUlti.checked) {
 		Game.ScriptLogMsg('Script disabled: AxeUlti', '#ff0000')
 		return

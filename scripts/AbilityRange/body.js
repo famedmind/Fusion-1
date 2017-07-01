@@ -14,7 +14,7 @@ function GetAbilityRange(Abil) {
 	return Abilities.GetCastRangeFix(abil)
 }
 
-function InventoryChanged(data){
+function InventoryChanged(data) {
 	var MyID = Game.GetLocalPlayerID()
 	if ( MyID==-1 )
 		return
@@ -33,7 +33,7 @@ function InventoryChanged(data){
 	}
 }
 
-Destroy = function(){
+function Destroy() {
 	try{ Fusion.Panels.AbilityRange.DeleteAsync(0) }catch(e){}
 	for (var i in Fusion.Subscribes.AbilityRange.length)
 		try{ GameEvents.Unsubscribe( Fusion.Subscribes.AbilityRange[i] ) }catch(e){}
@@ -43,7 +43,7 @@ Destroy = function(){
 	Fusion.Particles.AbilityRange = []
 }
 
-function SkillLearned(data){
+function SkillLearnedfunction(data) {
 	var MyID = Game.GetLocalPlayerID()
 	var MyEnt = Players.GetPlayerHeroEntityIndex(MyID)
 	if ( data.PlayerID != MyID )
@@ -72,7 +72,7 @@ function SkillLearned(data){
 	CheckB.SetPanelEvent( 'onactivate', chkboxpressed )
 }
 
-function chkboxpressed(){
+function chkboxpressed() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var CheckBs = AbilityRangePanel.Children()
 	for(c=0;c<CheckBs.length;c++){
@@ -95,7 +95,7 @@ function chkboxpressed(){
 	}
 }
 
-AbilityRangeF = function(){
+function AbilityRangeF() {
 	if (AbilityRange.checked){
 		var MyID = Game.GetLocalPlayerID()
 		if ( MyID==-1 ){

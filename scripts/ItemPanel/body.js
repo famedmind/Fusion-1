@@ -80,7 +80,7 @@ function ItemPanelEvery() {
 		$.Schedule(Fusion.MyTick, ItemPanelEvery)
 }
 
-var ItemPanelLoad = function() {
+function ItemPanelLoad() {
 	Fusion.GetXML('ItemPanel/panel', function(a) {
 		Fusion.Panels.ItemPanel = $.CreatePanel('Panel', Fusion.GetMainHUD(), 'ItemPanel1')
 		Fusion.Panels.ItemPanel.BLoadLayoutFromString(a, false, false)

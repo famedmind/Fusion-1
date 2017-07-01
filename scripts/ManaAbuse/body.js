@@ -5,7 +5,7 @@ var AbuseManaItems = [
 	"item_magic_stick",
 	"item_magic_wand"
 ]
-var ManaAbuseF = function() {
+function ManaAbuseF() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var myVec = Entities.GetAbsOrigin(MyEnt)
 	var Inv = Game.GetInventory(MyEnt)

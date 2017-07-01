@@ -98,13 +98,10 @@ function create(){
 		</Panel>\
 	</root>\
 	', false, false)
-	Game.AnimatePanel( Fusion.Panels.AncientCreepStack, {"transform": "rotateX( 35deg );"}, 0.3, "ease-in", 0)
+	Fusion.AnimatePanel( Fusion.Panels.AncientCreepStack, {"transform": "rotateX( 35deg );"}, 0.3, "ease-in", 0)
 	Game.ScriptLogMsg('Script enabled: AncientCreepStack', '#00ff00')
 }
-if(!Game.AncientCreepStackCreate){
-	Game.AncientCreepStackCreate = true
-	Game.AddCommand("__AncientCreepStack_Activate", create, "", 0)
-}
+
 function DrawBox(box){
 	Fusion.Particles.AncientCreepStack.push(DrawLineInGameWorld( [ box[0], box[1], box[4] ], [ box[0], box[3], box[4] ]))
 	Fusion.Particles.AncientCreepStack.push(DrawLineInGameWorld( [ box[2], box[1], box[4] ], [ box[2], box[3], box[4] ]))
@@ -152,7 +149,7 @@ function GetNeutral(ent,maxrange){
 	return [e,mr,n,l,gold,exp]
 }
 function AncientCreepStackF(){
-	if ( !AncientCreepStack.checked || (Game.GetState()!=7 && Game.GetState()!=6)){
+	if ( !AncientCreepStack.checked || Game.GameStateIsBefore(DOTA_GameState.DOTA_GAMERULES_STATE_PRE_GAME)){
 		AncientCreepStack.checked = false
 		destroy()
 		return
@@ -190,7 +187,7 @@ function AncientCreepStackF(){
 	}
 	if(status==1&&!b){
 		GameUI.SelectUnit(ent,false)
-		Game.AttackTarget(ent,GetNeutral(ent,1000)[0],false)
+		Game.MoveToAttackPos(ent, xyz, false) //FIXIT
 		GameUI.SelectUnit(entnow,false)
 	}else if(status==1&&b){
 		if(z>=a[team].length-2){
@@ -224,14 +221,14 @@ function AncientCreepStackU(){
 	Fusion.Panels.AncientCreepStack.Children()[1].text='Gold: ~'+neu[4]
 	Fusion.Panels.AncientCreepStack.Children()[2].text='Exp: ~'+neu[5]
 	var time = (parseInt((Game.GetDOTATime(false,false)%60)*10))/10
-	Game.AnimatePanel( Fusion.Panels.AncientCreepStack, {"transform": "rotateX( 35deg ) translate3d( 0px, "+((time-Math.floor(time))*20)+"px, 0px );"}, 0.3, "ease-in-out", 0)
+	Fusion.AnimatePanel( Fusion.Panels.AncientCreepStack, {"transform": "rotateX( 35deg ) translate3d( 0px, "+((time-Math.floor(time))*20)+"px, 0px );"}, 0.3, "ease-in-out", 0)
 }
 function move(ent,entnow,xyz){
 	GameUI.SelectUnit(ent,false)
 	Game.MoveToPos(ent,xyz,false)
 	GameUI.SelectUnit(entnow,false)
 }
-var AncientCreepStackOnCheckBoxClick = function(){
+function AncientCreepStackOnCheckBoxClick() {
 	if ( !AncientCreepStack.checked ){
 		destroy()
 		Game.ScriptLogMsg('Script disabled: AncientCreepStack', '#ff0000')
@@ -253,3 +250,4 @@ var AncientCreepStackOnCheckBoxClick = function(){
 }
 
 var AncientCreepStack = Game.AddScript('AncientCreepStack', AncientCreepStackOnCheckBoxClick)
+Game.AddCommand("__AncientCreepStack_Activate", create, "", 0)

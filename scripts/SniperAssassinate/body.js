@@ -43,7 +43,7 @@ function SniperAssassinateFunc() {
 	})
 }
 
-var SniperAssassinateOnCheckBoxClick = function(){
+function SniperAssassinateOnCheckBoxClick() {
 	if (!SniperAssassinate.checked) {
 		Fusion.Panels.SniperAssassinate.DeleteAsync(0)
 		Game.ScriptLogMsg('Script disabled: SniperAssassinate', '#ff0000')

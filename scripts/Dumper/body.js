@@ -1,27 +1,23 @@
-function BindCommands() {
-	Game.AddCommand('__DumpEnemyAbilities', Fusion.Commands.DumpEnemyAbilities, '', 0)
-	Game.AddCommand('__StartModifierDebugging', Fusion.Commands.ModifierDebugging.Command, '', 0)
-}
-
 var ModifierDebuggingEnabled = false
-Fusion.Commands.ModifierDebugging = []
-Fusion.Commands.ModifierDebugging.Command = function() {
-	if(ModifierDebuggingEnabled)
-		return
-	ModifierDebuggingEnabled = true
-	Fusion.Commands.ModifierDebugging.Function()
-}
+Fusion.Commands.ModifierDebugging = [
+	Command: function() {
+		if(ModifierDebuggingEnabled)
+			return
+		ModifierDebuggingEnabled = true
+		Fusion.Commands.ModifierDebugging.Function()
+	},
+	Function: function() {
+		var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
+		var buffs = Game.GetBuffsNames(MyEnt)
+		if(!Fusion.DeepEquals(lastBuffs, buffs)) {
+			lastBuffs = buffs
+			$.Msg(buffs)
+		}
+		$.Schedule(Fusion.MyTick, Fusion.Commands.ModifierDebugging.Function)
+	}
+]
 
 var lastBuffs = []
-Fusion.Commands.ModifierDebugging.Function = function() {
-	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
-	var buffs = Game.GetBuffsNames(MyEnt)
-	if(!Fusion.DeepEquals(lastBuffs, buffs)) {
-		lastBuffs = buffs
-		$.Msg(buffs)
-	}
-	$.Schedule(Fusion.MyTick, Fusion.Commands.ModifierDebugging.Function)
-}
 
 Fusion.Commands.DumpEnemyAbilities = function() {
 	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
@@ -54,4 +50,5 @@ Fusion.Commands.DumpEnemyAbilities = function() {
 	})
 }
 
-BindCommands()
+Game.AddCommand('__DumpEnemyAbilities', Fusion.Commands.DumpEnemyAbilities, '', 0)
+Game.AddCommand('__StartModifierDebugging', Fusion.Commands.ModifierDebugging.Command, '', 0)

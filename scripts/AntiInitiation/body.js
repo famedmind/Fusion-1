@@ -201,7 +201,7 @@ function Disable(MyEnt, ent, Abil) {
 }
 
 
-var AntiInitiationToggle = function() {
+function AntiInitiationToggle() {
 	if (!AntiInitiation.checked){
 		Game.ScriptLogMsg('Script disabled: AntiInitiation', '#ff0000')
 		return

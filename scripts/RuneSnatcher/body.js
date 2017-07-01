@@ -1,6 +1,6 @@
 var RuneRadius = 150
 
-var SnatcherF = function() {
+function SnatcherF() {
 	var MyEnt = parseInt(Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID()))
 	if(Game.IsGamePaused() || Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return

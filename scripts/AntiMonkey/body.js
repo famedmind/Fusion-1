@@ -47,7 +47,7 @@ function Disable(MyEnt, ent) {
 	})
 }
 
-var AntiMonkeyF = function() {
+function AntiMonkeyF() {
 	var MyEnt = parseInt(Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID()))
 	if(Game.IsGamePaused() || Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return

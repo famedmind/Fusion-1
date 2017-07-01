@@ -92,7 +92,7 @@ function EMBEvery() {
 		DeleteAll()
 }
 
-EnemyManaBarsF = function() {
+function EnemyManaBarsF() {
 	if (!EnemyManaBars.checked) {
 		Game.ScriptLogMsg('Script disabled: EnemyManaBars', '#ff0000')
 	} else {

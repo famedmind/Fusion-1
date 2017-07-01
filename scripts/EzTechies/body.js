@@ -180,7 +180,7 @@ function RemoteMines(MyEnt, HEnts) {
 	})
 }
 
-var EzTechiesCheckBoxClick = function(){
+function EzTechiesCheckBoxClick() {
 	if (!EzTechies.checked) {
 		Fusion.Particles.EzTechies.forEach(function(par) {
 			Particles.DestroyParticleEffect(par, par)

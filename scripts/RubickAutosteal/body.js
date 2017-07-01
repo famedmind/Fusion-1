@@ -96,7 +96,7 @@ function RubickAutoStealCreatePanel(){
 	}
 }
 
-var RubickAutoStealOnCheckBoxClick = function(){
+function RubickAutoStealOnCheckBoxClick() {
 	if ( !RubickAutoSteal.checked ){
 		try{
 			Fusion.Panels.RubickAutoSteal.DeleteAsync(0)

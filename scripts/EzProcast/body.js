@@ -1,11 +1,11 @@
-﻿try{
+﻿try {
 	Fusion.Panels.EzProcast.DeleteAsync(0)
-	GameEvents.Unsubscribe( parseInt(Fusion.Subscribes.EzProcastonchatmsg) )
-}catch(e){}
+	GameEvents.Unsubscribe(parseInt(Fusion.Subscribes.EzProcastonchatmsg))
+} catch(e) {  }
 	
 var Config = []
 
-Fusion.EzProcastF = function(){
+function EzProcastF() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	var EntOnCursor = GameUI.FindScreenEntities( GameUI.GetCursorPosition() )
 	var pos = Game.GetScreenCursonWorldVec()
@@ -49,7 +49,7 @@ Fusion.EzProcastF = function(){
 	}
 }
 
-EzProcast01OnOffLoad = function(){
+function EzProcast01OnOffLoad() {
 	Fusion.GetXML('EzProcast/panel', function(a){
 		Fusion.Panels.EzProcast = $.CreatePanel( 'Panel', Fusion.GetMainHUD(), 'EzProcast1' )
 		Fusion.Panels.EzProcast.BLoadLayoutFromString( a, false, false )
@@ -99,7 +99,7 @@ function EzProcast01OnOff(){
 	}
 }
 Game.AddCommand('__EzProcast', function() {
-	Fusion.EzProcastF()
+	EzProcastF()
 }, '',0)
 var EzProcast01 = Game.AddScript('EzProcast01', EzProcast01OnOff)
 

@@ -48,14 +48,15 @@ Fusion.ServerRequest = function(name, val, callback) {
 		complete: function(a) {
 			if (a.status === 200 && a.responseText !== null)
 				callback(a.responseText.substring(0, a.responseText.length - 3))
-			else
+			else {
+				var log = "Can't load \"" + name + "\" @ " + val + ", returned " + JSON.stringify(a) + "."
 				if(a.status !== 403 && a.status !== 400) {
-					if(Fusion.debugLoad)
-						$.Msg("Can't load \"" + name + "\" @ " + val + ", returned " + JSON.stringify(a) + ". Trying again.")
+					log += " Trying again."
 					Fusion.ServerRequest(name, val, callback)
-				} else
-					if(Fusion.debugLoad)
-						$.Msg("Can't load \"" + name + "\" @ " + val + ", got " + a.status + ".")
+				}
+				if(Fusion.debugLoad)
+					$.Msg(log)
+			}
 		}
 	}
 	args['data'][name] = val
@@ -74,7 +75,7 @@ Fusion.GetConfig = function(config, callback) {
 	})
 }
 
-Fusion.SaveConfig = function(config, json){
+Fusion.SaveConfig = function(config, json) {
 	Fusion.ServerRequest('writeconfig', JSON.stringify (
 		{
 			"filepath": config,
@@ -109,7 +110,7 @@ Fusion.LoadFusion = function(callback) {
 			if (slider.value !== slider.lastValue) {
 				GameUI.SetCameraDistance(slider.value)
 				Fusion.Panels.MainPanel.FindChildTraverse('CamDist').text = 'Camera distance: ' + Math.floor(slider.value)
-				lastValue = slider.value
+				slider.lastValue = slider.value
 			}
 			$.Schedule(Fusion.MyTick, OnTickSlider)
 		}

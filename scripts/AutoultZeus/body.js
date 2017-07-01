@@ -24,7 +24,7 @@ function ZeusAutoultF() {
 	}
 }
 
-var ZeusAutoultOnCheckBoxClick = function(){
+function ZeusAutoultOnCheckBoxClick() {
 	if (!ZeusAutoult.checked){
 		Game.ScriptLogMsg('Script disabled: ZeusAutoult', '#ff0000')
 		return
