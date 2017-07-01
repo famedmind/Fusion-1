@@ -23,7 +23,7 @@ Fusion.HasLinkenAtTime = function(ent, time) {
 			sphere !== undefined &&
 			Abilities.GetCooldownTimeRemaining(sphere) - time <= 0
 		) ||
-		Fusion.GetBuffByName(ent, Fusion.LinkenTargetName) !== undefined
+		Fusion.GetBuffByName(ent, Fusion.LinkenTargetName) !== -1
 	)
 		return true
 	
