@@ -42,6 +42,7 @@ var StunAbils = [
 	["rubick_telekinesis", false],
 	["pudge_dismember", true],
 	["invoker_cold_snap", true],
+	["invoker_tornado", true],
 	["dark_seer_vacuum", true],
 	["bane_nightmare", true]
 ]
