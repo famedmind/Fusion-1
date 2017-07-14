@@ -5,19 +5,16 @@ S = soon
 XG1 = X Group 1 = can't debug what this uses
 
 ToDo:
-[S] JavaScript obfuscation in server
-[S] Finiah school & make D2JS site
-[S] Make aome really cheaty acripta
+[S] Finiah school & make Fusion site
 [S] ColoredHPBar
-[S] Make "friendly maphack" for custom games & custom games replays
+[S] Make "friendly maphack" for custom games & make custom games replays
 [S] AutoArmlet - press armlet to make many more HP
-[S] Rework rubick autosteal
 [S] Add WTF combos
+[S] Combos for some heroes
+[S] Good GUI with config changing
 
-[D] Good GUI with config changing
-[D] Make server gives client "min" version.
-[D] AegisSnatcher
-[D] Combos for some heroes
+[D] Make server based on NIO (non-blocking IO)
+[D] Rework rubick autosteal
 
 [R] InvokerCombo
 [R] RuneSnatcher
@@ -36,6 +33,7 @@ ToDo:
 
 FixMe:
 [S] Fix command re-binding on reload
+[S] Fix Snatcher
 
 [R] Fix RuneSnatcher, now works: hover rune by mouse, if there's rune - it'll be automatically picked up
 [R] Fix ItemsPanel, EnemyManaBars
