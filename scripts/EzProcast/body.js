@@ -51,7 +51,7 @@ function EzProcastF() {
 
 function EzProcast01OnOffLoad() {
 	Fusion.GetXML('EzProcast/panel', function(a){
-		Fusion.Panels.EzProcast = $.CreatePanel( 'Panel', Fusion.GetMainHUD(), 'EzProcast1' )
+		Fusion.Panels.EzProcast = $.CreatePanel( 'Panel', Fusion.Panels.Main, 'EzProcast1' )
 		Fusion.Panels.EzProcast.BLoadLayoutFromString( a, false, false )
 		GameUI.MovePanel(Fusion.Panels.EzProcast,function(p){
 			var position = p.style.position.split(' ')

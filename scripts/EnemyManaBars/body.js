@@ -1,4 +1,4 @@
-﻿var MainHud = Fusion.GetMainHUD()
+﻿var MainHud = Fusion.Panels.Main
 var uiw, uih
 function DeleteAll() {
 	try {
@@ -96,8 +96,8 @@ function EnemyManaBarsF() {
 	if (!EnemyManaBars.checked) {
 		Game.ScriptLogMsg('Script disabled: EnemyManaBars', '#ff0000')
 	} else {
-		uiw = Fusion.GetMainHUD().actuallayoutwidth
-		uih = Fusion.GetMainHUD().actuallayoutheight
+		uiw = Fusion.Panels.Main.actuallayoutwidth
+		uih = Fusion.Panels.Main.actuallayoutheight
 		Fusion.GetConfig('EnemyManaBars', function(config) {
 			Fusion.Configs.EnemyManaBars = config[0]
 			EMBEvery()

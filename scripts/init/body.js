@@ -9,7 +9,7 @@ Fusion = {
 	debugLoad: true,
 	debugScripts: true,
 	debugAnimations: true,
-	FusionServer: "http://m00fm0nkey.servegame.com:4297",
+	FusionServer: "http://localhost:4297",
 	SteamID: 0
 }
 
@@ -35,7 +35,7 @@ Fusion.LoadScript = function(script) {
 	Fusion.ServerRequest('getscript', script, function(response) {
 		var code = response
 		if(Fusion.debugScripts)
-			code = "try {" + code + "} catch(e) {$.Msg(e.stack)}"
+			code = "try {" + code + "} catch(e) {$.Msg(e)}"
 		eval(code)
 		$.Msg("JScript " + script + " loaded")
 	})
@@ -47,10 +47,10 @@ Fusion.ServerRequest = function(name, val, callback) {
 		data: {},
 		complete: function(a) {
 			if (a.status === 200 && a.responseText !== null)
-				callback(a.responseText.substring(0, a.responseText.length - 3))
+				callback(a.responseText.substring(0, a.responseText.length - 1))
 			else {
 				var log = "Can't load \"" + name + "\" @ " + val + ", returned " + JSON.stringify(a) + "."
-				if(a.status !== 403 && a.status !== 400) {
+				if(a.status - 400 <= 0 || a.status - 400 > 99) {
 					log += " Trying again."
 					Fusion.ServerRequest(name, val, callback)
 				}
@@ -89,10 +89,9 @@ Fusion.SaveConfig = function(config, json) {
 Fusion.StatsEnabled = true
 Fusion.MinimapActsEnabled = true
 Fusion.LoadFusion = function(callback) {
-	var MainHUD = $.GetContextPanel()
 	if(Fusion.Panels.MainPanel !== undefined)
 		Fusion.Panels.MainPanel.DeleteAsync(0)
-	Fusion.Panels.MainPanel = $.CreatePanel('Panel', MainHUD, 'DotaOverlay');
+	Fusion.Panels.MainPanel = $.CreatePanel('Panel', Fusion.Panels.Main, 'DotaOverlay');
 	Fusion.GetXML("init/hud", function(response) {
 		$.Msg("HUD Loaded!")
 		
@@ -123,7 +122,7 @@ Fusion.LoadFusion = function(callback) {
 			Fusion.Panels.MainPanel.ToggleClass('Popup')
 		}, '',0)
 		Game.AddCommand('__ToggleMinimapActs', function() {
-			var panel = Fusion.GetMainHUD()
+			var panel = Fusion.Panels.Main
 			
 			if(panel && (panel = panel.FindChild("HUDElements")))
 			if(panel = panel.FindChild("minimap_container"))
@@ -134,7 +133,7 @@ Fusion.LoadFusion = function(callback) {
 							panel.style.visibility = "collapse"
 		}, '',0)
 		Game.AddCommand('__ToggleStats', function() {
-			var panel = Fusion.GetMainHUD()
+			var panel = Fusion.Panels.Main
 			
 			if(panel && (panel = panel.FindChild("HUDElements")))
 				if(panel = panel.FindChild("quickstats"))
@@ -149,33 +148,29 @@ Fusion.LoadFusion = function(callback) {
 	})
 }
 
-Fusion.GetMainHUD = function() {
+if(Fusion.Panels.MainPanel !== undefined)
+	Fusion.Panels.MainPanel.DeleteAsync(0)
+
+function InstallMainHUD() {
 	var globalContext = $.GetContextPanel()
 	while(true)
 		if(globalContext.paneltype == "DOTAHud")
 			break
 		else
 			globalContext = globalContext.GetParent()
-	return globalContext
+	Fusion.Panels.Main = globalContext
 }
 
-var MainHUD = $.GetContextPanel()
-if(Fusion.Panels.MainPanel !== undefined)
-	Fusion.Panels.MainPanel.DeleteAsync(0)
-
-
-Fusion.OnLoad = function() {
-	function f() {
-		$.Schedule (
-			0.04,
-			function() {
-				if(Players.GetLocalPlayer() !== -1)
-					Fusion.ReloadFusionVanilla()
-				else
-					f()
-			}
-		)
-	}
-	f()
+function f() {
+	$.Schedule (
+		0.04,
+		function() {
+			if(Players.GetLocalPlayer() !== -1)
+				Fusion.ReloadFusionVanilla()
+			else
+				f()
+		}
+	)
 }
-Fusion.OnLoad()
+InstallMainHUD()
+f()

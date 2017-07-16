@@ -65,7 +65,7 @@ function RubickAutoStealF(){
 	}
 }
 function RubickAutoStealCreatePanel(){
-	Fusion.Panels.RubickAutoSteal = $.CreatePanel( 'Panel', Fusion.GetMainHUD(), 'RubickAutoStealAbilities' )
+	Fusion.Panels.RubickAutoSteal = $.CreatePanel( 'Panel', Fusion.Panels.Main, 'RubickAutoStealAbilities' )
 	Fusion.Panels.RubickAutoSteal.BLoadLayoutFromString( '<root><Panel style="border: 1px solid #000;background-color:#000000EE;flow-children:down-wrap;max-width:200px;border-radius:10px;padding:5px 3px;" onactivate="Add()"></Panel></root>', false, false )
 	GameUI.MovePanel(Fusion.Panels.RubickAutoSteal,function(p){
 		var position = p.style.position.split(' ')

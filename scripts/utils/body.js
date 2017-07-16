@@ -303,8 +303,8 @@ GameUI.MovePanel = function(a, callback) {
 			return
 		var color = a.style.backgroundColor
 		a.style.backgroundColor = '#FFFF00FF'
-		var uiw = Fusion.GetMainHUD().actuallayoutwidth
-		var uih = Fusion.GetMainHUD().actuallayoutheight
+		var uiw = Fusion.Panels.Main.actuallayoutwidth
+		var uih = Fusion.Panels.Main.actuallayoutheight
 		linkpanel = function() {
 			a.style.position = (GameUI.GetCursorPosition()[0] / uiw * 100) + '% ' + (GameUI.GetCursorPosition()[1] / uih * 100) + '% ' + '0'
 			if (GameUI.IsMouseDown(0)) {

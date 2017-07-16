@@ -85,7 +85,7 @@ function create(){
 		if(a.entindex_attacker==ent)
 			b=true
 	})
-	Fusion.Panels.AncientCreepStack = $.CreatePanel( "Panel", Fusion.GetMainHUD(), "AncientCreepStack" )
+	Fusion.Panels.AncientCreepStack = $.CreatePanel( "Panel", Fusion.Panels.Main, "AncientCreepStack" )
 	Fusion.Panels.AncientCreepStack.BLoadLayoutFromString( '\
 	<root>\
 		<styles>\

@@ -109,7 +109,7 @@ function AbilityRangeF() {
 			Destroy()
 			return
 		}
-		Fusion.Panels.AbilityRange = $.CreatePanel( 'Panel', Fusion.GetMainHUD(), 'AbilityRangePanel' )
+		Fusion.Panels.AbilityRange = $.CreatePanel( 'Panel', Fusion.Panels.Main, 'AbilityRangePanel' )
 		Fusion.Panels.AbilityRange.BLoadLayoutFromString( "<root><Panel class='AbilityRangePanel' style='flow-children: down;background-color:#00000099;border-radius:15px;padding:20px 0;'></Panel></root>", false, false )
 		GameUI.MovePanel(Fusion.Panels.AbilityRange,function(p){
 			var position = Fusion.Panels.AbilityRange.style.position.split(' ')
@@ -135,7 +135,7 @@ function AbilityRangeF() {
 		Destroy()
 		return
 	}
-	AbilityRangePanel = Fusion.GetMainHUD().FindChildrenWithClassTraverse( 'AbilityRangePanel' )[0]
+	AbilityRangePanel = Fusion.Panels.Main.FindChildrenWithClassTraverse( 'AbilityRangePanel' )[0]
 	for ( i = 0; i < Entities.GetAbilityCount(MyEnt ); i++){
 		Abil = Entities.GetAbility(MyEnt,i)
 		if ( Abil == -1 )
