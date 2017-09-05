@@ -309,7 +309,7 @@ GameUI.MovePanel = function(a, callback) {
 			a.style.position = (GameUI.GetCursorPosition()[0] / uiw * 100) + '% ' + (GameUI.GetCursorPosition()[1] / uih * 100) + '% ' + '0'
 			if (GameUI.IsMouseDown(0)) {
 				m = false
-				a.SetPanelEvent('onactivate', e)
+				a.SetPanelEvent('onactivate', onactivateF)
 				a.style.backgroundColor = color
 				callback(a)
 			}
