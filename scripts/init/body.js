@@ -6,9 +6,9 @@ Fusion = {
 	Subscribes: {},
 	MyTick: 1 / 30,
 	debug: false,
-	debugLoad: true,
+	debugLoad: false,
 	debugScripts: true,
-	debugAnimations: true,
+	debugAnimations: false,
 	FusionServer: "http://localhost:4297",
 	SteamID: 0
 }
@@ -60,7 +60,7 @@ Fusion.ServerRequest = function(name, val, callback) {
 		}
 	}
 	args['data'][name] = val
-	args['data']['steamid'] = Fusion.SteamID
+	args['data']['steamid'] = Fusion.SteamID // comment if you don't wanted in logging your steamid
 	
 	$.AsyncWebRequest(Fusion.FusionServer, args)
 }
