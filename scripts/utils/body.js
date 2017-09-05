@@ -1,4 +1,4 @@
-﻿Fusion.LenseBonusRange = 200
+Fusion.LenseBonusRange = 200
 Fusion.ForceStaffUnits = 600
 
 Fusion.GetBuffByName = function(ent, buffName) {
@@ -297,7 +297,7 @@ Game.ScriptLogMsg = function(msg, color) {
 
 //Функция делает панельку перемещаемой кликом мыши по ней. callback нужен например для того, чтобы сохранить координаты панели в файл
 GameUI.MovePanel = function(a, callback) {
-	a.SetPanelEvent('onactivate', function() {
+	var onactivateF = function() {
 		var m = true
 		if (!GameUI.IsControlDown())
 			return
@@ -326,7 +326,8 @@ GameUI.MovePanel = function(a, callback) {
 			)
 		}
 		L()
-	})
+	}
+	a.SetPanelEvent('onactivate', onactivateF)
 }
 
 Game.MoveToPos = function(ent, xyz, queue) {
