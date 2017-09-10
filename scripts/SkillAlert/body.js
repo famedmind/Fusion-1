@@ -1,17 +1,17 @@
-﻿var positionModifiers = []
+var positionModifiers = []
 var targetModifiers = []
 var waitingPosModifiers = []
 var z = []
 var panels = []
-positionModifiers["modifier_invoker_sun_strike"] = [1.7, "npc_dota_hero_invoker", "invoker_sun_strike", "sounds/vo/announcer_dlc_rick_and_morty/invoker_03.vsnd"]
-positionModifiers["modifier_kunkka_torrent_thinker"] = [1.6, "npc_dota_hero_kunkka", "kunkka_torrent", "sounds/vo/announcer_dlc_rick_and_morty/kunkka_01.vsnd"]
-positionModifiers["modifier_lina_light_strike_array"] = [0.5, "npc_dota_hero_lina", "lina_light_strike_array", "sounds/vo/announcer_dlc_rick_and_morty/lina_02.vsnd"]
-positionModifiers["modifier_leshrac_split_earth_thinker"] = [0.35, "npc_dota_hero_leshrac", "leshrac_split_earth", "sounds/vo/announcer_dlc_rick_and_morty/leshrac_01.vsnd"]
-targetModifiers["modifier_spirit_breaker_charge_of_darkness_vision"] = ["particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_target_mark.vpcf", 1.5, "npc_dota_hero_spirit_breaker", "spirit_breaker_charge_of_darkness", "sounds/vo/announcer_dlc_rick_and_morty/spirit_breaker_01.vsnd"]
-targetModifiers["modifier_tusk_snowball_visible"] = ["particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_target_mark.vpcf", 1.5, "npc_dota_hero_tusk", "tusk_snowball", "sounds/vo/announcer_dlc_rick_and_morty/tusk_01.vsnd"]
-targetModifiers["modifier_life_stealer_infest_effect"] = ["particles/units/heroes/hero_life_stealer/life_stealer_infested_unit_icon.vpcf", 1.5, "npc_dota_hero_life_stealer", "life_stealer_infest", ""]
-targetModifiers["modifier_life_stealer_assimilate_effect"] = ["particles/units/heroes/hero_life_stealer/life_stealer_infested_unit_icon.vpcf", 1.5, "npc_dota_hero_life_stealer", "life_stealer_assimilate", ""]
-waitingPosModifiers["modifier_techies_suicide_leap"] = [1.5, "npc_dota_hero_techies", "techies_suicide", ""]
+positionModifiers["modifier_invoker_sun_strike"] = [1.7, "npc_dota_hero_invoker", "invoker_sun_strike", "invoker_invo_ability_sunstrike_01"]
+positionModifiers["modifier_kunkka_torrent_thinker"] = [1.6, "npc_dota_hero_kunkka", "kunkka_torrent", "kunkka_kunk_ability_torrent_01"]
+positionModifiers["modifier_lina_light_strike_array"] = [0.5, "npc_dota_hero_lina", "lina_light_strike_array", " lina_lina_ability_lightstrike_02"]
+positionModifiers["modifier_leshrac_split_earth_thinker"] = [0.35, "npc_dota_hero_leshrac", "leshrac_split_earth", "leshrac_lesh_ability_split_05"]
+targetModifiers["modifier_spirit_breaker_charge_of_darkness_vision"] = ["particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_target_mark.vpcf", 1.5, "npc_dota_hero_spirit_breaker", "spirit_breaker_charge_of_darkness", "spirit_breaker_spir_ability_charge_17"]
+targetModifiers["modifier_tusk_snowball_visible"] = ["particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_target_mark.vpcf", 1.5, "npc_dota_hero_tusk", "tusk_snowball", " tusk_tusk_snowball_01"]
+targetModifiers["modifier_life_stealer_infest_effect"] = ["particles/units/heroes/hero_life_stealer/life_stealer_infested_unit_icon.vpcf", 1.5, "npc_dota_hero_life_stealer", "life_stealer_infest", "Hero_LifeStealer.Infest"]
+targetModifiers["modifier_life_stealer_assimilate_effect"] = ["particles/units/heroes/hero_life_stealer/life_stealer_infested_unit_icon.vpcf", 1.5, "npc_dota_hero_life_stealer", "life_stealer_assimilate", "Hero_LifeStealer.Assimilate.Target"]
+waitingPosModifiers["modifier_techies_suicide_leap"] = [1.5, "npc_dota_hero_techies", "techies_suicide", "Hero_Techies.Suicide.Arcana"]
 
 function SAlertEvery() {
 	if (!SkillAlert.checked)
@@ -74,9 +74,9 @@ function AlertTarget(modifier, ent) {
 		$.Schedule(modifier[1], function() {
 			delete panels[ent]
 		})
-		if (Fusion.Configs.SkillAlert.EmitSound === "true")
-			Game.EmitSound(modifier[4])
 	}
+	if (Fusion.Configs.SkillAlert.EmitSound === "true")
+		Game.EmitSound(modifier[4])
 }
 
 function AlertPosition(modifier, vec, thinker) {
