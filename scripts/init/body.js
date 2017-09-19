@@ -88,6 +88,7 @@ Fusion.SaveConfig = function(config, json) {
 
 Fusion.StatsEnabled = true
 Fusion.MinimapActsEnabled = true
+Fusion.HUDEnabled = true
 Fusion.LoadFusion = function(callback) {
 	if(Fusion.Panels.MainPanel !== undefined)
 		Fusion.Panels.MainPanel.DeleteAsync(0)
@@ -118,6 +119,15 @@ Fusion.LoadFusion = function(callback) {
 		Fusion.SteamID = Game.GetLocalPlayerInfo().player_steamid
 		Game.AddCommand( '__ReloadFusionVanilla', Fusion.ReloadFusionVanilla, '', 0)
 		Game.AddCommand( '__ReloadFusionCustomGames', Fusion.ReloadFusionCustomGames, '', 0)
+		Game.AddCommand('__ToggleHUD', function() {
+			var panel = Fusion.Panels.Main
+			
+			if(panel && (panel = panel.FindChild("HUDElements")))
+				if(Fusion.HUDEnabled = !Fusion.HUDEnabled)
+						panel.style.visibility = ""
+					else
+						panel.style.visibility = "collapse"
+		}, '',0)
 		Game.AddCommand('__TogglePanel', function() {
 			Fusion.Panels.MainPanel.ToggleClass('Popup')
 		}, '',0)
@@ -125,12 +135,12 @@ Fusion.LoadFusion = function(callback) {
 			var panel = Fusion.Panels.Main
 			
 			if(panel && (panel = panel.FindChild("HUDElements")))
-			if(panel = panel.FindChild("minimap_container"))
-				if(panel = panel.FindChild("GlyphScanContainer"))
-					if(Fusion.MinimapActsEnabled = !Fusion.MinimapActsEnabled)
-							panel.style.visibility = ""
-						else
-							panel.style.visibility = "collapse"
+				if(panel = panel.FindChild("minimap_container"))
+					if(panel = panel.FindChild("GlyphScanContainer"))
+						if(Fusion.MinimapActsEnabled = !Fusion.MinimapActsEnabled)
+								panel.style.visibility = ""
+							else
+								panel.style.visibility = "collapse"
 		}, '',0)
 		Game.AddCommand('__ToggleStats', function() {
 			var panel = Fusion.Panels.Main
