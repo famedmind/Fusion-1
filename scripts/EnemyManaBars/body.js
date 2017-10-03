@@ -20,6 +20,10 @@ function DeleteAll() {
 }
 DeleteAll()
 
+var FlyingHeroes = [
+	"npc_dota_hero_skywrath_mage"
+]
+
 function EMBEvery() {
 	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
 		return parseInt(ent)
@@ -42,13 +46,15 @@ function EMBEvery() {
 			return
 		}
 		var xyz = Entities.GetAbsOrigin(ent)
-		var healthbaroffset = 200
+		var healthbaroffsetGround = 200
+		var healthbaroffsetFlying = 300
+		var healthbaroffset = (FlyingHeroes.indexOf(Entities.GetUnitName(ent)) > -1) ? healthbaroffsetFlying : healthbaroffsetGround
 		if (!xyz || !healthbaroffset) {
 			if (Fusion.Panels.EnemyManaBars[ent])
 				Fusion.Panels.EnemyManaBars[ent].visible = false
 			return
 		}
-		var uix = Game.WorldToScreenX(xyz[0], xyz[1], xyz[2] + healthbaroffset),
+		var uix = Game.WorldToScreenX(xyz[0], xyz[1], xyz[2] + healthbaroffset) - 3,
 			uiy = Game.WorldToScreenY(xyz[0], xyz[1], xyz[2] + healthbaroffset)
 		if (uix == -1 || uiy == -1) {
 			if (Fusion.Panels.EnemyManaBars[ent])
