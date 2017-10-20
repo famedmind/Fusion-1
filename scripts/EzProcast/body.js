@@ -2,8 +2,6 @@
 	Fusion.Panels.EzProcast.DeleteAsync(0)
 	GameEvents.Unsubscribe(parseInt(Fusion.Subscribes.EzProcastonchatmsg))
 } catch(e) {  }
-	
-var Config = []
 
 function EzProcastF() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
@@ -12,20 +10,20 @@ function EzProcastF() {
 	var items = Fusion.Panels.EzProcast.Children()[2].Children()
 	var abils = []
 	for(i in items)
-		if(items[i].Children()[0].paneltype === 'DOTAAbilityImage')
+		if(items[i].Children()[0].paneltype === "DOTAAbilityImage")
 			abils.push(items[i].Children()[0].abilityname)
 		else
-			if(items[i].Children()[0].paneltype === 'DOTAItemImage')
+			if(items[i].Children()[0].paneltype === "DOTAItemImage")
 				abils.push(items[i].Children()[0].itemname)
-	$.Msg('Abils: '+abils)
+	$.Msg("Abils: "+abils)
 	Game.EntStop(MyEnt)
 	for(i in abils){
 		var AbName = abils[i]
 		var Abil = Game.GetAbilityByName(MyEnt,abils[i])
 		var EzPBeh = Game.Behaviors(Abil)
 		var EzPDUTT = Abilities.GetAbilityTargetTeam(Abil)
-		$.Msg('Team Target: '+EzPDUTT)
-		$.Msg('Ability Behavior: '+EzPBeh)
+		$.Msg("Team Target: "+EzPDUTT)
+		$.Msg("Ability Behavior: "+EzPBeh)
 		if(EzPBeh.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_TOGGLE) !== -1)
 			Game.ToggleAbil(MyEnt, Abil)
 		else if(EzPBeh.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_NO_TARGET) !== -1)
@@ -50,18 +48,18 @@ function EzProcastF() {
 }
 
 function EzProcast01OnOffLoad() {
-	Fusion.GetXML('EzProcast/panel', function(a){
-		Fusion.Panels.EzProcast = $.CreatePanel( 'Panel', Fusion.Panels.Main, 'EzProcast1' )
-		Fusion.Panels.EzProcast.BLoadLayoutFromString( a, false, false )
-		GameUI.MovePanel(Fusion.Panels.EzProcast,function(p){
-			var position = p.style.position.split(' ')
-			Config.MainPanel.x = position[0]
-			Config.MainPanel.y = position[1]
-			Fusion.SaveConfig('ezprocast', Config)
+	Fusion.GetXML("EzProcast/panel", function(a){
+		Fusion.Panels.EzProcast = $.CreatePanel("Panel", Fusion.Panels.Main, "EzProcast")
+		Fusion.Panels.EzProcast.BLoadLayoutFromString(a, false, false)
+		GameUI.MovePanel(Fusion.Panels.EzProcast, function(p) {
+			var position = p.style.position.split(" ")
+			Fusion.Configs.EzProcast.MainPanel.x = position[0]
+			Fusion.Configs.EzProcast.MainPanel.y = position[1]
+			Fusion.SaveConfig("EzProcast", Fusion.Configs.EzProcast)
 		})
-		Fusion.GetConfig('ezprocast',function(a){
-			Config = a[0]
-			Fusion.Panels.EzProcast.style.position = Config.MainPanel.x + ' ' + Config.MainPanel.y + ' 0'
+		Fusion.GetConfig("EzProcast", function(config) {
+			Fusion.Configs.EzProcast = config
+			Fusion.Panels.EzProcast.style.position = config.MainPanel.x + " " + config.MainPanel.y + " 0"
 		})
 		
 		var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
@@ -70,8 +68,24 @@ function EzProcast01OnOffLoad() {
 			var Ab = Entities.GetAbility( MyEnt, i )
 			if( !Abilities.IsDisplayedAbility(Ab) || Abilities.IsPassive(Ab) )
 				continue
-			var P = $.CreatePanel( 'Panel', Fusion.Panels.EzProcast.Children()[0], 'EzProcast1Items' )
-			P.BLoadLayoutFromString( '<root><script>function Add(){Parent=$.GetContextPanel().GetParent().GetParent();$.GetContextPanel().SetParent(Parent.Children()[2]);$.GetContextPanel().SetPanelEvent("onactivate", Rem)}function Rem(){Parent=$.GetContextPanel().GetParent().GetParent();$.GetContextPanel().SetParent(Parent.Children()[0]);$.GetContextPanel().SetPanelEvent("onactivate", Add)}</script><Panel style="border: 1px solid #000; border-radius: 10px;" onactivate="Add()"><DOTAAbilityImage /></Panel></root>', false, false )
+			var P = $.CreatePanel( "Panel", Fusion.Panels.EzProcast.Children()[0], "EzProcastItems" )
+			P.BLoadLayoutFromString("\
+<root>\
+	<script>\
+		function Add() {\
+			Parent=$.GetContextPanel().GetParent().GetParent();\
+			$.GetContextPanel().SetParent(Parent.Children()[2]);\
+			$.GetContextPanel().SetPanelEvent('onactivate', function() {\
+				Parent = $.GetContextPanel().GetParent().GetParent();\
+				$.GetContextPanel().SetParent(Parent.Children()[0]);\
+				$.GetContextPanel().SetPanelEvent('onactivate', Add)\
+			})\
+		}\
+	</script>\
+	<Panel style='border: 1px solid #000; border-radius: 10px;' onactivate='Add()'>\
+		<DOTAAbilityImage/>\
+	</Panel>\
+</root>", false, false )
 			P.Children()[0].abilityname = Abilities.GetAbilityName( Ab )
 		}
 		var Inv = Game.GetInventory(MyEnt)
@@ -79,8 +93,24 @@ function EzProcast01OnOffLoad() {
 			Behaviors = Game.Behaviors(Inv[i])
 			if( Behaviors.indexOf(2)!=-1 )
 				continue
-			var P = $.CreatePanel( 'Panel', Fusion.Panels.EzProcast.Children()[0], 'EzProcast1Items2' )
-			P.BLoadLayoutFromString( '<root><script>function Add(){Parent=$.GetContextPanel().GetParent().GetParent();$.GetContextPanel().SetParent(Parent.Children()[2]);$.GetContextPanel().SetPanelEvent("onactivate", Rem)}function Rem(){Parent=$.GetContextPanel().GetParent().GetParent();$.GetContextPanel().SetParent(Parent.Children()[0]);$.GetContextPanel().SetPanelEvent("onactivate", Add)}</script><Panel style="border: 1px solid #000; border-radius: 10px;" onactivate="Add()"><DOTAItemImage /></Panel></root>', false, false )
+			var P = $.CreatePanel( "Panel", Fusion.Panels.EzProcast.Children()[0], "EzProcast1Items2" )
+			P.BLoadLayoutFromString("\
+<root>\
+	<script>\
+		function Add() {\
+			Parent = $.GetContextPanel().GetParent().GetParent();\
+			$.GetContextPanel().SetParent(Parent.Children()[2]);\
+			$.GetContextPanel().SetPanelEvent('onactivate', function() {\
+				Parent=$.GetContextPanel().GetParent().GetParent();\
+				$.GetContextPanel().SetParent(Parent.Children()[0]);\
+				$.GetContextPanel().SetPanelEvent('onactivate', Add)\
+			})\
+		}\
+	</script>\
+	<Panel style='border: 1px solid #000; border-radius: 10px;' onactivate='Add()'>\
+		<DOTAItemImage/>\
+	</Panel>\
+</root>", false, false )
 			P.Children()[0].itemname = Abilities.GetAbilityName( Inv[i] )
 		}
 	});
@@ -91,17 +121,17 @@ function EzProcast01OnOff(){
 		try{
 			Fusion.Panels.EzProcast.DeleteAsync(0)
 		}catch(e){}
-		Game.ScriptLogMsg('Script disabled: EzProcast-V0.1', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: EzProcast", "#ff0000")
 		
 	}else{
 		EzProcast01OnOffLoad()
-		Game.ScriptLogMsg('Script enabled: EzProcast-V0.1', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: EzProcast", "#00ff00")
 	}
 }
-Game.AddCommand('__EzProcast', function() {
+Game.AddCommand("__EzProcast", function() {
 	EzProcastF()
-}, '',0)
-var EzProcast01 = Game.AddScript('EzProcast01', EzProcast01OnOff)
+}, "",0)
+var EzProcast01 = Game.AddScript("EzProcast", EzProcast01OnOff)
 
 /*
 MyID = Game.GetLocalPlayerID()

@@ -12,5 +12,5 @@ function Set1TimeoutForHost() { //Host-antitroll
 	Game.SetRemainingSetupTime(1) 
 }
 
-Game.AddCommand('__SetTimeoutForHost', SetTimeoutForHost, '', 0)
-Game.AddCommand('__Set1TimeoutForHost', Set1TimeoutForHost, '', 0)
+Game.AddCommand("__SetTimeoutForHost", SetTimeoutForHost, "", 0)
+Game.AddCommand("__Set1TimeoutForHost", Set1TimeoutForHost, "", 0)

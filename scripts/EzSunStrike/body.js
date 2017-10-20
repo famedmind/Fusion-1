@@ -48,7 +48,7 @@ function EzSunstrikeOnInterval() {
 	
 function EzSunstrikeOnToggle() {
 	if (!EzSunstrike.checked) {
-		Game.ScriptLogMsg('Script disabled: EzSunstrike', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: EzSunstrike", "#ff0000")
 	} else {
 		function intervalFunc() {
 			$.Schedule(
@@ -61,7 +61,7 @@ function EzSunstrikeOnToggle() {
 			)
 		}
 		intervalFunc()
-		Game.ScriptLogMsg('Script enabled: EzSunstrike', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: EzSunstrike", "#00ff00")
 	}
 }
 

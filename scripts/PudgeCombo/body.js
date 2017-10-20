@@ -7,7 +7,7 @@ function Hook(callback) {
 	enVec = Entities.GetAbsOrigin(ent)
 	//enForwardVec = Entities.GetForward(ent)
 	var
-		hook = Game.GetAbilityByName(MyEnt, 'pudge_meat_hook'),
+		hook = Game.GetAbilityByName(MyEnt, "pudge_meat_hook"),
 		distance = Entities.GetRangeToUnit(MyEnt, ent),
 		reachtime = (distance / hookspeed),
 		angle = Game.AngleBetweenVectors(myVec, myForwardVec, enVec),
@@ -39,17 +39,17 @@ function CancelHook() {
 }
 
 function Rot() {
-	var rot = Game.GetAbilityByName(MyEnt,'pudge_rot'),
+	var rot = Game.GetAbilityByName(MyEnt,"pudge_rot"),
 		userbuffs = Game.GetBuffsNames(ent),
 		MyEntbuffs = Game.GetBuffsNames(MyEnt),
 		distance = Entities.GetRangeToUnit(MyEnt, ent)
 
-	if(!Game.IntersecArrays(MyEntbuffs, ['modifier_pudge_rot']))
+	if(!Game.IntersecArrays(MyEntbuffs, ["modifier_pudge_rot"]))
 		Abilities.ExecuteAbility(rot, MyEnt, false)
 }
 
 function Urn() {
-	var urn = Game.GetAbilityByName(MyEnt, 'item_urn_of_shadows'),
+	var urn = Game.GetAbilityByName(MyEnt, "item_urn_of_shadows"),
 		urncharges = Items.GetCurrentCharges(urn)
 		
 	if(urncharges > 0)
@@ -57,7 +57,7 @@ function Urn() {
 }
 
 function Dismember() {
-	var dismember = Game.GetAbilityByName(MyEnt,'pudge_dismember')
+	var dismember = Game.GetAbilityByName(MyEnt,"pudge_dismember")
 
 	Game.CastTarget(MyEnt, dismember, ent, false)
 }

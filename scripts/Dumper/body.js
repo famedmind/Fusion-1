@@ -1,13 +1,13 @@
 var ModifierDebuggingEnabled = false
 Fusion.Commands.ModifierDebugging = [
-	Command: function() {
+	Command = function() {
 		if(ModifierDebuggingEnabled)
 			return
 		ModifierDebuggingEnabled = true
 		Fusion.Commands.ModifierDebugging.Function()
 	},
-	Function: function() {
-		var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
+	Function = function() {
+		var MyEnt = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer())
 		var buffs = Game.GetBuffsNames(MyEnt)
 		if(!Fusion.DeepEquals(lastBuffs, buffs)) {
 			lastBuffs = buffs
@@ -52,3 +52,6 @@ Fusion.Commands.DumpEnemyAbilities = function() {
 
 Game.AddCommand('__DumpEnemyAbilities', Fusion.Commands.DumpEnemyAbilities, '', 0)
 Game.AddCommand('__StartModifierDebugging', Fusion.Commands.ModifierDebugging.Command, '', 0)
+Game.AddCommand('__eval', function(name, arg1) {
+	eval(arg1)
+}, '', 0)

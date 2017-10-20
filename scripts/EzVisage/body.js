@@ -65,7 +65,7 @@ function Souls(MyEnt) {
 
 function EzVisageOnCheckBoxClick() {
 	if (!EzVisage.checked) {
-		Game.ScriptLogMsg('Script disabled: EzVisage', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: EzVisage", "#ff0000")
 		return
 	} else {
 		function f() {
@@ -76,7 +76,7 @@ function EzVisageOnCheckBoxClick() {
 				})
 		}
 		f()
-		Game.ScriptLogMsg('Script enabled: EzVisage', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: EzVisage", "#00ff00")
 	}
 }
 

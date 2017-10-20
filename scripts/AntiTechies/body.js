@@ -22,7 +22,7 @@ function Disable(MyEnt, ent) {
 		if(distance > Abilities.GetCastRangeFix(abil) || !Abilities.IsCooldownReady(abil) || Abilities.IsHidden(abil) || !Abilities.IsActivated(abil))
 			return false
 		var techiesDist = 1200
-		if(Entities.HasItemInInventory(ent, 'item_aether_lens'))
+		if(Entities.HasItemInInventory(ent, "item_aether_lens"))
 			techiesDist += Fusion.LenseBonusRange
 		var techiesTime = 0.75
 		var techiesSpeed = techiesDist * techiesTime
@@ -59,7 +59,7 @@ function AntiTechiesF() {
 	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
 		return parseInt(ent)
 	}).filter(function(ent) {
-		return Entities.GetUnitName(ent) === "npc_dota_hero_techies" && Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent)
+		return Entities.GetUnitName(ent) === "npc_dota_hero_techies" && Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent))
 	}).some(function(ent) {
 		var buffsNames = Game.GetBuffsNames(ent)
 		buffsNames.some(function(buffName) {
@@ -74,7 +74,7 @@ function AntiTechiesF() {
 
 function AntiTechiesToggle() {
 	if (!AntiTechies.checked) {
-		Game.ScriptLogMsg('Script disabled: AntiTechies', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: AntiTechies", "#ff0000")
 		return
 	} else {
 		function L() {
@@ -84,7 +84,7 @@ function AntiTechiesToggle() {
 			}
 		}
 		L()
-		Game.ScriptLogMsg('Script enabled: AntiTechies', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: AntiTechies", "#00ff00")
 	}
 }
 

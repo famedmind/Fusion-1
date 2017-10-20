@@ -1,4 +1,4 @@
-Fusion.LenseBonusRange = 200
+﻿Fusion.LenseBonusRange = 200
 Fusion.ForceStaffUnits = 600
 
 Fusion.GetBuffByName = function(ent, buffName) {
@@ -8,7 +8,6 @@ Fusion.GetBuffByName = function(ent, buffName) {
 			ret = buff
 			return true
 		}
-		
 		return false
 	})
 	
@@ -17,7 +16,7 @@ Fusion.GetBuffByName = function(ent, buffName) {
 
 Fusion.LinkenTargetName = "modifier_item_sphere_target"
 Fusion.HasLinkenAtTime = function(ent, time) {
-	var sphere = Game.GetAbilityByName(ent, 'item_sphere')
+	var sphere = Game.GetAbilityByName(ent, "item_sphere")
 	if (
 		(
 			sphere !== undefined &&
@@ -55,12 +54,12 @@ Game.GetScreenCursonWorldVec = function() {
 	return Game.ScreenXYToWorld(GameUI.GetCursorPosition()[0], GameUI.GetCursorPosition()[1])
 }
 
-Abilities.GetCastRangeFix = function(abil) { // Don't conflict with internal usage
+Abilities.GetCastRangeFix = function(abil) { // Don"t conflict with internal usage
 	var AbilRange = Abilities.GetCastRange(abil)
 	var Caster = Abilities.GetCaster(abil)
 	
 	var Behaviors = Game.Behaviors(abil)
-	if(Entities.HasItemInInventory(Caster, 'item_aether_lens') && (Behaviors.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT) !== -1 || Behaviors.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_UNIT_TARGET) !== -1))
+	if(Entities.HasItemInInventory(Caster, "item_aether_lens") && (Behaviors.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT) !== -1 || Behaviors.indexOf(DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_UNIT_TARGET) !== -1))
 		AbilRange += Fusion.LenseBonusRange
 	
 	return AbilRange
@@ -257,7 +256,7 @@ Game.GetSpeed = function(ent) {
 Game.VelocityWaypoint = function(ent, time, movespeed) {
 	var zxc = Entities.GetAbsOrigin(ent)
 	var forward = Entities.GetForward(ent)
-	if(typeof movespeed === 'undefined')
+	if(typeof movespeed === "undefined")
 		var movespeed = Game.GetSpeed(ent)
 
 	return [zxc[0] + (forward[0] * movespeed * time),zxc[1] + (forward[1] * movespeed * time),zxc[2]]
@@ -265,11 +264,11 @@ Game.VelocityWaypoint = function(ent, time, movespeed) {
 
 if(Array.isArray(Fusion.Subscribes)) {
 	Fusion.Subscribes.forEach(function(sub) {
-		if (typeof sub === 'number')
+		if (typeof sub === "number")
 			try {
 				GameEvents.Unsubscribe(sub)
 			} catch(e) {}
-		else if(typeof sub === 'object')
+		else if(typeof sub === "object")
 			sub.forEach(function(sub2) {
 				try {
 					GameEvents.Unsubscribe(sub2)
@@ -281,15 +280,18 @@ if(Array.isArray(Fusion.Subscribes)) {
 
 //сообщение в боковую панель
 Game.ScriptLogMsg = function(msg, color) {
-	var ScriptLog = Fusion.Panels.MainPanel.FindChildTraverse('ScriptLog')
+	var ScriptLog = Fusion.Panels.MainPanel.FindChildTraverse("ScriptLog")
 	var ScriptLogMessage = $.CreatePanel( "Label", ScriptLog, "ScriptLogMessage" )
-	ScriptLogMessage.BLoadLayoutFromString( "<root><Label /></root>", false, false)
-	ScriptLogMessage.style.fontSize = '15px'
-	var text = '	•••	' + msg
+	ScriptLogMessage.BLoadLayoutFromString("\
+<root>\
+	<Label/>\
+</root>", false, false)
+	ScriptLogMessage.style.fontSize = "15px"
+	var text = "	•••	" + msg
 	ScriptLogMessage.text = text
 	if (color) {
 		ScriptLogMessage.style.color = color
-		ScriptLogMessage.style.textShadow = '0px 0px 4px 1.2 ' + color + '33'
+		ScriptLogMessage.style.textShadow = "0px 0px 4px 1.2 " + color + "33"
 	}
 	ScriptLogMessage.DeleteAsync(7)
 	Fusion.AnimatePanel( ScriptLogMessage, {"opacity": "0;"}, 2, "linear", 4)
@@ -302,14 +304,14 @@ GameUI.MovePanel = function(a, callback) {
 		if (!GameUI.IsControlDown())
 			return
 		var color = a.style.backgroundColor
-		a.style.backgroundColor = '#FFFF00FF'
+		a.style.backgroundColor = "#FFFF00FF"
 		var uiw = Fusion.Panels.Main.actuallayoutwidth
 		var uih = Fusion.Panels.Main.actuallayoutheight
 		linkpanel = function() {
-			a.style.position = (GameUI.GetCursorPosition()[0] / uiw * 100) + '% ' + (GameUI.GetCursorPosition()[1] / uih * 100) + '% ' + '0'
+			a.style.position = (GameUI.GetCursorPosition()[0] / uiw * 100) + "% " + (GameUI.GetCursorPosition()[1] / uih * 100) + "% " + "0"
 			if (GameUI.IsMouseDown(0)) {
 				m = false
-				a.SetPanelEvent('onactivate', onactivateF)
+				a.SetPanelEvent("onactivate", onactivateF)
 				a.style.backgroundColor = color
 				callback(a)
 			}
@@ -327,7 +329,7 @@ GameUI.MovePanel = function(a, callback) {
 		}
 		L()
 	}
-	a.SetPanelEvent('onactivate', onactivateF)
+	a.SetPanelEvent("onactivate", onactivateF)
 }
 
 Game.MoveToPos = function(ent, xyz, queue) {
@@ -618,15 +620,14 @@ Fusion.AnimatePanel = function(panel, values, duration, ease, delay) {
 Game.CloneObject = function(obj) {
 	if (null == obj || "object" != typeof obj) return obj
 	var copy = obj.constructor()
-	for (var attr in obj) {
+	for (var attr in obj)
 		if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr]
-	}
 	return copy
 }
 
 Game.AddScript = function(scriptName, onCheckBoxClick) {
-	var Temp = $.CreatePanel("Panel", Fusion.Panels.MainPanel.FindChildTraverse('scripts'), scriptName)
-	Temp.SetPanelEvent('onactivate', onCheckBoxClick)
+	var Temp = $.CreatePanel("Panel", Fusion.Panels.MainPanel.FindChildTraverse("scripts"), scriptName)
+	Temp.SetPanelEvent("onactivate", onCheckBoxClick)
 	Temp.BLoadLayoutFromString('\
 		<root>\
 			<styles>\
@@ -647,4 +648,4 @@ Game.AddScript = function(scriptName, onCheckBoxClick) {
 	return $.GetContextPanel().FindChildTraverse(scriptName).Children()[0]
 }
 
-Game.ScriptLogMsg('Utils sucessfull loaded', '#00ff00')
+Game.ScriptLogMsg("Utils sucessfull loaded", "#00ff00")

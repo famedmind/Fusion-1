@@ -12,7 +12,7 @@ function AutoDenyOnInterval() {
 		return
 	
 	if(Entities.GetUnitName(MyEnt) === "npc_dota_hero_pudge") {
-		var Abil = Game.GetAbilityByName(MyEnt, 'pudge_rot')
+		var Abil = Game.GetAbilityByName(MyEnt, "pudge_rot")
 		var AbilLvl = parseInt(Abilities.GetLevel(Abil))
 		if(Entities.GetHealth(MyEnt) <= RotDamage[AbilLvl - 1] * 2)
 			Game.ToggleAbil(MyEnt, Abil, false)
@@ -27,7 +27,7 @@ function AutoDenyOnInterval() {
 
 function AutoDenyOnToggle() {
 	if (!AutoDeny.checked) {
-		Game.ScriptLogMsg('Script disabled: AutoDeny', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: AutoDeny", "#ff0000")
 	} else {
 		function intervalFunc(){
 			$.Schedule(
@@ -40,8 +40,8 @@ function AutoDenyOnToggle() {
 			)
 		}
 		intervalFunc()
-		Game.ScriptLogMsg('Script enabled: AutoDeny', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: AutoDeny", "#00ff00")
 	}
 }
 
-var AutoDeny = Game.AddScript('AutoDeny', AutoDenyOnToggle)
+var AutoDeny = Game.AddScript("AutoDeny", AutoDenyOnToggle)

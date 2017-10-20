@@ -1,4 +1,4 @@
-﻿// 3rd arg means that this ability can't be disabled because of castpoint (ex. eul has 0.0 castpoint)
+﻿// 3rd arg means that this ability can"t be disabled because of castpoint (ex. eul has 0.0 castpoint)
 var HexAbils = [
 	["item_sheepstick", true, true],
 	["lion_voodoo", true, true],
@@ -204,7 +204,7 @@ function Disable(MyEnt, ent, Abil) {
 
 function AntiInitiationToggle() {
 	if (!AntiInitiation.checked){
-		Game.ScriptLogMsg('Script disabled: AntiInitiation', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: AntiInitiation", "#ff0000")
 		return
 	} else {
 		function f() {
@@ -218,8 +218,8 @@ function AntiInitiationToggle() {
 			)
 		}
 		f()
-		Game.ScriptLogMsg('Script enabled: AntiInitiation', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: AntiInitiation", "#00ff00")
 	}
 }
 
-var AntiInitiation = Game.AddScript('AntiInitiation', AntiInitiationToggle)
+var AntiInitiation = Game.AddScript("AntiInitiation", AntiInitiationToggle)

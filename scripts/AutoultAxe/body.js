@@ -36,10 +36,10 @@ function AxeUltiF() {
 
 function AxeUltiOnCheckBoxClick() {
 	if (!AxeUlti.checked) {
-		Game.ScriptLogMsg('Script disabled: AxeUlti', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: AxeUlti", "#ff0000")
 		return
 	} else {
-		if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_axe') {
+		if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != "npc_dota_hero_axe") {
 			AxeUlti.checked = false
 			AxeUltiOnCheckBoxClick()
 			return
@@ -52,7 +52,7 @@ function AxeUltiOnCheckBoxClick() {
 					})
 			}
 			f()
-			Game.ScriptLogMsg('Script enabled: AxeUlti', '#00ff00')
+			Game.ScriptLogMsg("Script enabled: AxeUlti", "#00ff00")
 		}
 	}
 }

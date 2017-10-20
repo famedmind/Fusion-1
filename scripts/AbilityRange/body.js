@@ -7,7 +7,6 @@ for(i in Fusion.Particles.AbilityRange)
 Fusion.Particles.AbilityRange = []
 Fusion.Subscribes.AbilityRange = []
 Fusion.Panels.AbilityRange = []
-var Config = []
 
 function GetAbilityRange(Abil) {
 	var abil = parseInt(Abil)
@@ -43,7 +42,7 @@ function Destroy() {
 	Fusion.Particles.AbilityRange = []
 }
 
-function SkillLearnedfunction(data) {
+function SkillLearned(data) {
 	var MyID = Game.GetLocalPlayerID()
 	var MyEnt = Players.GetPlayerHeroEntityIndex(MyID)
 	if ( data.PlayerID != MyID )
@@ -52,7 +51,7 @@ function SkillLearnedfunction(data) {
 	if ( LearnedAbil == -1 )
 		return
 	Range = GetAbilityRange( LearnedAbil )
-	if ( data.abilityname == 'attribute_bonus' || Range<=0 )
+	if ( data.abilityname == "attribute_bonus" || Range <= 0 )
 		return
 	if (Fusion.Particles.AbilityRange[LearnedAbil]){
 		Particles.DestroyParticleEffect(Fusion.Particles.AbilityRange[LearnedAbil],Fusion.Particles.AbilityRange[LearnedAbil])
@@ -61,15 +60,25 @@ function SkillLearnedfunction(data) {
 	}
 	CheckBs = AbilityRangePanel.Children()
 	for(c=0;c<CheckBs.length;c++){
-		Abil = CheckBs[c].GetAttributeInt('Skill', 0)
+		Abil = CheckBs[c].GetAttributeInt("Skill", 0)
 		if ( Abil == LearnedAbil )
 			return
 	}
 	var CheckB = $.CreatePanel( "ToggleButton", AbilityRangePanel, "AbilityRangeSkill" )
-	CheckB.BLoadLayoutFromString( "<root><styles><include src='s2r://panorama/styles/magadan.css' /><include src='s2r://panorama/styles/dotastyles.vcss_c' /></styles><Panel><ToggleButton class='CheckBox'  style='vertical-align:center;'></ToggleButton><DOTAAbilityImage style='width:30px;margin:30px;border-radius:15px;'/></Panel></root>", false, false)  
+	CheckB.BLoadLayoutFromString("\
+<root>\
+	<styles>\
+		<include src='s2r://panorama/styles/magadan.css'/>\
+		<include src='s2r://panorama/styles/dotastyles.vcss_c'/>\
+	</styles>\
+	<Panel>\
+		<ToggleButton class='CheckBox' style='vertical-align:center;'/>\
+		<DOTAAbilityImage style='width:30px;margin:30px;border-radius:15px;'/>\
+	</Panel>\
+</root>", false, false)  
 	CheckB.Children()[1].abilityname = Abilities.GetAbilityName(LearnedAbil)
-	CheckB.SetAttributeInt('Skill', LearnedAbil)
-	CheckB.SetPanelEvent( 'onactivate', chkboxpressed )
+	CheckB.SetAttributeInt("Skill", LearnedAbil)
+	CheckB.SetPanelEvent( "onactivate", chkboxpressed )
 }
 
 function chkboxpressed() {
@@ -77,7 +86,7 @@ function chkboxpressed() {
 	var CheckBs = AbilityRangePanel.Children()
 	for(c=0;c<CheckBs.length;c++){
 		var Checked = CheckBs[c].Children()[0].checked
-		var Abil = CheckBs[c].GetAttributeInt('Skill', 0)
+		var Abil = CheckBs[c].GetAttributeInt("Skill", 0)
 		if (Abil == 0 )
 			continue
 		if (Checked){
@@ -96,7 +105,7 @@ function chkboxpressed() {
 }
 
 function AbilityRangeF() {
-	if (AbilityRange.checked){
+	if (AbilityRange.checked) {
 		var MyID = Game.GetLocalPlayerID()
 		if ( MyID==-1 ){
 			AbilityRange.checked = false
@@ -109,52 +118,67 @@ function AbilityRangeF() {
 			Destroy()
 			return
 		}
-		Fusion.Panels.AbilityRange = $.CreatePanel( 'Panel', Fusion.Panels.Main, 'AbilityRangePanel' )
-		Fusion.Panels.AbilityRange.BLoadLayoutFromString( "<root><Panel class='AbilityRangePanel' style='flow-children: down;background-color:#00000099;border-radius:15px;padding:20px 0;'></Panel></root>", false, false )
+		Fusion.Panels.AbilityRange = $.CreatePanel( "Panel", Fusion.Panels.Main, "AbilityRangePanel" )
+		Fusion.Panels.AbilityRange.BLoadLayoutFromString("\
+<root>\
+	<Panel class='AbilityRangePanel' style='flow-children: down;background-color:#00000099;border-radius:15px;padding:20px 0;'>\
+	</Panel>\
+</root>", false, false)
 		GameUI.MovePanel(Fusion.Panels.AbilityRange,function(p){
-			var position = Fusion.Panels.AbilityRange.style.position.split(' ')
-			Config.MainPanel.x = position[0]
-			Config.MainPanel.y = position[1]
-			Fusion.SaveConfig('AbilityRange', Config)
+			var position = Fusion.Panels.AbilityRange.style.position.split(" ")
+			Fusion.Configs.AbilityRange.MainPanel.x = position[0]
+			Fusion.Configs.AbilityRange.MainPanel.y = position[1]
+			Fusion.SaveConfig("AbilityRange", Fusion.Configs.AbilityRange)
 		})
-		Fusion.GetConfig('AbilityRange',function(a){
-			Config = a[0]
-			Fusion.Panels.AbilityRange.style.position = Config.MainPanel.x + ' ' + Config.MainPanel.y + ' 0'
-			Fusion.Panels.AbilityRange.style.flowChildren = Config.MainPanel.flow
-		});
-		Game.AddCommand( '__AbilityRange_Rotate', function(){
-			if (Fusion.Panels.AbilityRange.style.flowChildren == 'right')
-				Fusion.Panels.AbilityRange.style.flowChildren = 'down'
+		Fusion.GetConfig("AbilityRange",function(config) {
+			Fusion.Configs.AbilityRange = config
+			Fusion.Panels.AbilityRange.style.position = config.MainPanel.x + " " + config.MainPanel.y + " 0"
+			Fusion.Panels.AbilityRange.style.flowChildren = config.MainPanel.flow
+		})
+		Game.AddCommand( "__AbilityRange_Rotate", function() {
+			var panel = Fusion.Panels.AbilityRange
+			if (panel.style.flowChildren == "right")
+				panel.style.flowChildren = "down"
 			else
-				Fusion.Panels.AbilityRange.style.flowChildren = 'right'
-			Config.MainPanel.flow = Fusion.Panels.AbilityRange.style.flowChildren
-			Fusion.SaveConfig('AbilityRange', Config)
-		}, '',0 )
-	}else{
-		Game.ScriptLogMsg('Script disabled: AbilityRange', '#ff0000')
+				panel.style.flowChildren = "right"
+			Fusion.Configs.AbilityRange.MainPanel.flow = panel.style.flowChildren
+			Fusion.SaveConfig("AbilityRange", Fusion.Configs.AbilityRange)
+		}, "",0)
+	} else {
+		Game.ScriptLogMsg("Script disabled: AbilityRange", "#ff0000")
 		Destroy()
 		return
 	}
-	AbilityRangePanel = Fusion.Panels.Main.FindChildrenWithClassTraverse( 'AbilityRangePanel' )[0]
+	AbilityRangePanel = Fusion.Panels.Main.FindChildrenWithClassTraverse("AbilityRangePanel")[0]
 	for ( i = 0; i < Entities.GetAbilityCount(MyEnt ); i++){
 		Abil = Entities.GetAbility(MyEnt,i)
 		if ( Abil == -1 )
 			continue
 		Range = GetAbilityRange( Abil )
-		if (Abilities.GetAbilityName(Abil) == 'attribute_bonus' || Range<=0 )
+		if (Abilities.GetAbilityName(Abil) == "attribute_bonus" || Range<=0 )
 			continue
 		Behavior = Abilities.GetBehavior( Abil )
 		CheckB = $.CreatePanel( "ToggleButton", AbilityRangePanel, "AbilityRangeSkill" )
-		CheckB.BLoadLayoutFromString( "<root><styles><include src='s2r://panorama/styles/magadan.css' /><include src='s2r://panorama/styles/dotastyles.vcss_c' /></styles><Panel><ToggleButton class='CheckBox'  style='vertical-align:center;'></ToggleButton><DOTAAbilityImage style='width:30px;margin:3px;border-radius:15px;'/></Panel></root>", false, false)  
+		CheckB.BLoadLayoutFromString("\
+<root>\
+	<styles>\
+		<include src='s2r://panorama/styles/magadan.css'/>\
+		<include src='s2r://panorama/styles/dotastyles.vcss_c'/>\
+	</styles>\
+	<Panel>\
+		<ToggleButton class='CheckBox' style='vertical-align:center;'/>\
+		<DOTAAbilityImage style='width:30px;margin:3px;border-radius:15px;'/>\
+	</Panel>\
+</root>", false, false)
 		CheckB.Children()[1].abilityname = Abilities.GetAbilityName(Abil)
-		CheckB.SetAttributeInt('Skill', Abil)
-		CheckB.SetPanelEvent( 'onactivate', chkboxpressed )
+		CheckB.SetAttributeInt("Skill", Abil)
+		CheckB.SetPanelEvent( "onactivate", chkboxpressed )
 	}
-	Fusion.Subscribes.AbilityRange.push( GameEvents.Subscribe('dota_player_learned_ability', SkillLearned) )
-	Fusion.Subscribes.AbilityRange.push( GameEvents.Subscribe('dota_inventory_changed', InventoryChanged) )
-	Game.ScriptLogMsg('Script enabled: AbilityRange', '#00ff00')
+	Fusion.Subscribes.AbilityRange.push( GameEvents.Subscribe("dota_player_learned_ability", SkillLearned) )
+	Fusion.Subscribes.AbilityRange.push( GameEvents.Subscribe("dota_inventory_changed", InventoryChanged) )
+	Game.ScriptLogMsg("Script enabled: AbilityRange", "#00ff00")
 }
 
-var AbilityRange = Game.AddScript('AbilityRange', AbilityRangeF)
+var AbilityRange = Game.AddScript("AbilityRange", AbilityRangeF)
 Destroy()
 AbilityRange.checked = false

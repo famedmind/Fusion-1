@@ -1,4 +1,4 @@
-﻿Fusion.MeepoClassname = 'npc_dota_hero_meepo'
+﻿Fusion.MeepoClassname = "npc_dota_hero_meepo"
 function GetMeepos() {
 	var playerID = Game.GetLocalPlayerID()
 	return Entities.GetAllEntitiesByClassname(Fusion.MeepoClassname).map(function(ent) {
@@ -10,7 +10,7 @@ function GetMeepos() {
 
 function PoofAllMeeposToMeepo(playerID, To, WithCheck, Queue) {
 	GetMeepos().forEach(function(ent) {
-		var Abil = Game.GetAbilityByName(ent, 'meepo_poof')
+		var Abil = Game.GetAbilityByName(ent, "meepo_poof")
 		GameUI.SelectUnit(ent, false)
 		Game.EntStop(ent, false)
 		Game.CastTarget(ent, Abil, To, Queue)
@@ -19,7 +19,7 @@ function PoofAllMeeposToMeepo(playerID, To, WithCheck, Queue) {
 
 function PoofAllMeeposToPos(playerID, To, WithCheck, Queue) {
 	GetMeepos().forEach(function(ent) {
-		var Abil = Game.GetAbilityByName(ent, 'meepo_poof')
+		var Abil = Game.GetAbilityByName(ent, "meepo_poof")
 		GameUI.SelectUnit(ent, false)
 		Game.CastPosition(ent, Abil, To, Queue)
 	})
@@ -27,7 +27,7 @@ function PoofAllMeeposToPos(playerID, To, WithCheck, Queue) {
 
 function MeepoAutoPoof(flag, WithCheck) {
 	if (Players.GetPlayerSelectedHero(playerID) != Fusion.MeepoClassname){
-		Game.ScriptLogMsg('MeepoAutoPoof: Not Meepo', '#cccccc')
+		Game.ScriptLogMsg("MeepoAutoPoof: Not Meepo", "#cccccc")
 		return
 	}
 	
@@ -43,7 +43,7 @@ function MeepoAutoPoof(flag, WithCheck) {
 		if(EntsOnCursor.length != 0)
 			PoofAllMeeposToMeepo(playerID, EntsOnCursor[0].entityIndex, WithCheck)
 		else
-			Game.ScriptLogMsg('MeepoAutoPoof: No Meepo at cursor', '#cccccc')
+			Game.ScriptLogMsg("MeepoAutoPoof: No Meepo at cursor", "#cccccc")
 	}
 	if(flag === 2)
 		PoofAllMeeposToMeepo(playerID, MyEnt, WithCheck)
@@ -60,7 +60,7 @@ function MeepoCombo() {
 	
 	/*
 	if(!MeepoEarthBind(pos)) {
-		Game.ScriptLogMsg('MeepoCombo: All earthbinds are at cooldown/stunned, cannot make combo!', '#cccccc')
+		Game.ScriptLogMsg("MeepoCombo: All earthbinds are at cooldown/stunned, cannot make combo!", "#cccccc")
 		return
 	}
 	*/
@@ -68,11 +68,11 @@ function MeepoCombo() {
 	var Blink = Game.GetAbilityByName(MyEnt, "item_blink")
 	/*
 	if(Blink === undefined) {
-		Game.ScriptLogMsg('MeepoCombo: No blink, cannot make combo!', '#cccccc')
+		Game.ScriptLogMsg("MeepoCombo: No blink, cannot make combo!", "#cccccc")
 		return
 	}
 	if(Abilities.GetCooldownTimeRemaining(Blink) !== 0) {
-		Game.ScriptLogMsg('MeepoCombo: Blink are at cooldown, cannot make combo!', '#cccccc')
+		Game.ScriptLogMsg("MeepoCombo: Blink are at cooldown, cannot make combo!", "#cccccc")
 		return
 	}
 	*/
@@ -94,9 +94,9 @@ function MeepoEarthBind(pos) {
 	}).filter(function(ent) {
 		return Entities.IsAlive(ent) && !Entities.IsEnemy(ent) && !Entities.IsStunned(ent) && Entities.IsControllableByPlayer(ent, playerID) && !Entities.IsIllusion(ent)
 	}).some(function(ent) {
-		var Abil = Game.GetAbilityByName(ent, 'meepo_earthbind')
+		var Abil = Game.GetAbilityByName(ent, "meepo_earthbind")
 		if(Abilities.GetCooldownTimeRemaining(Abil) === 0) {
-			var EarthBind = Game.GetAbilityByName(ent, 'meepo_earthbind')
+			var EarthBind = Game.GetAbilityByName(ent, "meepo_earthbind")
 			GameUI.SelectUnit(ent, false)
 			Game.CastPosition(ent, EarthBind, pos, false)
 			return true
@@ -105,28 +105,28 @@ function MeepoEarthBind(pos) {
 	})
 }
 
-Game.AddCommand('__MeepoAutoPoof_ToSelected', function() {
+Game.AddCommand("__MeepoAutoPoof_ToSelected", function() {
 	MeepoAutoPoof(0, true)
-}, '', 0)
-Game.AddCommand('__MeepoAutoPoof_ToCursor', function() {
+}, "", 0)
+Game.AddCommand("__MeepoAutoPoof_ToCursor", function() {
 	MeepoAutoPoof(1, true)
-}, '', 0)
-Game.AddCommand('__MeepoAutoPoof_ToMain', function() {
+}, "", 0)
+Game.AddCommand("__MeepoAutoPoof_ToMain", function() {
 	MeepoAutoPoof(2, true)
-}, '', 0)
+}, "", 0)
 
-Game.AddCommand('__MeepoAutoPoof_ToSelected_All', function() {
+Game.AddCommand("__MeepoAutoPoof_ToSelected_All", function() {
 	MeepoAutoPoof(0, false)
-}, '', 0)
-Game.AddCommand('__MeepoAutoPoof_ToCursor_All', function() {
+}, "", 0)
+Game.AddCommand("__MeepoAutoPoof_ToCursor_All", function() {
 	MeepoAutoPoof(1, false)
-}, '', 0)
-Game.AddCommand('__MeepoAutoPoof_ToMain_All', function() {
+}, "", 0)
+Game.AddCommand("__MeepoAutoPoof_ToMain_All", function() {
 	MeepoAutoPoof(2, false)
-}, '', 0)
+}, "", 0)
 
-Game.AddCommand('__MeepoEarthBind', function() {
+Game.AddCommand("__MeepoEarthBind", function() {
 	MeepoEarthBind(Game.GetScreenCursonWorldVec())
-}, '', 0)
+}, "", 0)
 
-Game.AddCommand('__MeepoCombo', MeepoCombo, '', 0)
+Game.AddCommand("__MeepoCombo", MeepoCombo, "", 0)

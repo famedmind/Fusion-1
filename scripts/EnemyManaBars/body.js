@@ -20,10 +20,6 @@ function DeleteAll() {
 }
 DeleteAll()
 
-var FlyingHeroes = [
-	"npc_dota_hero_skywrath_mage"
-]
-
 function EMBEvery() {
 	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
 		return parseInt(ent)
@@ -39,7 +35,7 @@ function EMBEvery() {
 		if (!Entities.IsEnemy(ent) || !Entities.IsAlive(ent) || Game.IsIllusion(ent)) {
 			if (Fusion.Panels.EnemyManaBars[ent])
 				Fusion.Panels.EnemyManaBars[ent].visible = false
-			if(Entities.IsEnemy(ent) && Game.IsIllusion(ent) && typeof Fusion.Particles.EnemyManaBars[ent] === 'undefined' && Fusion.Configs.EnemyManaBars.DisplayParticle) {
+			if(Entities.IsEnemy(ent) && Game.IsIllusion(ent) && typeof Fusion.Particles.EnemyManaBars[ent] === "undefined" && Fusion.Configs.EnemyManaBars.DisplayParticle) {
 				Fusion.Particles.EnemyManaBars[ent] = Particles.CreateParticle("particles/dark_smoke_test.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, ent)
 				Particles.SetParticleControl(Fusion.Particles.EnemyManaBars[ent], 1, [500, 0, 0])
 			}
@@ -54,7 +50,7 @@ function EMBEvery() {
 				Fusion.Panels.EnemyManaBars[ent].visible = false
 			return
 		}
-		var uix = Game.WorldToScreenX(xyz[0], xyz[1], xyz[2] + healthbaroffset) - 3,
+		var uix = Game.WorldToScreenX(xyz[0], xyz[1], xyz[2] + healthbaroffset),
 			uiy = Game.WorldToScreenY(xyz[0], xyz[1], xyz[2] + healthbaroffset)
 		if (uix == -1 || uiy == -1) {
 			if (Fusion.Panels.EnemyManaBars[ent])
@@ -63,7 +59,7 @@ function EMBEvery() {
 		}
 		var uixp = uix / uiw * 100
 		var uiyp = uiy / uih * 100
-		if (!isFinite(uixp) || !isFinite(uiyp) || !uixp || !uiyp) {
+		if (!isFinite(uixp) && !isFinite(uiyp) && !uixp && !uiyp) {
 			if (Fusion.Panels.EnemyManaBars[ent])
 				Fusion.Panels.EnemyManaBars[ent].visible = false
 			return
@@ -71,16 +67,15 @@ function EMBEvery() {
 		if (!Fusion.Panels.EnemyManaBars[ent]) {
 			Fusion.Panels.EnemyManaBars[ent] = $.CreatePanel("Panel", MainHud, "EnemyManaBar")
 			Fusion.Panels.EnemyManaBars[ent].BLoadLayoutFromString("\
-				<root>\
-					<Panel style='margin: -22px 0 0 -52px;width:103px;height:15px;background-color:#000000ff;border: 1px solid #333;' class='EnemyManaBar'>\
-						<Panel 	style='width:60%;height:100%;background-color:#4444ffff;'/>\
-						<Label style='color:#ffffff55;font-size:13px;font-weight: bold;width:100%;opacity:0.5;text-align: center;' text='60%'/>\
-					</Panel>\
-				</root>\
-			", false, false)
+<root>\
+	<Panel style='margin: -22px 0 0 -52px; width: 103px; height: 15px; background-color: #000000ff; border: 1px solid #333;' class='EnemyManaBar'>\
+		<Panel style='width: 60%; height: 100%; background-color: #4444ffff;'/>\
+			<Label style='color:#ffffff55;font-size:13px;font-weight: bold;width:100%;opacity:0.5;text-align: center;' text='60%'/>\
+		</Panel>\
+</root>", false, false)
 		}
 		Fusion.Panels.EnemyManaBars[ent].visible = true
-		Fusion.Panels.EnemyManaBars[ent].style.position = uixp + '% ' + uiyp + '% 0'
+		Fusion.Panels.EnemyManaBars[ent].style.position = uixp + "% " + uiyp + "% 0"
 		var Mana = Entities.GetMana(parseInt(ent))
 		var MaxMana = Entities.GetMaxMana(parseInt(ent))
 		var ManaPercent = Math.floor(Mana / MaxMana * 100)
@@ -89,8 +84,8 @@ function EMBEvery() {
 				Fusion.Panels.EnemyManaBars[ent].visible = false
 			return
 		}
-		Fusion.Panels.EnemyManaBars[ent].Children()[0].style.width = ManaPercent + '%'
-		Fusion.Panels.EnemyManaBars[ent].Children()[1].text = ManaPercent + '%'
+		Fusion.Panels.EnemyManaBars[ent].Children()[0].style.width = ManaPercent + "%"
+		Fusion.Panels.EnemyManaBars[ent].Children()[1].text = ManaPercent + "%"
 	})
 	if(EnemyManaBars.checked)
 		$.Schedule(Fusion.MyTick, EMBEvery)
@@ -100,16 +95,16 @@ function EMBEvery() {
 
 function EnemyManaBarsF() {
 	if (!EnemyManaBars.checked) {
-		Game.ScriptLogMsg('Script disabled: EnemyManaBars', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: EnemyManaBars", "#ff0000")
 	} else {
 		uiw = Fusion.Panels.Main.actuallayoutwidth
 		uih = Fusion.Panels.Main.actuallayoutheight
-		Fusion.GetConfig('EnemyManaBars', function(config) {
-			Fusion.Configs.EnemyManaBars = config[0]
+		Fusion.GetConfig("EnemyManaBars", function(config) {
+			Fusion.Configs.EnemyManaBars = config
 			EMBEvery()
 		})
-		Game.ScriptLogMsg('Script enabled: EnemyManaBars', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: EnemyManaBars", "#00ff00")
 	}
 }
 		
-var EnemyManaBars = Game.AddScript('EnemyManaBars', EnemyManaBarsF)
+var EnemyManaBars = Game.AddScript("EnemyManaBars", EnemyManaBarsF)

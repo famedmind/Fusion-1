@@ -73,7 +73,7 @@ Fusion.GetDagonDamage = function(dagon) {
 
 function DagonStealerOnToggle() {
 	if (!DagonStealer.checked) {
-		Game.ScriptLogMsg('Script disabled: DagonStealer', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: DagonStealer", "#ff0000")
 	} else {
 		function intervalFunc(){
 			$.Schedule(
@@ -86,8 +86,8 @@ function DagonStealerOnToggle() {
 			)
 		}
 		intervalFunc()
-		Game.ScriptLogMsg('Script enabled: DagonStealer', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: DagonStealer", "#00ff00")
 	}
 }
 
-var DagonStealer = Game.AddScript('DagonStealer', DagonStealerOnToggle)
+var DagonStealer = Game.AddScript("DagonStealer", DagonStealerOnToggle)

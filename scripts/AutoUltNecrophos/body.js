@@ -6,7 +6,7 @@ var StunDuration = 1.5
 
 function AutoUltNecrophosF() {
 	var MyEnt = parseInt(Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID()))
-	var Ulti = Entities.GetAbilityByName(MyEnt, 'necrolyte_reapers_scythe')
+	var Ulti = Entities.GetAbilityByName(MyEnt, "necrolyte_reapers_scythe")
 	var UltiRange = Abilities.GetCastRangeFix(Ulti)
 	
 	var UltiLvl = Abilities.GetLevel(Ulti)
@@ -20,7 +20,7 @@ function AutoUltNecrophosF() {
 	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
 		return parseInt(ent)
 	}).filter(function(ent) {
-		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent) && Entities.GetRangeToUnit(MyEnt, ent) <= UltiRange && !Entities.IsMagicImmune(ent)
+		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.GetRangeToUnit(MyEnt, ent) <= UltiRange && !Entities.IsMagicImmune(ent)
 	}).sort(function(ent1, ent2) {
 		var h1 = Entities.GetHealth(ent1)
 		var h2 = Entities.GetHealth(ent2)
@@ -65,12 +65,12 @@ function AutoUltNecrophosF() {
 function AutoUltNecrophosOnCheckBoxClick() {
 	if (!AutoUltNecrophos.checked) {
 		Fusion.Panels.AutoUltNecrophos.DeleteAsync(0)
-		Game.ScriptLogMsg('Script disabled: AutoUltNecrophos', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: AutoUltNecrophos", "#ff0000")
 		return
 	}
-	if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) !== 'npc_dota_hero_necrolyte') {
+	if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) !== "npc_dota_hero_necrolyte") {
 		AutoUltNecrophos.checked = false
-		Game.ScriptLogMsg('AutoUltNecrophos: Not Nercophos', '#ff0000')
+		Game.ScriptLogMsg("AutoUltNecrophos: Not Nercophos", "#ff0000")
 		return
 	}
 
@@ -85,7 +85,7 @@ function AutoUltNecrophosOnCheckBoxClick() {
 		)
 	}
 	f()
-	Game.ScriptLogMsg('Script enabled: AutoUltNecrophos', '#00ff00')
+	Game.ScriptLogMsg("Script enabled: AutoUltNecrophos", "#00ff00")
 }
 
 var AutoUltNecrophos = Game.AddScript("AutoUltNecrophos", AutoUltNecrophosOnCheckBoxClick)

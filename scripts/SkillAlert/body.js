@@ -1,4 +1,4 @@
-var positionModifiers = []
+﻿var positionModifiers = []
 var targetModifiers = []
 var waitingPosModifiers = []
 var z = []
@@ -17,7 +17,7 @@ function SAlertEvery() {
 	if (!SkillAlert.checked)
 		return
 	
-	Entities.GetAllEntitiesByName('npc_dota_thinker').map(function(thinker) {
+	Entities.GetAllEntitiesByName("npc_dota_thinker").map(function(thinker) {
 		var vec = Entities.GetAbsOrigin(thinker)
 		var buffsnames = Game.GetBuffsNames(thinker)
 		if(buffsnames.length !== 2)
@@ -35,17 +35,17 @@ function SAlertEvery() {
 	}).forEach(function(ent) {
 		var buffs = Game.GetBuffsNames(ent)
 		//if(Entities.IsEnemy(ent))
-			//$.Msg(buffs)
+			//if(buffs.length > 0 && Entities.IsControllableByPlayer(ent, 0)) $.Msg(buffs)
 		var xyz = Entities.GetAbsOrigin(ent)
 		
 		buffs.forEach(function(buff) {
 			var modifier = targetModifiers[buff]
-			if(typeof modifier !== 'undefined' && modifier !== [])
+			if(typeof modifier !== "undefined" && modifier !== [])
 				AlertTarget(modifier, ent)
 			else {
 				var modifier = waitingPosModifiers[buff]
-				if(typeof modifier !== 'undefined' && modifier !== [])
-					;//AlertPosition(modifier, ent)
+				if(typeof modifier !== "undefined" && modifier !== [])
+					; //AlertTarget(modifier, ent) // AlertPosition
 			}
 		})
 	})
@@ -56,7 +56,7 @@ function SAlertEvery() {
 function AlertTarget(modifier, ent) {
 	CreateFollowParticle(modifier[0], modifier[1], ent)
 	if(Fusion.Panels.ItemPanel !== undefined && Fusion.Configs.SkillAlert.Notify === "true" && panels[ent] === undefined) {
-		var A = $.CreatePanel('Panel', Fusion.Panels.ItemPanel, 'Alert' + ent)
+		var A = $.CreatePanel("Panel", Fusion.Panels.ItemPanel, "Alert" + ent)
 		A.BLoadLayoutFromString('\
 <root>\
 	<Panel style="width:100%;height:37px;background-color:#111;">\
@@ -64,8 +64,7 @@ function AlertTarget(modifier, ent) {
 		<DOTAAbilityImage abilityname="" style="vertical-align:center;width:60px;height:35px;position:60px;"/>\
 		<DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:120px;"/>\
 	</Panel>\
-</root>\
-		', false, false)
+</root>', false, false)
 		A.Children()[0].heroname = modifier[2]
 		A.Children()[1].abilityname = modifier[3]
 		A.Children()[2].heroname = Entities.GetUnitName(ent)
@@ -75,22 +74,21 @@ function AlertTarget(modifier, ent) {
 			delete panels[ent]
 		})
 	}
-	if (Fusion.Configs.SkillAlert.EmitSound === "true")
+	if(Fusion.Configs.SkillAlert.EmitSound === "true")
 		Game.EmitSound(modifier[4])
 }
 
 function AlertPosition(modifier, vec, thinker) {
 	CreateTimerParticle(vec, modifier[0], thinker)
 	if(Fusion.Panels.ItemPanel !== undefined && Fusion.Configs.SkillAlert.Notify === "true" && panels[thinker] === undefined) {
-		var A = $.CreatePanel('Panel', Fusion.Panels.ItemPanel, 'Alert' + thinker)
-		A.BLoadLayoutFromString('\
+		var A = $.CreatePanel("Panel", Fusion.Panels.ItemPanel, "Alert" + thinker)
+		A.BLoadLayoutFromString("\
 <root>\
-	<Panel style="width:100%;height:37px;background-color:#111;">\
-		<DOTAHeroImage heroname="" style="vertical-align:center;width:60px;height:35px;position:0px;"/>\
-		<DOTAAbilityImage abilityname="" style="vertical-align:center;width:60px;height:35px;position:60px;"/>\
+	<Panel style='width:100%;height:37px;background-color:#111;'>\
+		<DOTAHeroImage heroname='' style='vertical-align:center;width:60px;height:35px;position:0px;'/>\
+		<DOTAAbilityImage abilityname='' style='vertical-align:center;width:60px;height:35px;position:60px;'/>\
 	</Panel>\
-</root>\
-		', false, false)
+</root>", false, false)
 		A.Children()[0].heroname = modifier[1]
 		A.Children()[1].abilityname = modifier[2]
 		A.DeleteAsync(modifier[0])
@@ -98,9 +96,9 @@ function AlertPosition(modifier, vec, thinker) {
 		$.Schedule(modifier[0], function() {
 			delete panels[thinker]
 		})
-		if (Fusion.Configs.SkillAlert.EmitSound === "true")
-			Game.EmitSound(modifier[4])
 	}
+	if (Fusion.Configs.SkillAlert.EmitSound === "true")
+		Game.EmitSound(modifier[4])
 }
 
 function CreateFollowParticle(particlepath, time, ent) {
@@ -135,14 +133,13 @@ function CreateTimerParticle(vec, time, ent) {
 
 function SkillAlertToggle() {
 	if (!SkillAlert.checked)
-		Game.ScriptLogMsg('Script disabled: SkillAlert', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: SkillAlert", "#ff0000")
 	else {
-		Fusion.GetConfig('SkillAlert', function(response) {
-			response = response[0]
-			Fusion.Configs.SkillAlert = response
+		Fusion.GetConfig("SkillAlert", function(config) {
+			Fusion.Configs.SkillAlert = config
 			SAlertEvery()
 		})
-		Game.ScriptLogMsg('Script enabled: SkillAlert', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: SkillAlert", "#00ff00")
 	}
 }
 

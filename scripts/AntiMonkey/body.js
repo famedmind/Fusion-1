@@ -54,7 +54,7 @@ function AntiMonkeyF() {
 	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
 		return parseInt(ent)
 	}).filter(function(ent) {
-		return Entities.GetUnitName(ent) === "npc_dota_hero_monkey_king" && Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent)
+		return Entities.GetUnitName(ent) === "npc_dota_hero_monkey_king" && Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent))/* && Entities.IsEnemy(ent)*/
 	}).some(function(ent) {
 		var buffsNames = Game.GetBuffsNames(ent)
 		buffsNames.some(function(buffName) {
@@ -70,7 +70,7 @@ function AntiMonkeyF() {
 
 function AntiMonkeyToggle() {
 	if (!AntiMonkey.checked) {
-		Game.ScriptLogMsg('Script disabled: AntiMonkey', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: AntiMonkey", "#ff0000")
 		return
 	} else {
 		function L() {
@@ -80,7 +80,7 @@ function AntiMonkeyToggle() {
 			}
 		}
 		L()
-		Game.ScriptLogMsg('Script enabled: AntiMonkey', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: AntiMonkey", "#00ff00")
 	}
 }
 
