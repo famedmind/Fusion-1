@@ -20,6 +20,9 @@ function DeleteAll() {
 }
 DeleteAll()
 
+var FlyingHeroes = {
+	
+}
 function EMBEvery() {
 	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
 		return parseInt(ent)
