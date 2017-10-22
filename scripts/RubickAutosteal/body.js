@@ -23,7 +23,7 @@ function RubickAutoStealF(){
 			z.push(AbPanel[i].Children()[0].abilityname)
 	}
 	var MyEnt = parseInt( Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID()) )
-	var Ulti = Entities.GetAbilityByName(MyEnt, 'rubick_spell_steal' )
+	var Ulti = Entities.GetAbilityByName(MyEnt, "rubick_spell_steal" )
 	var UltiRange = Abilities.GetCastRangeFix( Ulti )
 	var UltiLvl = Abilities.GetLevel(Ulti)
 	var UltiCd = Abilities.GetCooldownTimeRemaining( Ulti )
@@ -65,17 +65,17 @@ function RubickAutoStealF(){
 	}
 }
 function RubickAutoStealCreatePanel(){
-	Fusion.Panels.RubickAutoSteal = $.CreatePanel( 'Panel', Fusion.GetMainHUD(), 'RubickAutoStealAbilities' )
-	Fusion.Panels.RubickAutoSteal.BLoadLayoutFromString( '<root><Panel style="border: 1px solid #000;background-color:#000000EE;flow-children:down-wrap;max-width:200px;border-radius:10px;padding:5px 3px;" onactivate="Add()"></Panel></root>', false, false )
+	Fusion.Panels.RubickAutoSteal = $.CreatePanel( "Panel", Fusion.Panels.Main, "RubickAutoStealAbilities" )
+	Fusion.Panels.RubickAutoSteal.BLoadLayoutFromString("<root><Panel style='border: 1px solid #000;background-color:#000000EE;flow-children:down-wrap;max-width:200px;border-radius:10px;padding:5px 3px;' onactivate='Add()'></Panel></root>", false, false )
 	GameUI.MovePanel(Fusion.Panels.RubickAutoSteal,function(p){
-		var position = p.style.position.split(' ')
-		Config.MainPanel.x = position[0]
-		Config.MainPanel.y = position[1]
-		Fusion.SaveConfig('rubickautosteal', Config)
+		var position = p.style.position.split(" ")
+		Fusion.Configs.RubickAutoSteal.MainPanel.x = position[0]
+		Fusion.Configs.RubickAutoSteal.MainPanel.y = position[1]
+		Fusion.SaveConfig("RubickAutoSteal", Fusion.Configs.RubickAutoSteal)
 	})
-	Fusion.GetConfig('rubickautosteal',function(a){
-		Config = a[0]
-		Fusion.Panels.RubickAutoSteal.style.position = Config.MainPanel.x + ' ' + Config.MainPanel.y + ' 0'
+	Fusion.GetConfig("RubickAutoSteal",function(config) {
+		Fusion.Configs.RubickAutoSteal = config
+		Fusion.Panels.RubickAutoSteal.style.position = config.MainPanel.x + " " + config.MainPanel.y + " 0"
 	});
 	var HEnts = Game.PlayersHeroEnts()
 	for (i in HEnts) {
@@ -88,28 +88,28 @@ function RubickAutoStealCreatePanel(){
 			if(!Abilities.IsDisplayedAbility(ab) || Abilities.IsPassive(ab) )
 				continue
 			var name = Abilities.GetAbilityName( ab )
-			var Item = $.CreatePanel( 'Panel', Fusion.Panels.RubickAutoSteal, 'RubickAutoStealAbilities' )
-			//Item.BLoadLayoutFromString( '<root><Panel><DOTAAbilityImage style="width:35px;"/></Panel></root>', false, false )
-			Item.BLoadLayoutFromString( '<root><script>function Add(){$.GetContextPanel().style.opacity="0.1";$.GetContextPanel().SetPanelEvent("onactivate", Rem)}function Rem(){$.GetContextPanel().style.opacity="1.0";$.GetContextPanel().SetPanelEvent("onactivate", Add)}</script><Panel style="border: 1px solid #000; border-radius: 10px;" onactivate="Add()"><DOTAAbilityImage style="width:35px;"/></Panel></root>', false, false )
+			var Item = $.CreatePanel( "Panel", Fusion.Panels.RubickAutoSteal, "RubickAutoStealAbilities" )
+			//Item.BLoadLayoutFromString( "<root><Panel><DOTAAbilityImage style="width:35px;"/></Panel></root>", false, false )
+			Item.BLoadLayoutFromString( "<root><script>function Add(){$.GetContextPanel().style.opacity='0.1';$.GetContextPanel().SetPanelEvent('onactivate', Rem)}function Rem(){$.GetContextPanel().style.opacity='1.0';$.GetContextPanel().SetPanelEvent('onactivate', Add)}</script><Panel style='border: 1px solid #000; border-radius: 10px;' onactivate='Add()'><DOTAAbilityImage style='width:35px;'/></Panel></root>", false, false )
 			Item.Children()[0].abilityname=name
 		}
 	}
 }
 
-var RubickAutoStealOnCheckBoxClick = function(){
+function RubickAutoStealOnCheckBoxClick() {
 	if ( !RubickAutoSteal.checked ){
 		try{
 			Fusion.Panels.RubickAutoSteal.DeleteAsync(0)
 		}catch(e){}
-		Game.ScriptLogMsg('Script disabled: RubickAutoSteal', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: RubickAutoSteal", "#ff0000")
 		return
 	}
-	if ( Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_rubick' ){
+	if ( Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != "npc_dota_hero_rubick" ){
 		RubickAutoSteal.checked = false
-		Game.ScriptLogMsg('RubickAutoSteal: Not Rubick', '#ff0000')
+		Game.ScriptLogMsg("RubickAutoSteal: Not Rubick", "#ff0000")
 		return
 	}
-	//циклически замкнутый таймер с проверкой условия с интервалом 'interval'
+	//циклически замкнутый таймер с проверкой условия с интервалом "interval"
 	function f(){ $.Schedule( interval,function(){
 		RubickAutoStealF()
 		if(RubickAutoSteal.checked)
@@ -117,7 +117,7 @@ var RubickAutoStealOnCheckBoxClick = function(){
 	})}
 	f()
 	RubickAutoStealCreatePanel()
-	Game.ScriptLogMsg('Script enabled: RubickAutoSteal', '#00ff00')
+	Game.ScriptLogMsg("Script enabled: RubickAutoSteal", "#00ff00")
 }
 
-var RubickAutoSteal = Game.AddScript('RubickAutoSteal', RubickAutoStealOnCheckBoxClick)
+var RubickAutoSteal = Game.AddScript("RubickAutoSteal", RubickAutoStealOnCheckBoxClick)

@@ -3,8 +3,10 @@ var DaggerRanged = 1200
 
 function DestroyParticles() {
 	try {
-		Particles.DestroyParticleEffect(Fusion.Particles.ExpRange, Fusion.Particles.ExpRange)
-		Particles.DestroyParticleEffect(Fusion.Particles.DaggerRange, Fusion.Particles.DaggerRange)
+		if(Fusion.Particles.ExpRange)
+			Particles.DestroyParticleEffect(Fusion.Particles.ExpRange, Fusion.Particles.ExpRange)
+		if(Fusion.Particles.DaggerRange)
+			Particles.DestroyParticleEffect(Fusion.Particles.DaggerRange, Fusion.Particles.DaggerRange)
 	} catch(e) {  }
 }
 
@@ -19,12 +21,12 @@ function ExpRangeEnable() {
 function exprangeOnOff(){
 	if (!ExpRange.checked) {
 		DestroyParticles()
-		Game.ScriptLogMsg('Script disabled: ExpRange', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: ExpRange", "#ff0000")
 	} else {
 		ExpRangeEnable()
-		Game.ScriptLogMsg('Script enabled: ExpRange', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: ExpRange", "#00ff00")
 	}
 }
 
-var ExpRange = Game.AddScript('ExpRange', exprangeOnOff)
+var ExpRange = Game.AddScript("ExpRange", exprangeOnOff)
 DestroyParticles()

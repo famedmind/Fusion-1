@@ -10,7 +10,7 @@
 
 function AutoBottleOnToggle() {
 	if (!AutoBottle.checked) {
-		Game.ScriptLogMsg('Script disabled: AutoBottle', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: AutoBottle", "#ff0000")
 	} else {
 		function intervalFunc(){
 			$.Schedule(
@@ -23,8 +23,8 @@ function AutoBottleOnToggle() {
 			)
 		}
 		intervalFunc()
-		Game.ScriptLogMsg('Script enabled: AutoBottle', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: AutoBottle", "#00ff00")
 	}
 }
 
-var AutoBottle = Game.AddScript('AutoBottle', AutoBottleOnToggle)
+var AutoBottle = Game.AddScript("AutoBottle", AutoBottleOnToggle)

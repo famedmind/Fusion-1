@@ -1,4 +1,4 @@
-﻿var feeder = false
+﻿var feeder = true
 
 function AntiAFKOnInterval() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
@@ -32,15 +32,18 @@ function AFK(MyEnt, HEnts) {
 	})
 	
 	var lastMin = parseInt(HEnts[0])
+	var pos = Entities.GetAbsOrigin(lastMin)
+	if(pos == undefined)
+		return // otherwise it"ll walk to 0,0,0
 	if(feeder)
-		Game.MoveToAttackPos(MyEnt, Entities.GetAbsOrigin(lastMin), false)
+		Game.MoveToAttackPos(MyEnt, pos, false)
 	else
-		Game.MoveToPos(MyEnt, Entities.GetAbsOrigin(lastMin), false)
+		Game.MoveToPos(MyEnt, pos, false)
 }
 
 function AntiAFKOnToggle() {
 	if (!AntiAFK.checked) {
-		Game.ScriptLogMsg('Script disabled: AntiAFK', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: AntiAFK", "#ff0000")
 	} else {
 		function intervalFunc(){
 			$.Schedule(
@@ -53,8 +56,8 @@ function AntiAFKOnToggle() {
 			)
 		}
 		intervalFunc()
-		Game.ScriptLogMsg('Script enabled: AntiAFK', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: AntiAFK", "#00ff00")
 	}
 }
 
-var AntiAFK = Game.AddScript('AntiAFK', AntiAFKOnToggle)
+var AntiAFK = Game.AddScript("AntiAFK", AntiAFKOnToggle)

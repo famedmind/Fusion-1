@@ -7,13 +7,13 @@ function PudgeInvisRotOnInterval() {
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return
 	
-	var Abil = Game.GetAbilityByName(MyEnt, 'pudge_rot')
+	var Abil = Game.GetAbilityByName(MyEnt, "pudge_rot")
 	Game.ToggleAbil(MyEnt, Abil, false)
 }
 
 function PudgeInvisRotOnToggle() {
 	if (!PudgeInvisRot.checked) {
-		Game.ScriptLogMsg('Script disabled: PudgeInvisRot', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: PudgeInvisRot", "#ff0000")
 	} else {
 		function intervalFunc(){
 			$.Schedule(
@@ -26,8 +26,8 @@ function PudgeInvisRotOnToggle() {
 			)
 		}
 		intervalFunc()
-		Game.ScriptLogMsg('Script enabled: PudgeInvisRot', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: PudgeInvisRot", "#00ff00")
 	}
 }
 
-var PudgeInvisRot = Game.AddScript('PudgeInvisRot', PudgeInvisRotOnToggle)
+var PudgeInvisRot = Game.AddScript("PudgeInvisRot", PudgeInvisRotOnToggle)

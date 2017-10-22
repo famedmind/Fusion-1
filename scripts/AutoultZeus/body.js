@@ -10,28 +10,27 @@ function ZeusAutoultF() {
 		return
 	
 	var HEnts = Game.PlayersHeroEnts()
-	for (i in HEnts) {
-		var ent = parseInt(HEnts[i])
+	Game.PlayersHeroEnts().some(function(ent) {
 		if (!Entities.IsEnemy(ent) || Entities.IsMagicImmune(ent) || !Entities.IsAlive(ent))
-			continue
+			return false
 		if(Fusion.GetMagicMultiplier(MyEnt, ent) === 0)
-			continue
+			return false
 		
 		if(Fusion.GetNeededMagicDmg(MyEnt, ent, Entities.GetHealth(ent)) <= UltiDmg) {
 			Game.CastNoTarget(MyEnt, Ulti, false)
-			return
+			return true
 		}
-	}
+	})
 }
 
-var ZeusAutoultOnCheckBoxClick = function(){
+function ZeusAutoultOnCheckBoxClick() {
 	if (!ZeusAutoult.checked){
-		Game.ScriptLogMsg('Script disabled: ZeusAutoult', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: ZeusAutoult", "#ff0000")
 		return
 	} else {
-		if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_zuus'){
+		if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != "npc_dota_hero_zuus"){
 			ZeusAutoult.checked = false
-			Game.ScriptLogMsg('ZeusAutoult: Not Zeus', '#ff0000')
+			Game.ScriptLogMsg("ZeusAutoult: Not Zeus", "#ff0000")
 			return
 		}
 		function f() {
@@ -45,8 +44,8 @@ var ZeusAutoultOnCheckBoxClick = function(){
 			)
 		}
 		f()
-		Game.ScriptLogMsg('Script enabled: ZeusAutoult', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: ZeusAutoult", "#00ff00")
 	}
 }
 
-var ZeusAutoult = Game.AddScript('AutoultZeus', ZeusAutoultOnCheckBoxClick)
+var ZeusAutoult = Game.AddScript("AutoultZeus", ZeusAutoultOnCheckBoxClick)

@@ -1,6 +1,6 @@
 var RuneRadius = 150
 
-var SnatcherF = function() {
+function SnatcherF() {
 	var MyEnt = parseInt(Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID()))
 	if(Game.IsGamePaused() || Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return
@@ -27,7 +27,7 @@ var SnatcherF = function() {
 
 function SnatcherToggle() {
 	if (!Snatcher.checked) {
-		Game.ScriptLogMsg('Script disabled: Snatcher', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: Snatcher", "#ff0000")
 		return
 	} else {
 		function L() {
@@ -37,7 +37,7 @@ function SnatcherToggle() {
 			}
 		}
 		L()
-		Game.ScriptLogMsg('Script enabled: Snatcher', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: Snatcher", "#00ff00")
 	}
 }
 

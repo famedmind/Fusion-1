@@ -1,5 +1,5 @@
 Fusion.FamiliarBaseClass = "npc_dota_visage_familiar"
-var GetFamiliars = function() {
+function GetFamiliars() {
 	var playerID = Game.GetLocalPlayerID()
 	return Entities.GetAllEntitiesByClassname(Fusion.FamiliarBaseClass).map(function(ent) {
 		return parseInt(ent)
@@ -8,7 +8,7 @@ var GetFamiliars = function() {
 	})
 }
 
-var EzVisageF = function() {
+function EzVisageF() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	Familiars(MyEnt)
 	Souls(MyEnt)
@@ -16,19 +16,20 @@ var EzVisageF = function() {
 
 //TODO: realize kills by familiars' stone form (most likely with EzTechies)
 var HealBarrierPercent = 50
-var Familiars = function(MyEnt) {
-/*	GetFamiliars().forEach(function(ent) {
+function Familiars(MyEnt) {
+	var familiars = GetFamiliars()
+	familiars.forEach(function(ent) {
 		var StoneForm = Entities.GetAbilityByName(ent, "visage_summon_familiars_stone_form")
-		if(Entities.GetHealthPercent(ent) <= HealBarrierPercent/*FIXIT: || Buffs.GetStackCount(MyEnt, Fusion.GetBuffByName(ent, "modifier_visage_summon_familiars_damage_charge")) === 0*//*)
+		if(Entities.GetHealthPercent(ent) <= HealBarrierPercent/*FIXIT: || Buffs.GetStackCount(MyEnt, Fusion.GetBuffByName(ent, "modifier_visage_summon_familiars_damage_charge")) === 0*/)
 			if(Abilities.GetCooldownTimeRemaining(StoneForm) === 0) {
 				GameUI.SelectUnit(ent, false)
 				Game.CastNoTarget(ent, StoneForm, false)
 				GameUI.SelectUnit(MyEnt, false)
 			} else
 				GameUI.PingMinimapAtLocation(Entities.GetAbsOrigin(ent))
-	})*/
+	})
 }
-var Souls = function(MyEnt) {
+function Souls(MyEnt) {
 	var Abil = Entities.GetAbilityByName(MyEnt, "visage_soul_assumption")
 	if(Abilities.GetLevel(Abil) === 0 || Abilities.GetCooldownTimeRemaining(Abil) !== 0 || Entities.GetMana(MyEnt) < Abilities.GetManaCost(Abil))
 		return
@@ -62,9 +63,9 @@ var Souls = function(MyEnt) {
 	})
 }
 
-var EzVisageOnCheckBoxClick = function() {
+function EzVisageOnCheckBoxClick() {
 	if (!EzVisage.checked) {
-		Game.ScriptLogMsg('Script disabled: EzVisage', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: EzVisage", "#ff0000")
 		return
 	} else {
 		function f() {
@@ -75,7 +76,8 @@ var EzVisageOnCheckBoxClick = function() {
 				})
 		}
 		f()
-		Game.ScriptLogMsg('Script enabled: EzVisage', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: EzVisage", "#00ff00")
 	}
 }
+
 var EzVisage = Game.AddScript("EzVisage", EzVisageOnCheckBoxClick)

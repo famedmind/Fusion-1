@@ -62,7 +62,7 @@ var ancients = {
 }
 var spots = [[-3307, 383, -2564, -413, 400],[3456, -384, 4543, -1151, 300]]
 function destroy(){
-	if(typeof Fusion.Subscribes.AncientCreepStack != 'undefined')
+	if(typeof Fusion.Subscribes.AncientCreepStack != "undefined")
 		GameEvents.Unsubscribe(Fusion.Subscribes.AncientCreepStack)
 	try{Fusion.Panels.AncientCreepStack.DeleteAsync(0)}catch(e){}
 	for(i in Fusion.Particles.AncientCreepStack)
@@ -76,7 +76,10 @@ function create(){
 	status = 0
 	ent = Players.GetLocalPlayerPortraitUnit()
 	if(!(Entities.IsControllableByPlayer(ent,myid)&&Entities.IsCreep(ent)&&Entities.IsValidEntity(ent)&&Entities.IsAlive(ent)&&Entities.IsRangedAttacker(ent))){
-		GameEvents.SendEventClientSide( 'antiaddiction_toast', {"message":"Выбранный юнит не является союзным подконтрольным крипом дальнего боя :(\nДоступна команда: __AncientCreepStack_Activate","duration":"5"})
+		GameEvents.SendEventClientSide("antiaddiction_toast", {
+			"message": "Выбранный юнит не является союзным подконтрольным крипом дальнего боя :(\nДоступна команда: __AncientCreepStack_Activate",
+			"duration": "5"
+		})
 		AncientCreepStack.checked = false
 		return
 	}
@@ -85,26 +88,22 @@ function create(){
 		if(a.entindex_attacker==ent)
 			b=true
 	})
-	Fusion.Panels.AncientCreepStack = $.CreatePanel( "Panel", Fusion.GetMainHUD(), "AncientCreepStack" )
-	Fusion.Panels.AncientCreepStack.BLoadLayoutFromString( '\
-	<root>\
-		<styles>\
-			<include src="s2r://panorama/styles/dotastyles.vcss_c" />\
-		</styles>\
-		<Panel style="padding:3px;border-radius:5px;flow-children:down;background-color:#000000EE;border: 1px solid white;">\
-			<Label style="color:white;font-size:16px;"/>\
-			<Label style="color:white;font-size:16px;"/>\
-			<Label style="color:white;font-size:16px;"/>\
-		</Panel>\
-	</root>\
-	', false, false)
-	Game.AnimatePanel( Fusion.Panels.AncientCreepStack, {"transform": "rotateX( 35deg );"}, 0.3, "ease-in", 0)
-	Game.ScriptLogMsg('Script enabled: AncientCreepStack', '#00ff00')
+	Fusion.Panels.AncientCreepStack = $.CreatePanel( "Panel", Fusion.Panels.Main, "AncientCreepStack" )
+	Fusion.Panels.AncientCreepStack.BLoadLayoutFromString("\
+<root>\
+	<styles>\
+		<include src='s2r://panorama/styles/dotastyles.vcss_c' />\
+	</styles>\
+	<Panel style='padding: 3px; border-radius: 5px; flow-children: down; background-color: #000000EE; border: 1px solid white;'>\
+		<Label style='color:white;font-size:16px;'/>\
+		<Label style='color:white;font-size:16px;'/>\
+		<Label style='color:white;font-size:16px;'/>\
+	</Panel>\
+</root>", false, false)
+	Fusion.AnimatePanel( Fusion.Panels.AncientCreepStack, {"transform": "rotateX( 35deg );"}, 0.3, "ease-in", 0)
+	Game.ScriptLogMsg("Script enabled: AncientCreepStack", "#00ff00")
 }
-if(!Game.AncientCreepStackCreate){
-	Game.AncientCreepStackCreate = true
-	Game.AddCommand("__AncientCreepStack_Activate", create, "", 0)
-}
+
 function DrawBox(box){
 	Fusion.Particles.AncientCreepStack.push(DrawLineInGameWorld( [ box[0], box[1], box[4] ], [ box[0], box[3], box[4] ]))
 	Fusion.Particles.AncientCreepStack.push(DrawLineInGameWorld( [ box[2], box[1], box[4] ], [ box[2], box[3], box[4] ]))
@@ -124,7 +123,7 @@ function ComparePoints(a,b,c){
 		return true
 }
 function GetNeutral(ent,maxrange){
-	var neutrals = Entities.GetAllEntitiesByClassname('npc_dota_creep_neutral')
+	var neutrals = Entities.GetAllEntitiesByClassname("npc_dota_creep_neutral")
 	var mr = maxrange
 	var n = -1
 	var l = 0
@@ -136,7 +135,7 @@ function GetNeutral(ent,maxrange){
 		if(!Entities.IsAncient(neutrals[i])||Entities.NoHealthBar(neutrals[i]))
 			continue
 		var name = Entities.GetUnitName(neutrals[i])
-		if(typeof ancients[name] != 'undefined'){
+		if(typeof ancients[name] != "undefined"){
 			gold+=ancients[name][0]
 			exp+=ancients[name][1]
 		}
@@ -152,24 +151,24 @@ function GetNeutral(ent,maxrange){
 	return [e,mr,n,l,gold,exp]
 }
 function AncientCreepStackF(){
-	if ( !AncientCreepStack.checked || (Game.GetState()!=7 && Game.GetState()!=6)){
+	if ( !AncientCreepStack.checked || Game.GameStateIsBefore(DOTA_GameState.DOTA_GAMERULES_STATE_PRE_GAME)){
 		AncientCreepStack.checked = false
 		destroy()
 		return
 	}
 	if(!Entities.IsAlive(ent)){
-		GameEvents.SendEventClientSide( 'antiaddiction_toast', {"message":"Ваш крип помер смертью храбрых :(\nСкрипт деактивирован!","duration":"2"})
+		GameEvents.SendEventClientSide( "antiaddiction_toast", {"message":"Ваш крип помер смертью храбрых :(\nСкрипт деактивирован!","duration":"2"})
 		AncientCreepStack.checked = false
 		destroy()
 		return
 	}
 	var xy = [Game.WorldToScreenX(spots[team][2]-400,spots[team][1],spots[team][4])+50,Game.WorldToScreenY(spots[team][2]-400,spots[team][1],spots[team][4]+50)]
-	Fusion.Panels.AncientCreepStack.style.position = (xy[0]/uiw*100)+'% '+(xy[1]/uih*100)+'% 0'
+	Fusion.Panels.AncientCreepStack.style.position = (xy[0]/uiw*100)+"% "+(xy[1]/uih*100)+"% 0"
 	var time = (parseInt((Game.GetDOTATime(false,false)%60)*10))/10
 	var entnow = Players.GetLocalPlayerPortraitUnit()
 	if(Entities.GetHealth(ent)<=400&&!hpn){
 		hpn = true
-		GameEvents.SendEventClientSide( 'antiaddiction_toast', {"message":"У вашего крипа мало HP!","duration":"2"})
+		GameEvents.SendEventClientSide( "antiaddiction_toast", {"message":"У вашего крипа мало HP!","duration":"2"})
 	}else if(Entities.GetHealth(ent)>400)
 		hpn = false
 	var xyz = Entities.GetAbsOrigin(ent)
@@ -190,7 +189,7 @@ function AncientCreepStackF(){
 	}
 	if(status==1&&!b){
 		GameUI.SelectUnit(ent,false)
-		Game.AttackTarget(ent,GetNeutral(ent,1000)[0],false)
+		Game.MoveToAttackPos(ent, xyz, false) //FIXIT
 		GameUI.SelectUnit(entnow,false)
 	}else if(status==1&&b){
 		if(z>=a[team].length-2){
@@ -218,23 +217,23 @@ function AncientCreepStackU(){
 		Fusion.Panels.AncientCreepStack.visible = false
 	else
 		Fusion.Panels.AncientCreepStack.visible = true
-	Fusion.Panels.AncientCreepStack.style.position = (xy[0]/uiw*100)+'% '+(xy[1]/uih*100)+'% 0'
+	Fusion.Panels.AncientCreepStack.style.position = (xy[0]/uiw*100)+"% "+(xy[1]/uih*100)+"% 0"
 	var neu = GetNeutral(ent,1000)
-	Fusion.Panels.AncientCreepStack.Children()[0].text='Stacks: '+((parseInt((neu[3]/3)*10))/10)
-	Fusion.Panels.AncientCreepStack.Children()[1].text='Gold: ~'+neu[4]
-	Fusion.Panels.AncientCreepStack.Children()[2].text='Exp: ~'+neu[5]
+	Fusion.Panels.AncientCreepStack.Children()[0].text="Stacks: "+((parseInt((neu[3]/3)*10))/10)
+	Fusion.Panels.AncientCreepStack.Children()[1].text="Gold: ~"+neu[4]
+	Fusion.Panels.AncientCreepStack.Children()[2].text="Exp: ~"+neu[5]
 	var time = (parseInt((Game.GetDOTATime(false,false)%60)*10))/10
-	Game.AnimatePanel( Fusion.Panels.AncientCreepStack, {"transform": "rotateX( 35deg ) translate3d( 0px, "+((time-Math.floor(time))*20)+"px, 0px );"}, 0.3, "ease-in-out", 0)
+	Fusion.AnimatePanel( Fusion.Panels.AncientCreepStack, {"transform": "rotateX( 35deg ) translate3d( 0px, "+((time-Math.floor(time))*20)+"px, 0px );"}, 0.3, "ease-in-out", 0)
 }
 function move(ent,entnow,xyz){
 	GameUI.SelectUnit(ent,false)
 	Game.MoveToPos(ent,xyz,false)
 	GameUI.SelectUnit(entnow,false)
 }
-var AncientCreepStackOnCheckBoxClick = function(){
+function AncientCreepStackOnCheckBoxClick() {
 	if ( !AncientCreepStack.checked ){
 		destroy()
-		Game.ScriptLogMsg('Script disabled: AncientCreepStack', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: AncientCreepStack", "#ff0000")
 		return
 	}
 	create()
@@ -252,4 +251,5 @@ var AncientCreepStackOnCheckBoxClick = function(){
 	u()
 }
 
-var AncientCreepStack = Game.AddScript('AncientCreepStack', AncientCreepStackOnCheckBoxClick)
+var AncientCreepStack = Game.AddScript("AncientCreepStack", AncientCreepStackOnCheckBoxClick)
+Game.AddCommand("__AncientCreepStack_Activate", create, "", 0)

@@ -3,16 +3,6 @@ function AxeUltiF() {
 	var MyEnt = Players.GetPlayerHeroEntityIndex(Game.GetLocalPlayerID())
 	if(Entities.IsStunned(MyEnt) || !Entities.IsAlive(MyEnt))
 		return
-	var HEnts = Game.PlayersHeroEnts().map(function(ent) {
-		return parseInt(ent)
-	}).filter(function(ent) {
-		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent)
-	})
-	
-	CullingBlade(MyEnt, HEnts)
-}
-
-function CullingBlade(MyEnt, HEnts) {
 	var Ulti = Entities.GetAbilityByName(MyEnt, "axe_culling_blade")
 	var UltiLvl = Abilities.GetLevel(Ulti)
 	if(UltiLvl === 0 || Abilities.GetCooldownTimeRemaining(Ulti) !== 0 || Entities.GetMana(MyEnt) < Abilities.GetManaCost(Ulti))
@@ -20,7 +10,9 @@ function CullingBlade(MyEnt, HEnts) {
 	var UltiDmg = damage[UltiLvl - 1]
 	var UltiCastRange = Abilities.GetCastRangeFix(Ulti) + 75
 	
-	HEnts = HEnts.filter(function(ent) {
+	Game.PlayersHeroEnts().map(function(ent) {
+		return parseInt(ent)
+	}).filter(function(ent) {
 		return Entities.IsAlive(ent) && !(Entities.IsBuilding(ent) || Entities.IsInvulnerable(ent)) && Entities.IsEnemy(ent) && Entities.GetRangeToUnit(MyEnt, ent) <= UltiCastRange && Entities.GetHealth(ent) <= UltiDmg
 	}).sort(function(ent1, ent2) {
 		var h1 = Entities.GetHealth(ent1)
@@ -32,9 +24,7 @@ function CullingBlade(MyEnt, HEnts) {
 			return 1
 		else
 			return -1
-	})
-	
-	HEnts.some(function(ent) {
+	}).some(function(ent) {
 		if(Fusion.HasLinkenAtTime(ent, Abilities.GetCastPoint(Ulti)))
 			return false
 		
@@ -44,12 +34,12 @@ function CullingBlade(MyEnt, HEnts) {
 	})
 }
 
-var AxeUltiOnCheckBoxClick = function() {
+function AxeUltiOnCheckBoxClick() {
 	if (!AxeUlti.checked) {
-		Game.ScriptLogMsg('Script disabled: AxeUlti', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: AxeUlti", "#ff0000")
 		return
 	} else {
-		if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != 'npc_dota_hero_axe') {
+		if (Players.GetPlayerSelectedHero(Game.GetLocalPlayerID()) != "npc_dota_hero_axe") {
 			AxeUlti.checked = false
 			AxeUltiOnCheckBoxClick()
 			return
@@ -62,7 +52,7 @@ var AxeUltiOnCheckBoxClick = function() {
 					})
 			}
 			f()
-			Game.ScriptLogMsg('Script enabled: AxeUlti', '#00ff00')
+			Game.ScriptLogMsg("Script enabled: AxeUlti", "#00ff00")
 		}
 	}
 }

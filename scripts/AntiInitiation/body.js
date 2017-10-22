@@ -1,4 +1,4 @@
-﻿// 3rd arg means that this ability can't be disabled because of castpoint (ex. eul has 0.0 castpoint)
+﻿// 3rd arg means that this ability can"t be disabled because of castpoint (ex. eul has 0.0 castpoint)
 var HexAbils = [
 	["item_sheepstick", true, true],
 	["lion_voodoo", true, true],
@@ -20,6 +20,7 @@ var StunAbils = [
 	["dragon_knight_dragon_tail", false],
 	["tidehunter_ravage", false],
 	["earthshaker_echo_slam", true],
+	["earthshaker_fissure", false],
 	["magnataur_reverse_polarity", false],
 	["beastmaster_primal_roar", false],
 	["treant_overgrowth", false],
@@ -41,6 +42,7 @@ var StunAbils = [
 	["rubick_telekinesis", false],
 	["pudge_dismember", true],
 	["invoker_cold_snap", true],
+	["invoker_tornado", true],
 	["dark_seer_vacuum", true],
 	["bane_nightmare", true]
 ]
@@ -200,9 +202,9 @@ function Disable(MyEnt, ent, Abil) {
 }
 
 
-var AntiInitiationToggle = function() {
+function AntiInitiationToggle() {
 	if (!AntiInitiation.checked){
-		Game.ScriptLogMsg('Script disabled: AntiInitiation', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: AntiInitiation", "#ff0000")
 		return
 	} else {
 		function f() {
@@ -216,8 +218,8 @@ var AntiInitiationToggle = function() {
 			)
 		}
 		f()
-		Game.ScriptLogMsg('Script enabled: AntiInitiation', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: AntiInitiation", "#00ff00")
 	}
 }
 
-var AntiInitiation = Game.AddScript('AntiInitiation', AntiInitiationToggle)
+var AntiInitiation = Game.AddScript("AntiInitiation", AntiInitiationToggle)

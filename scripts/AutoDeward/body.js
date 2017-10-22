@@ -10,7 +10,7 @@
 function Deward(MyEnt, HEnts) {
 	var Abil = GetDewardItem(MyEnt)
 	if(Abil === -1) {
-		Game.ScriptLogMsg('Needed deward item to make this script work!', '#ff0000')
+		Game.ScriptLogMsg("Needed deward item to make this script work!", "#ff0000")
 		AutoDeward.checked = false
 		AutoDewardOnToggle()
 	}
@@ -36,7 +36,7 @@ function AreDeward(ent) {
 	return Entities.IsWard(ent) || IsMine(ent)
 }
 
-var MineNames = [/*Can't de dewarded "npc_dota_techies_land_mine",*/"npc_dota_techies_remote_mine", "npc_dota_techies_stasis_trap"]
+var MineNames = [/*Can"t de dewarded "npc_dota_techies_land_mine",*/"npc_dota_techies_remote_mine", "npc_dota_techies_stasis_trap"]
 function IsMine(ent) {
 	for(i = 0; i < MineNames.length; i++)
 		if(Entities.GetUnitName(ent) === MineNames[i])
@@ -60,7 +60,7 @@ function GetDewardItem(MyEnt) {
 
 function AutoDewardOnToggle() {
 	if (!AutoDeward.checked) {
-		Game.ScriptLogMsg('Script disabled: AutoDeward', '#ff0000')
+		Game.ScriptLogMsg("Script disabled: AutoDeward", "#ff0000")
 	} else {
 		function intervalFunc(){
 			$.Schedule(
@@ -73,8 +73,8 @@ function AutoDewardOnToggle() {
 			)
 		}
 		intervalFunc()
-		Game.ScriptLogMsg('Script enabled: AutoDeward', '#00ff00')
+		Game.ScriptLogMsg("Script enabled: AutoDeward", "#00ff00")
 	}
 }
 
-var AutoDeward = Game.AddScript('AutoDeward', AutoDewardOnToggle)
+var AutoDeward = Game.AddScript("AutoDeward", AutoDewardOnToggle)
